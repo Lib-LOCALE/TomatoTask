@@ -41,7 +41,21 @@
 		"allProjects": "All projects",
 		"noProject": "No project",
 		"noProjects": "No projects yet. Create your first project!",
-		"deleteConfirm": "Are you sure? Tasks will be unlinked from this project."
+		"deleteConfirm": "Are you sure? Tasks will be unlinked from this project.",
+		"form": {
+			"createTitle": "Create Project",
+			"editTitle": "Edit Project",
+			"name": "Project Name",
+			"namePlaceholder": "Enter project name",
+			"color": "Project Color",
+			"customColor": "Custom color",
+			"create": "Create Project"
+		},
+		"errors": {
+			"nameRequired": "Project name is required",
+			"nameTooLong": "Project name must be 50 characters or less",
+			"saveFailed": "Failed to save project"
+		}
 	},
 	"summary": {
 		"title": "Summary",

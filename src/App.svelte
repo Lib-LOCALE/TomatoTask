@@ -4,6 +4,8 @@
 	import PomodoroTimer from '$lib/components/timer/PomodoroTimer.svelte';
 	import TaskList from '$lib/components/tasks/TaskList.svelte';
 	import TaskModal from '$lib/components/tasks/TaskModal.svelte';
+	import ProjectList from '$lib/components/projects/ProjectList.svelte';
+	import ProjectModal from '$lib/components/projects/ProjectModal.svelte';
 	import SummaryView from '$lib/components/summary/SummaryView.svelte';
 	import LanguageSelector from '$lib/components/settings/LanguageSelector.svelte';
 	import ShortcutsHelp from '$lib/components/keyboard/ShortcutsHelp.svelte';
@@ -11,12 +13,13 @@
 	import SettingsPanel from '$lib/components/settings/SettingsPanel.svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
+	import { projectStore } from '$lib/stores/projects.svelte';
 	import { startSession, pauseTimer, resumeTimer } from '$lib/services/timer-service';
 	import { initializeTasks, deleteTask } from '$lib/services/task-service';
 	import { registerShortcut } from '$lib/utils/keyboard';
-	import type { Task } from '$lib/types';
+	import type { Task, Project } from '$lib/types';
 
-	// État de la modal
+	// État des modals
 	let isModalOpen = $state(false);
 	let taskToEdit = $state<Task | undefined>(undefined);
 	let showDeleteConfirm = $state(false);
@@ -24,6 +27,12 @@
 	let showLanguageSelector = $state(false);
 	let showShortcutsHelp = $state(false);
 	let showSettings = $state(false);
+
+	// État des projets
+	let isProjectModalOpen = $state(false);
+	let projectToEdit = $state<Project | null>(null);
+	let showProjectDeleteConfirm = $state(false);
+	let projectToDelete = $state<Project | null>(null);
 
 	/**
 	 * Gère le raccourci Ctrl+S (Start/Stop timer)
@@ -104,9 +113,56 @@
 		}
 	}
 
+	/**
+	 * Gère la sélection d'un projet pour filtrer les tâches
+	 */
+	function handleProjectSelect(projectId: number | null) {
+		taskStore.setProjectFilter(projectId);
+	}
+
+	/**
+	 * Ouvre la modal de création de projet
+	 */
+	function handleNewProject() {
+		projectToEdit = null;
+		isProjectModalOpen = true;
+	}
+
+	/**
+	 * Ouvre la modal d'édition de projet
+	 */
+	function handleEditProject(project: Project) {
+		projectToEdit = project;
+		isProjectModalOpen = true;
+	}
+
+	/**
+	 * Demande confirmation pour supprimer un projet
+	 */
+	function handleDeleteProject(project: Project) {
+		projectToDelete = project;
+		showProjectDeleteConfirm = true;
+	}
+
+	/**
+	 * Confirme la suppression du projet
+	 */
+	async function confirmProjectDelete() {
+		if (projectToDelete) {
+			try {
+				await projectStore.delete(projectToDelete.id);
+				showProjectDeleteConfirm = false;
+				projectToDelete = null;
+			} catch (error) {
+				console.error('Failed to delete project:', error);
+			}
+		}
+	}
+
 	onMount(async () => {
-		// Charge les tâches au démarrage
+		// Charge les tâches et projets au démarrage
 		await initializeTasks();
+		await projectStore.load();
 
 		// Enregistre les raccourcis clavier
 		registerShortcut('s', handleStartStopShortcut, true); // Ctrl+S
@@ -117,14 +173,27 @@
 </script>
 
 <main class="flex h-screen bg-background text-foreground overflow-hidden">
-	<!-- Sidebar des tâches (1/3 de l'écran) -->
-	<aside class="w-1/3 border-r">
-		<TaskList
-			onNewTask={handleNewTask}
-			onEditTask={handleEditTask}
-			onDeleteTask={handleDeleteTask}
-			onSelectTask={(task) => console.log('Task selected:', task)}
-		/>
+	<!-- Sidebar des projets et tâches (1/3 de l'écran) -->
+	<aside class="w-1/3 border-r flex flex-col">
+		<!-- Liste des projets (1/3 du sidebar) -->
+		<div class="h-1/3 border-b">
+			<ProjectList
+				onProjectSelect={handleProjectSelect}
+				onNewProject={handleNewProject}
+				onEditProject={handleEditProject}
+				onDeleteProject={handleDeleteProject}
+			/>
+		</div>
+
+		<!-- Liste des tâches (2/3 du sidebar) -->
+		<div class="flex-1">
+			<TaskList
+				onNewTask={handleNewTask}
+				onEditTask={handleEditTask}
+				onDeleteTask={handleDeleteTask}
+				onSelectTask={(task) => console.log('Task selected:', task)}
+			/>
+		</div>
 	</aside>
 
 	<!-- Zone principale du timer et statistiques (2/3 de l'écran) -->
@@ -266,3 +335,48 @@
 
 <!-- Panneau de paramètres (accessible via bouton gear) -->
 <SettingsPanel bind:isOpen={showSettings} onClose={() => (showSettings = false)} />
+
+<!-- Modal de création/édition de projet -->
+<ProjectModal
+	bind:isOpen={isProjectModalOpen}
+	project={projectToEdit}
+	onClose={() => {
+		isProjectModalOpen = false;
+		projectToEdit = null;
+	}}
+/>
+
+<!-- Confirmation de suppression de projet -->
+{#if showProjectDeleteConfirm && projectToDelete}
+	<dialog
+		open
+		class="rounded-lg border bg-background p-6 shadow-lg backdrop:bg-black/50"
+	>
+		<h2 class="mb-4 text-lg font-semibold">Delete Project</h2>
+		<p class="mb-6 text-muted-foreground">
+			Are you sure you want to delete "{projectToDelete.name}"? All tasks will remain but will no
+			longer be associated with this project.
+		</p>
+
+		<div class="flex justify-end gap-2">
+			<button
+				type="button"
+				onclick={() => {
+					showProjectDeleteConfirm = false;
+					projectToDelete = null;
+				}}
+				class="rounded-md border px-4 py-2 hover:bg-muted"
+			>
+				Cancel
+			</button>
+
+			<button
+				type="button"
+				onclick={confirmProjectDelete}
+				class="rounded-md bg-destructive px-4 py-2 text-destructive-foreground hover:bg-destructive/90"
+			>
+				Delete
+			</button>
+		</div>
+	</dialog>
+{/if}
