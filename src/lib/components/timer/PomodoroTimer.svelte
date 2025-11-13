@@ -9,6 +9,7 @@
 	import TimerControls from './TimerControls.svelte';
 	import TaskSelector from './TaskSelector.svelte';
 	import type { SessionType, Task } from '$lib/types';
+	import { _ } from 'svelte-i18n';
 
 	// Props
 	interface Props {
@@ -20,13 +21,26 @@
 	// État local pour la tâche sélectionnée
 	let selectedTaskId = $state<number | undefined>(undefined);
 
+	// État pour le feedback visuel de complétion
+	let showCompletionFeedback = $state(false);
+	let completedSessionType = $state<SessionType>('work');
+
 	/**
 	 * Gère la complétion d'une session
 	 *
-	 * 1. Envoie une notification
-	 * 2. Démarre automatiquement la prochaine session si configuré
+	 * 1. Affiche un feedback visuel de célébration
+	 * 2. Envoie une notification
+	 * 3. Démarre automatiquement la prochaine session si configuré
 	 */
 	async function handleSessionComplete(sessionType: SessionType) {
+		// Affiche le feedback de complétion
+		completedSessionType = sessionType;
+		showCompletionFeedback = true;
+
+		// Cache le feedback après 4 secondes
+		setTimeout(() => {
+			showCompletionFeedback = false;
+		}, 4000);
 		// Notification desktop + son
 		await notifyComplete(sessionType);
 
@@ -64,6 +78,37 @@
 <div class="flex flex-col items-center justify-center min-h-screen p-8">
 	<!-- Conteneur principal -->
 	<div class="w-full max-w-2xl">
+		<!-- Feedback de complétion animé -->
+		{#if showCompletionFeedback}
+			<div
+				class="mb-4 rounded-lg border-2 p-4 text-center shadow-lg animate-bounce"
+				class:border-green-500={completedSessionType === 'work'}
+				class:bg-green-50={completedSessionType === 'work'}
+				class:dark:bg-green-950={completedSessionType === 'work'}
+				class:border-blue-500={completedSessionType !== 'work'}
+				class:bg-blue-50={completedSessionType !== 'work'}
+				class:dark:bg-blue-950={completedSessionType !== 'work'}
+			>
+				<div class="text-2xl mb-2">
+					{#if completedSessionType === 'work'}
+						🎉
+					{:else}
+						✨
+					{/if}
+				</div>
+				<div class="font-semibold text-lg">
+					{$_('timer.completed')}
+				</div>
+				<div class="text-sm opacity-75 mt-1">
+					{#if completedSessionType === 'work'}
+						{$_('notifications.workComplete')}
+					{:else}
+						{$_('notifications.breakComplete')}
+					{/if}
+				</div>
+			</div>
+		{/if}
+
 		<!-- Carte du timer -->
 		<div class="bg-card text-card-foreground rounded-lg shadow-lg p-8 border">
 			<!-- Affichage du timer -->
