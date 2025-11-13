@@ -4,6 +4,7 @@
 	import PomodoroTimer from '$lib/components/timer/PomodoroTimer.svelte';
 	import TaskList from '$lib/components/tasks/TaskList.svelte';
 	import TaskModal from '$lib/components/tasks/TaskModal.svelte';
+	import SummaryView from '$lib/components/summary/SummaryView.svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { startSession, pauseTimer, resumeTimer } from '$lib/services/timer-service';
@@ -103,9 +104,19 @@
 		/>
 	</aside>
 
-	<!-- Zone principale du timer (2/3 de l'écran) -->
-	<section class="flex-1">
-		<PomodoroTimer autoAdvance={true} />
+	<!-- Zone principale du timer et statistiques (2/3 de l'écran) -->
+	<section class="flex-1 overflow-y-auto">
+		<div class="flex flex-col gap-8">
+			<!-- Timer Pomodoro -->
+			<div>
+				<PomodoroTimer autoAdvance={true} />
+			</div>
+
+			<!-- Statistiques et résumés -->
+			<div class="px-8 pb-8">
+				<SummaryView />
+			</div>
+		</div>
 	</section>
 </main>
 
