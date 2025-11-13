@@ -62,7 +62,9 @@
 	 * Gère le clic sur le backdrop
 	 */
 	function handleBackdropClick(event: MouseEvent) {
-		if (event.target === event.currentTarget) {
+		// Vérifie si on clique directement sur le dialog (et non sur son contenu)
+		const target = event.target as HTMLElement;
+		if (target.tagName === 'DIALOG') {
 			handleClose();
 		}
 	}
