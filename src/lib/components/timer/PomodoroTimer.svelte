@@ -136,10 +136,13 @@
 		</div>
 
 		<!-- Informations supplémentaires -->
-		<div class="mt-6 text-center text-sm text-muted-foreground">
+		<div class="mt-6 text-center text-sm text-muted-foreground space-y-1">
 			<p>
 				Press <kbd class="px-2 py-1 bg-muted rounded text-xs font-mono">Ctrl+S</kbd> to start/stop
 				the timer
+			</p>
+			<p>
+				Press <kbd class="px-2 py-1 bg-muted rounded text-xs font-mono">Ctrl+L</kbd> to change language
 			</p>
 		</div>
 	</div>

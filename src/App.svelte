@@ -5,6 +5,7 @@
 	import TaskList from '$lib/components/tasks/TaskList.svelte';
 	import TaskModal from '$lib/components/tasks/TaskModal.svelte';
 	import SummaryView from '$lib/components/summary/SummaryView.svelte';
+	import LanguageSelector from '$lib/components/settings/LanguageSelector.svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { startSession, pauseTimer, resumeTimer } from '$lib/services/timer-service';
@@ -17,6 +18,7 @@
 	let taskToEdit = $state<Task | undefined>(undefined);
 	let showDeleteConfirm = $state(false);
 	let taskToDelete = $state<Task | null>(null);
+	let showLanguageSelector = $state(false);
 
 	/**
 	 * Gère le raccourci Ctrl+S (Start/Stop timer)
@@ -42,6 +44,13 @@
 	function handleNewTaskShortcut() {
 		taskToEdit = undefined;
 		isModalOpen = true;
+	}
+
+	/**
+	 * Gère le raccourci Ctrl+L (Sélecteur de langue)
+	 */
+	function handleLanguageShortcut() {
+		showLanguageSelector = !showLanguageSelector;
 	}
 
 	/**
@@ -90,6 +99,7 @@
 		// Enregistre les raccourcis clavier
 		registerShortcut('s', handleStartStopShortcut, true); // Ctrl+S
 		registerShortcut('n', handleNewTaskShortcut, true); // Ctrl+N
+		registerShortcut('l', handleLanguageShortcut, true); // Ctrl+L
 	});
 </script>
 
@@ -160,6 +170,51 @@
 			>
 				Delete
 			</button>
+		</div>
+	</dialog>
+{/if}
+
+<!-- Sélecteur de langue (accessible avec Ctrl+L) -->
+{#if showLanguageSelector}
+	<dialog
+		open
+		class="rounded-lg border bg-background p-6 shadow-lg backdrop:bg-black/50"
+	>
+		<div class="w-full max-w-md">
+			<!-- Header -->
+			<div class="flex items-center justify-between border-b pb-4 mb-4">
+				<h2 class="text-lg font-semibold">Language / Langue</h2>
+
+				<button
+					type="button"
+					onclick={() => (showLanguageSelector = false)}
+					class="rounded-md p-1 hover:bg-muted"
+				>
+					<svg
+						class="h-5 w-5"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						viewBox="0 0 24 24"
+					>
+						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+
+			<!-- Language selector -->
+			<LanguageSelector variant="buttons" />
+
+			<!-- Footer -->
+			<div class="mt-6 flex justify-end">
+				<button
+					type="button"
+					onclick={() => (showLanguageSelector = false)}
+					class="rounded-md bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90"
+				>
+					Done
+				</button>
+			</div>
 		</div>
 	</dialog>
 {/if}
