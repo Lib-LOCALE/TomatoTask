@@ -1,0 +1,121 @@
+{
+	"app": {
+		"title": "TomatoTask",
+		"description": "Pomodoro-Timer mit integrierter Aufgabenliste"
+	},
+	"timer": {
+		"work": "Arbeit",
+		"shortBreak": "Kurze Pause",
+		"longBreak": "Lange Pause",
+		"start": "Starten",
+		"pause": "Pause",
+		"resume": "Fortsetzen",
+		"stop": "Stoppen",
+		"completed": "Sitzung abgeschlossen!",
+		"pomodoroCount": "Pomodoros: {count}",
+		"workingOn": "Arbeiten an"
+	},
+	"tasks": {
+		"title": "Aufgaben",
+		"newTask": "Neue Aufgabe",
+		"editTask": "Aufgabe Bearbeiten",
+		"deleteTask": "Aufgabe Löschen",
+		"taskTitle": "Aufgabentitel",
+		"description": "Beschreibung",
+		"project": "Projekt",
+		"estimatedPomodoros": "Geschätzte Pomodoros",
+		"completedPomodoros": "Abgeschlossen: {completed}/{estimated}",
+		"markComplete": "Als erledigt markieren",
+		"markIncomplete": "Als unerledigt markieren",
+		"noTasks": "Noch keine Aufgaben. Erstelle deine erste Aufgabe!",
+		"deleteConfirm": "Bist du sicher, dass du diese Aufgabe löschen möchtest?",
+		"created": "Erstellt",
+		"updated": "Aktualisiert",
+		"completed": "Abgeschlossen"
+	},
+	"projects": {
+		"title": "Projekte",
+		"newProject": "Neues Projekt",
+		"projectName": "Projektname",
+		"projectColor": "Farbe",
+		"allProjects": "Alle Projekte",
+		"noProject": "Kein Projekt",
+		"noProjects": "Noch keine Projekte. Erstelle dein erstes Projekt!",
+		"deleteConfirm": "Bist du sicher? Aufgaben werden von diesem Projekt getrennt.",
+		"form": {
+			"createTitle": "Projekt Erstellen",
+			"editTitle": "Projekt Bearbeiten",
+			"name": "Projektname",
+			"namePlaceholder": "Projektnamen eingeben",
+			"color": "Projektfarbe",
+			"customColor": "Benutzerdefinierte Farbe",
+			"create": "Projekt Erstellen"
+		},
+		"errors": {
+			"nameRequired": "Projektname ist erforderlich",
+			"nameTooLong": "Projektname muss 50 Zeichen oder weniger sein",
+			"saveFailed": "Projekt konnte nicht gespeichert werden"
+		}
+	},
+	"summary": {
+		"title": "Zusammenfassung",
+		"daily": "Heute",
+		"weekly": "Diese Woche",
+		"monthly": "Diesen Monat",
+		"completedTasks": "Erledigte Aufgaben",
+		"completedPomodoros": "Abgeschlossene Pomodoros",
+		"focusTime": "Fokuszeit",
+		"minutes": "{count} Min",
+		"hours": "{count}h {minutes}Min",
+		"noData": "Keine Daten für diesen Zeitraum"
+	},
+	"settings": {
+		"title": "Einstellungen",
+		"timer": "Timer",
+		"appearance": "Erscheinungsbild",
+		"language": "Sprache",
+		"workDuration": "Arbeitsdauer",
+		"shortBreakDuration": "Kurze Pause",
+		"longBreakDuration": "Lange Pause",
+		"pomodorosUntilLongBreak": "Pomodoros bis zur langen Pause",
+		"autoStartBreaks": "Pausen automatisch starten",
+		"autoStartPomodoros": "Pomodoros automatisch starten",
+		"theme": "Design",
+		"light": "Hell",
+		"dark": "Dunkel",
+		"notificationSound": "Benachrichtigungston",
+		"resetDefaults": "Auf Standardwerte zurücksetzen",
+		"saved": "Einstellungen gespeichert!"
+	},
+	"keyboard": {
+		"shortcuts": "Tastenkürzel",
+		"newTask": "Neue Aufgabe",
+		"startStop": "Timer starten/stoppen",
+		"changeLanguage": "Sprache wechseln",
+		"close": "Schließen"
+	},
+	"common": {
+		"save": "Speichern",
+		"cancel": "Abbrechen",
+		"delete": "Löschen",
+		"edit": "Bearbeiten",
+		"close": "Schließen",
+		"yes": "Ja",
+		"no": "Nein",
+		"loading": "Lädt...",
+		"error": "Ein Fehler ist aufgetreten",
+		"success": "Erfolg!",
+		"minutes": "Minuten",
+		"hours": "Stunden"
+	},
+	"notifications": {
+		"workComplete": "Arbeitssitzung abgeschlossen! Zeit für eine Pause.",
+		"breakComplete": "Die Pause ist vorbei! Bereit zum Fokussieren?",
+		"taskComplete": "Aufgabe erledigt!",
+		"taskCreated": "Aufgabe erstellt",
+		"taskUpdated": "Aufgabe aktualisiert",
+		"taskDeleted": "Aufgabe gelöscht",
+		"projectCreated": "Projekt erstellt",
+		"projectDeleted": "Projekt gelöscht"
+	}
+}
