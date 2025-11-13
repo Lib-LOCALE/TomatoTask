@@ -1,50 +1,29 @@
 // Service de gestion des notifications desktop
-import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/plugin-notification';
+// NOTE: Notifications desktop temporairement désactivées en attendant la configuration correcte du plugin
 import type { SessionType } from '$lib/types';
 
 /**
  * Vérifie et demande la permission pour les notifications
+ * STUB: Retourne toujours false temporairement
  *
  * @returns true si permission accordée
  */
 export async function ensureNotificationPermission(): Promise<boolean> {
-	try {
-		let permissionGranted = await isPermissionGranted();
-
-		if (!permissionGranted) {
-			const permission = await requestPermission();
-			permissionGranted = permission === 'granted';
-		}
-
-		return permissionGranted;
-	} catch (error) {
-		console.error('Failed to check notification permission:', error);
-		return false;
-	}
+	// TODO: Réactiver quand le plugin notification sera configuré
+	console.log('Notifications desktop temporairement désactivées');
+	return false;
 }
 
 /**
  * Envoie une notification desktop
+ * STUB: Ne fait rien temporairement
  *
  * @param title - Titre de la notification
  * @param body - Corps de la notification
  */
 export async function showNotification(title: string, body: string): Promise<void> {
-	try {
-		const hasPermission = await ensureNotificationPermission();
-
-		if (!hasPermission) {
-			console.warn('Notification permission not granted');
-			return;
-		}
-
-		await sendNotification({
-			title,
-			body
-		});
-	} catch (error) {
-		console.error('Failed to show notification:', error);
-	}
+	// TODO: Réactiver quand le plugin notification sera configuré
+	console.log('Notification:', title, body);
 }
 
 /**
@@ -102,6 +81,6 @@ export async function notifyComplete(sessionType: SessionType): Promise<void> {
 	// Joue le son
 	playNotificationSound();
 
-	// Envoie la notification desktop
+	// Envoie la notification desktop (désactivée temporairement)
 	await notifySessionComplete(sessionType);
 }
