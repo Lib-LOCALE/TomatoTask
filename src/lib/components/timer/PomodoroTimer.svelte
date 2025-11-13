@@ -7,15 +7,18 @@
 	import { notifyComplete } from '$lib/services/notification-service';
 	import TimerDisplay from './TimerDisplay.svelte';
 	import TimerControls from './TimerControls.svelte';
-	import type { SessionType } from '$lib/types';
+	import TaskSelector from './TaskSelector.svelte';
+	import type { SessionType, Task } from '$lib/types';
 
 	// Props
 	interface Props {
 		autoAdvance?: boolean;
-		selectedTaskId?: number;
 	}
 
-	let { autoAdvance = false, selectedTaskId }: Props = $props();
+	let { autoAdvance = false }: Props = $props();
+
+	// État local pour la tâche sélectionnée
+	let selectedTaskId = $state<number | undefined>(undefined);
 
 	/**
 	 * Gère la complétion d'une session
@@ -68,6 +71,16 @@
 
 			<!-- Espacement -->
 			<div class="h-8"></div>
+
+			<!-- Sélecteur de tâche (visible uniquement quand le timer n'est pas actif) -->
+			{#if timerStore.remainingSeconds === 0}
+				<div class="mb-6">
+					<TaskSelector
+						{selectedTaskId}
+						onTaskSelected={(task) => (selectedTaskId = task?.id)}
+					/>
+				</div>
+			{/if}
 
 			<!-- Contrôles du timer -->
 			<TimerControls
