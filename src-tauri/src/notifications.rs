@@ -1,15 +1,15 @@
 // Gestion des notifications système
-use tauri::{AppHandle, Manager};
+use tauri::AppHandle;
+use tauri_plugin_notification::NotificationExt;
 
 /// Envoie une notification système
 pub fn send_notification(app: &AppHandle, title: &str, body: &str) {
-    use tauri::api::notification::Notification;
-
-    // Crée et envoie la notification
-    let _ = Notification::new(&app.config().tauri.bundle.identifier)
+    // Crée et envoie la notification avec le nouveau plugin
+    let _ = app
+        .notification()
+        .builder()
         .title(title)
         .body(body)
-        .icon("icons/icon.png")
         .show();
 }
 
