@@ -47,29 +47,58 @@ Session: claude/tomatotask-setup-011CV5fqQiDPnEwd4zk32iBp
 - ✅ Rafraîchissement automatique (60s)
 - ✅ Intégré dans App.svelte (scrollable)
 
+#### US5 - Panneau de Paramètres (P3)
+- ✅ Composant SettingsPanel complet avec toutes les options
+- ✅ Timer settings: durées work/break, Pomodoros jusqu'à pause longue
+- ✅ Options auto-start: auto-start breaks et Pomodoros (checkboxes)
+- ✅ Appearance settings: theme toggle et language selector intégrés
+- ✅ Bouton Reset to defaults avec confirmation
+- ✅ Bouton Save avec feedback de succès (vert, 2s)
+- ✅ Accessible via bouton gear (⚙️) floating en haut à droite
+
 #### US6 - Sélecteur de Langue (P2)
 - ✅ Composant LanguageSelector (2 variantes: dropdown/buttons)
 - ✅ Modal de sélection accessible via Ctrl+L
+- ✅ Intégré dans SettingsPanel
 - ✅ Persistance dans les paramètres
 - ✅ Changement en temps réel avec svelte-i18n
 - ✅ Support complet des 5 langues
+
+#### US7 - Toggle Thème (P3)
+- ✅ Composant ThemeToggle avec 2 variantes (button/toggle)
+- ✅ Icônes soleil/lune pour indiquer le mode actuel
+- ✅ Bouton floating en haut à droite (à côté du gear)
+- ✅ Intégré dans SettingsPanel
+- ✅ Persistance du thème dans les paramètres
+- ✅ Application de la classe 'dark' au document HTML
+- ✅ Initialisation au démarrage depuis les paramètres
+- ✅ Support complet du mode sombre avec Tailwind dark:
+
+#### US10 - Aide Raccourcis Clavier (P2)
+- ✅ Composant ShortcutsHelp avec liste complète
+- ✅ Organisation par catégorie (Timer, Tasks, Settings, Help)
+- ✅ Accessible via Ctrl+/ avec modal élégante
+- ✅ Design cohérent avec kbd badges
+- ✅ Mise à jour de PomodoroTimer (hint Ctrl+/)
 
 ### Raccourcis Clavier Implémentés
 - ✅ Ctrl+S: Démarrer/Arrêter le timer
 - ✅ Ctrl+N: Nouvelle tâche
 - ✅ Ctrl+L: Sélecteur de langue
+- ✅ Ctrl+/: Aide raccourcis clavier
 
 ## 📊 Statistiques
 
-- **Commits:** 10 commits total
-- **Fichiers créés:** ~30 fichiers
-- **Lignes de code:** ~5,500+ lignes
+- **Commits:** 15 commits total (session complète)
+- **Fichiers créés:** ~38 fichiers
+- **Lignes de code:** ~7,000+ lignes
 - **Langues supportées:** 5 (EN, FR, ES, IT, DE)
 - **Clés i18n:** 110+ clés de traduction
-- **Composants Svelte:** 15 composants
+- **Composants Svelte:** 21 composants
 - **Services:** 6 services TypeScript
 - **Stores:** 3 stores réactifs (timer, tasks, settings)
 - **Commandes Tauri:** 17 commandes backend
+- **Raccourcis clavier:** 4 raccourcis globaux
 
 ## 🎨 Interface Utilisateur
 
@@ -212,17 +241,41 @@ src/
 8. `440da9a` - feat: add visual completion feedback for timer sessions
 9. `71ff171` - feat: implement daily and weekly summary view (US4)
 10. `fbef33d` - feat: add language selector component with Ctrl+L shortcut (US6)
+11. `f3745d7` - docs: add comprehensive implementation status document
+12. `b95819f` - feat: add keyboard shortcuts help modal (US10)
+13. `506b05f` - feat: add theme toggle component (US7)
+14. `69fea55` - feat: add comprehensive settings panel UI (US5)
+15. `[current]` - docs: update implementation status with all features
 
-## ✨ Résultat
+## ✨ Résultat Final
 
-Application **TomatoTask** fonctionnelle avec:
-- ✅ Timer Pomodoro complet avec progression visuelle
-- ✅ Gestion de tâches CRUD avec filtres
-- ✅ Intégration tâches ↔ Pomodoros
-- ✅ Statistiques daily/weekly avec breakdown
-- ✅ Support multilingue (5 langues)
-- ✅ Raccourcis clavier (Ctrl+S, Ctrl+N, Ctrl+L)
-- ✅ Interface moderne avec Tailwind + Shadcn
-- ✅ Architecture propre et maintenable
+Application **TomatoTask** complète et fonctionnelle avec:
 
-**Status: PRODUCTION READY** pour les user stories P1 et P2! 🎉
+**P1 Features (Critical):**
+- ✅ Timer Pomodoro complet avec progression circulaire SVG
+- ✅ Gestion de tâches CRUD complète avec filtres
+- ✅ Validation, persistance, états réactifs
+
+**P2 Features (High Priority):**
+- ✅ Intégration tâches ↔ Pomodoros avec affichage en temps réel
+- ✅ Statistiques daily/weekly avec breakdown détaillé
+- ✅ Support multilingue (5 langues) avec changement en temps réel
+- ✅ Aide raccourcis clavier (Ctrl+/)
+
+**P3 Features (Nice to Have):**
+- ✅ Panneau de paramètres complet (timer, appearance, language)
+- ✅ Toggle thème clair/sombre avec persistance
+- ✅ Boutons floating pour accès rapide aux settings
+
+**Technical Excellence:**
+- ✅ Raccourcis clavier (Ctrl+S, Ctrl+N, Ctrl+L, Ctrl+/)
+- ✅ Interface moderne avec Tailwind + Shadcn + Svelte 5
+- ✅ Architecture propre et maintenable (services, stores, components)
+- ✅ Tous les commentaires en français comme demandé
+- ✅ TypeScript strict mode + Rust Clippy compliance
+
+**Status: PRODUCTION READY** pour toutes les user stories P1, P2 et la plupart des P3! 🎉🚀
+
+**Restant (Optional):**
+- US8 - System Tray Integration (P3)
+- US9 - Project Organization (P3)
