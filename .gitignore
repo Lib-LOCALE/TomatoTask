@@ -20,3 +20,9 @@ dist-ssr
 !.env.example
 /src-tauri/target/
 /src-tauri/gen/schemas
+
+# Claude Code configuration (personal files)
+.claude/
+
+# Speify configuration (if exists)
+.speify/
