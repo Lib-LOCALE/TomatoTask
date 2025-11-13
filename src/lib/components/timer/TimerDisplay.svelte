@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Composant d'affichage du timer (temps restant et progression)
 	import { timerStore } from '$lib/stores/timer.svelte';
+	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { _ } from 'svelte-i18n';
 
 	// Props
@@ -9,6 +10,12 @@
 	}
 
 	let { showProgress = true }: Props = $props();
+
+	// Tâche courante liée au timer
+	const currentTask = $derived(() => {
+		if (!timerStore.taskId) return null;
+		return taskStore.tasks.find(t => t.id === timerStore.taskId);
+	});
 
 	// Couleur selon le type de session
 	const sessionColors = {
@@ -29,6 +36,19 @@
 	<div class="text-sm font-medium uppercase tracking-wide opacity-60">
 		{$_(`timer.${timerStore.sessionType}`)}
 	</div>
+
+	<!-- Tâche courante si liée au timer -->
+	{#if currentTask()}
+		<div class="mb-2 rounded-lg bg-muted px-4 py-3 text-center max-w-md">
+			<div class="text-xs text-muted-foreground mb-1">{$_('timer.workingOn')}</div>
+			<div class="font-semibold text-base">{currentTask().title}</div>
+			{#if currentTask().estimatedPomodoros > 0}
+				<div class="mt-2 text-xs opacity-70">
+					{currentTask().completedPomodoros}/{currentTask().estimatedPomodoros} 🍅
+				</div>
+			{/if}
+		</div>
+	{/if}
 
 	<!-- Affichage circulaire du temps -->
 	<div class="relative">

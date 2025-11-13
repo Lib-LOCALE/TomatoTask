@@ -12,7 +12,8 @@
 		"resume": "Resume",
 		"stop": "Stop",
 		"completed": "Session completed!",
-		"pomodoroCount": "Pomodoros: {count}"
+		"pomodoroCount": "Pomodoros: {count}",
+		"workingOn": "Working on"
 	},
 	"tasks": {
 		"title": "Tasks",
