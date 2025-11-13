@@ -96,7 +96,7 @@
 <dialog
 	bind:this={dialogElement}
 	onclick={handleBackdropClick}
-	class="rounded-lg border bg-background p-0 shadow-lg backdrop:bg-black/50"
+	class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-0 shadow-2xl m-0 z-50"
 >
 	<div class="w-full max-w-md">
 		<!-- Header -->
@@ -130,7 +130,13 @@
 </dialog>
 
 <style>
+	dialog {
+		position: fixed;
+		margin: 0;
+	}
+
 	dialog::backdrop {
-		background-color: rgba(0, 0, 0, 0.5);
+		background-color: rgba(0, 0, 0, 0.7);
+		backdrop-filter: blur(4px);
 	}
 </style>
