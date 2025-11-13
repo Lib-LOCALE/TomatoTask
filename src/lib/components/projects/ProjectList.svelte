@@ -26,6 +26,13 @@
 		onProjectSelect?.(projectId);
 	}
 
+	/**
+	 * Gère la création d'un nouveau projet
+	 */
+	function handleNewProject() {
+		onNewProject?.();
+	}
+
 	onMount(async () => {
 		// Charge les projets au montage
 		await projectStore.load();
@@ -38,9 +45,10 @@
 		<h2 class="text-lg font-semibold">{$_('projects.title')}</h2>
 		<button
 			type="button"
-			onclick={() => onNewProject?.()}
-			class="rounded-md bg-primary px-3 py-1.5 text-sm text-primary-foreground hover:bg-primary/90"
+			onclick={handleNewProject}
+			class="rounded-md bg-primary px-3 py-1.5 text-sm text-primary-foreground hover:bg-primary/90 font-bold text-lg"
 			title={$_('projects.newProject')}
+			aria-label={$_('projects.newProject')}
 		>
 			+
 		</button>
