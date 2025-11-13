@@ -33,6 +33,26 @@ pub fn create_project(
     queries::create_project(&conn, &input).map_err(|e| e.to_string())
 }
 
+/// Met à jour un projet existant
+///
+/// # Arguments
+/// * `id` - ID du projet à mettre à jour
+/// * `name` - Nouveau nom du projet
+/// * `color` - Nouvelle couleur du projet
+/// * `db` - État partagé contenant la connexion à la base de données
+#[tauri::command]
+pub fn update_project(
+    id: i64,
+    name: String,
+    color: String,
+    db: State<DbConnection>,
+) -> Result<Project, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+
+    queries::update_project(&conn, id, &name, &color).map_err(|e| e.to_string())
+}
+
 /// Supprime un projet
 ///
 /// # Arguments
