@@ -12,7 +12,8 @@
 		"resume": "Reprendre",
 		"stop": "Arrêter",
 		"completed": "Session terminée !",
-		"pomodoroCount": "Pomodoros : {count}"
+		"pomodoroCount": "Pomodoros : {count}",
+		"workingOn": "Travail en cours"
 	},
 	"tasks": {
 		"title": "Tâches",
