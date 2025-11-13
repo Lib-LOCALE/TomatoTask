@@ -142,7 +142,7 @@
 				the timer
 			</p>
 			<p>
-				Press <kbd class="px-2 py-1 bg-muted rounded text-xs font-mono">Ctrl+L</kbd> to change language
+				Press <kbd class="px-2 py-1 bg-muted rounded text-xs font-mono">Ctrl+/</kbd> for all keyboard shortcuts
 			</p>
 		</div>
 	</div>
