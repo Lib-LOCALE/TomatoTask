@@ -22,7 +22,6 @@ use tauri::Manager;
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
-        .plugin(tauri_plugin_notification::init())
         .setup(|app| {
             // Obtient le répertoire de données de l'application
             let app_dir = app
@@ -88,8 +87,8 @@ pub fn run() {
             // Commandes de résumé/analytics
             commands::get_daily_summary,
             commands::get_weekly_summary,
-            // Commandes de notifications
-            notifications::send_custom_notification,
+            // Commandes de notifications (temporairement désactivées)
+            // notifications::send_custom_notification,
             // Commandes de system tray
             tray::toggle_window,
             tray::show_window,

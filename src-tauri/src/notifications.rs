@@ -1,16 +1,11 @@
 // Gestion des notifications système
+// NOTE: Temporairement désactivé en attendant la configuration correcte du plugin
 use tauri::AppHandle;
-use tauri_plugin_notification::NotificationExt;
 
-/// Envoie une notification système
-pub fn send_notification(app: &AppHandle, title: &str, body: &str) {
-    // Crée et envoie la notification avec le nouveau plugin
-    let _ = app
-        .notification()
-        .builder()
-        .title(title)
-        .body(body)
-        .show();
+/// Envoie une notification système (stub temporaire)
+pub fn send_notification(_app: &AppHandle, _title: &str, _body: &str) {
+    // TODO: Réactiver avec le bon plugin de notification Tauri 2
+    // Pour l'instant, cette fonction ne fait rien pour permettre la compilation
 }
 
 /// Envoie une notification de session Pomodoro terminée
@@ -40,7 +35,8 @@ pub fn notify_task_complete(app: &AppHandle, task_title: &str) {
     );
 }
 
-/// Envoie une notification personnalisée depuis le frontend
+/// Envoie une notification personnalisée depuis le frontend (commande désactivée)
+#[allow(dead_code)]
 #[tauri::command]
 pub fn send_custom_notification(
     app: AppHandle,

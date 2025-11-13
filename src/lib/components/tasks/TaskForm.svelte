@@ -89,7 +89,7 @@
 			type="text"
 			bind:value={formData.title}
 			placeholder="Write documentation"
-			class:border-destructive={errors.title}
+			class={errors.title ? 'border-destructive' : ''}
 			required
 			autofocus
 		/>
