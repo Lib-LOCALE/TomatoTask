@@ -45,6 +45,7 @@ export interface Project {
 	color?: string;
 	createdAt: string;
 	updatedAt: string;
+	taskCount?: number;
 }
 
 /**

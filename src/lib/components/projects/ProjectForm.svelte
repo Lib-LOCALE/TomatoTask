@@ -73,7 +73,7 @@
 			type="text"
 			bind:value={name}
 			placeholder={$_('projects.form.namePlaceholder')}
-			maxlength="50"
+			maxlength={50}
 			required
 		/>
 	</div>

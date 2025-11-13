@@ -65,18 +65,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-artifacts
-          path: |
-            src-tauri/target/release/bundle/deb/*.deb
-            src-tauri/target/release/bundle/appimage/*.AppImage
+          path: src-tauri/target/release/bundle/appimage/*.AppImage
 
       - name: Upload artifacts (Windows)
         if: matrix.platform == 'windows'
         uses: actions/upload-artifact@v4
         with:
           name: windows-artifacts
-          path: |
-            src-tauri/target/release/bundle/msi/*.msi
-            src-tauri/target/release/bundle/nsis/*.exe
+          path: src-tauri/target/release/bundle/nsis/*.exe
 
   create-release:
     name: Create Release
@@ -112,8 +108,8 @@ jobs:
             ## 🍅 TomatoTask v${{ steps.get_version.outputs.version }}
 
             ### Downloads
-            - **Linux:** `.deb` (Debian/Ubuntu), `.AppImage` (Universal)
-            - **Windows:** `.msi` (Installer), `.exe` (Portable)
+            - **Linux:** `.AppImage` (Universal)
+            - **Windows:** `.exe` (Setup Installer)
 
             ### What's New
             See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
