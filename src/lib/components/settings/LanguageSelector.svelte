@@ -5,7 +5,8 @@
 	import {
 		SUPPORTED_LANGUAGES,
 		changeLanguage,
-		getLanguageName
+		getLanguageName,
+		getLanguageFlag
 	} from '$lib/services/i18n-service';
 	import type { Language } from '$lib/types';
 
@@ -58,7 +59,7 @@
 		>
 			{#each SUPPORTED_LANGUAGES as lang}
 				<option value={lang}>
-					{getLanguageName(lang)}
+					{getLanguageFlag(lang)} {getLanguageName(lang)}
 				</option>
 			{/each}
 		</select>
@@ -73,13 +74,14 @@
 				<button
 					type="button"
 					onclick={() => handleLanguageChange(lang)}
-					class="rounded-md border px-4 py-2 text-sm font-medium transition-colors"
+					class="rounded-md border px-4 py-2 text-sm font-medium transition-colors flex items-center gap-2"
 					class:border-primary={currentLanguage === lang}
 					class:bg-primary={currentLanguage === lang}
 					class:text-primary-foreground={currentLanguage === lang}
 					class:hover:bg-muted={currentLanguage !== lang}
 				>
-					{getLanguageName(lang)}
+					<span class="text-lg">{getLanguageFlag(lang)}</span>
+					<span>{getLanguageName(lang)}</span>
 				</button>
 			{/each}
 		</div>

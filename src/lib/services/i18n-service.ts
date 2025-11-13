@@ -87,3 +87,21 @@ export function getLanguageName(lang: Language): string {
 
 	return names[lang];
 }
+
+/**
+ * Obtient le drapeau (emoji) pour une langue
+ *
+ * @param lang - Code langue
+ * @returns Emoji du drapeau
+ */
+export function getLanguageFlag(lang: Language): string {
+	const flags: Record<Language, string> = {
+		en: '🇬🇧',
+		fr: '🇫🇷',
+		es: '🇪🇸',
+		it: '🇮🇹',
+		de: '🇩🇪'
+	};
+
+	return flags[lang];
+}
