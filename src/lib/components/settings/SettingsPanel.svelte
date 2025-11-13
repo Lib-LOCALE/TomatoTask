@@ -82,7 +82,7 @@
 	<dialog
 		open
 		onclick={handleBackdropClick}
-		class="rounded-lg border bg-background p-0 shadow-lg backdrop:bg-black/50 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+		class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-0 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-0 z-50"
 	>
 		<div class="w-full">
 			<!-- Header -->
@@ -259,7 +259,13 @@
 {/if}
 
 <style>
+	dialog {
+		position: fixed;
+		margin: 0;
+	}
+
 	dialog::backdrop {
-		background-color: rgba(0, 0, 0, 0.5);
+		background-color: rgba(0, 0, 0, 0.7);
+		backdrop-filter: blur(4px);
 	}
 </style>
