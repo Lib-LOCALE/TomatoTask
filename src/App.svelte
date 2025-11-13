@@ -6,6 +6,7 @@
 	import TaskModal from '$lib/components/tasks/TaskModal.svelte';
 	import SummaryView from '$lib/components/summary/SummaryView.svelte';
 	import LanguageSelector from '$lib/components/settings/LanguageSelector.svelte';
+	import ShortcutsHelp from '$lib/components/keyboard/ShortcutsHelp.svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { startSession, pauseTimer, resumeTimer } from '$lib/services/timer-service';
@@ -19,6 +20,7 @@
 	let showDeleteConfirm = $state(false);
 	let taskToDelete = $state<Task | null>(null);
 	let showLanguageSelector = $state(false);
+	let showShortcutsHelp = $state(false);
 
 	/**
 	 * Gère le raccourci Ctrl+S (Start/Stop timer)
@@ -51,6 +53,13 @@
 	 */
 	function handleLanguageShortcut() {
 		showLanguageSelector = !showLanguageSelector;
+	}
+
+	/**
+	 * Gère le raccourci Ctrl+/ (Aide raccourcis clavier)
+	 */
+	function handleShortcutsHelpShortcut() {
+		showShortcutsHelp = !showShortcutsHelp;
 	}
 
 	/**
@@ -100,6 +109,7 @@
 		registerShortcut('s', handleStartStopShortcut, true); // Ctrl+S
 		registerShortcut('n', handleNewTaskShortcut, true); // Ctrl+N
 		registerShortcut('l', handleLanguageShortcut, true); // Ctrl+L
+		registerShortcut('/', handleShortcutsHelpShortcut, true); // Ctrl+/
 	});
 </script>
 
@@ -218,3 +228,6 @@
 		</div>
 	</dialog>
 {/if}
+
+<!-- Aide raccourcis clavier (accessible avec Ctrl+/) -->
+<ShortcutsHelp bind:isOpen={showShortcutsHelp} onClose={() => (showShortcutsHelp = false)} />
