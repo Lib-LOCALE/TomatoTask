@@ -12,7 +12,8 @@
 		"resume": "Fortsetzen",
 		"stop": "Stoppen",
 		"completed": "Sitzung abgeschlossen!",
-		"pomodoroCount": "Pomodoros: {count}"
+		"pomodoroCount": "Pomodoros: {count}",
+		"workingOn": "Arbeiten an"
 	},
 	"tasks": {
 		"title": "Aufgaben",
