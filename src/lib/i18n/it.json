@@ -41,7 +41,21 @@
 		"allProjects": "Tutti i progetti",
 		"noProject": "Nessun progetto",
 		"noProjects": "Nessun progetto ancora. Crea il tuo primo progetto!",
-		"deleteConfirm": "Sei sicuro? Le attività saranno svincolate da questo progetto."
+		"deleteConfirm": "Sei sicuro? Le attività saranno svincolate da questo progetto.",
+		"form": {
+			"createTitle": "Crea Progetto",
+			"editTitle": "Modifica Progetto",
+			"name": "Nome del Progetto",
+			"namePlaceholder": "Inserisci il nome del progetto",
+			"color": "Colore del Progetto",
+			"customColor": "Colore personalizzato",
+			"create": "Crea Progetto"
+		},
+		"errors": {
+			"nameRequired": "Il nome del progetto è obbligatorio",
+			"nameTooLong": "Il nome del progetto deve essere di 50 caratteri o meno",
+			"saveFailed": "Impossibile salvare il progetto"
+		}
 	},
 	"summary": {
 		"title": "Riepilogo",

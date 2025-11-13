@@ -41,7 +41,21 @@
 		"allProjects": "Todos los proyectos",
 		"noProject": "Sin proyecto",
 		"noProjects": "Sin proyectos aún. ¡Crea tu primer proyecto!",
-		"deleteConfirm": "¿Estás seguro? Las tareas se desvinculan de este proyecto."
+		"deleteConfirm": "¿Estás seguro? Las tareas se desvinculan de este proyecto.",
+		"form": {
+			"createTitle": "Crear Proyecto",
+			"editTitle": "Editar Proyecto",
+			"name": "Nombre del Proyecto",
+			"namePlaceholder": "Ingresa el nombre del proyecto",
+			"color": "Color del Proyecto",
+			"customColor": "Color personalizado",
+			"create": "Crear Proyecto"
+		},
+		"errors": {
+			"nameRequired": "El nombre del proyecto es obligatorio",
+			"nameTooLong": "El nombre del proyecto debe tener 50 caracteres o menos",
+			"saveFailed": "Error al guardar el proyecto"
+		}
 	},
 	"summary": {
 		"title": "Resumen",

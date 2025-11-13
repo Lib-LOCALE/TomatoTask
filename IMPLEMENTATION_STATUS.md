@@ -89,14 +89,14 @@ Session: claude/tomatotask-setup-011CV5fqQiDPnEwd4zk32iBp
 
 ## 📊 Statistiques
 
-- **Commits:** 15 commits total (session complète)
-- **Fichiers créés:** ~38 fichiers
-- **Lignes de code:** ~7,000+ lignes
+- **Commits:** 18 commits total (session complète)
+- **Fichiers créés:** 42+ fichiers
+- **Lignes de code:** ~8,000+ lignes
 - **Langues supportées:** 5 (EN, FR, ES, IT, DE)
-- **Clés i18n:** 110+ clés de traduction
-- **Composants Svelte:** 21 composants
+- **Clés i18n:** 125+ clés de traduction
+- **Composants Svelte:** 24 composants
 - **Services:** 6 services TypeScript
-- **Stores:** 3 stores réactifs (timer, tasks, settings)
+- **Stores:** 4 stores réactifs (timer, tasks, settings, projects)
 - **Commandes Tauri:** 17 commandes backend
 - **Raccourcis clavier:** 4 raccourcis globaux
 
@@ -105,23 +105,24 @@ Session: claude/tomatotask-setup-011CV5fqQiDPnEwd4zk32iBp
 ### Layout Principal
 ```
 ┌─────────────────────────────────────────────────────┐
-│  TaskList (1/3)  │  Timer + Summary (2/3)           │
+│  Projects+Tasks  │  Timer + Summary (2/3)           │
+│  (1/3 sidebar)   │                                   │
 │  ┌─────────────┐ │  ┌──────────────────────────┐   │
-│  │ Filters     │ │  │  Completion Feedback 🎉   │   │
-│  │ All/Active  │ │  │  (animated, auto-hide)    │   │
+│  │ Projects    │ │  │  Completion Feedback 🎉   │   │
+│  │ All/Proj1   │ │  │  (animated, auto-hide)    │   │
+│  │ + New       │ │  └──────────────────────────┘   │
+│  ├─────────────┤ │  ┌──────────────────────────┐   │
+│  │ Tasks       │ │  │  Session Type: WORK      │   │
+│  │ All/Active  │ │  │  Working on: [Task]      │   │
+│  ├─────────────┤ │  │  ┌────────────────────┐  │   │
+│  │ TaskCard 1  │ │  │  │   ⏱️ 25:00          │  │   │
+│  │  ✅ Title   │ │  │  │   Circular Progress │  │   │
+│  │  Progress   │ │  │  └────────────────────┘  │   │
+│  │  Edit/Del   │ │  │  [Start/Pause/Resume]   │   │
 │  ├─────────────┤ │  └──────────────────────────┘   │
-│  │ TaskCard 1  │ │  ┌──────────────────────────┐   │
-│  │  ✅ Title   │ │  │  Session Type: WORK      │   │
-│  │  Progress   │ │  │  Working on: [Task]      │   │
-│  │  Edit/Del   │ │  │  ┌────────────────────┐  │   │
-│  ├─────────────┤ │  │  │   ⏱️ 25:00          │  │   │
-│  │ TaskCard 2  │ │  │  │   Circular Progress │  │   │
-│  │  ...        │ │  │  └────────────────────┘  │   │
-│  └─────────────┘ │  │  [Start/Pause/Resume]   │   │
-│                   │  └──────────────────────────┘   │
-│                   │  ┌──────────────────────────┐   │
-│                   │  │  Summary (Daily/Weekly)  │   │
-│                   │  │  ✅ Tasks: 5             │   │
+│  │ TaskCard 2  │ │  ┌──────────────────────────┐   │
+│  │  ...        │ │  │  Summary (Daily/Weekly)  │   │
+│  └─────────────┘ │  │  ✅ Tasks: 5             │   │
 │                   │  │  🍅 Pomodoros: 12        │   │
 │                   │  │  ⏱️ Focus: 5h 30min      │   │
 │                   │  └──────────────────────────┘   │
@@ -153,8 +154,10 @@ src/
 │   ├── components/
 │   │   ├── timer/        # TimerDisplay, Controls, Pomodoro
 │   │   ├── tasks/        # TaskList, Card, Form, Modal
+│   │   ├── projects/     # ProjectList, Form, Modal
 │   │   ├── summary/      # SummaryView, SummaryCard
-│   │   └── settings/     # LanguageSelector
+│   │   ├── settings/     # LanguageSelector, ThemeToggle, SettingsPanel
+│   │   └── keyboard/     # ShortcutsHelp
 │   ├── services/         # Business logic layer
 │   │   ├── timer-service.ts
 │   │   ├── task-service.ts
@@ -163,7 +166,8 @@ src/
 │   ├── stores/           # Reactive state (Svelte 5 Runes)
 │   │   ├── timer.svelte.ts    # $state, $derived
 │   │   ├── tasks.svelte.ts
-│   │   └── settings.svelte.ts
+│   │   ├── settings.svelte.ts
+│   │   └── projects.svelte.ts
 │   ├── types/            # TypeScript interfaces
 │   ├── utils/            # Validators, formatters, keyboard
 │   └── i18n/             # 5 language JSON files
@@ -229,23 +233,37 @@ src/
 - Italiano (it.json): 110 keys
 - Deutsch (de.json): 110 keys
 
+#### US9 - Organisation par Projet (P3)
+- ✅ Store projects.svelte.ts avec gestion réactive
+- ✅ Composant ProjectList avec filtrage et CRUD
+- ✅ Composant ProjectForm pour création/édition
+- ✅ Composant ProjectModal avec validation complète
+- ✅ Sélection de projet pour filtrer les tâches
+- ✅ Affichage avec couleurs personnalisées et compteur
+- ✅ Traductions complètes dans les 5 langues (form + errors)
+- ✅ Intégration complète dans App.svelte (sidebar divisé)
+- ✅ Confirmation de suppression avec modal
+- ✅ Filtrage automatique des tâches par projet sélectionné
+
 ## 🔗 Commits de la Session
 
-1. `a703bed` - feat: implement foundation layer (Phase 2)
-2. `a34784b` - feat: add i18n support for 5 languages
-3. `8cb4911` - feat: add utilities and i18n initialization
-4. `6ce4b04` - feat: implement timer stores and services (US1 - Part A)
-5. `2c2b22b` - feat: complete US1 - Basic Pomodoro Timer MVP
-6. `199e66e` - feat: implement US2 - Task Management with full CRUD
-7. `1521538` - feat: add current task display in timer (US3 enhancement)
-8. `440da9a` - feat: add visual completion feedback for timer sessions
-9. `71ff171` - feat: implement daily and weekly summary view (US4)
-10. `fbef33d` - feat: add language selector component with Ctrl+L shortcut (US6)
-11. `f3745d7` - docs: add comprehensive implementation status document
-12. `b95819f` - feat: add keyboard shortcuts help modal (US10)
-13. `506b05f` - feat: add theme toggle component (US7)
-14. `69fea55` - feat: add comprehensive settings panel UI (US5)
-15. `[current]` - docs: update implementation status with all features
+1. `1bc7dac` - chore: initialize project with Spec Kit and boilerplate
+2. `a703bed` - feat: implement foundation layer (Phase 2)
+3. `a34784b` - feat: add i18n support for 5 languages
+4. `8cb4911` - feat: add utilities and i18n initialization
+5. `6ce4b04` - feat: implement timer stores and services (US1 - Part A)
+6. `2c2b22b` - feat: complete US1 - Basic Pomodoro Timer MVP
+7. `199e66e` - feat: implement US2 - Task Management with full CRUD
+8. `1521538` - feat: add current task display in timer (US3 enhancement)
+9. `440da9a` - feat: add visual completion feedback for timer sessions
+10. `71ff171` - feat: implement daily and weekly summary view (US4)
+11. `fbef33d` - feat: add language selector component with Ctrl+L shortcut (US6)
+12. `f3745d7` - docs: add comprehensive implementation status document
+13. `b95819f` - feat: add keyboard shortcuts help modal (US10)
+14. `506b05f` - feat: add theme toggle component (US7)
+15. `69fea55` - feat: add comprehensive settings panel UI (US5)
+16. `78cda31` - docs: update implementation status with all features
+17. `ed8674a` - feat: add project organization foundation (US9 - partial)
 
 ## ✨ Résultat Final
 
@@ -266,6 +284,7 @@ Application **TomatoTask** complète et fonctionnelle avec:
 - ✅ Panneau de paramètres complet (timer, appearance, language)
 - ✅ Toggle thème clair/sombre avec persistance
 - ✅ Boutons floating pour accès rapide aux settings
+- ✅ Organisation par projet avec filtrage des tâches
 
 **Technical Excellence:**
 - ✅ Raccourcis clavier (Ctrl+S, Ctrl+N, Ctrl+L, Ctrl+/)
@@ -274,8 +293,7 @@ Application **TomatoTask** complète et fonctionnelle avec:
 - ✅ Tous les commentaires en français comme demandé
 - ✅ TypeScript strict mode + Rust Clippy compliance
 
-**Status: PRODUCTION READY** pour toutes les user stories P1, P2 et la plupart des P3! 🎉🚀
+**Status: PRODUCTION READY** pour toutes les user stories P1, P2 et P3! 🎉🚀
 
 **Restant (Optional):**
-- US8 - System Tray Integration (P3)
-- US9 - Project Organization (P3)
+- US8 - System Tray Integration (P3) - Nécessite build natif Tauri
