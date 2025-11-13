@@ -39,15 +39,18 @@
 
 	<!-- Tâche courante si liée au timer -->
 	{#if currentTask()}
-		<div class="mb-2 rounded-lg bg-muted px-4 py-3 text-center max-w-md">
-			<div class="text-xs text-muted-foreground mb-1">{$_('timer.workingOn')}</div>
-			<div class="font-semibold text-base">{currentTask().title}</div>
-			{#if currentTask().estimatedPomodoros > 0}
-				<div class="mt-2 text-xs opacity-70">
-					{currentTask().completedPomodoros}/{currentTask().estimatedPomodoros} 🍅
-				</div>
-			{/if}
-		</div>
+		{@const task = currentTask()}
+		{#if task}
+			<div class="mb-2 rounded-lg bg-muted px-4 py-3 text-center max-w-md">
+				<div class="text-xs text-muted-foreground mb-1">{$_('timer.workingOn')}</div>
+				<div class="font-semibold text-base">{task.title}</div>
+				{#if task.estimatedPomodoros > 0}
+					<div class="mt-2 text-xs opacity-70">
+						{task.completedPomodoros}/{task.estimatedPomodoros} 🍅
+					</div>
+				{/if}
+			</div>
+		{/if}
 	{/if}
 
 	<!-- Affichage circulaire du temps -->
