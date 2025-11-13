@@ -45,6 +45,6 @@ async function bootstrap() {
 }
 
 // Lance l'application
-const app = await bootstrap();
-
-export default app;
+bootstrap().catch((error) => {
+	console.error('Failed to bootstrap application:', error);
+});
