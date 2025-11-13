@@ -2,7 +2,7 @@
 // Note: Pour Tauri 2, le tray est principalement configuré via tauri.conf.json
 // Ces commandes permettent au frontend de contrôler la fenêtre depuis le tray
 
-use tauri::AppHandle;
+use tauri::{AppHandle, Manager};
 
 /// Commande Tauri pour basculer la visibilité de la fenêtre
 #[tauri::command]

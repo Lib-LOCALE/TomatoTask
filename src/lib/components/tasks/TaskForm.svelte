@@ -89,7 +89,7 @@
 			type="text"
 			bind:value={formData.title}
 			placeholder="Write documentation"
-			class:border-destructive={errors.title}
+			class={errors.title ? 'border-destructive' : ''}
 			required
 			autofocus
 		/>
@@ -138,8 +138,7 @@
 				bind:value={formData.estimatedPomodoros}
 				min="0"
 				max="20"
-				class="w-20"
-				class:border-destructive={errors.estimatedPomodoros}
+				class={errors.estimatedPomodoros ? 'w-20 border-destructive' : 'w-20'}
 			/>
 		</div>
 		{#if errors.estimatedPomodoros}
