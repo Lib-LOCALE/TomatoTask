@@ -255,6 +255,12 @@
 {#if showDeleteConfirm && taskToDelete}
 	<dialog
 		open
+		onclick={(e) => {
+			if ((e.target as HTMLElement).tagName === 'DIALOG') {
+				showDeleteConfirm = false;
+				taskToDelete = null;
+			}
+		}}
 		class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-6 shadow-2xl m-0 z-50 max-w-md"
 		style="backdrop-filter: blur(4px);"
 	>
@@ -290,6 +296,11 @@
 {#if showLanguageSelector}
 	<dialog
 		open
+		onclick={(e) => {
+			if ((e.target as HTMLElement).tagName === 'DIALOG') {
+				showLanguageSelector = false;
+			}
+		}}
 		class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-6 shadow-2xl m-0 z-50 max-w-md w-full"
 		style="backdrop-filter: blur(4px);"
 	>
@@ -352,6 +363,12 @@
 {#if showProjectDeleteConfirm && projectToDelete}
 	<dialog
 		open
+		onclick={(e) => {
+			if ((e.target as HTMLElement).tagName === 'DIALOG') {
+				showProjectDeleteConfirm = false;
+				projectToDelete = null;
+			}
+		}}
 		class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-6 shadow-2xl m-0 z-50 max-w-md"
 		style="backdrop-filter: blur(4px);"
 	>
