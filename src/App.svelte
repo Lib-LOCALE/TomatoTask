@@ -7,6 +7,7 @@
 	import SummaryView from '$lib/components/summary/SummaryView.svelte';
 	import LanguageSelector from '$lib/components/settings/LanguageSelector.svelte';
 	import ShortcutsHelp from '$lib/components/keyboard/ShortcutsHelp.svelte';
+	import ThemeToggle from '$lib/components/settings/ThemeToggle.svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { startSession, pauseTimer, resumeTimer } from '$lib/services/timer-service';
@@ -125,7 +126,12 @@
 	</aside>
 
 	<!-- Zone principale du timer et statistiques (2/3 de l'écran) -->
-	<section class="flex-1 overflow-y-auto">
+	<section class="flex-1 overflow-y-auto relative">
+		<!-- Toggle thème (floating top-right) -->
+		<div class="absolute top-4 right-4 z-10">
+			<ThemeToggle variant="button" />
+		</div>
+
 		<div class="flex flex-col gap-8">
 			<!-- Timer Pomodoro -->
 			<div>
