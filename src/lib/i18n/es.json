@@ -1,0 +1,105 @@
+{
+	"app": {
+		"title": "TomatoTask",
+		"description": "Temporizador Pomodoro con Lista de Tareas Integrada"
+	},
+	"timer": {
+		"work": "Trabajo",
+		"shortBreak": "Pausa Corta",
+		"longBreak": "Pausa Larga",
+		"start": "Iniciar",
+		"pause": "Pausar",
+		"resume": "Reanudar",
+		"stop": "Detener",
+		"completed": "¡Sesión completada!",
+		"pomodoroCount": "Pomodoros: {count}"
+	},
+	"tasks": {
+		"title": "Tareas",
+		"newTask": "Nueva Tarea",
+		"editTask": "Editar Tarea",
+		"deleteTask": "Eliminar Tarea",
+		"taskTitle": "Título de la tarea",
+		"description": "Descripción",
+		"project": "Proyecto",
+		"estimatedPomodoros": "Pomodoros Estimados",
+		"completedPomodoros": "Completados: {completed}/{estimated}",
+		"markComplete": "Marcar como completada",
+		"markIncomplete": "Marcar como incompleta",
+		"noTasks": "No hay tareas. ¡Crea tu primera tarea!",
+		"deleteConfirm": "¿Estás seguro de que quieres eliminar esta tarea?",
+		"created": "Creada",
+		"updated": "Actualizada",
+		"completed": "Completada"
+	},
+	"projects": {
+		"title": "Proyectos",
+		"newProject": "Nuevo Proyecto",
+		"projectName": "Nombre del proyecto",
+		"projectColor": "Color",
+		"allProjects": "Todos los proyectos",
+		"noProject": "Sin proyecto",
+		"deleteConfirm": "¿Estás seguro? Las tareas se desvinculan de este proyecto."
+	},
+	"summary": {
+		"title": "Resumen",
+		"daily": "Hoy",
+		"weekly": "Esta Semana",
+		"monthly": "Este Mes",
+		"completedTasks": "Tareas completadas",
+		"completedPomodoros": "Pomodoros completados",
+		"focusTime": "Tiempo de enfoque",
+		"minutes": "{count} min",
+		"hours": "{count}h {minutes}min",
+		"noData": "Sin datos para este período"
+	},
+	"settings": {
+		"title": "Configuración",
+		"timer": "Temporizador",
+		"appearance": "Apariencia",
+		"language": "Idioma",
+		"workDuration": "Duración del trabajo",
+		"shortBreakDuration": "Pausa corta",
+		"longBreakDuration": "Pausa larga",
+		"pomodorosUntilLongBreak": "Pomodoros hasta pausa larga",
+		"autoStartBreaks": "Iniciar pausas automáticamente",
+		"autoStartPomodoros": "Iniciar pomodoros automáticamente",
+		"theme": "Tema",
+		"light": "Claro",
+		"dark": "Oscuro",
+		"notificationSound": "Sonido de notificación",
+		"resetDefaults": "Restablecer valores predeterminados",
+		"saved": "¡Configuración guardada!"
+	},
+	"keyboard": {
+		"shortcuts": "Atajos de Teclado",
+		"newTask": "Nueva tarea",
+		"startStop": "Iniciar/Detener temporizador",
+		"changeLanguage": "Cambiar idioma",
+		"close": "Cerrar"
+	},
+	"common": {
+		"save": "Guardar",
+		"cancel": "Cancelar",
+		"delete": "Eliminar",
+		"edit": "Editar",
+		"close": "Cerrar",
+		"yes": "Sí",
+		"no": "No",
+		"loading": "Cargando...",
+		"error": "Ocurrió un error",
+		"success": "¡Éxito!",
+		"minutes": "minutos",
+		"hours": "horas"
+	},
+	"notifications": {
+		"workComplete": "¡Sesión de trabajo completada! Hora de descansar.",
+		"breakComplete": "¡El descanso ha terminado! ¿Listo para enfocarte?",
+		"taskComplete": "¡Tarea completada!",
+		"taskCreated": "Tarea creada",
+		"taskUpdated": "Tarea actualizada",
+		"taskDeleted": "Tarea eliminada",
+		"projectCreated": "Proyecto creado",
+		"projectDeleted": "Proyecto eliminado"
+	}
+}
