@@ -18,7 +18,7 @@ async function bootstrap() {
 		// Charge les paramètres depuis Tauri pour obtenir la langue et le thème sauvegardés
 		// Note: On importe dynamiquement pour éviter les erreurs si Tauri n'est pas disponible
 		const { invoke } = await import('@tauri-apps/api/core');
-		const settings = await invoke('get_settings');
+		const settings = await invoke<{ language: string; theme: string }>('get_settings');
 
 		// Initialise i18n avec la langue sauvegardée
 		await initializeI18n(settings.language);
