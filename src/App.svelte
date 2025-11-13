@@ -255,7 +255,8 @@
 {#if showDeleteConfirm && taskToDelete}
 	<dialog
 		open
-		class="rounded-lg border bg-background p-6 shadow-lg backdrop:bg-black/50"
+		class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-6 shadow-2xl m-0 z-50 max-w-md"
+		style="backdrop-filter: blur(4px);"
 	>
 		<h2 class="mb-4 text-lg font-semibold">Delete Task</h2>
 		<p class="mb-6 text-muted-foreground">
@@ -289,7 +290,8 @@
 {#if showLanguageSelector}
 	<dialog
 		open
-		class="rounded-lg border bg-background p-6 shadow-lg backdrop:bg-black/50"
+		class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-6 shadow-2xl m-0 z-50 max-w-md w-full"
+		style="backdrop-filter: blur(4px);"
 	>
 		<div class="w-full max-w-md">
 			<!-- Header -->
@@ -350,7 +352,8 @@
 {#if showProjectDeleteConfirm && projectToDelete}
 	<dialog
 		open
-		class="rounded-lg border bg-background p-6 shadow-lg backdrop:bg-black/50"
+		class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-6 shadow-2xl m-0 z-50 max-w-md"
+		style="backdrop-filter: blur(4px);"
 	>
 		<h2 class="mb-4 text-lg font-semibold">Delete Project</h2>
 		<p class="mb-6 text-muted-foreground">
