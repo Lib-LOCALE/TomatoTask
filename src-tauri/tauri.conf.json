@@ -1,8 +1,8 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "tauri2-svelte5-shadcn",
-  "version": "2.0.0",
-  "identifier": "com.tauri2-svelte5-shadcn.dev",
+  "productName": "TomatoTask",
+  "version": "1.0.0",
+  "identifier": "com.tomatotask.app",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420",
@@ -12,15 +12,22 @@
   "app": {
     "windows": [
       {
-        "title": "tauri2-svelte5-shadcn",
-        "width": 800,
-        "height": 600,
+        "title": "TomatoTask",
+        "width": 1200,
+        "height": 800,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "visible": true
       }
     ],
     "security": {
       "csp": null
+    },
+    "trayIcon": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true,
+      "menuOnLeftClick": false,
+      "tooltip": "TomatoTask - Pomodoro Timer"
     }
   },
   "bundle": {

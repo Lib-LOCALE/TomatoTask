@@ -3,6 +3,8 @@
 
 mod commands;
 mod db;
+mod tray;
+mod notifications;
 
 use db::{DbConnection, migrations};
 use std::path::PathBuf;
@@ -72,6 +74,7 @@ pub fn run() {
             // Commandes de gestion des projets
             commands::get_projects,
             commands::create_project,
+            commands::update_project,
             commands::delete_project,
             // Commandes de gestion des sessions Pomodoro
             commands::create_session,
@@ -84,6 +87,13 @@ pub fn run() {
             // Commandes de résumé/analytics
             commands::get_daily_summary,
             commands::get_weekly_summary,
+            // Commandes de notifications
+            notifications::send_custom_notification,
+            // Commandes de system tray
+            tray::toggle_window,
+            tray::show_window,
+            tray::hide_window,
+            tray::quit_app,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

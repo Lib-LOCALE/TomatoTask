@@ -64,6 +64,27 @@ pub fn create_project(conn: &Connection, input: &CreateProjectInput) -> Result<P
     get_project_by_id(conn, project_id)
 }
 
+/// Met à jour un projet existant
+///
+/// # Arguments
+/// * `conn` - Connexion à la base de données
+/// * `project_id` - ID du projet à mettre à jour
+/// * `name` - Nouveau nom du projet
+/// * `color` - Nouvelle couleur du projet
+pub fn update_project(
+    conn: &Connection,
+    project_id: i64,
+    name: &str,
+    color: &str,
+) -> Result<Project> {
+    conn.execute(
+        "UPDATE projects SET name = ?1, color = ?2, updated_at = datetime('now') WHERE id = ?3",
+        params![name, color, project_id],
+    )?;
+
+    get_project_by_id(conn, project_id)
+}
+
 /// Supprime un projet
 ///
 /// Note: Les tâches associées auront leur project_id mis à NULL (ON DELETE SET NULL)
