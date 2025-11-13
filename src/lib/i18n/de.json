@@ -41,7 +41,21 @@
 		"allProjects": "Alle Projekte",
 		"noProject": "Kein Projekt",
 		"noProjects": "Noch keine Projekte. Erstelle dein erstes Projekt!",
-		"deleteConfirm": "Bist du sicher? Aufgaben werden von diesem Projekt getrennt."
+		"deleteConfirm": "Bist du sicher? Aufgaben werden von diesem Projekt getrennt.",
+		"form": {
+			"createTitle": "Projekt Erstellen",
+			"editTitle": "Projekt Bearbeiten",
+			"name": "Projektname",
+			"namePlaceholder": "Projektnamen eingeben",
+			"color": "Projektfarbe",
+			"customColor": "Benutzerdefinierte Farbe",
+			"create": "Projekt Erstellen"
+		},
+		"errors": {
+			"nameRequired": "Projektname ist erforderlich",
+			"nameTooLong": "Projektname muss 50 Zeichen oder weniger sein",
+			"saveFailed": "Projekt konnte nicht gespeichert werden"
+		}
 	},
 	"summary": {
 		"title": "Zusammenfassung",
