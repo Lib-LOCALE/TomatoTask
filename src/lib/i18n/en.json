@@ -40,6 +40,7 @@
 		"projectColor": "Color",
 		"allProjects": "All projects",
 		"noProject": "No project",
+		"noProjects": "No projects yet. Create your first project!",
 		"deleteConfirm": "Are you sure? Tasks will be unlinked from this project."
 	},
 	"summary": {

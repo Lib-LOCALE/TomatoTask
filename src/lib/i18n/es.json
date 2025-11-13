@@ -40,6 +40,7 @@
 		"projectColor": "Color",
 		"allProjects": "Todos los proyectos",
 		"noProject": "Sin proyecto",
+		"noProjects": "Sin proyectos aún. ¡Crea tu primer proyecto!",
 		"deleteConfirm": "¿Estás seguro? Las tareas se desvinculan de este proyecto."
 	},
 	"summary": {
