@@ -30,6 +30,11 @@
       "tooltip": "TomatoTask - Pomodoro Timer"
     }
   },
+  "plugins": {
+    "notification": {
+      "identifier": "com.tomatotask.app"
+    }
+  },
   "bundle": {
     "active": true,
     "targets": "all",
