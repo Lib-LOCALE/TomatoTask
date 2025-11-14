@@ -106,7 +106,49 @@
 		"error": "Ein Fehler ist aufgetreten",
 		"success": "Erfolg!",
 		"minutes": "Minuten",
-		"hours": "Stunden"
+		"hours": "Stunden",
+		"back": "Zurück",
+		"next": "Weiter"
+	},
+	"onboarding": {
+		"welcome": {
+			"title": "Willkommen bei TomatoTask!",
+			"subtitle": "Dein Produktivitätsbegleiter mit der Pomodoro-Technik"
+		},
+		"pomodoro": {
+			"step1": {
+				"title": "Arbeite konzentriert",
+				"desc": "Stelle einen Timer für 25 Minuten ein und konzentriere dich auf eine einzige Aufgabe ohne Ablenkungen"
+			},
+			"step2": {
+				"title": "Mache kurze Pausen",
+				"desc": "Nach jeder Arbeitssitzung machst du eine 5-minütige Pause, um dich zu erholen"
+			},
+			"step3": {
+				"title": "Lange Pause nach 4 Pomodoros",
+				"desc": "Nach 4 Arbeitssitzungen gönnst du dir eine Belohnung mit einer 15-minütigen Pause"
+			}
+		},
+		"guide": {
+			"title": "Schnellstartanleitung",
+			"step1": {
+				"title": "Erstelle deine Aufgaben",
+				"desc": "Füge Aufgaben in der linken Seitenleiste hinzu. Schätze, wie viele Pomodoros jede Aufgabe benötigt."
+			},
+			"step2": {
+				"title": "Wähle eine Aufgabe aus und starte",
+				"desc": "Klicke auf eine Aufgabe, um daran zu arbeiten, und starte dann den Timer"
+			},
+			"step3": {
+				"title": "Verfolge deinen Fortschritt",
+				"desc": "Sieh, wie sich deine abgeschlossenen Pomodoros anhäufen, und feiere deine Produktivität!"
+			},
+			"shortcuts": {
+				"title": "Nützliche Tastenkürzel",
+				"desc": "Strg+S zum Starten/Stoppen, Strg+N für neue Aufgabe, Strg+/ für alle Tastenkürzel"
+			},
+			"start": "TomatoTask jetzt verwenden"
+		}
 	},
 	"notifications": {
 		"workComplete": "Arbeitssitzung abgeschlossen! Zeit für eine Pause.",
