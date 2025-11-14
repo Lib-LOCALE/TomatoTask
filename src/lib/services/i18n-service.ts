@@ -115,3 +115,13 @@ export function getLanguageFlag(lang: Language): string {
 
 	return flags[lang];
 }
+
+/**
+ * Obtient le chemin vers l'image du drapeau pour une langue
+ *
+ * @param lang - Code langue
+ * @returns Chemin vers l'image du drapeau
+ */
+export function getLanguageFlagPath(lang: Language): string {
+	return `/flag-${lang}.png`;
+}
