@@ -1,10 +1,10 @@
 [package]
 name = "tomatotask"
-version = "1.0.0"
+version = "1.0.4"
 description = "An intuitive Pomodoro timer with integrated TodoList for productivity and time management."
-authors = ["TomatoTask Contributors"]
+authors = ["AnthonyMahe <anthony.mahe@example.com>"]
 license = "MIT"
-repository = "AnthonyMahe/TomatoTask"
+repository = "https://github.com/AnthonyMahe/TomatoTask"
 edition = "2021"
 rust-version = "1.77.2"
 
