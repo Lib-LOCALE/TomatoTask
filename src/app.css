@@ -1,97 +1,159 @@
-@import 'tailwindcss';
+/* Google Fonts - Pixel Art Typography */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap');
 
+@import 'tailwindcss';
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-	--radius: 0.625rem;
-	--background: oklch(1 0 0);
-	--foreground: oklch(0.145 0 0);
-	--card: oklch(1 0 0);
-	--card-foreground: oklch(0.145 0 0);
-	--popover: oklch(1 0 0);
-	--popover-foreground: oklch(0.145 0 0);
-	--primary: oklch(0.205 0 0);
-	--primary-foreground: oklch(0.985 0 0);
-	--secondary: oklch(0.97 0 0);
-	--secondary-foreground: oklch(0.205 0 0);
-	--muted: oklch(0.97 0 0);
-	--muted-foreground: oklch(0.556 0 0);
-	--accent: oklch(0.97 0 0);
-	--accent-foreground: oklch(0.205 0 0);
-	--destructive: oklch(0.577 0.245 27.325);
-	--border: oklch(0.922 0 0);
-	--input: oklch(0.922 0 0);
-	--ring: oklch(0.708 0 0);
-	--sidebar: oklch(0.985 0 0);
-	--sidebar-foreground: oklch(0.145 0 0);
-	--sidebar-primary: oklch(0.205 0 0);
-	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.97 0 0);
-	--sidebar-accent-foreground: oklch(0.205 0 0);
-	--sidebar-border: oklch(0.922 0 0);
-	--sidebar-ring: oklch(0.708 0 0);
+	/* Pixel-perfect border radius - minimal for retro feel */
+	--radius: 0.25rem; /* 4px - pixel perfect */
+
+	/* 🍅 TomatoTask Pixel Art Color Palette 🍅 */
+
+	/* Primary - Tomato Red (#E84444) */
+	--background: oklch(0.98 0.01 65); /* Warm white background */
+	--foreground: oklch(0.25 0.10 280); /* Dark Navy text */
+
+	/* Cards - Tan/Beige (#D4A574) for warm retro feel */
+	--card: oklch(0.95 0.02 65);
+	--card-foreground: oklch(0.25 0.10 280);
+
+	/* Popovers */
+	--popover: oklch(0.98 0.01 65);
+	--popover-foreground: oklch(0.25 0.10 280);
+
+	/* Primary - Vibrant Tomato Red */
+	--primary: oklch(0.62 0.21 20); /* #E84444 */
+	--primary-foreground: oklch(1 0 0); /* White text */
+	--primary-hover: oklch(0.52 0.22 20); /* #C43333 darker red */
+
+	/* Secondary - Tan/Beige accents */
+	--secondary: oklch(0.72 0.08 65); /* #D4A574 */
+	--secondary-foreground: oklch(0.25 0.10 280);
+
+	/* Muted - Light Gray */
+	--muted: oklch(0.77 0 0); /* #BDBDBD */
+	--muted-foreground: oklch(0.50 0.05 280);
+
+	/* Accent - Celebration Orange */
+	--accent: oklch(0.76 0.14 50); /* #FFA726 */
+	--accent-foreground: oklch(0.25 0.10 280);
+
+	/* Success - Leaf Green */
+	--success: oklch(0.65 0.18 145); /* #4CAF50 */
+	--success-light: oklch(0.71 0.15 145); /* #66BB6A */
+	--success-foreground: oklch(1 0 0);
+
+	/* Warning - Celebration Yellow */
+	--warning: oklch(0.79 0.12 70); /* #FFB74D */
+	--warning-foreground: oklch(0.25 0.10 280);
+
+	/* Destructive - Keep for delete actions */
+	--destructive: oklch(0.52 0.22 20); /* Dark Red */
+	--destructive-foreground: oklch(1 0 0);
+
+	/* Borders - Medium Gray with pixel-perfect width */
+	--border: oklch(0.66 0 0); /* #9E9E9E */
+	--input: oklch(0.77 0 0);
+
+	/* Focus Ring - Primary color */
+	--ring: oklch(0.62 0.21 20);
+
+	/* Session Type Colors */
+	--session-work: oklch(0.62 0.21 20); /* Tomato Red */
+	--session-short-break: oklch(0.76 0.14 50); /* Orange */
+	--session-long-break: oklch(0.65 0.18 145); /* Green */
+
+	/* Sidebar */
+	--sidebar: oklch(0.95 0.02 65);
+	--sidebar-foreground: oklch(0.25 0.10 280);
+	--sidebar-primary: oklch(0.62 0.21 20);
+	--sidebar-primary-foreground: oklch(1 0 0);
+	--sidebar-accent: oklch(0.72 0.08 65);
+	--sidebar-accent-foreground: oklch(0.25 0.10 280);
+	--sidebar-border: oklch(0.66 0 0);
+	--sidebar-ring: oklch(0.62 0.21 20);
 }
 
 .dark {
-	/* Dark mode optimisé avec excellent contraste et lisibilité */
+	/* Dark mode with pixel art aesthetic */
 
-	/* Background: Gris très sombre mais pas noir pur */
-	--background: oklch(0.18 0.005 240);
-	--foreground: oklch(0.95 0.01 240);
+	/* Background - Dark Navy base */
+	--background: oklch(0.20 0.08 280); /* Darker navy */
+	--foreground: oklch(0.95 0.01 65); /* Warm white text */
 
-	/* Cards: Plus claires pour meilleure visibilité */
-	--card: oklch(0.25 0.01 240);
-	--card-foreground: oklch(0.95 0.01 240);
+	/* Cards - Slightly lighter navy */
+	--card: oklch(0.27 0.08 280);
+	--card-foreground: oklch(0.95 0.01 65);
 
-	/* Popovers: Assez clairs pour se démarquer */
-	--popover: oklch(0.27 0.01 240);
-	--popover-foreground: oklch(0.96 0.01 240);
+	/* Popovers */
+	--popover: oklch(0.25 0.08 280);
+	--popover-foreground: oklch(0.95 0.01 65);
 
-	/* Primary: Bleu vif et moderne, très visible */
-	--primary: oklch(0.60 0.20 250);
+	/* Primary - Brighter tomato red for dark mode */
+	--primary: oklch(0.68 0.23 20); /* Brighter #E84444 */
 	--primary-foreground: oklch(1 0 0);
+	--primary-hover: oklch(0.62 0.21 20);
 
-	/* Secondary: Plus clair pour meilleure lisibilité */
-	--secondary: oklch(0.35 0.02 240);
-	--secondary-foreground: oklch(0.98 0.01 240);
+	/* Secondary - Muted tan */
+	--secondary: oklch(0.45 0.06 65);
+	--secondary-foreground: oklch(0.95 0.01 65);
 
-	/* Muted: Plus clair mais toujours discret */
-	--muted: oklch(0.32 0.02 240);
-	--muted-foreground: oklch(0.70 0.02 240);
+	/* Muted */
+	--muted: oklch(0.35 0.05 280);
+	--muted-foreground: oklch(0.70 0.02 280);
 
-	/* Accent: Orange-rouge pour ressortir */
-	--accent: oklch(0.45 0.12 40);
-	--accent-foreground: oklch(0.98 0.01 240);
+	/* Accent - Bright orange */
+	--accent: oklch(0.76 0.14 50);
+	--accent-foreground: oklch(0.20 0.08 280);
 
-	/* Destructive: Rouge vif bien visible */
-	--destructive: oklch(0.55 0.25 25);
+	/* Success - Vibrant green */
+	--success: oklch(0.70 0.20 145);
+	--success-light: oklch(0.75 0.18 145);
+	--success-foreground: oklch(0.20 0.08 280);
+
+	/* Warning */
+	--warning: oklch(0.79 0.12 70);
+	--warning-foreground: oklch(0.20 0.08 280);
+
+	/* Destructive */
+	--destructive: oklch(0.62 0.24 20);
 	--destructive-foreground: oklch(1 0 0);
 
-	/* Borders: Plus visibles */
-	--border: oklch(0.38 0.02 240);
-	--input: oklch(0.30 0.02 240);
+	/* Borders - Lighter in dark mode */
+	--border: oklch(0.40 0.05 280);
+	--input: oklch(0.35 0.05 280);
 
-	/* Ring: Suit le primary */
-	--ring: oklch(0.60 0.20 250);
+	/* Ring */
+	--ring: oklch(0.68 0.23 20);
 
-	/* Sidebar: Légèrement plus sombre que le background */
-	--sidebar: oklch(0.20 0.005 240);
-	--sidebar-foreground: oklch(0.95 0.01 240);
-	--sidebar-primary: oklch(0.58 0.18 250);
+	/* Session colors remain vibrant */
+	--session-work: oklch(0.68 0.23 20);
+	--session-short-break: oklch(0.76 0.14 50);
+	--session-long-break: oklch(0.70 0.20 145);
+
+	/* Sidebar */
+	--sidebar: oklch(0.23 0.08 280);
+	--sidebar-foreground: oklch(0.95 0.01 65);
+	--sidebar-primary: oklch(0.68 0.23 20);
 	--sidebar-primary-foreground: oklch(1 0 0);
-	--sidebar-accent: oklch(0.30 0.02 240);
-	--sidebar-accent-foreground: oklch(0.96 0.01 240);
-	--sidebar-border: oklch(0.35 0.02 240);
-	--sidebar-ring: oklch(0.60 0.20 250);
+	--sidebar-accent: oklch(0.35 0.05 280);
+	--sidebar-accent-foreground: oklch(0.90 0.02 65);
+	--sidebar-border: oklch(0.40 0.05 280);
+	--sidebar-ring: oklch(0.68 0.23 20);
 }
 
 @theme inline {
-	--radius-sm: calc(var(--radius) - 4px);
-	--radius-md: calc(var(--radius) - 2px);
-	--radius-lg: var(--radius);
-	--radius-xl: calc(var(--radius) + 4px);
+	/* Border Radius - Pixel Perfect (multiples of 4px) */
+	--radius-none: 0px;
+	--radius-sm: 2px; /* Minimal pixel radius */
+	--radius-md: 4px; /* Standard pixel radius */
+	--radius-lg: 4px; /* Keep consistent */
+	--radius-xl: 8px; /* For larger elements */
+
+	/* Color mappings for Tailwind */
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--color-card: var(--card);
@@ -106,15 +168,22 @@
 	--color-muted-foreground: var(--muted-foreground);
 	--color-accent: var(--accent);
 	--color-accent-foreground: var(--accent-foreground);
+	--color-success: var(--success);
+	--color-success-foreground: var(--success-foreground);
+	--color-warning: var(--warning);
+	--color-warning-foreground: var(--warning-foreground);
 	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
 	--color-border: var(--border);
 	--color-input: var(--input);
 	--color-ring: var(--ring);
-	--color-chart-1: var(--chart-1);
-	--color-chart-2: var(--chart-2);
-	--color-chart-3: var(--chart-3);
-	--color-chart-4: var(--chart-4);
-	--color-chart-5: var(--chart-5);
+
+	/* Session type colors */
+	--color-session-work: var(--session-work);
+	--color-session-short-break: var(--session-short-break);
+	--color-session-long-break: var(--session-long-break);
+
+	/* Sidebar colors */
 	--color-sidebar: var(--sidebar);
 	--color-sidebar-foreground: var(--sidebar-foreground);
 	--color-sidebar-primary: var(--sidebar-primary);
@@ -123,13 +192,226 @@
 	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
+
+	/* Font Families - Pixel Art Typography */
+	--font-heading: 'Press Start 2P', system-ui, sans-serif;
+	--font-body: 'Pixelify Sans', system-ui, sans-serif;
+	--font-mono: 'Silkscreen', 'Courier New', monospace;
 }
 
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
 	}
+
 	body {
 		@apply bg-background text-foreground;
+		font-family: var(--font-body);
+		font-size: 16px;
+		line-height: 1.6;
+		/* Crisp pixel rendering */
+		image-rendering: pixelated;
+		image-rendering: crisp-edges;
+	}
+
+	/* Headings use pixel art font */
+	h1, h2, h3, h4, h5, h6 {
+		font-family: var(--font-heading);
+		line-height: 1.4;
+		letter-spacing: 0.05em;
+	}
+
+	h1 { font-size: 2rem; } /* 32px */
+	h2 { font-size: 1.5rem; } /* 24px */
+	h3 { font-size: 1.25rem; } /* 20px */
+	h4 { font-size: 1rem; } /* 16px */
+	h5 { font-size: 0.875rem; } /* 14px */
+	h6 { font-size: 0.75rem; } /* 12px */
+
+	/* Monospace for timer displays */
+	.font-mono {
+		font-family: var(--font-mono);
+	}
+}
+
+/* 🎮 Pixel Art Utilities */
+@layer utilities {
+	/* Pixel-perfect borders */
+	.border-pixel {
+		border-width: 2px;
+		border-style: solid;
+	}
+
+	.border-pixel-thick {
+		border-width: 3px;
+		border-style: solid;
+	}
+
+	/* Pixel art button styles */
+	.btn-pixel {
+		@apply border-pixel rounded-md px-4 py-2 font-bold uppercase tracking-wider;
+		@apply transition-all duration-100;
+		@apply hover:translate-y-[-2px];
+		@apply active:translate-y-[0px];
+		box-shadow: 0 4px 0 0 currentColor;
+	}
+
+	.btn-pixel:active {
+		box-shadow: 0 2px 0 0 currentColor;
+	}
+
+	/* Card with pixel aesthetic */
+	.card-pixel {
+		@apply border-pixel rounded-md bg-card p-4;
+		box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
+	}
+
+	.dark .card-pixel {
+		box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.3);
+	}
+
+	/* Timer display - large pixel font */
+	.timer-display {
+		font-family: var(--font-heading);
+		font-size: clamp(3rem, 8vw, 6rem);
+		letter-spacing: 0.1em;
+		text-shadow:
+			3px 3px 0 rgba(0, 0, 0, 0.1),
+			-1px -1px 0 rgba(255, 255, 255, 0.1);
+	}
+
+	/* Session type indicators */
+	.session-work {
+		@apply border-[color:var(--session-work)] text-[color:var(--session-work)];
+	}
+
+	.session-short-break {
+		@apply border-[color:var(--session-short-break)] text-[color:var(--session-short-break)];
+	}
+
+	.session-long-break {
+		@apply border-[color:var(--session-long-break)] text-[color:var(--session-long-break)];
+	}
+
+	/* Pixel art shadows */
+	.shadow-pixel {
+		box-shadow: 4px 4px 0 0 currentColor;
+	}
+
+	.shadow-pixel-lg {
+		box-shadow: 6px 6px 0 0 currentColor;
+	}
+
+	/* Retro glow effect */
+	.glow-pixel {
+		box-shadow:
+			0 0 10px currentColor,
+			0 0 20px currentColor,
+			0 0 30px currentColor;
+	}
+
+	/* 8px grid system for pixel-perfect alignment */
+	.grid-8 {
+		display: grid;
+		gap: 8px;
+	}
+
+	.gap-pixel {
+		gap: 8px;
+	}
+
+	.gap-pixel-sm {
+		gap: 4px;
+	}
+
+	.gap-pixel-lg {
+		gap: 16px;
+	}
+
+	/* Pixelated images */
+	.img-pixel {
+		image-rendering: pixelated;
+		image-rendering: crisp-edges;
+	}
+}
+
+/* 🎨 Component-Specific Styles */
+@layer components {
+	/* Primary button - Tomato red */
+	.btn-primary {
+		@apply btn-pixel bg-primary text-primary-foreground border-primary;
+		@apply hover:bg-[color:var(--primary-hover)];
+	}
+
+	/* Success button - Green */
+	.btn-success {
+		@apply btn-pixel bg-success text-success-foreground border-success;
+	}
+
+	/* Warning button - Yellow */
+	.btn-warning {
+		@apply btn-pixel bg-warning text-warning-foreground border-warning;
+	}
+
+	/* Secondary button - Tan/Beige */
+	.btn-secondary {
+		@apply btn-pixel bg-secondary text-secondary-foreground border-secondary;
+	}
+
+	/* Task card */
+	.task-card {
+		@apply card-pixel border-border;
+		@apply hover:border-primary hover:shadow-pixel;
+		@apply transition-all duration-200;
+	}
+
+	.task-card.completed {
+		@apply border-success opacity-75;
+	}
+
+	/* Pomodoro timer container */
+	.timer-container {
+		@apply card-pixel border-pixel-thick;
+		@apply text-center;
+	}
+
+	.timer-container.work {
+		@apply border-[color:var(--session-work)];
+	}
+
+	.timer-container.short-break {
+		@apply border-[color:var(--session-short-break)];
+	}
+
+	.timer-container.long-break {
+		@apply border-[color:var(--session-long-break)];
+	}
+
+	/* Badge */
+	.badge-pixel {
+		@apply inline-flex items-center rounded-md border-2 px-2 py-1;
+		@apply text-xs font-bold uppercase tracking-wide;
+	}
+
+	/* Input field */
+	.input-pixel {
+		@apply border-pixel rounded-md px-3 py-2;
+		@apply bg-background border-border;
+		@apply focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary;
+	}
+}
+
+/* 🎯 Animation Overrides for Pixel Aesthetic */
+@layer utilities {
+	/* Instant transitions for retro feel */
+	.transition-pixel {
+		transition-duration: 100ms;
+		transition-timing-function: steps(3);
+	}
+
+	/* Pixelated hover effect */
+	.hover-pixel {
+		@apply transition-pixel;
+		@apply hover:scale-105 hover:shadow-pixel;
 	}
 }
