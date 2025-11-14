@@ -97,3 +97,21 @@ export function getLanguageName(lang: Language): string {
 export function getLanguageCode(lang: Language): string {
 	return lang.toUpperCase();
 }
+
+/**
+ * Obtient le drapeau emoji pour une langue
+ *
+ * @param lang - Code langue
+ * @returns Emoji drapeau
+ */
+export function getLanguageFlag(lang: Language): string {
+	const flags: Record<Language, string> = {
+		en: '🇬🇧', // Drapeau Royaume-Uni
+		fr: '🇫🇷', // Drapeau France
+		es: '🇪🇸', // Drapeau Espagne
+		it: '🇮🇹', // Drapeau Italie
+		de: '🇩🇪'  // Drapeau Allemagne
+	};
+
+	return flags[lang];
+}
