@@ -35,55 +35,56 @@
 }
 
 .dark {
-	/* Palette améliorée pour le mode dark - inspirée des thèmes modernes */
-	/* Fond plus doux avec une légère teinte bleue pour réduire la fatigue oculaire */
-	--background: oklch(0.15 0.01 240);
-	--foreground: oklch(0.98 0.005 240);
+	/* Dark mode optimisé avec excellent contraste et lisibilité */
 
-	/* Cards avec un contraste subtil */
-	--card: oklch(0.19 0.01 240);
-	--card-foreground: oklch(0.97 0.005 240);
+	/* Background: Gris très sombre mais pas noir pur */
+	--background: oklch(0.18 0.005 240);
+	--foreground: oklch(0.95 0.01 240);
 
-	/* Popovers légèrement plus clairs que les cards */
-	--popover: oklch(0.21 0.01 240);
-	--popover-foreground: oklch(0.97 0.005 240);
+	/* Cards: Plus claires pour meilleure visibilité */
+	--card: oklch(0.25 0.01 240);
+	--card-foreground: oklch(0.95 0.01 240);
 
-	/* Primary: Violet vibrant et moderne */
-	--primary: oklch(0.65 0.25 280);
+	/* Popovers: Assez clairs pour se démarquer */
+	--popover: oklch(0.27 0.01 240);
+	--popover-foreground: oklch(0.96 0.01 240);
+
+	/* Primary: Bleu vif et moderne, très visible */
+	--primary: oklch(0.60 0.20 250);
 	--primary-foreground: oklch(1 0 0);
 
-	/* Secondary: Gris-bleu élégant */
-	--secondary: oklch(0.30 0.02 240);
-	--secondary-foreground: oklch(0.95 0.005 240);
+	/* Secondary: Plus clair pour meilleure lisibilité */
+	--secondary: oklch(0.35 0.02 240);
+	--secondary-foreground: oklch(0.98 0.01 240);
 
-	/* Muted: pour les états désactivés et backgrounds secondaires */
-	--muted: oklch(0.25 0.015 240);
-	--muted-foreground: oklch(0.65 0.01 240);
+	/* Muted: Plus clair mais toujours discret */
+	--muted: oklch(0.32 0.02 240);
+	--muted-foreground: oklch(0.70 0.02 240);
 
-	/* Accent: Cyan moderne pour les highlights */
-	--accent: oklch(0.35 0.08 220);
-	--accent-foreground: oklch(0.98 0.005 240);
+	/* Accent: Orange-rouge pour ressortir */
+	--accent: oklch(0.45 0.12 40);
+	--accent-foreground: oklch(0.98 0.01 240);
 
-	/* Destructive: Rouge corail élégant */
-	--destructive: oklch(0.58 0.22 25);
+	/* Destructive: Rouge vif bien visible */
+	--destructive: oklch(0.55 0.25 25);
 	--destructive-foreground: oklch(1 0 0);
 
-	/* Borders et inputs plus subtils */
-	--border: oklch(0.30 0.015 240);
-	--input: oklch(0.25 0.015 240);
+	/* Borders: Plus visibles */
+	--border: oklch(0.38 0.02 240);
+	--input: oklch(0.30 0.02 240);
 
-	/* Ring: suit la couleur primary */
-	--ring: oklch(0.65 0.25 280);
+	/* Ring: Suit le primary */
+	--ring: oklch(0.60 0.20 250);
 
-	/* Sidebar avec une teinte légèrement différente */
-	--sidebar: oklch(0.17 0.01 240);
-	--sidebar-foreground: oklch(0.97 0.005 240);
-	--sidebar-primary: oklch(0.60 0.22 280);
+	/* Sidebar: Légèrement plus sombre que le background */
+	--sidebar: oklch(0.20 0.005 240);
+	--sidebar-foreground: oklch(0.95 0.01 240);
+	--sidebar-primary: oklch(0.58 0.18 250);
 	--sidebar-primary-foreground: oklch(1 0 0);
-	--sidebar-accent: oklch(0.25 0.015 240);
-	--sidebar-accent-foreground: oklch(0.95 0.005 240);
-	--sidebar-border: oklch(0.28 0.015 240);
-	--sidebar-ring: oklch(0.65 0.25 280);
+	--sidebar-accent: oklch(0.30 0.02 240);
+	--sidebar-accent-foreground: oklch(0.96 0.01 240);
+	--sidebar-border: oklch(0.35 0.02 240);
+	--sidebar-ring: oklch(0.60 0.20 250);
 }
 
 @theme inline {

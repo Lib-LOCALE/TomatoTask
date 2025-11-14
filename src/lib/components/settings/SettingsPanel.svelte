@@ -81,12 +81,19 @@
 </script>
 
 {#if isOpen}
+	<!-- Backdrop -->
+	<div
+		class="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm"
+		onclick={handleClose}
+		role="presentation"
+	></div>
+
+	<!-- Modal -->
 	<dialog
 		open
-		onclick={handleBackdropClick}
 		class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-0 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-0 z-50"
 	>
-		<div class="w-full">
+		<div class="w-full" onclick={(e) => e.stopPropagation()}>
 			<!-- Header -->
 			<div class="flex items-center justify-between border-b px-6 py-4">
 				<h2 class="text-lg font-semibold">

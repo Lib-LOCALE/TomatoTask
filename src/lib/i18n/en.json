@@ -136,10 +136,14 @@
 				"desc": "Add tasks in the left sidebar. Estimate how many pomodoros each will take."
 			},
 			"step2": {
+				"title": "Organize with projects",
+				"desc": "Group your tasks by projects for better organization and tracking"
+			},
+			"step3": {
 				"title": "Select a task and start",
 				"desc": "Click on a task to work on it, then start the timer"
 			},
-			"step3": {
+			"step4": {
 				"title": "Track your progress",
 				"desc": "Watch your completed pomodoros add up and celebrate your productivity!"
 			},

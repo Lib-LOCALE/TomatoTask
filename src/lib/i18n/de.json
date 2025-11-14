@@ -136,10 +136,14 @@
 				"desc": "Füge Aufgaben in der linken Seitenleiste hinzu. Schätze, wie viele Pomodoros jede Aufgabe benötigt."
 			},
 			"step2": {
+				"title": "Organisiere mit Projekten",
+				"desc": "Gruppiere deine Aufgaben nach Projekten für bessere Organisation und Verfolgung"
+			},
+			"step3": {
 				"title": "Wähle eine Aufgabe aus und starte",
 				"desc": "Klicke auf eine Aufgabe, um daran zu arbeiten, und starte dann den Timer"
 			},
-			"step3": {
+			"step4": {
 				"title": "Verfolge deinen Fortschritt",
 				"desc": "Sieh, wie sich deine abgeschlossenen Pomodoros anhäufen, und feiere deine Produktivität!"
 			},

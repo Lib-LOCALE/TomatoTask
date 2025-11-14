@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import { settingsStore } from '$lib/stores/settings.svelte';
-	import { changeLanguage, SUPPORTED_LANGUAGES, getLanguageName, getLanguageCode, getLanguageFlag } from '$lib/services/i18n-service';
+	import { changeLanguage, SUPPORTED_LANGUAGES, getLanguageName, getLanguageCode, getLanguageFlag, getLanguageFlagPath } from '$lib/services/i18n-service';
 	import type { Language } from '$lib/types';
 
 	interface Props {
@@ -73,7 +73,11 @@
 							onclick={() => handleLanguageSelect(lang)}
 							class="p-4 rounded-lg border-2 transition-all hover:border-primary hover:bg-accent flex flex-col items-center gap-2"
 						>
-							<div class="text-4xl">{getLanguageFlag(lang)}</div>
+							<img
+								src={getLanguageFlagPath(lang)}
+								alt={getLanguageName(lang)}
+								class="w-12 h-12 object-contain rounded"
+							/>
 							<div class="text-sm font-medium">{getLanguageName(lang)}</div>
 						</button>
 					{/each}
@@ -160,6 +164,14 @@
 						<div>
 							<h3 class="font-semibold mb-1">{$_('onboarding.guide.step3.title')}</h3>
 							<p class="text-sm text-muted-foreground">{$_('onboarding.guide.step3.desc')}</p>
+						</div>
+					</div>
+
+					<div class="flex items-start gap-3">
+						<div class="text-2xl">4️⃣</div>
+						<div>
+							<h3 class="font-semibold mb-1">{$_('onboarding.guide.step4.title')}</h3>
+							<p class="text-sm text-muted-foreground">{$_('onboarding.guide.step4.desc')}</p>
 						</div>
 					</div>
 

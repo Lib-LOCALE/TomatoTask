@@ -136,10 +136,14 @@
 				"desc": "Aggiungi attività nella barra laterale sinistra. Stima quanti pomodori ogni attività richiederà."
 			},
 			"step2": {
+				"title": "Organizza con progetti",
+				"desc": "Raggruppa le tue attività per progetti per una migliore organizzazione e tracciamento"
+			},
+			"step3": {
 				"title": "Seleziona un'attività e inizia",
 				"desc": "Fai clic su un'attività per lavorarci, poi avvia il timer"
 			},
-			"step3": {
+			"step4": {
 				"title": "Traccia il tuo progresso",
 				"desc": "Guarda i tuoi pomodori completati accumularsi e celebra la tua produttività!"
 			},
