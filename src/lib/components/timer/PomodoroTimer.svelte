@@ -2,6 +2,7 @@
 	// Composant principal du timer Pomodoro
 	import { onMount } from 'svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
+	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { settingsStore } from '$lib/stores/settings.svelte';
 	import { onSessionCompleteCallback, startNextSession } from '$lib/services/timer-service';
 	import { notifyComplete } from '$lib/services/notification-service';
@@ -20,6 +21,11 @@
 
 	// État local pour la tâche sélectionnée
 	let selectedTaskId = $state<number | undefined>(undefined);
+
+	// Synchronise selectedTaskId avec taskStore.selectedTask
+	$effect(() => {
+		selectedTaskId = taskStore.selectedTask?.id;
+	});
 
 	// État pour le feedback visuel de complétion
 	let showCompletionFeedback = $state(false);
