@@ -24,5 +24,5 @@ dist-ssr
 # Claude Code configuration (personal files)
 .claude/
 
-# Speify configuration (if exists)
-.speify/
+# Specify configuration (project planning files)
+.specify/

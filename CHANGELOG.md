@@ -219,6 +219,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Supported Languages**: 5
 - **Keyboard Shortcuts**: 4 global shortcuts
 
+## [1.0.4] - 2025-11-14
+
+### Changed
+
+**UI/UX Improvements**
+- Redesigned language selector with flag emojis
+  - 🇬🇧 English, 🇫🇷 Français, 🇪🇸 Español, 🇮🇹 Italiano, 🇩🇪 Deutsch
+  - Real flag emojis for better visual recognition
+  - Added checkmark icon to clearly show the selected language
+  - Improved button styling with better hover states and transitions
+  - Enhanced visual hierarchy with larger, more accessible buttons
+  - Flags appear in both dropdown and button variants
+
+**Dark Mode Enhancement**
+- Complete redesign of dark mode color palette for better visual harmony
+  - Softer background with subtle blue tint to reduce eye strain
+  - Modern purple-violet primary color (more vibrant and appealing)
+  - Improved contrast ratios across all UI elements
+  - Better border and shadow definitions
+  - Elegant cyan accent color for highlights
+  - More sophisticated muted colors for secondary elements
+  - Inspired by modern design systems (GitHub Dark, VS Code Dark)
+
+### Fixed
+- Confirmed all modals properly close when clicking outside (backdrop click)
+- Improved modal backdrop with consistent blur effect across all dialogs
+- Updated author information in package.json and Cargo.toml (AnthonyMahe)
+- Synchronized version numbers across all configuration files (1.0.4)
+
 ## [Unreleased]
 
 ### Planned Features
@@ -240,11 +269,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **1.0.4** (2025-11-14) - UX improvements and dark mode enhancement
+  - Redesigned language selector with visual indicators
+  - Complete dark mode color palette redesign
+  - Modal improvements
 - **1.0.0** (2025-11-13) - Initial release with all core features
   - All 10 user stories implemented (US1-US10)
   - Production-ready application
   - Full internationalization (5 languages)
   - Complete documentation
 
+[1.0.4]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.4
 [1.0.0]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.0
-[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.4...HEAD

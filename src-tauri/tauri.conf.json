@@ -24,7 +24,7 @@
       "csp": null
     },
     "trayIcon": {
-      "iconPath": "icons/icon.png",
+      "iconPath": "icons/tomatoTask30x30.png",
       "iconAsTemplate": true,
       "menuOnLeftClick": false,
       "tooltip": "TomatoTask - Pomodoro Timer"
@@ -34,11 +34,12 @@
     "active": true,
     "targets": "all",
     "icon": [
-      "icons/32x32.png",
-      "icons/128x128.png",
-      "icons/128x128@2x.png",
+      "icons/tomatoTask30x30.png",
+      "icons/tomatoTask44x44.png",
+      "icons/tomatoTask150x150.png",
+      "icons/tomatoTask.png",
       "icons/icon.icns",
-      "icons/icon.ico"
+      "icons/tomatoTask64x64.ico"
     ]
   }
 }
