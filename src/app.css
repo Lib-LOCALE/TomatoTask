@@ -249,20 +249,33 @@
 
 	/* Pixel art button styles */
 	.btn-pixel {
-		@apply border-pixel rounded-md px-4 py-2 font-bold uppercase tracking-wider;
-		@apply transition-all duration-100;
-		@apply hover:translate-y-[-2px];
-		@apply active:translate-y-[0px];
+		border-width: 2px;
+		border-style: solid;
+		border-radius: 0.25rem;
+		padding: 0.5rem 1rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		transition: all 100ms;
 		box-shadow: 0 4px 0 0 currentColor;
 	}
 
+	.btn-pixel:hover {
+		transform: translateY(-2px);
+	}
+
 	.btn-pixel:active {
+		transform: translateY(0px);
 		box-shadow: 0 2px 0 0 currentColor;
 	}
 
 	/* Card with pixel aesthetic */
 	.card-pixel {
-		@apply border-pixel rounded-md bg-card p-4;
+		border-width: 2px;
+		border-style: solid;
+		border-radius: 0.25rem;
+		background-color: var(--card);
+		padding: 1rem;
 		box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
 	}
 
@@ -282,15 +295,18 @@
 
 	/* Session type indicators */
 	.session-work {
-		@apply border-[color:var(--session-work)] text-[color:var(--session-work)];
+		border-color: var(--session-work);
+		color: var(--session-work);
 	}
 
 	.session-short-break {
-		@apply border-[color:var(--session-short-break)] text-[color:var(--session-short-break)];
+		border-color: var(--session-short-break);
+		color: var(--session-short-break);
 	}
 
 	.session-long-break {
-		@apply border-[color:var(--session-long-break)] text-[color:var(--session-long-break)];
+		border-color: var(--session-long-break);
+		color: var(--session-long-break);
 	}
 
 	/* Pixel art shadows */
@@ -339,65 +355,177 @@
 @layer components {
 	/* Primary button - Tomato red */
 	.btn-primary {
-		@apply btn-pixel bg-primary text-primary-foreground border-primary;
-		@apply hover:bg-[color:var(--primary-hover)];
+		border-width: 2px;
+		border-style: solid;
+		border-radius: 0.25rem;
+		padding: 0.5rem 1rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		transition: all 100ms;
+		box-shadow: 0 4px 0 0 currentColor;
+		background-color: var(--primary);
+		color: var(--primary-foreground);
+		border-color: var(--primary);
+	}
+
+	.btn-primary:hover {
+		transform: translateY(-2px);
+		background-color: var(--primary-hover);
+	}
+
+	.btn-primary:active {
+		transform: translateY(0px);
+		box-shadow: 0 2px 0 0 currentColor;
 	}
 
 	/* Success button - Green */
 	.btn-success {
-		@apply btn-pixel bg-success text-success-foreground border-success;
+		border-width: 2px;
+		border-style: solid;
+		border-radius: 0.25rem;
+		padding: 0.5rem 1rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		transition: all 100ms;
+		box-shadow: 0 4px 0 0 currentColor;
+		background-color: var(--success);
+		color: var(--success-foreground);
+		border-color: var(--success);
+	}
+
+	.btn-success:hover {
+		transform: translateY(-2px);
+	}
+
+	.btn-success:active {
+		transform: translateY(0px);
+		box-shadow: 0 2px 0 0 currentColor;
 	}
 
 	/* Warning button - Yellow */
 	.btn-warning {
-		@apply btn-pixel bg-warning text-warning-foreground border-warning;
+		border-width: 2px;
+		border-style: solid;
+		border-radius: 0.25rem;
+		padding: 0.5rem 1rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		transition: all 100ms;
+		box-shadow: 0 4px 0 0 currentColor;
+		background-color: var(--warning);
+		color: var(--warning-foreground);
+		border-color: var(--warning);
+	}
+
+	.btn-warning:hover {
+		transform: translateY(-2px);
+	}
+
+	.btn-warning:active {
+		transform: translateY(0px);
+		box-shadow: 0 2px 0 0 currentColor;
 	}
 
 	/* Secondary button - Tan/Beige */
 	.btn-secondary {
-		@apply btn-pixel bg-secondary text-secondary-foreground border-secondary;
+		border-width: 2px;
+		border-style: solid;
+		border-radius: 0.25rem;
+		padding: 0.5rem 1rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		transition: all 100ms;
+		box-shadow: 0 4px 0 0 currentColor;
+		background-color: var(--secondary);
+		color: var(--secondary-foreground);
+		border-color: var(--secondary);
+	}
+
+	.btn-secondary:hover {
+		transform: translateY(-2px);
+	}
+
+	.btn-secondary:active {
+		transform: translateY(0px);
+		box-shadow: 0 2px 0 0 currentColor;
 	}
 
 	/* Task card */
 	.task-card {
-		@apply card-pixel border-border;
-		@apply hover:border-primary hover:shadow-pixel;
-		@apply transition-all duration-200;
+		border-width: 2px;
+		border-style: solid;
+		border-radius: 0.25rem;
+		background-color: var(--card);
+		padding: 1rem;
+		box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
+		border-color: var(--border);
+		transition: all 200ms;
+	}
+
+	.task-card:hover {
+		border-color: var(--primary);
+		box-shadow: 4px 4px 0 0 currentColor;
 	}
 
 	.task-card.completed {
-		@apply border-success opacity-75;
+		border-color: var(--success);
+		opacity: 0.75;
 	}
 
 	/* Pomodoro timer container */
 	.timer-container {
-		@apply card-pixel border-pixel-thick;
-		@apply text-center;
+		border-width: 3px;
+		border-style: solid;
+		border-radius: 0.25rem;
+		background-color: var(--card);
+		padding: 1rem;
+		box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.1);
+		text-align: center;
 	}
 
 	.timer-container.work {
-		@apply border-[color:var(--session-work)];
+		border-color: var(--session-work);
 	}
 
 	.timer-container.short-break {
-		@apply border-[color:var(--session-short-break)];
+		border-color: var(--session-short-break);
 	}
 
 	.timer-container.long-break {
-		@apply border-[color:var(--session-long-break)];
+		border-color: var(--session-long-break);
 	}
 
 	/* Badge */
 	.badge-pixel {
-		@apply inline-flex items-center rounded-md border-2 px-2 py-1;
-		@apply text-xs font-bold uppercase tracking-wide;
+		display: inline-flex;
+		align-items: center;
+		border-radius: 0.25rem;
+		border-width: 2px;
+		padding: 0.25rem 0.5rem;
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 	}
 
 	/* Input field */
 	.input-pixel {
-		@apply border-pixel rounded-md px-3 py-2;
-		@apply bg-background border-border;
-		@apply focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary;
+		border-width: 2px;
+		border-style: solid;
+		border-radius: 0.25rem;
+		padding: 0.5rem 0.75rem;
+		background-color: var(--background);
+		border-color: var(--border);
+	}
+
+	.input-pixel:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--ring);
+		border-color: var(--primary);
 	}
 }
 
@@ -411,7 +539,12 @@
 
 	/* Pixelated hover effect */
 	.hover-pixel {
-		@apply transition-pixel;
-		@apply hover:scale-105 hover:shadow-pixel;
+		transition-duration: 100ms;
+		transition-timing-function: steps(3);
+	}
+
+	.hover-pixel:hover {
+		transform: scale(1.05);
+		box-shadow: 4px 4px 0 0 currentColor;
 	}
 }
