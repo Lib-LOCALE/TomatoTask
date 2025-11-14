@@ -221,6 +221,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.4] - 2025-11-14
 
+### Added
+
+**Onboarding Flow**
+- Complete 3-step onboarding experience for first-time users
+  - Step 1: Language selection with flag emojis 🇬🇧 🇫🇷 🇪🇸 🇮🇹 🇩🇪
+  - Step 2: Pomodoro technique explained in simple, accessible terms
+  - Step 3: Quick start guide with keyboard shortcuts
+- localStorage-based completion tracking (shows only once)
+- Fully translated in all 5 supported languages
+- Added "back" and "next" translations to common section
+
+**New Icon**
+- Added tomatoTask30x30.png for better system tray display
+- Updated tray icon configuration
+
 ### Changed
 
 **UI/UX Improvements**
@@ -243,10 +258,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Inspired by modern design systems (GitHub Dark, VS Code Dark)
 
 ### Fixed
+- **CRITICAL**: Fixed Svelte build error that caused GitHub Actions to fail
+  - Changed `class:bg-primary/10` to `class:bg-accent` (Svelte doesn't support `/` in dynamic class bindings)
+  - All builds now pass successfully ✅
 - Confirmed all modals properly close when clicking outside (backdrop click)
 - Improved modal backdrop with consistent blur effect across all dialogs
 - Updated author information in package.json and Cargo.toml (AnthonyMahe)
 - Synchronized version numbers across all configuration files (1.0.4)
+- Fixed .gitignore typo (.speify → .specify)
+- Removed .claude/ and .specify/ development files from git tracking
 
 ## [Unreleased]
 
