@@ -72,16 +72,16 @@
 
 		<div class="flex flex-wrap gap-3">
 			{#each SUPPORTED_LANGUAGES as lang}
+				{@const isSelected = currentLanguage === lang}
 				<button
 					type="button"
 					onclick={() => handleLanguageChange(lang)}
+					class:border-primary={isSelected}
+					class:bg-accent={isSelected}
+					class:shadow-md={isSelected}
+					class:border-border={!isSelected}
+					class:hover:bg-muted={!isSelected}
 					class="group relative rounded-lg border-2 px-4 py-3 text-sm font-medium transition-all duration-200 flex items-center gap-3 min-w-[160px]"
-					class:border-primary={currentLanguage === lang}
-					class:bg-primary/10={currentLanguage === lang}
-					class:shadow-md={currentLanguage === lang}
-					class:border-border={currentLanguage !== lang}
-					class:hover:border-primary/50={currentLanguage !== lang}
-					class:hover:bg-muted={currentLanguage !== lang}
 				>
 					<!-- Drapeau emoji -->
 					<span class="text-3xl" role="img" aria-label={getLanguageName(lang)}>
@@ -92,7 +92,7 @@
 					<span class="flex-1 text-left">{getLanguageName(lang)}</span>
 
 					<!-- Icône de sélection -->
-					{#if currentLanguage === lang}
+					{#if isSelected}
 						<svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
 							<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
 						</svg>

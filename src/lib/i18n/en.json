@@ -106,7 +106,49 @@
 		"error": "An error occurred",
 		"success": "Success!",
 		"minutes": "minutes",
-		"hours": "hours"
+		"hours": "hours",
+		"back": "Back",
+		"next": "Next"
+	},
+	"onboarding": {
+		"welcome": {
+			"title": "Welcome to TomatoTask!",
+			"subtitle": "Your productivity companion using the Pomodoro Technique"
+		},
+		"pomodoro": {
+			"step1": {
+				"title": "Work with focus",
+				"desc": "Set a timer for 25 minutes and focus on a single task without distractions"
+			},
+			"step2": {
+				"title": "Take short breaks",
+				"desc": "After each work session, take a 5-minute break to recharge"
+			},
+			"step3": {
+				"title": "Long break after 4 pomodoros",
+				"desc": "After 4 work sessions, reward yourself with a 15-minute break"
+			}
+		},
+		"guide": {
+			"title": "Quick Start Guide",
+			"step1": {
+				"title": "Create your tasks",
+				"desc": "Add tasks in the left sidebar. Estimate how many pomodoros each will take."
+			},
+			"step2": {
+				"title": "Select a task and start",
+				"desc": "Click on a task to work on it, then start the timer"
+			},
+			"step3": {
+				"title": "Track your progress",
+				"desc": "Watch your completed pomodoros add up and celebrate your productivity!"
+			},
+			"shortcuts": {
+				"title": "Useful shortcuts",
+				"desc": "Ctrl+S to start/stop, Ctrl+N for new task, Ctrl+/ for all shortcuts"
+			},
+			"start": "Start using TomatoTask"
+		}
 	},
 	"notifications": {
 		"workComplete": "Work session complete! Time for a break.",
