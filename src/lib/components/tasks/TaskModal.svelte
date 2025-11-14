@@ -11,9 +11,10 @@
 		isOpen: boolean;
 		task?: Task; // Si fourni, mode édition
 		onClose: () => void;
+		onTaskCreated?: (task: Task) => void;
 	}
 
-	let { isOpen = $bindable(), task, onClose }: Props = $props();
+	let { isOpen = $bindable(), task, onClose, onTaskCreated }: Props = $props();
 
 	let dialogElement: HTMLDialogElement;
 
@@ -38,12 +39,15 @@
 				);
 			} else {
 				// Mode création
-				await createTask(
+				const newTask = await createTask(
 					data.title,
 					data.description,
 					data.projectId,
 					data.estimatedPomodoros
 				);
+
+				// Notifie le parent de la création de la tâche
+				onTaskCreated?.(newTask);
 			}
 
 			// Ferme le modal
