@@ -6,7 +6,8 @@
 		SUPPORTED_LANGUAGES,
 		changeLanguage,
 		getLanguageName,
-		getLanguageCode
+		getLanguageCode,
+		getLanguageFlag
 	} from '$lib/services/i18n-service';
 	import type { Language } from '$lib/types';
 
@@ -59,29 +60,43 @@
 		>
 			{#each SUPPORTED_LANGUAGES as lang}
 				<option value={lang}>
-					{getLanguageName(lang)} ({getLanguageCode(lang)})
+					{getLanguageFlag(lang)} {getLanguageName(lang)} ({getLanguageCode(lang)})
 				</option>
 			{/each}
 		</select>
 	</div>
 {:else}
-	<!-- Groupe de boutons -->
+	<!-- Groupe de boutons avec drapeaux -->
 	<div class="w-full">
-		<div class="mb-2 text-sm font-medium">Language / Langue</div>
+		<div class="mb-3 text-sm font-medium">Language / Langue</div>
 
-		<div class="flex flex-wrap gap-2">
+		<div class="flex flex-wrap gap-3">
 			{#each SUPPORTED_LANGUAGES as lang}
 				<button
 					type="button"
 					onclick={() => handleLanguageChange(lang)}
-					class="rounded-md border px-4 py-2 text-sm font-medium transition-colors flex items-center gap-2"
+					class="group relative rounded-lg border-2 px-4 py-3 text-sm font-medium transition-all duration-200 flex items-center gap-3 min-w-[160px]"
 					class:border-primary={currentLanguage === lang}
-					class:bg-primary={currentLanguage === lang}
-					class:text-primary-foreground={currentLanguage === lang}
+					class:bg-primary/10={currentLanguage === lang}
+					class:shadow-md={currentLanguage === lang}
+					class:border-border={currentLanguage !== lang}
+					class:hover:border-primary/50={currentLanguage !== lang}
 					class:hover:bg-muted={currentLanguage !== lang}
 				>
-					<span class="font-bold text-base">{getLanguageCode(lang)}</span>
-					<span>{getLanguageName(lang)}</span>
+					<!-- Drapeau emoji -->
+					<span class="text-3xl" role="img" aria-label={getLanguageName(lang)}>
+						{getLanguageFlag(lang)}
+					</span>
+
+					<!-- Nom de la langue -->
+					<span class="flex-1 text-left">{getLanguageName(lang)}</span>
+
+					<!-- Icône de sélection -->
+					{#if currentLanguage === lang}
+						<svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+						</svg>
+					{/if}
 				</button>
 			{/each}
 		</div>
