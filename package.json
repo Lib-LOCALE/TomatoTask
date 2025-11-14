@@ -1,7 +1,7 @@
 {
 	"name": "tomatotask",
 	"private": true,
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"description": "An intuitive Pomodoro timer with integrated TodoList for productivity and time management.",
 	"author": {
 		"name": "AnthonyMahe",
