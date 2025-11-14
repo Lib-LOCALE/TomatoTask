@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import { settingsStore } from '$lib/stores/settings.svelte';
-	import { changeLanguage, SUPPORTED_LANGUAGES, getLanguageName, getLanguageCode } from '$lib/services/i18n-service';
+	import { changeLanguage, SUPPORTED_LANGUAGES, getLanguageName, getLanguageCode, getLanguageFlag } from '$lib/services/i18n-service';
 	import type { Language } from '$lib/types';
 
 	interface Props {
@@ -41,7 +41,8 @@
 	}
 
 	async function complete() {
-		await settingsStore.updateSetting('onboarding_completed', 'true');
+		// Marque l'onboarding comme complété dans le localStorage
+		localStorage.setItem('tomatotask_onboarding_completed', 'true');
 		onComplete();
 	}
 </script>
@@ -70,10 +71,10 @@
 						<button
 							type="button"
 							onclick={() => handleLanguageSelect(lang)}
-							class="p-4 rounded-lg border-2 transition-all hover:border-primary hover:bg-primary/10"
+							class="p-4 rounded-lg border-2 transition-all hover:border-primary hover:bg-accent flex flex-col items-center gap-2"
 						>
-							<div class="text-2xl font-bold mb-1">{getLanguageCode(lang)}</div>
-							<div class="text-sm">{getLanguageName(lang)}</div>
+							<div class="text-4xl">{getLanguageFlag(lang)}</div>
+							<div class="text-sm font-medium">{getLanguageName(lang)}</div>
 						</button>
 					{/each}
 				</div>

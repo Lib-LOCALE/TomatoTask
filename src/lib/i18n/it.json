@@ -106,7 +106,49 @@
 		"error": "Si è verificato un errore",
 		"success": "Successo!",
 		"minutes": "minuti",
-		"hours": "ore"
+		"hours": "ore",
+		"back": "Indietro",
+		"next": "Prossimo"
+	},
+	"onboarding": {
+		"welcome": {
+			"title": "Benvenuto su TomatoTask!",
+			"subtitle": "Il tuo compagno di produttività usando la Tecnica Pomodoro"
+		},
+		"pomodoro": {
+			"step1": {
+				"title": "Lavora con concentrazione",
+				"desc": "Imposta un timer per 25 minuti e concentrati su un'unica attività senza distrazioni"
+			},
+			"step2": {
+				"title": "Fai pause brevi",
+				"desc": "Dopo ogni sessione di lavoro, fai una pausa di 5 minuti per ricaricarti"
+			},
+			"step3": {
+				"title": "Pausa lunga dopo 4 pomodori",
+				"desc": "Dopo 4 sessioni di lavoro, premiati con una pausa di 15 minuti"
+			}
+		},
+		"guide": {
+			"title": "Guida Rapida",
+			"step1": {
+				"title": "Crea le tue attività",
+				"desc": "Aggiungi attività nella barra laterale sinistra. Stima quanti pomodori ogni attività richiederà."
+			},
+			"step2": {
+				"title": "Seleziona un'attività e inizia",
+				"desc": "Fai clic su un'attività per lavorarci, poi avvia il timer"
+			},
+			"step3": {
+				"title": "Traccia il tuo progresso",
+				"desc": "Guarda i tuoi pomodori completati accumularsi e celebra la tua produttività!"
+			},
+			"shortcuts": {
+				"title": "Scorciatoie utili",
+				"desc": "Ctrl+S per avviare/fermare, Ctrl+N per nuova attività, Ctrl+/ per tutte le scorciatoie"
+			},
+			"start": "Inizia a usare TomatoTask"
+		}
 	},
 	"notifications": {
 		"workComplete": "Sessione di lavoro completata! È ora di fare una pausa.",

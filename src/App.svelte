@@ -11,6 +11,7 @@
 	import ShortcutsHelp from '$lib/components/keyboard/ShortcutsHelp.svelte';
 	import ThemeToggle from '$lib/components/settings/ThemeToggle.svelte';
 	import SettingsPanel from '$lib/components/settings/SettingsPanel.svelte';
+	import OnboardingFlow from '$lib/components/onboarding/OnboardingFlow.svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { projectStore } from '$lib/stores/projects.svelte';
@@ -33,6 +34,9 @@
 	let projectToEdit = $state<Project | null>(null);
 	let showProjectDeleteConfirm = $state(false);
 	let projectToDelete = $state<Project | null>(null);
+
+	// État de l'onboarding
+	let showOnboarding = $state(false);
 
 	/**
 	 * Gère le raccourci Ctrl+S (Start/Stop timer)
@@ -159,7 +163,20 @@
 		}
 	}
 
+	/**
+	 * Gère la complétion de l'onboarding
+	 */
+	function handleOnboardingComplete() {
+		showOnboarding = false;
+	}
+
 	onMount(async () => {
+		// Vérifie si l'onboarding a déjà été complété
+		const onboardingCompleted = localStorage.getItem('tomatotask_onboarding_completed');
+		if (!onboardingCompleted) {
+			showOnboarding = true;
+		}
+
 		// Charge les tâches et projets au démarrage
 		await initializeTasks();
 		await projectStore.load();
@@ -399,4 +416,9 @@
 			</button>
 		</div>
 	</dialog>
+{/if}
+
+<!-- Onboarding Flow (affiché uniquement à la première ouverture) -->
+{#if showOnboarding}
+	<OnboardingFlow onComplete={handleOnboardingComplete} />
 {/if}
