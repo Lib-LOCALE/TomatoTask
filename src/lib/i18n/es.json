@@ -136,10 +136,14 @@
 				"desc": "Agrega tareas en la barra lateral izquierda. Estima cuántos pomodoros cada una llevará."
 			},
 			"step2": {
+				"title": "Organiza con proyectos",
+				"desc": "Agrupa tus tareas por proyectos para mejor organización y seguimiento"
+			},
+			"step3": {
 				"title": "Selecciona una tarea e inicia",
 				"desc": "Haz clic en una tarea para trabajar en ella, luego inicia el temporizador"
 			},
-			"step3": {
+			"step4": {
 				"title": "Sigue tu progreso",
 				"desc": "¡Observa cómo tus pomodoros completados se acumulan y celebra tu productividad!"
 			},

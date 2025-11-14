@@ -136,10 +136,14 @@
 				"desc": "Ajoutez des tâches dans la barre latérale. Estimez combien de pomodoros chacune prendra."
 			},
 			"step2": {
+				"title": "Organisez avec des projets",
+				"desc": "Regroupez vos tâches par projets pour une meilleure organisation et suivi"
+			},
+			"step3": {
 				"title": "Sélectionnez une tâche et démarrez",
 				"desc": "Cliquez sur une tâche pour y travailler, puis démarrez le minuteur"
 			},
-			"step3": {
+			"step4": {
 				"title": "Suivez votre progression",
 				"desc": "Regardez vos pomodoros complétés s'accumuler et célébrez votre productivité !"
 			},

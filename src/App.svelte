@@ -16,7 +16,7 @@
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { projectStore } from '$lib/stores/projects.svelte';
 	import { startSession, pauseTimer, resumeTimer } from '$lib/services/timer-service';
-	import { initializeTasks, deleteTask } from '$lib/services/task-service';
+	import { initializeTasks, deleteTask, selectTask } from '$lib/services/task-service';
 	import { registerShortcut } from '$lib/utils/keyboard';
 	import type { Task, Project } from '$lib/types';
 
@@ -170,6 +170,14 @@
 		showOnboarding = false;
 	}
 
+	/**
+	 * Gère la création d'une nouvelle tâche
+	 * Sélectionne automatiquement la tâche dans le timer
+	 */
+	function handleTaskCreated(task: Task) {
+		selectTask(task);
+	}
+
 	onMount(async () => {
 		// Vérifie si l'onboarding a déjà été complété
 		const onboardingCompleted = localStorage.getItem('tomatotask_onboarding_completed');
@@ -266,6 +274,7 @@
 		isModalOpen = false;
 		taskToEdit = undefined;
 	}}
+	onTaskCreated={handleTaskCreated}
 />
 
 <!-- Confirmation de suppression (simple dialog natif) -->

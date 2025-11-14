@@ -7,7 +7,8 @@
 		changeLanguage,
 		getLanguageName,
 		getLanguageCode,
-		getLanguageFlag
+		getLanguageFlag,
+		getLanguageFlagPath
 	} from '$lib/services/i18n-service';
 	import type { Language } from '$lib/types';
 
@@ -83,10 +84,12 @@
 					class:hover:bg-muted={!isSelected}
 					class="group relative rounded-lg border-2 px-4 py-3 text-sm font-medium transition-all duration-200 flex items-center gap-3 min-w-[160px]"
 				>
-					<!-- Drapeau emoji -->
-					<span class="text-3xl" role="img" aria-label={getLanguageName(lang)}>
-						{getLanguageFlag(lang)}
-					</span>
+					<!-- Drapeau image -->
+					<img
+						src={getLanguageFlagPath(lang)}
+						alt={getLanguageName(lang)}
+						class="w-8 h-8 object-contain rounded"
+					/>
 
 					<!-- Nom de la langue -->
 					<span class="flex-1 text-left">{getLanguageName(lang)}</span>
