@@ -1,5 +1,6 @@
-/* Google Fonts - Pixel Art Typography */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap');
+/* Fonts - Using system fallbacks for better offline/desktop support */
+/* Google Fonts removed to fix Linux AppImage black screen issue */
+/* Application now uses system fonts that work reliably across all platforms */
 
 @import 'tailwindcss';
 @import 'tw-animate-css';
@@ -193,10 +194,10 @@
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
 
-	/* Font Families - Pixel Art Typography */
-	--font-heading: 'Press Start 2P', system-ui, sans-serif;
-	--font-body: 'Pixelify Sans', system-ui, sans-serif;
-	--font-mono: 'Silkscreen', 'Courier New', monospace;
+	/* Font Families - System fonts for reliable cross-platform support */
+	--font-heading: ui-monospace, 'Courier New', 'Courier', monospace;
+	--font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	--font-mono: ui-monospace, 'Courier New', 'Courier', monospace;
 }
 
 @layer base {

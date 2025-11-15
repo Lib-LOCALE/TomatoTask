@@ -2,7 +2,7 @@
 
 > A modern Pomodoro Timer application with task management
 
-[![Version](https://img.shields.io/badge/version-1.0.4-blue.svg)](https://github.com/AnthonyMahe/TomatoTask)
+[![Version](https://img.shields.io/badge/version-1.0.8-blue.svg)](https://github.com/AnthonyMahe/TomatoTask)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ## ✨ Features

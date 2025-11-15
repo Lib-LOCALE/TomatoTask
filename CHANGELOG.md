@@ -219,6 +219,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Supported Languages**: 5
 - **Keyboard Shortcuts**: 4 global shortcuts
 
+## [1.0.8] - 2025-11-15
+
+### Fixed
+
+**CRITICAL: Linux AppImage Black Screen Issue**
+- **Removed Google Fonts external dependency** that was causing black screen on Linux AppImage
+  - WebKit2GTK on Linux was blocking external font resources
+  - Replaced with reliable system fonts that work across all platforms
+  - Fonts now use: ui-monospace, system-ui, and standard fallbacks
+- **Added proper Content Security Policy (CSP)** in Tauri configuration
+  - Prevents external resource loading issues
+  - Enhances application security
+  - Works reliably on all platforms (Windows, Linux, macOS)
+- **Improved error handling in Rust backend**
+  - Better error messages with eprintln! for debugging
+  - More descriptive error context for database initialization
+  - Helps identify issues during application startup
+
+### Changed
+
+- **Updated HTML metadata**
+  - Changed title from "Vite + Svelte + TS" to "TomatoTask - Pomodoro Timer"
+  - Fixed favicon path (now uses favicon.png instead of vite.svg)
+  - Added meta description for better app identification
+- **Synchronized version numbers** across all configuration files
+  - package.json: 1.0.8
+  - Cargo.toml: 1.0.8 (was 1.0.4)
+  - tauri.conf.json: 1.0.8
+
+## [1.0.7] - 2025-11-15
+
+### Changed
+- Version bump to 1.0.7
+- Updated Windows icon to tomatoIcon.ico
+
+## [1.0.6] - 2025-11-14
+
+### Changed
+- Improved pixel art design system
+- Fixed icon paths for better consistency
+- Version synchronization improvements
+
+## [1.0.5] - 2025-11-14
+
+### Changed
+- Major UX improvements
+- Enhanced UI consistency
+- Bug fixes and performance improvements
+
 ## [1.0.4] - 2025-11-14
 
 ### Added
@@ -289,6 +338,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **1.0.8** (2025-11-15) - CRITICAL FIX: Linux AppImage black screen resolved
+  - Removed external Google Fonts dependency causing Linux issues
+  - Added proper CSP for better security and compatibility
+  - Improved error handling in backend
+  - Fixed HTML metadata and version synchronization
+- **1.0.7** (2025-11-15) - Windows icon update
+- **1.0.6** (2025-11-14) - Design system improvements
+- **1.0.5** (2025-11-14) - UX improvements and bug fixes
 - **1.0.4** (2025-11-14) - UX improvements and dark mode enhancement
   - Redesigned language selector with visual indicators
   - Complete dark mode color palette redesign
@@ -299,6 +356,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Full internationalization (5 languages)
   - Complete documentation
 
+[1.0.8]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.8
+[1.0.7]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.7
+[1.0.6]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.6
+[1.0.5]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.5
 [1.0.4]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.4
 [1.0.0]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.0
-[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.4...HEAD
+[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.8...HEAD
