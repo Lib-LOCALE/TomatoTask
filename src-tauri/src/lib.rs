@@ -23,34 +23,7 @@ use tauri::Manager;
 pub fn run() {
     tauri::Builder::default()
         .setup(|app| {
-            // Obtient le répertoire de données de l'application
-            let app_dir = app
-                .path()
-                .app_data_dir()
-                .expect("Failed to get app data directory");
-
-            // Crée le répertoire s'il n'existe pas
-            std::fs::create_dir_all(&app_dir)
-                .expect("Failed to create app data directory");
-
-            // Chemin complet vers la base de données
-            let db_path: PathBuf = app_dir.join("tomatotask.db");
-
-            // Initialise la connexion à la base de données
-            let db = DbConnection::new(db_path)
-                .expect("Failed to open database connection");
-
-            // Exécute les migrations de schéma
-            let conn = db.get_connection();
-            let conn = conn.lock().expect("Failed to lock database connection");
-            migrations::run_migrations(&conn)
-                .expect("Failed to run database migrations");
-            drop(conn); // Libère le lock
-
-            // Enregistre la connexion DB comme état partagé
-            app.manage(db);
-
-            // Active les logs détaillés en mode debug
+            // Active les logs en premier pour capturer toutes les erreurs
             if cfg!(debug_assertions) {
                 app.handle().plugin(
                     tauri_plugin_log::Builder::default()
@@ -58,6 +31,51 @@ pub fn run() {
                         .build(),
                 )?;
             }
+
+            // Obtient le répertoire de données de l'application
+            let app_dir = app
+                .path()
+                .app_data_dir()
+                .map_err(|e| {
+                    eprintln!("FATAL: Failed to get app data directory: {}", e);
+                    e
+                })?;
+
+            // Crée le répertoire s'il n'existe pas
+            std::fs::create_dir_all(&app_dir)
+                .map_err(|e| {
+                    eprintln!("FATAL: Failed to create app data directory at {:?}: {}", app_dir, e);
+                    e
+                })?;
+
+            // Chemin complet vers la base de données
+            let db_path: PathBuf = app_dir.join("tomatotask.db");
+            println!("Database path: {:?}", db_path);
+
+            // Initialise la connexion à la base de données
+            let db = DbConnection::new(db_path.clone())
+                .map_err(|e| {
+                    eprintln!("FATAL: Failed to open database connection at {:?}: {}", db_path, e);
+                    e
+                })?;
+
+            // Exécute les migrations de schéma
+            let conn = db.get_connection();
+            let conn = conn.lock().map_err(|e| {
+                eprintln!("FATAL: Failed to lock database connection: {}", e);
+                format!("Failed to lock database connection: {}", e)
+            })?;
+            migrations::run_migrations(&conn)
+                .map_err(|e| {
+                    eprintln!("FATAL: Failed to run database migrations: {}", e);
+                    e
+                })?;
+            drop(conn); // Libère le lock
+
+            println!("Database initialized successfully");
+
+            // Enregistre la connexion DB comme état partagé
+            app.manage(db);
 
             Ok(())
         })
