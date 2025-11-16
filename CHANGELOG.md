@@ -7,26 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.9] - 2025-11-16
 
-### Changed
+### Fixed
 
-**Linux Distribution**
-- **Switched from AppImage to Flatpak** as the primary Linux distribution format
-  - Universal compatibility across all Linux distributions
-  - Enhanced security through Flatpak sandboxing
-  - Automatic updates via Flathub (coming soon)
-  - No dependency conflicts
-- **Added Flathub support** with complete manifest and metadata
-  - Created com.tomatotask.app.yml Flatpak manifest
-  - Added AppStream metadata for Flathub submission
-  - Configured automatic updates with flathub.json
-- **Updated GitHub Actions workflow** to build Flatpak packages
-  - Automatic Flatpak generation on release tags
-  - Published to GitHub Releases alongside Windows builds
+**Dark Mode UI Improvements**
+- **Fixed text visibility in settings modal** - All labels and text now have proper contrast in dark mode
+  - Added `text-foreground` classes to all labels for automatic theme adaptation
+  - Changed secondary text from `text-muted-foreground` to `text-foreground/70` for better readability
+  - All headings, labels, and descriptions now clearly visible in both light and dark themes
+  - Improved accessibility and user experience in dark mode
 
 ### Added
-- Comprehensive Flatpak build documentation
-- Flathub submission guide for maintainers
-- Flatpak installation instructions in README
+- Flatpak build configuration files for future Linux distribution
+  - Complete Flatpak manifest (flatpak/com.tomatotask.app.yml)
+  - AppStream metadata for Flathub submission
+  - Comprehensive documentation for Flatpak builds
 
 ## [1.0.8] - 2025-11-15
 
