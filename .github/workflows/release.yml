@@ -68,23 +68,29 @@ jobs:
         if: matrix.platform == 'windows'
         run: npm ci
 
-      - name: Remove Playwright for Flatpak build
-        if: matrix.platform == 'linux'
-        run: |
-          # Remove playwright from package.json (without npm ci first)
-          npm uninstall --save-dev @playwright/test --package-lock-only
-
-      - name: Generate Flatpak sources
+      - name: Generate Flatpak sources with all dependencies
         if: matrix.platform == 'linux'
         run: |
           cd flatpak
-          flatpak-node-generator npm ../package-lock.json -o generated-sources.json
+          # Generate sources WITH Playwright to capture all deps including zimmerframe
+          flatpak-node-generator npm ../package-lock.json -o generated-sources-full.json
 
-          # Download and use cargo generator script directly from GitHub
+          # Download and use cargo generator script
           wget -q https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/cargo/flatpak-cargo-generator.py
           python3 flatpak-cargo-generator.py ../src-tauri/Cargo.lock -o cargo-sources.json
 
-      # Note: We keep the modified package.json without Playwright for Flatpak build
+          # Remove Playwright entries from generated sources using jq
+          sudo apt-get install -y jq
+          jq 'del(.[] | select(.url? | test("playwright")))' generated-sources-full.json > generated-sources.json
+
+          # Verify the file
+          echo "Generated sources without Playwright:"
+          jq 'length' generated-sources.json
+
+      - name: Remove Playwright from package.json for build
+        if: matrix.platform == 'linux'
+        run: |
+          npm uninstall --save-dev @playwright/test --package-lock-only
 
       - name: Build Flatpak
         if: matrix.platform == 'linux'
