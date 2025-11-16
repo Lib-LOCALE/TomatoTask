@@ -69,7 +69,7 @@
 		<div class="w-full" onclick={(e) => e.stopPropagation()}>
 			<!-- Header -->
 			<div class="flex items-center justify-between border-b px-6 py-4">
-				<h2 class="text-lg font-semibold">
+				<h2 class="text-lg font-semibold text-foreground">
 					{project ? $_('projects.form.editTitle') : $_('projects.form.createTitle')}
 				</h2>
 

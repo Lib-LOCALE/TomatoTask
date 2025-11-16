@@ -63,8 +63,8 @@
 		<!-- Step 1: Language Selection -->
 		{#if currentStep === 0}
 			<div class="text-center">
-				<h1 class="text-3xl font-bold mb-4">🍅 TomatoTask</h1>
-				<h2 class="text-xl mb-6">Choose your language / Choisissez votre langue</h2>
+				<h1 class="text-3xl font-bold mb-4 text-foreground">🍅 TomatoTask</h1>
+				<h2 class="text-xl mb-6 text-foreground">Choose your language / Choisissez votre langue</h2>
 
 				<div class="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-lg mx-auto">
 					{#each SUPPORTED_LANGUAGES as lang}
@@ -78,7 +78,7 @@
 								alt={getLanguageName(lang)}
 								class="w-12 h-12 object-contain rounded"
 							/>
-							<div class="text-sm font-medium">{getLanguageName(lang)}</div>
+							<div class="text-sm font-medium text-foreground">{getLanguageName(lang)}</div>
 						</button>
 					{/each}
 				</div>
@@ -89,31 +89,31 @@
 		{#if currentStep === 1}
 			<div class="text-center">
 				<div class="text-6xl mb-6">🍅</div>
-				<h2 class="text-2xl font-bold mb-4">{$_('onboarding.welcome.title')}</h2>
-				<p class="text-lg text-muted-foreground mb-6">{$_('onboarding.welcome.subtitle')}</p>
+				<h2 class="text-2xl font-bold mb-4 text-foreground">{$_('onboarding.welcome.title')}</h2>
+				<p class="text-lg text-foreground/70 mb-6">{$_('onboarding.welcome.subtitle')}</p>
 
 				<div class="text-left max-w-lg mx-auto space-y-4 mb-8">
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">⏱️</div>
 						<div>
-							<h3 class="font-semibold mb-1">{$_('onboarding.pomodoro.step1.title')}</h3>
-							<p class="text-sm text-muted-foreground">{$_('onboarding.pomodoro.step1.desc')}</p>
+							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.pomodoro.step1.title')}</h3>
+							<p class="text-sm text-foreground/70">{$_('onboarding.pomodoro.step1.desc')}</p>
 						</div>
 					</div>
 
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">☕</div>
 						<div>
-							<h3 class="font-semibold mb-1">{$_('onboarding.pomodoro.step2.title')}</h3>
-							<p class="text-sm text-muted-foreground">{$_('onboarding.pomodoro.step2.desc')}</p>
+							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.pomodoro.step2.title')}</h3>
+							<p class="text-sm text-foreground/70">{$_('onboarding.pomodoro.step2.desc')}</p>
 						</div>
 					</div>
 
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">🎯</div>
 						<div>
-							<h3 class="font-semibold mb-1">{$_('onboarding.pomodoro.step3.title')}</h3>
-							<p class="text-sm text-muted-foreground">{$_('onboarding.pomodoro.step3.desc')}</p>
+							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.pomodoro.step3.title')}</h3>
+							<p class="text-sm text-foreground/70">{$_('onboarding.pomodoro.step3.desc')}</p>
 						</div>
 					</div>
 				</div>
@@ -146,40 +146,40 @@
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">1️⃣</div>
 						<div>
-							<h3 class="font-semibold mb-1">{$_('onboarding.guide.step1.title')}</h3>
-							<p class="text-sm text-muted-foreground">{$_('onboarding.guide.step1.desc')}</p>
+							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.guide.step1.title')}</h3>
+							<p class="text-sm text-foreground/70">{$_('onboarding.guide.step1.desc')}</p>
 						</div>
 					</div>
 
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">2️⃣</div>
 						<div>
-							<h3 class="font-semibold mb-1">{$_('onboarding.guide.step2.title')}</h3>
-							<p class="text-sm text-muted-foreground">{$_('onboarding.guide.step2.desc')}</p>
+							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.guide.step2.title')}</h3>
+							<p class="text-sm text-foreground/70">{$_('onboarding.guide.step2.desc')}</p>
 						</div>
 					</div>
 
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">3️⃣</div>
 						<div>
-							<h3 class="font-semibold mb-1">{$_('onboarding.guide.step3.title')}</h3>
-							<p class="text-sm text-muted-foreground">{$_('onboarding.guide.step3.desc')}</p>
+							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.guide.step3.title')}</h3>
+							<p class="text-sm text-foreground/70">{$_('onboarding.guide.step3.desc')}</p>
 						</div>
 					</div>
 
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">4️⃣</div>
 						<div>
-							<h3 class="font-semibold mb-1">{$_('onboarding.guide.step4.title')}</h3>
-							<p class="text-sm text-muted-foreground">{$_('onboarding.guide.step4.desc')}</p>
+							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.guide.step4.title')}</h3>
+							<p class="text-sm text-foreground/70">{$_('onboarding.guide.step4.desc')}</p>
 						</div>
 					</div>
 
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">⌨️</div>
 						<div>
-							<h3 class="font-semibold mb-1">{$_('onboarding.guide.shortcuts.title')}</h3>
-							<p class="text-sm text-muted-foreground">{$_('onboarding.guide.shortcuts.desc')}</p>
+							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.guide.shortcuts.title')}</h3>
+							<p class="text-sm text-foreground/70">{$_('onboarding.guide.shortcuts.desc')}</p>
 						</div>
 					</div>
 				</div>

@@ -81,7 +81,7 @@
 <form onsubmit={handleSubmit} class="space-y-4">
 	<!-- Titre -->
 	<div>
-		<label for="task-title" class="mb-1 block text-sm font-medium">
+		<label for="task-title" class="mb-1 block text-sm font-medium text-foreground">
 			{$_('tasks.taskTitle')} *
 		</label>
 		<Input
@@ -100,7 +100,7 @@
 
 	<!-- Description -->
 	<div>
-		<label for="task-description" class="mb-1 block text-sm font-medium">
+		<label for="task-description" class="mb-1 block text-sm font-medium text-foreground">
 			{$_('tasks.description')}
 		</label>
 		<textarea
@@ -113,7 +113,7 @@
 
 	<!-- Pomodoros estimés -->
 	<div>
-		<label for="task-pomodoros" class="mb-1 block text-sm font-medium">
+		<label for="task-pomodoros" class="mb-1 block text-sm font-medium text-foreground">
 			{$_('tasks.estimatedPomodoros')}
 		</label>
 		<div class="flex items-center gap-2">
