@@ -121,11 +121,11 @@
 			<div class="px-6 py-4 space-y-6">
 				<!-- Timer Settings -->
 				<section>
-					<h3 class="text-md font-semibold mb-4">{$_('settings.timer')}</h3>
+					<h3 class="text-md font-semibold mb-4 text-foreground">{$_('settings.timer')}</h3>
 					<div class="space-y-4">
 						<!-- Work Duration -->
 						<div>
-							<label for="work-duration" class="block text-sm font-medium mb-1">
+							<label for="work-duration" class="block text-sm font-medium mb-1 text-foreground">
 								{$_('settings.workDuration')}
 							</label>
 							<div class="flex items-center gap-2">
@@ -137,13 +137,13 @@
 									max="60"
 									class="w-24"
 								/>
-								<span class="text-sm text-muted-foreground">{$_('common.minutes')}</span>
+								<span class="text-sm text-foreground/70">{$_('common.minutes')}</span>
 							</div>
 						</div>
 
 						<!-- Short Break Duration -->
 						<div>
-							<label for="short-break-duration" class="block text-sm font-medium mb-1">
+							<label for="short-break-duration" class="block text-sm font-medium mb-1 text-foreground">
 								{$_('settings.shortBreakDuration')}
 							</label>
 							<div class="flex items-center gap-2">
@@ -155,13 +155,13 @@
 									max="30"
 									class="w-24"
 								/>
-								<span class="text-sm text-muted-foreground">{$_('common.minutes')}</span>
+								<span class="text-sm text-foreground/70">{$_('common.minutes')}</span>
 							</div>
 						</div>
 
 						<!-- Long Break Duration -->
 						<div>
-							<label for="long-break-duration" class="block text-sm font-medium mb-1">
+							<label for="long-break-duration" class="block text-sm font-medium mb-1 text-foreground">
 								{$_('settings.longBreakDuration')}
 							</label>
 							<div class="flex items-center gap-2">
@@ -173,13 +173,13 @@
 									max="60"
 									class="w-24"
 								/>
-								<span class="text-sm text-muted-foreground">{$_('common.minutes')}</span>
+								<span class="text-sm text-foreground/70">{$_('common.minutes')}</span>
 							</div>
 						</div>
 
 						<!-- Pomodoros Until Long Break -->
 						<div>
-							<label for="pomodoros-until-long-break" class="block text-sm font-medium mb-1">
+							<label for="pomodoros-until-long-break" class="block text-sm font-medium mb-1 text-foreground">
 								{$_('settings.pomodorosUntilLongBreak')}
 							</label>
 							<Input
@@ -200,7 +200,7 @@
 									bind:checked={localSettings.autoStartBreaks}
 									class="h-4 w-4 rounded border-input"
 								/>
-								<span class="text-sm">{$_('settings.autoStartBreaks')}</span>
+								<span class="text-sm text-foreground">{$_('settings.autoStartBreaks')}</span>
 							</label>
 
 							<label class="flex items-center gap-2">
@@ -209,7 +209,7 @@
 									bind:checked={localSettings.autoStartPomodoros}
 									class="h-4 w-4 rounded border-input"
 								/>
-								<span class="text-sm">{$_('settings.autoStartPomodoros')}</span>
+								<span class="text-sm text-foreground">{$_('settings.autoStartPomodoros')}</span>
 							</label>
 						</div>
 					</div>
@@ -217,16 +217,16 @@
 
 				<!-- Appearance Settings -->
 				<section>
-					<h3 class="text-md font-semibold mb-4">{$_('settings.appearance')}</h3>
+					<h3 class="text-md font-semibold mb-4 text-foreground">{$_('settings.appearance')}</h3>
 					<div class="space-y-4">
 						<!-- Theme Toggle -->
 						<div>
-							<label class="block text-sm font-medium mb-2">
+							<label class="block text-sm font-medium mb-2 text-foreground">
 								{$_('settings.theme')}
 							</label>
 							<div class="flex items-center gap-2">
 								<ThemeToggle variant="toggle" />
-								<span class="text-sm text-muted-foreground">
+								<span class="text-sm text-foreground/70">
 									{localSettings.theme === 'dark' ? $_('settings.dark') : $_('settings.light')}
 								</span>
 							</div>

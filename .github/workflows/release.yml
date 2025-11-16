@@ -43,71 +43,21 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            flatpak \
-            flatpak-builder \
-            python3-pip \
-            python3-aiohttp \
-            python3-toml
+            libwebkit2gtk-4.1-dev \
+            libjavascriptcoregtk-4.1-dev \
+            build-essential \
+            curl \
+            wget \
+            file \
+            libssl-dev \
+            libgtk-3-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev
 
-      - name: Setup Flatpak
-        if: matrix.platform == 'linux'
-        run: |
-          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-          flatpak install --user -y flathub org.freedesktop.Platform//23.08
-          flatpak install --user -y flathub org.freedesktop.Sdk//23.08
-          flatpak install --user -y flathub org.freedesktop.Sdk.Extension.rust-stable//23.08
-          flatpak install --user -y flathub org.freedesktop.Sdk.Extension.node20//23.08
-
-      - name: Install Flatpak generators
-        if: matrix.platform == 'linux'
-        run: |
-          sudo pip3 install aiohttp toml tomlkit
-          sudo pip3 install git+https://github.com/flatpak/flatpak-builder-tools.git@master#subdirectory=node
-
-      - name: Install frontend dependencies (Windows)
-        if: matrix.platform == 'windows'
+      - name: Install frontend dependencies
         run: npm ci
 
-      - name: Remove Playwright from lockfile while preserving deps
-        if: matrix.platform == 'linux'
-        run: |
-          sudo apt-get install -y jq
-
-          # Modify package-lock.json to remove ONLY @playwright entries
-          jq 'del(.packages."node_modules/@playwright/test") |
-              del(.packages."node_modules/@types/node".devDependencies."@playwright/test") |
-              del(.devDependencies."@playwright/test")' package-lock.json > package-lock-temp.json
-          mv package-lock-temp.json package-lock.json
-
-      - name: Generate Flatpak sources
-        if: matrix.platform == 'linux'
-        run: |
-          cd flatpak
-          # Generate sources with --electron-no-binary to skip special binaries including Playwright
-          flatpak-node-generator --electron-no-binary npm ../package-lock.json -o generated-sources.json || {
-            echo "Generation failed, trying with -P flag to skip special sources"
-            flatpak-node-generator -P npm ../package-lock.json -o generated-sources.json
-          }
-
-          # Download and use cargo generator script
-          wget -q https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/cargo/flatpak-cargo-generator.py
-          python3 flatpak-cargo-generator.py ../src-tauri/Cargo.lock -o cargo-sources.json
-
-      - name: Remove Playwright from package.json
-        if: matrix.platform == 'linux'
-        run: |
-          jq 'del(.devDependencies."@playwright/test")' package.json > package-temp.json
-          mv package-temp.json package.json
-
-      - name: Build Flatpak
-        if: matrix.platform == 'linux'
-        run: |
-          cd flatpak
-          flatpak-builder --repo=repo --force-clean build-dir com.tomatotask.app.yml
-          flatpak build-bundle repo tomatotask-${{ github.ref_name }}.flatpak com.tomatotask.app
-
-      - name: Build application (Windows)
-        if: matrix.platform == 'windows'
+      - name: Build application
         run: npm run tauri build
 
       - name: Upload artifacts (Linux)
@@ -115,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-artifacts
-          path: flatpak/*.flatpak
+          path: src-tauri/target/release/bundle/appimage/*.AppImage
 
       - name: Upload artifacts (Windows)
         if: matrix.platform == 'windows'
@@ -158,20 +108,8 @@ jobs:
             ## 🍅 TomatoTask v${{ steps.get_version.outputs.version }}
 
             ### Downloads
-            - **Linux:** `.flatpak` (Universal - Install with `flatpak install tomatotask-v${{ steps.get_version.outputs.version }}.flatpak`)
+            - **Linux:** `.AppImage` (Universal)
             - **Windows:** `.exe` (Setup Installer)
-
-            ### Installation
-
-            **Linux (Flatpak):**
-            ```bash
-            # Download the .flatpak file, then:
-            flatpak install tomatotask-v${{ steps.get_version.outputs.version }}.flatpak
-            flatpak run com.tomatotask.app
-            ```
-
-            **Windows:**
-            Download and run the `.exe` installer.
 
             ### What's New
             See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
