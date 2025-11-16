@@ -61,13 +61,8 @@ jobs:
       - name: Install Flatpak generators
         if: matrix.platform == 'linux'
         run: |
-          sudo pip3 install aiohttp toml
+          sudo pip3 install aiohttp toml tomlkit
           sudo pip3 install git+https://github.com/flatpak/flatpak-builder-tools.git@master#subdirectory=node
-          sudo pip3 install git+https://github.com/flatpak/flatpak-builder-tools.git@master#subdirectory=cargo
-
-          # Find where cargo generator was installed
-          echo "Finding flatpak-cargo-generator..."
-          which flatpak-cargo-generator || find /usr -name "*cargo*generator*" 2>/dev/null || true
 
       - name: Install frontend dependencies
         run: npm ci
