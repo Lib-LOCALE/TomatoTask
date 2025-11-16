@@ -64,21 +64,15 @@ jobs:
           sudo pip3 install aiohttp toml tomlkit
           sudo pip3 install git+https://github.com/flatpak/flatpak-builder-tools.git@master#subdirectory=node
 
-      - name: Install frontend dependencies
+      - name: Install frontend dependencies (Windows)
+        if: matrix.platform == 'windows'
         run: npm ci
 
       - name: Remove Playwright for Flatpak build
         if: matrix.platform == 'linux'
         run: |
-          # Backup original files
-          cp package.json package.json.backup
-          cp package-lock.json package-lock.json.backup
-
-          # Remove playwright from package.json
-          npm uninstall --save-dev @playwright/test
-
-          # Regenerate lock file without playwright
-          npm install --package-lock-only
+          # Remove playwright from package.json (without npm ci first)
+          npm uninstall --save-dev @playwright/test --package-lock-only
 
       - name: Generate Flatpak sources
         if: matrix.platform == 'linux'
