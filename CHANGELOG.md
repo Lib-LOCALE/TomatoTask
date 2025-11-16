@@ -9,12 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-**Dark Mode UI Improvements**
-- **Fixed text visibility in settings modal** - All labels and text now have proper contrast in dark mode
-  - Added `text-foreground` classes to all labels for automatic theme adaptation
+**Dark Mode UI Improvements - Complete Modal Text Visibility Fix**
+- **Fixed text visibility in ALL modales** - All labels, headings, and text now have proper contrast in dark mode
+  - Added `text-foreground` classes to all headings (h1, h2, h3) for automatic theme adaptation
+  - Added `text-foreground` classes to all labels throughout the application
   - Changed secondary text from `text-muted-foreground` to `text-foreground/70` for better readability
-  - All headings, labels, and descriptions now clearly visible in both light and dark themes
-  - Improved accessibility and user experience in dark mode
+  - All modales now have perfect text visibility in both light and dark themes
+
+**Modales corrected:**
+- SettingsPanel - Timer settings, appearance settings, all labels and descriptions
+- TaskModal & TaskForm - Task creation/editing, all form labels
+- ProjectModal & ProjectForm - Project creation/editing, color selector labels
+- ShortcutsHelp - Keyboard shortcuts display, category headings and descriptions
+- OnboardingFlow - Welcome screens, language selection, pomodoro explanation, quick start guide
+
+- Improved accessibility and user experience across the entire application
+- Consistent text contrast in dark mode throughout all UI components
 
 ### Added
 - Flatpak build configuration files for future Linux distribution
