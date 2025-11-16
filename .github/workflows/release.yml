@@ -68,12 +68,31 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
+      - name: Remove Playwright for Flatpak build
+        if: matrix.platform == 'linux'
+        run: |
+          # Backup original files
+          cp package.json package.json.backup
+          cp package-lock.json package-lock.json.backup
+
+          # Remove playwright from package.json
+          npm uninstall --save-dev @playwright/test
+
+          # Regenerate lock file without playwright
+          npm install --package-lock-only
+
       - name: Generate Flatpak sources
         if: matrix.platform == 'linux'
         run: |
           cd flatpak
           flatpak-node-generator npm ../package-lock.json -o generated-sources.json
           flatpak-cargo-generator ../src-tauri/Cargo.lock -o cargo-sources.json
+
+      - name: Restore original package files
+        if: matrix.platform == 'linux'
+        run: |
+          mv package.json.backup package.json
+          mv package-lock.json.backup package-lock.json
 
       - name: Build Flatpak
         if: matrix.platform == 'linux'
