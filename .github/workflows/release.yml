@@ -86,7 +86,9 @@ jobs:
         run: |
           cd flatpak
           flatpak-node-generator npm ../package-lock.json -o generated-sources.json
-          flatpak-cargo-generator ../src-tauri/Cargo.lock -o cargo-sources.json
+
+          # Cargo generator is a Python module, invoke it directly
+          python3 -m flatpak_cargo_generator ../src-tauri/Cargo.lock -o cargo-sources.json
 
       - name: Restore original package files
         if: matrix.platform == 'linux'
