@@ -1,0 +1,60 @@
+app-id: com.tomatotask.app
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+  - org.freedesktop.Sdk.Extension.node20
+command: tomatotask
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --device=dri
+  - --socket=pulseaudio
+  - --share=network
+  - --filesystem=xdg-data/tomatotask:create
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+modules:
+  - name: tomatotask
+    buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node20/bin
+      env:
+        CARGO_HOME: /run/build/tomatotask/cargo
+        NPM_CONFIG_CACHE: /run/build/tomatotask/npm-cache
+    build-commands:
+      # Install npm dependencies
+      - npm ci --offline
+
+      # Build the application with Tauri
+      - npm run tauri build -- --bundles deb
+
+      # Extract the binary from the .deb package
+      - ar x src-tauri/target/release/bundle/deb/*.deb
+      - tar -xf data.tar.gz
+
+      # Install the binary
+      - install -Dm755 usr/bin/tomatotask /app/bin/tomatotask
+
+      # Install desktop file
+      - install -Dm644 usr/share/applications/tomatotask.desktop /app/share/applications/com.tomatotask.app.desktop
+
+      # Install icons
+      - install -Dm644 src-tauri/icons/tomatoIcon128x128.png /app/share/icons/hicolor/128x128/apps/com.tomatotask.app.png
+      - install -Dm644 src-tauri/icons/tomatoIcon.png /app/share/icons/hicolor/256x256/apps/com.tomatotask.app.png
+
+      # Install appdata/metainfo
+      - install -Dm644 com.tomatotask.app.metainfo.xml /app/share/metainfo/com.tomatotask.app.metainfo.xml
+    sources:
+      - type: git
+        url: https://github.com/AnthonyMahe/TomatoTask.git
+        tag: v1.0.8
+        commit: d793c6749b8e0ef9e30f2a0c5e5e3e5f5c5e5e5e  # À remplacer par le vrai commit hash
+
+      # Node.js dependencies (generated with flatpak-node-generator)
+      - generated-sources.json
+
+      # Rust dependencies (generated with flatpak-cargo-generator)
+      - cargo-sources.json

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.tomatotask.app</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>TomatoTask</name>
+  <summary>An intuitive Pomodoro timer with integrated TodoList</summary>
+  <description>
+    <p>
+      TomatoTask is a powerful productivity application that combines the Pomodoro Technique with task management.
+      Boost your focus and productivity with customizable work sessions, breaks, and comprehensive task tracking.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Customizable Pomodoro timer with work sessions and breaks</li>
+      <li>Integrated task management with project organization</li>
+      <li>Track your productivity with daily and weekly statistics</li>
+      <li>Multi-language support (English, French, Spanish, Italian, German)</li>
+      <li>Light and dark theme support</li>
+      <li>System tray integration with notifications</li>
+      <li>Keyboard shortcuts for efficient workflow</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">com.tomatotask.app.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main timer interface with task management</caption>
+      <image>https://raw.githubusercontent.com/AnthonyMahe/TomatoTask/main/screenshots/main.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://github.com/AnthonyMahe/TomatoTask</url>
+  <url type="bugtracker">https://github.com/AnthonyMahe/TomatoTask/issues</url>
+
+  <developer_name>AnthonyMahe</developer_name>
+
+  <releases>
+    <release version="1.0.8" date="2025-11-15">
+      <description>
+        <p>Critical bug fixes:</p>
+        <ul>
+          <li>Fixed Linux AppImage black screen issue by removing external Google Fonts dependency</li>
+          <li>Added proper Content Security Policy for better security</li>
+          <li>Improved error handling in backend</li>
+          <li>Updated HTML metadata and synchronized version numbers</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+
+  <content_rating type="oars-1.1" />
+
+  <categories>
+    <category>Office</category>
+    <category>Utility</category>
+  </categories>
+
+  <keywords>
+    <keyword>pomodoro</keyword>
+    <keyword>timer</keyword>
+    <keyword>productivity</keyword>
+    <keyword>task</keyword>
+    <keyword>todo</keyword>
+    <keyword>focus</keyword>
+  </keywords>
+
+  <provides>
+    <binary>tomatotask</binary>
+  </provides>
+</component>
