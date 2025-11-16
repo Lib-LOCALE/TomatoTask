@@ -72,7 +72,7 @@ jobs:
         if: matrix.platform == 'linux'
         run: |
           cd flatpak
-          flatpak-node-generator npm ../package-lock.json -o generated-sources.json
+          flatpak-node-generator --no-special-sources npm ../package-lock.json -o generated-sources.json
           flatpak-cargo-generator ../src-tauri/Cargo.lock -o cargo-sources.json
 
       - name: Build Flatpak
