@@ -65,6 +65,10 @@ jobs:
           sudo pip3 install git+https://github.com/flatpak/flatpak-builder-tools.git@master#subdirectory=node
           sudo pip3 install git+https://github.com/flatpak/flatpak-builder-tools.git@master#subdirectory=cargo
 
+          # Find where cargo generator was installed
+          echo "Finding flatpak-cargo-generator..."
+          which flatpak-cargo-generator || find /usr -name "*cargo*generator*" 2>/dev/null || true
+
       - name: Install frontend dependencies
         run: npm ci
 
@@ -87,8 +91,9 @@ jobs:
           cd flatpak
           flatpak-node-generator npm ../package-lock.json -o generated-sources.json
 
-          # Use cargo generator script directly
-          /usr/local/bin/flatpak-cargo-generator.py ../src-tauri/Cargo.lock -o cargo-sources.json
+          # Download and use cargo generator script directly from GitHub
+          wget -q https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/cargo/flatpak-cargo-generator.py
+          python3 flatpak-cargo-generator.py ../src-tauri/Cargo.lock -o cargo-sources.json
 
       - name: Restore original package files
         if: matrix.platform == 'linux'
