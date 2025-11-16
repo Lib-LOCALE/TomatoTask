@@ -79,7 +79,7 @@
 		<div class="w-full max-w-2xl">
 			<!-- Header -->
 			<div class="flex items-center justify-between border-b px-6 py-4">
-				<h2 class="text-lg font-semibold">
+				<h2 class="text-lg font-semibold text-foreground">
 					{$_('keyboard.shortcuts')}
 				</h2>
 
@@ -104,13 +104,13 @@
 			<div class="px-6 py-4 space-y-6">
 				<!-- Timer Shortcuts -->
 				<div>
-					<h3 class="text-sm font-semibold text-muted-foreground mb-2 uppercase">
+					<h3 class="text-sm font-semibold text-foreground/70 mb-2 uppercase">
 						{$_('timer.work')}
 					</h3>
 					<div class="space-y-2">
 						{#each groupedShortcuts().timer as shortcut}
 							<div class="flex items-center justify-between">
-								<span class="text-sm">{$_(shortcut.description)}</span>
+								<span class="text-sm text-foreground">{$_(shortcut.description)}</span>
 								<kbd
 									class="rounded-md border border-muted bg-muted px-3 py-1.5 text-xs font-mono font-semibold"
 								>
@@ -123,13 +123,13 @@
 
 				<!-- Task Shortcuts -->
 				<div>
-					<h3 class="text-sm font-semibold text-muted-foreground mb-2 uppercase">
+					<h3 class="text-sm font-semibold text-foreground/70 mb-2 uppercase">
 						{$_('tasks.title')}
 					</h3>
 					<div class="space-y-2">
 						{#each groupedShortcuts().tasks as shortcut}
 							<div class="flex items-center justify-between">
-								<span class="text-sm">{$_(shortcut.description)}</span>
+								<span class="text-sm text-foreground">{$_(shortcut.description)}</span>
 								<kbd
 									class="rounded-md border border-muted bg-muted px-3 py-1.5 text-xs font-mono font-semibold"
 								>
@@ -142,13 +142,13 @@
 
 				<!-- Settings Shortcuts -->
 				<div>
-					<h3 class="text-sm font-semibold text-muted-foreground mb-2 uppercase">
+					<h3 class="text-sm font-semibold text-foreground/70 mb-2 uppercase">
 						{$_('settings.title')}
 					</h3>
 					<div class="space-y-2">
 						{#each groupedShortcuts().settings as shortcut}
 							<div class="flex items-center justify-between">
-								<span class="text-sm">{$_(shortcut.description)}</span>
+								<span class="text-sm text-foreground">{$_(shortcut.description)}</span>
 								<kbd
 									class="rounded-md border border-muted bg-muted px-3 py-1.5 text-xs font-mono font-semibold"
 								>
@@ -161,13 +161,13 @@
 
 				<!-- Help Shortcuts -->
 				<div>
-					<h3 class="text-sm font-semibold text-muted-foreground mb-2 uppercase">
+					<h3 class="text-sm font-semibold text-foreground/70 mb-2 uppercase">
 						Help
 					</h3>
 					<div class="space-y-2">
 						{#each groupedShortcuts().help as shortcut}
 							<div class="flex items-center justify-between">
-								<span class="text-sm">{$_(shortcut.description)}</span>
+								<span class="text-sm text-foreground">{$_(shortcut.description)}</span>
 								<kbd
 									class="rounded-md border border-muted bg-muted px-3 py-1.5 text-xs font-mono font-semibold"
 								>

@@ -65,7 +65,7 @@
 <form onsubmit={handleSubmit} class="space-y-4">
 	<!-- Nom du projet -->
 	<div>
-		<label for="project-name" class="block text-sm font-medium mb-1">
+		<label for="project-name" class="block text-sm font-medium mb-1 text-foreground">
 			{$_('projects.form.name')}
 		</label>
 		<Input
@@ -80,7 +80,7 @@
 
 	<!-- Couleur du projet -->
 	<div>
-		<label class="block text-sm font-medium mb-2">
+		<label class="block text-sm font-medium mb-2 text-foreground">
 			{$_('projects.form.color')}
 		</label>
 		<div class="flex flex-wrap gap-2">
@@ -109,7 +109,7 @@
 		</div>
 
 		<!-- Aperçu de la couleur sélectionnée -->
-		<div class="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+		<div class="mt-2 flex items-center gap-2 text-sm text-foreground/70">
 			<div class="h-4 w-4 rounded-full" style="background-color: {color}"></div>
 			<span>{color}</span>
 		</div>
