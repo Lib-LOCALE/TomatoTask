@@ -90,11 +90,7 @@ jobs:
           wget -q https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/cargo/flatpak-cargo-generator.py
           python3 flatpak-cargo-generator.py ../src-tauri/Cargo.lock -o cargo-sources.json
 
-      - name: Restore original package files
-        if: matrix.platform == 'linux'
-        run: |
-          mv package.json.backup package.json
-          mv package-lock.json.backup package-lock.json
+      # Note: We keep the modified package.json without Playwright for Flatpak build
 
       - name: Build Flatpak
         if: matrix.platform == 'linux'
