@@ -83,8 +83,11 @@ jobs:
         if: matrix.platform == 'linux'
         run: |
           cd flatpak
-          # Generate sources without Playwright but with all other deps
-          flatpak-node-generator npm ../package-lock.json -o generated-sources.json
+          # Generate sources with --electron-no-binary to skip special binaries including Playwright
+          flatpak-node-generator --electron-no-binary npm ../package-lock.json -o generated-sources.json || {
+            echo "Generation failed, trying with -P flag to skip special sources"
+            flatpak-node-generator -P npm ../package-lock.json -o generated-sources.json
+          }
 
           # Download and use cargo generator script
           wget -q https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/cargo/flatpak-cargo-generator.py
