@@ -30,7 +30,7 @@ flatpak run com.tomatotask.app
 From GitHub Releases:
 ```bash
 # Download the .flatpak file from releases, then:
-flatpak install tomatotask-v1.0.8.flatpak
+flatpak install tomatotask-v1.0.9.flatpak
 flatpak run com.tomatotask.app
 ```
 
