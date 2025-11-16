@@ -37,6 +37,17 @@
   <developer_name>AnthonyMahe</developer_name>
 
   <releases>
+    <release version="1.0.9" date="2025-11-16">
+      <description>
+        <p>Linux distribution improvements:</p>
+        <ul>
+          <li>Switched from AppImage to Flatpak for better Linux compatibility</li>
+          <li>Enhanced security through Flatpak sandboxing</li>
+          <li>Automatic updates via Flathub (coming soon)</li>
+          <li>No dependency conflicts across distributions</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.8" date="2025-11-15">
       <description>
         <p>Critical bug fixes:</p>

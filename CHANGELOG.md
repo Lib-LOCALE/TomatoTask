@@ -5,6 +5,29 @@ All notable changes to TomatoTask will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.9] - 2025-11-16
+
+### Changed
+
+**Linux Distribution**
+- **Switched from AppImage to Flatpak** as the primary Linux distribution format
+  - Universal compatibility across all Linux distributions
+  - Enhanced security through Flatpak sandboxing
+  - Automatic updates via Flathub (coming soon)
+  - No dependency conflicts
+- **Added Flathub support** with complete manifest and metadata
+  - Created com.tomatotask.app.yml Flatpak manifest
+  - Added AppStream metadata for Flathub submission
+  - Configured automatic updates with flathub.json
+- **Updated GitHub Actions workflow** to build Flatpak packages
+  - Automatic Flatpak generation on release tags
+  - Published to GitHub Releases alongside Windows builds
+
+### Added
+- Comprehensive Flatpak build documentation
+- Flathub submission guide for maintainers
+- Flatpak installation instructions in README
+
 ## [1.0.8] - 2025-11-15
 
 ### Fixed
