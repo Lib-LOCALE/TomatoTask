@@ -68,29 +68,33 @@ jobs:
         if: matrix.platform == 'windows'
         run: npm ci
 
-      - name: Generate Flatpak sources with all dependencies
+      - name: Remove Playwright from lockfile while preserving deps
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get install -y jq
+
+          # Modify package-lock.json to remove ONLY @playwright entries
+          jq 'del(.packages."node_modules/@playwright/test") |
+              del(.packages."node_modules/@types/node".devDependencies."@playwright/test") |
+              del(.devDependencies."@playwright/test")' package-lock.json > package-lock-temp.json
+          mv package-lock-temp.json package-lock.json
+
+      - name: Generate Flatpak sources
         if: matrix.platform == 'linux'
         run: |
           cd flatpak
-          # Generate sources WITH Playwright to capture all deps including zimmerframe
-          flatpak-node-generator npm ../package-lock.json -o generated-sources-full.json
+          # Generate sources without Playwright but with all other deps
+          flatpak-node-generator npm ../package-lock.json -o generated-sources.json
 
           # Download and use cargo generator script
           wget -q https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/cargo/flatpak-cargo-generator.py
           python3 flatpak-cargo-generator.py ../src-tauri/Cargo.lock -o cargo-sources.json
 
-          # Remove Playwright entries from generated sources using jq
-          sudo apt-get install -y jq
-          jq 'del(.[] | select(.url? | test("playwright")))' generated-sources-full.json > generated-sources.json
-
-          # Verify the file
-          echo "Generated sources without Playwright:"
-          jq 'length' generated-sources.json
-
-      - name: Remove Playwright from package.json for build
+      - name: Remove Playwright from package.json
         if: matrix.platform == 'linux'
         run: |
-          npm uninstall --save-dev @playwright/test --package-lock-only
+          jq 'del(.devDependencies."@playwright/test")' package.json > package-temp.json
+          mv package-temp.json package.json
 
       - name: Build Flatpak
         if: matrix.platform == 'linux'
