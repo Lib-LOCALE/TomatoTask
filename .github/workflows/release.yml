@@ -62,8 +62,8 @@ jobs:
         if: matrix.platform == 'linux'
         run: |
           sudo pip3 install aiohttp toml
-          sudo pip3 install git+https://github.com/flatpak/flatpak-builder-tools.git#subdirectory=node
-          sudo pip3 install git+https://github.com/flatpak/flatpak-builder-tools.git#subdirectory=cargo
+          sudo pip3 install git+https://github.com/flatpak/flatpak-builder-tools.git@master#subdirectory=node
+          sudo pip3 install git+https://github.com/flatpak/flatpak-builder-tools.git@master#subdirectory=cargo
 
       - name: Install frontend dependencies
         run: npm ci
@@ -72,7 +72,7 @@ jobs:
         if: matrix.platform == 'linux'
         run: |
           cd flatpak
-          flatpak-node-generator --no-special-sources npm ../package-lock.json -o generated-sources.json
+          flatpak-node-generator npm ../package-lock.json -o generated-sources.json
           flatpak-cargo-generator ../src-tauri/Cargo.lock -o cargo-sources.json
 
       - name: Build Flatpak
