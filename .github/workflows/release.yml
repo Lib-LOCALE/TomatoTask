@@ -61,8 +61,9 @@ jobs:
       - name: Install Flatpak generators
         if: matrix.platform == 'linux'
         run: |
-          pip3 install --user flatpak-node-generator aiohttp toml
-          pip3 install --user flatpak-cargo-generator
+          sudo pip3 install aiohttp toml
+          sudo pip3 install git+https://github.com/flatpak/flatpak-builder-tools.git#subdirectory=node
+          sudo pip3 install git+https://github.com/flatpak/flatpak-builder-tools.git#subdirectory=cargo
 
       - name: Install frontend dependencies
         run: npm ci
@@ -71,8 +72,8 @@ jobs:
         if: matrix.platform == 'linux'
         run: |
           cd flatpak
-          ~/.local/bin/flatpak-node-generator npm ../package-lock.json -o generated-sources.json
-          ~/.local/bin/flatpak-cargo-generator.py ../src-tauri/Cargo.lock -o cargo-sources.json
+          flatpak-node-generator npm ../package-lock.json -o generated-sources.json
+          flatpak-cargo-generator ../src-tauri/Cargo.lock -o cargo-sources.json
 
       - name: Build Flatpak
         if: matrix.platform == 'linux'
