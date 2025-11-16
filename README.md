@@ -17,20 +17,37 @@
 
 ## 📥 Installation
 
-### Download Latest Release
+### Recommended Installation Methods
 
-Download the latest version for your platform:
+**Linux (Flatpak) - Recommended:**
+
+From Flathub (coming soon):
+```bash
+flatpak install flathub com.tomatotask.app
+flatpak run com.tomatotask.app
+```
+
+From GitHub Releases:
+```bash
+# Download the .flatpak file from releases, then:
+flatpak install tomatotask-v1.0.8.flatpak
+flatpak run com.tomatotask.app
+```
 
 **Windows:**
 - Download `TomatoTask_x.x.x_x64-setup.exe`
 - Run the installer and follow the instructions
 
-**Linux:**
-- Download `TomatoTask_x.x.x_amd64.AppImage`
-- Make it executable: `chmod +x TomatoTask_x.x.x_amd64.AppImage`
-- Run the AppImage
-
 [Download Latest Release](https://github.com/AnthonyMahe/TomatoTask/releases/latest)
+
+### Why Flatpak?
+
+TomatoTask is distributed as a Flatpak for Linux, offering:
+- ✅ Universal compatibility across all Linux distributions
+- ✅ Sandboxed security
+- ✅ Automatic updates via Flathub
+- ✅ No dependency conflicts
+- ✅ Easy installation and removal
 
 ## 🚀 Usage
 
