@@ -5,6 +5,106 @@ All notable changes to TomatoTask will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.8] - 2025-11-15
+
+### Fixed
+
+**CRITICAL: Linux AppImage Black Screen Issue**
+- **Removed external Google Fonts dependency** that was causing black screen on Linux AppImage
+  - WebKit2GTK on Linux was blocking external font resources from fonts.googleapis.com
+  - Replaced with reliable system fonts that work across all platforms
+  - Fonts now use: ui-monospace, system-ui, and standard fallbacks
+  - No internet connection required for fonts
+- **Added proper Content Security Policy (CSP)** in Tauri configuration
+  - Prevents external resource loading issues
+  - Enhances application security
+  - Works reliably on all platforms (Windows, Linux, macOS)
+- **Improved error handling in Rust backend**
+  - Better error messages with eprintln! for debugging
+  - More descriptive error context for database initialization
+  - Helps identify issues during application startup
+  - Added database path logging
+
+### Changed
+
+- **Updated HTML metadata**
+  - Changed title from "Vite + Svelte + TS" to "TomatoTask - Pomodoro Timer"
+  - Fixed favicon path (now uses favicon.png instead of vite.svg)
+  - Added meta description for better app identification
+- **Synchronized version numbers** across all configuration files
+  - package.json: 1.0.8
+  - Cargo.toml: 1.0.8 (was 1.0.4)
+  - tauri.conf.json: 1.0.8
+
+## [1.0.7] - 2025-11-15
+
+### Changed
+- Version bump to 1.0.7
+- Updated Windows icon to tomatoIcon.ico
+
+## [1.0.6] - 2025-11-14
+
+### Changed
+- Improved pixel art design system
+- Fixed icon paths for better consistency
+- Version synchronization improvements
+
+## [1.0.5] - 2025-11-14
+
+### Changed
+- Major UX improvements
+- Enhanced UI consistency
+- Bug fixes and performance improvements
+
+## [1.0.4] - 2025-11-14
+
+### Added
+
+**Onboarding Flow**
+- Complete 3-step onboarding experience for first-time users
+  - Step 1: Language selection with flag emojis 🇬🇧 🇫🇷 🇪🇸 🇮🇹 🇩🇪
+  - Step 2: Pomodoro technique explained in simple, accessible terms
+  - Step 3: Quick start guide with keyboard shortcuts
+- localStorage-based completion tracking (shows only once)
+- Fully translated in all 5 supported languages
+- Added "back" and "next" translations to common section
+
+**New Icon**
+- Added tomatoTask30x30.png for better system tray display
+- Updated tray icon configuration
+
+### Changed
+
+**UI/UX Improvements**
+- Redesigned language selector with flag emojis
+  - 🇬🇧 English, 🇫🇷 Français, 🇪🇸 Español, 🇮🇹 Italiano, 🇩🇪 Deutsch
+  - Real flag emojis for better visual recognition
+  - Added checkmark icon to clearly show the selected language
+  - Improved button styling with better hover states and transitions
+  - Enhanced visual hierarchy with larger, more accessible buttons
+  - Flags appear in both dropdown and button variants
+
+**Dark Mode Enhancement**
+- Complete redesign of dark mode color palette for better visual harmony
+  - Softer background with subtle blue tint to reduce eye strain
+  - Modern purple-violet primary color (more vibrant and appealing)
+  - Improved contrast ratios across all UI elements
+  - Better border and shadow definitions
+  - Elegant cyan accent color for highlights
+  - More sophisticated muted colors for secondary elements
+  - Inspired by modern design systems (GitHub Dark, VS Code Dark)
+
+### Fixed
+- **CRITICAL**: Fixed Svelte build error that caused GitHub Actions to fail
+  - Changed `class:bg-primary/10` to `class:bg-accent` (Svelte doesn't support `/` in dynamic class bindings)
+  - All builds now pass successfully ✅
+- Confirmed all modals properly close when clicking outside (backdrop click)
+- Improved modal backdrop with consistent blur effect across all dialogs
+- Updated author information in package.json and Cargo.toml (AnthonyMahe)
+- Synchronized version numbers across all configuration files (1.0.4)
+- Fixed .gitignore typo (.speify → .specify)
+- Removed .claude/ and .specify/ development files from git tracking
+
 ## [1.0.0] - 2025-11-13
 
 ### Added
@@ -218,104 +318,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **i18n Keys**: 125+ translation keys
 - **Supported Languages**: 5
 - **Keyboard Shortcuts**: 4 global shortcuts
-
-## [1.0.8] - 2025-11-15
-
-### Fixed
-
-**CRITICAL: Linux AppImage Black Screen Issue**
-- **Removed Google Fonts external dependency** that was causing black screen on Linux AppImage
-  - WebKit2GTK on Linux was blocking external font resources
-  - Replaced with reliable system fonts that work across all platforms
-  - Fonts now use: ui-monospace, system-ui, and standard fallbacks
-- **Added proper Content Security Policy (CSP)** in Tauri configuration
-  - Prevents external resource loading issues
-  - Enhances application security
-  - Works reliably on all platforms (Windows, Linux, macOS)
-- **Improved error handling in Rust backend**
-  - Better error messages with eprintln! for debugging
-  - More descriptive error context for database initialization
-  - Helps identify issues during application startup
-
-### Changed
-
-- **Updated HTML metadata**
-  - Changed title from "Vite + Svelte + TS" to "TomatoTask - Pomodoro Timer"
-  - Fixed favicon path (now uses favicon.png instead of vite.svg)
-  - Added meta description for better app identification
-- **Synchronized version numbers** across all configuration files
-  - package.json: 1.0.8
-  - Cargo.toml: 1.0.8 (was 1.0.4)
-  - tauri.conf.json: 1.0.8
-
-## [1.0.7] - 2025-11-15
-
-### Changed
-- Version bump to 1.0.7
-- Updated Windows icon to tomatoIcon.ico
-
-## [1.0.6] - 2025-11-14
-
-### Changed
-- Improved pixel art design system
-- Fixed icon paths for better consistency
-- Version synchronization improvements
-
-## [1.0.5] - 2025-11-14
-
-### Changed
-- Major UX improvements
-- Enhanced UI consistency
-- Bug fixes and performance improvements
-
-## [1.0.4] - 2025-11-14
-
-### Added
-
-**Onboarding Flow**
-- Complete 3-step onboarding experience for first-time users
-  - Step 1: Language selection with flag emojis 🇬🇧 🇫🇷 🇪🇸 🇮🇹 🇩🇪
-  - Step 2: Pomodoro technique explained in simple, accessible terms
-  - Step 3: Quick start guide with keyboard shortcuts
-- localStorage-based completion tracking (shows only once)
-- Fully translated in all 5 supported languages
-- Added "back" and "next" translations to common section
-
-**New Icon**
-- Added tomatoTask30x30.png for better system tray display
-- Updated tray icon configuration
-
-### Changed
-
-**UI/UX Improvements**
-- Redesigned language selector with flag emojis
-  - 🇬🇧 English, 🇫🇷 Français, 🇪🇸 Español, 🇮🇹 Italiano, 🇩🇪 Deutsch
-  - Real flag emojis for better visual recognition
-  - Added checkmark icon to clearly show the selected language
-  - Improved button styling with better hover states and transitions
-  - Enhanced visual hierarchy with larger, more accessible buttons
-  - Flags appear in both dropdown and button variants
-
-**Dark Mode Enhancement**
-- Complete redesign of dark mode color palette for better visual harmony
-  - Softer background with subtle blue tint to reduce eye strain
-  - Modern purple-violet primary color (more vibrant and appealing)
-  - Improved contrast ratios across all UI elements
-  - Better border and shadow definitions
-  - Elegant cyan accent color for highlights
-  - More sophisticated muted colors for secondary elements
-  - Inspired by modern design systems (GitHub Dark, VS Code Dark)
-
-### Fixed
-- **CRITICAL**: Fixed Svelte build error that caused GitHub Actions to fail
-  - Changed `class:bg-primary/10` to `class:bg-accent` (Svelte doesn't support `/` in dynamic class bindings)
-  - All builds now pass successfully ✅
-- Confirmed all modals properly close when clicking outside (backdrop click)
-- Improved modal backdrop with consistent blur effect across all dialogs
-- Updated author information in package.json and Cargo.toml (AnthonyMahe)
-- Synchronized version numbers across all configuration files (1.0.4)
-- Fixed .gitignore typo (.speify → .specify)
-- Removed .claude/ and .specify/ development files from git tracking
 
 ## [Unreleased]
 
