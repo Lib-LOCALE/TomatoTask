@@ -49,7 +49,7 @@
 {#if variant === 'dropdown'}
 	<!-- Dropdown standard -->
 	<div class="w-full">
-		<label for="language-select" class="mb-2 block text-sm font-medium">
+		<label for="language-select" class="mb-2 block text-sm font-medium text-foreground">
 			Language / Langue
 		</label>
 
@@ -57,10 +57,10 @@
 			id="language-select"
 			onchange={handleSelectChange}
 			value={currentLanguage}
-			class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+			class="flex h-10 w-full rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
 		>
 			{#each SUPPORTED_LANGUAGES as lang}
-				<option value={lang}>
+				<option value={lang} class="text-foreground">
 					{getLanguageFlag(lang)} {getLanguageName(lang)} ({getLanguageCode(lang)})
 				</option>
 			{/each}
@@ -69,7 +69,7 @@
 {:else}
 	<!-- Groupe de boutons avec drapeaux -->
 	<div class="w-full">
-		<div class="mb-3 text-sm font-medium">Language / Langue</div>
+		<div class="mb-3 text-sm font-medium text-foreground">Language / Langue</div>
 
 		<div class="flex flex-wrap gap-3">
 			{#each SUPPORTED_LANGUAGES as lang}
@@ -82,7 +82,7 @@
 					class:shadow-md={isSelected}
 					class:border-border={!isSelected}
 					class:hover:bg-muted={!isSelected}
-					class="group relative rounded-lg border-2 px-4 py-3 text-sm font-medium transition-all duration-200 flex items-center gap-3 min-w-[160px]"
+					class="group relative rounded-lg border-2 px-4 py-3 text-sm font-medium text-foreground transition-all duration-200 flex items-center gap-3 min-w-[160px]"
 				>
 					<!-- Drapeau image -->
 					<img
@@ -92,7 +92,7 @@
 					/>
 
 					<!-- Nom de la langue -->
-					<span class="flex-1 text-left">{getLanguageName(lang)}</span>
+					<span class="flex-1 text-left text-foreground">{getLanguageName(lang)}</span>
 
 					<!-- Icône de sélection -->
 					{#if isSelected}
