@@ -107,7 +107,7 @@
 			id="task-description"
 			bind:value={formData.description}
 			placeholder="Optional description..."
-			class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+			class="flex min-h-[80px] w-full rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 		></textarea>
 	</div>
 
@@ -126,6 +126,7 @@
 					class:border-primary={formData.estimatedPomodoros === count}
 					class:bg-primary={formData.estimatedPomodoros === count}
 					class:text-primary-foreground={formData.estimatedPomodoros === count}
+					class:text-foreground={formData.estimatedPomodoros !== count}
 				>
 					{count}
 				</button>

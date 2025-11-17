@@ -234,7 +234,7 @@
 
 						<!-- Language Selector -->
 						<div>
-							<LanguageSelector variant="dropdown" />
+							<LanguageSelector variant="buttons" />
 						</div>
 					</div>
 				</section>
