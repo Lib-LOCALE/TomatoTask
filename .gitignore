@@ -26,3 +26,8 @@ dist-ssr
 
 # Specify configuration (project planning files)
 .specify/
+
+# Temporary documentation files (should not be public)
+IMPLEMENTATION_STATUS.md
+PR_DESCRIPTION.md
+PIXEL_ART_GUIDE.md
