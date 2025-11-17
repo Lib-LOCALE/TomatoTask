@@ -24,7 +24,7 @@
       "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: asset: https://asset.localhost; script-src 'self'"
     },
     "trayIcon": {
-      "iconPath": "icons/32x32.png",
+      "iconPath": "icons/tomatoIcon.png",
       "iconAsTemplate": true,
       "menuOnLeftClick": false,
       "tooltip": "TomatoTask - Pomodoro Timer"
