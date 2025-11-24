@@ -215,14 +215,16 @@
 	<!-- Sidebar des projets et tâches (1/3 de l'écran) -->
 	<aside class="w-1/3 border-r flex flex-col">
 		<!-- Liste des projets (1/3 du sidebar) -->
-		<div class="h-1/3 border-b">
-			<ProjectList
-				onProjectSelect={handleProjectSelect}
-				onNewProject={handleNewProject}
-				onEditProject={handleEditProject}
-				onDeleteProject={handleDeleteProject}
-			/>
-		</div>
+		{#if settingsStore.settings.enableProjects}
+			<div class="h-1/3 border-b">
+				<ProjectList
+					onProjectSelect={handleProjectSelect}
+					onNewProject={handleNewProject}
+					onEditProject={handleEditProject}
+					onDeleteProject={handleDeleteProject}
+				/>
+			</div>
+		{/if}
 
 		<!-- Liste des tâches (2/3 du sidebar) -->
 		<div class="flex-1">

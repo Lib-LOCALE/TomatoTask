@@ -23,6 +23,7 @@ export interface Settings {
 	notificationSound: string;
 	autoStartBreaks: boolean;
 	autoStartPomodoros: boolean;
+	enableProjects: boolean;
 }
 
 /**
