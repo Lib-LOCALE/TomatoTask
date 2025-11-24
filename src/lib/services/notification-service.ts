@@ -78,8 +78,9 @@ export function playNotificationSound(soundName: string = 'notification'): void 
  * @param sessionType - Type de session terminée
  */
 export async function notifyComplete(sessionType: SessionType): Promise<void> {
-	// Joue le son
-	playNotificationSound();
+	// Joue le son approprié
+	const soundName = sessionType === 'work' ? 'squashed_tomato' : 'notification';
+	playNotificationSound(soundName);
 
 	// Envoie la notification desktop (désactivée temporairement)
 	await notifySessionComplete(sessionType);
