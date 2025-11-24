@@ -1,6 +1,6 @@
 [package]
 name = "tomatotask"
-version = "1.0.12"
+version = "1.0.13"
 description = "An intuitive Pomodoro timer with integrated TodoList for productivity and time management."
 authors = ["AnthonyMahe <anthony.mahe@example.com>"]
 license = "MIT"
