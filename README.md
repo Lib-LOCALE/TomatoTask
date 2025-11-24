@@ -1,6 +1,6 @@
 # 🍅 TomatoTask
 
-> A modern pomodoro timer application with task management!
+> A modern pomodoro timer application with task management!!
 [![Version](https://img.shields.io/badge/version-1.0.9-blue.svg)](https://github.com/AnthonyMahe/TomatoTask)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
