@@ -33,9 +33,10 @@
 	}
 
 	// Tâches actives uniquement
-	const activeTasks = $derived(() => {
-		return taskStore.tasks.filter((t) => !t.isCompleted);
-	});
+	const activeTasks = $derived(taskStore.tasks.filter((t) => !t.isCompleted));
+
+	// Derived value for the select element to ensure it's always a string
+	const selectValue = $derived(selectedTaskId?.toString() ?? '');
 </script>
 
 <div class="w-full">
@@ -45,14 +46,14 @@
 
 	<select
 		id="task-select"
-		onchange={handleSelect}
-		value={selectedTaskId?.toString() || ''}
+		onchange="{handleSelect}"
+		value="{selectValue}"
 		class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 	>
 		<option value="">No task (free session)</option>
 
-		{#each activeTasks() as task (task.id)}
-			<option value={task.id}>
+		{#each activeTasks as task (task.id)}
+			<option value="{task.id}">
 				{task.title}
 				{#if task.estimatedPomodoros > 0}
 					({task.completedPomodoros}/{task.estimatedPomodoros} 🍅)

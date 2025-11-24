@@ -3,7 +3,8 @@
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
 	import { projectStore } from '$lib/stores/projects.svelte';
-	import type { Project } from '$lib/types';
+	import { updateTask } from '$lib/services/task-service';
+	import { taskStore } from '$lib/stores/tasks.svelte';
 
 	// Props
 	interface Props {
@@ -14,6 +15,11 @@
 	}
 
 	let { onProjectSelect, onNewProject, onEditProject, onDeleteProject }: Props = $props();
+
+	// État local
+	let isExpanded = $state(true);
+	let hoveredProjectId = $state<number | null>(null);
+	let dragOverProjectId = $state<number | null | 'inbox'>(null);
 
 	// Projet sélectionné
 	const selectedProjectId = $derived(projectStore.selectedProjectId);
@@ -29,8 +35,66 @@
 	/**
 	 * Gère la création d'un nouveau projet
 	 */
-	function handleNewProject() {
+	function handleNewProject(e: MouseEvent) {
+		e.stopPropagation();
 		onNewProject?.();
+	}
+
+	/**
+	 * Gère le survol d'un élément draggable
+	 */
+	function handleDragOver(e: DragEvent, projectId: number | null) {
+		e.preventDefault();
+		if (projectId === null) {
+			dragOverProjectId = 'inbox';
+		} else {
+			dragOverProjectId = projectId;
+		}
+	}
+
+	/**
+	 * Gère la sortie d'un élément draggable
+	 */
+	function handleDragLeave(e: DragEvent) {
+		dragOverProjectId = null;
+	}
+
+	/**
+	 * Gère le drop d'une tâche
+	 */
+	async function handleDrop(e: DragEvent, projectId: number | null) {
+		e.preventDefault();
+		dragOverProjectId = null;
+
+		const taskIdStr = e.dataTransfer?.getData('text/plain');
+		if (!taskIdStr) return;
+
+		const taskId = parseInt(taskIdStr);
+		if (isNaN(taskId)) return;
+
+		// Trouve la tâche
+		const task = taskStore.tasks.find((t) => t.id === taskId);
+		if (!task) return;
+
+		// Si le projet est différent, met à jour
+		if (task.projectId !== (projectId === null ? undefined : projectId)) {
+			try {
+				// Note: updateTask signature: id, title, description, projectId, estimatedPomodoros
+				// We need to pass all fields.
+				await updateTask(
+					task.id,
+					task.title,
+					task.description,
+					projectId === null ? undefined : projectId,
+					task.estimatedPomodoros
+				);
+				
+				// Refresh projects to update counts
+				await projectStore.load();
+			} catch (error) {
+				console.error('Failed to move task to project:', error);
+			}
+		}
 	}
 
 	onMount(async () => {
@@ -39,112 +103,144 @@
 	});
 </script>
 
-<div class="flex flex-col">
-	<!-- Header avec bouton "New Project" -->
-	<div class="flex items-center justify-between p-4 border-b">
-		<h2 class="text-lg font-semibold">{$_('projects.title')}</h2>
+<div class="flex flex-col h-full">
+	<!-- Section Header (Collapsible) -->
+	<button
+		class="flex items-center justify-between p-4 w-full hover:bg-muted/50 transition-colors group"
+		onclick={() => (isExpanded = !isExpanded)}
+	>
+		<div class="flex items-center gap-2 font-semibold text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+			{#if isExpanded}
+				<ChevronDown class="h-4 w-4" />
+			{:else}
+				<ChevronRight class="h-4 w-4" />
+			{/if}
+			{$_('projects.title')}
+		</div>
+		
 		<button
 			type="button"
 			onclick={handleNewProject}
-			class="rounded-md bg-primary px-3 py-1.5 text-sm text-primary-foreground hover:bg-primary/90 font-bold text-lg"
+			class="opacity-0 group-hover:opacity-100 p-1 hover:bg-background rounded-md transition-all"
 			title={$_('projects.newProject')}
-			aria-label={$_('projects.newProject')}
 		>
-			+
+			<Plus class="h-4 w-4" />
 		</button>
-	</div>
+	</button>
 
-	<!-- Liste des projets -->
-	<div class="flex-1 overflow-y-auto">
-		{#if projectStore.isLoading}
-			<div class="p-4 text-center text-sm text-muted-foreground">
-				{$_('common.loading')}
-			</div>
-		{:else if projectStore.projects.length === 0}
-			<div class="flex flex-col items-center justify-center p-6 text-center text-muted-foreground">
-				<p class="mb-3 text-sm">{$_('projects.noProjects')}</p>
-				<button
-					type="button"
-					onclick={handleNewProject}
-					class="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-				>
-					{$_('projects.form.createTitle')}
-				</button>
-			</div>
-		{:else}
-			<!-- Option "All Projects" -->
-			<button
-				type="button"
+	{#if isExpanded}
+		<div class="flex-1 overflow-y-auto px-2 pb-2 space-y-1">
+			<!-- All Tasks / Inbox -->
+			<div
+				role="button"
+				tabindex="0"
 				onclick={() => handleSelectProject(null)}
-				class="w-full px-4 py-2 text-left text-sm hover:bg-muted transition-colors"
-				class:bg-muted={selectedProjectId === null}
-				class:font-medium={selectedProjectId === null}
+				onkeydown={(e) => e.key === 'Enter' && handleSelectProject(null)}
+				ondragover={(e) => handleDragOver(e, null)}
+				ondragleave={handleDragLeave}
+				ondrop={(e) => handleDrop(e, null)}
+				class="w-full px-3 py-2 text-left text-sm rounded-md transition-all flex items-center gap-3 group cursor-pointer border border-transparent"
+				class:bg-primary={selectedProjectId === null && dragOverProjectId !== 'inbox'}
+				class:text-primary-foreground={selectedProjectId === null && dragOverProjectId !== 'inbox'}
+				class:hover:bg-muted={selectedProjectId !== null && dragOverProjectId !== 'inbox'}
+				class:bg-accent={dragOverProjectId === 'inbox'}
+				class:border-primary={dragOverProjectId === 'inbox'}
 			>
-				<div class="flex items-center gap-2">
-					<div class="h-3 w-3 rounded-full bg-gradient-to-br from-gray-400 to-gray-600"></div>
-					<span>{$_('projects.allProjects')}</span>
-				</div>
-			</button>
+				<Inbox class="h-4 w-4" />
+				<span class="font-medium">{$_('projects.allProjects')}</span>
+				{#if projectStore.projects.length > 0}
+					<span class="ml-auto text-xs opacity-70">
+						{projectStore.projects.reduce((acc, p) => acc + p.taskCount, 0)}
+					</span>
+				{/if}
+			</div>
 
-			<!-- Projets individuels -->
-			{#each projectStore.projects as project (project.id)}
-				<div
-					class="group relative px-4 py-2 hover:bg-muted transition-colors"
-					class:bg-muted={selectedProjectId === project.id}
-				>
+			<div class="h-px bg-border/50 my-2 mx-2"></div>
+
+			<!-- Project List -->
+			{#if projectStore.isLoading}
+				<div class="p-4 text-center text-xs text-muted-foreground">
+					{$_('common.loading')}
+				</div>
+			{:else if projectStore.projects.length === 0}
+				<div class="text-center py-8 px-4">
+					<p class="text-xs text-muted-foreground mb-3">{$_('projects.noProjects')}</p>
 					<button
 						type="button"
-						onclick={() => handleSelectProject(project.id)}
-						class="w-full text-left text-sm"
-						class:font-medium={selectedProjectId === project.id}
+						onclick={(e) => handleNewProject(e as unknown as MouseEvent)}
+						class="text-xs text-primary hover:underline"
 					>
-						<div class="flex items-center gap-2">
-							<div class="h-3 w-3 rounded-full" style="background-color: {project.color}"></div>
-							<span class="flex-1 truncate">{project.name}</span>
-							<span class="text-xs text-muted-foreground">{project.taskCount}</span>
-						</div>
+						{$_('projects.form.createTitle')}
 					</button>
-
-					<!-- Actions (visible au hover) -->
-					<div class="absolute right-2 top-2 hidden group-hover:flex gap-1">
-						<button
-							type="button"
-							onclick={(e) => {
-								e.stopPropagation();
-								onEditProject?.(project);
-							}}
-							class="rounded p-1 hover:bg-background"
-							title="Edit project"
-						>
-							<svg class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-								/>
-							</svg>
-						</button>
-
-						<button
-							type="button"
-							onclick={(e) => {
-								e.stopPropagation();
-								onDeleteProject?.(project);
-							}}
-							class="rounded p-1 hover:bg-destructive hover:text-destructive-foreground"
-							title="Delete project"
-						>
-							<svg class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-								/>
-							</svg>
-						</button>
-					</div>
 				</div>
-			{/each}
-		{/if}
-	</div>
+			{:else}
+				{#each projectStore.projects as project (project.id)}
+					<div
+						class="group relative"
+						onmouseenter={() => (hoveredProjectId = project.id)}
+						onmouseleave={() => (hoveredProjectId = null)}
+						role="group"
+					>
+						<div
+							role="button"
+							tabindex="0"
+							onclick={() => handleSelectProject(project.id)}
+							onkeydown={(e) => e.key === 'Enter' && handleSelectProject(project.id)}
+							ondragover={(e) => handleDragOver(e, project.id)}
+							ondragleave={handleDragLeave}
+							ondrop={(e) => handleDrop(e, project.id)}
+							class="w-full px-3 py-2 text-left text-sm rounded-md transition-all flex items-center gap-3 cursor-pointer border border-transparent"
+							class:bg-muted={selectedProjectId === project.id && dragOverProjectId !== project.id}
+							class:hover:bg-muted={selectedProjectId !== project.id && dragOverProjectId !== project.id}
+							class:bg-accent={dragOverProjectId === project.id}
+							class:border-primary={dragOverProjectId === project.id}
+						>
+							<!-- Color Indicator -->
+							<div 
+								class="h-3 w-3 rounded-full border border-black/10 dark:border-white/10 shadow-sm" 
+								style="background-color: {project.color}"
+							></div>
+							
+							<span class="flex-1 truncate font-medium opacity-90">{project.name}</span>
+							
+							<!-- Task Count Badge -->
+							{#if project.taskCount > 0}
+								<span class="text-xs bg-background/50 px-1.5 py-0.5 rounded-full text-muted-foreground">
+									{project.taskCount}
+								</span>
+							{/if}
+						</div>
+
+						<!-- Actions Menu (visible on hover) -->
+						{#if hoveredProjectId === project.id}
+							<div class="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1 bg-muted/80 backdrop-blur-sm rounded-md p-0.5 shadow-sm">
+								<button
+									type="button"
+									onclick={(e) => {
+										e.stopPropagation();
+										onEditProject?.(project);
+									}}
+									class="p-1 hover:bg-background rounded-sm text-muted-foreground hover:text-foreground transition-colors"
+									title="Edit"
+								>
+									<Edit2 class="h-3 w-3" />
+								</button>
+								<button
+									type="button"
+									onclick={(e) => {
+										e.stopPropagation();
+										onDeleteProject?.(project);
+									}}
+									class="p-1 hover:bg-destructive hover:text-destructive-foreground rounded-sm text-muted-foreground transition-colors"
+									title="Delete"
+								>
+									<Trash2 class="h-3 w-3" />
+								</button>
+							</div>
+						{/if}
+					</div>
+				{/each}
+			{/if}
+		</div>
+	{/if}
 </div>

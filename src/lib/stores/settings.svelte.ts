@@ -14,7 +14,8 @@ const DEFAULT_SETTINGS: Settings = {
 	theme: 'light',
 	notificationSound: 'default',
 	autoStartBreaks: false,
-	autoStartPomodoros: false
+	autoStartPomodoros: false,
+	enableProjects: true
 };
 
 /**
