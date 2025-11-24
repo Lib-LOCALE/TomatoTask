@@ -5,10 +5,18 @@ All notable changes to TomatoTask will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.14] - 2025-11-24
+
+### Fixed
+- **CRITICAL: White Screen Issue - REAL FIX** - Fixed missing settingsStore import in App.svelte
+  - Added missing `settingsStore` import that was causing JavaScript error
+  - Application was crashing on line 218 when checking `settingsStore.settings.enableProjects`
+  - Application now loads correctly on all platforms
+
 ## [1.0.13] - 2025-11-24
 
 ### Fixed
-- **CRITICAL: White Screen Issue** - Fixed application crash causing blank screen
+- **White Screen Issue (Partial Fix)** - Fixed application crash causing blank screen
   - Removed quoted attribute in ProjectHeader component usage
   - Fixed Svelte 5 attribute stringification issue that prevented app from loading
   - Application now starts correctly on all platforms
@@ -430,9 +438,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
-- **1.0.13** (2025-11-24) - CRITICAL FIX: White screen issue resolved
-  - Fixed Svelte 5 attribute stringification causing app crash
+- **1.0.14** (2025-11-24) - CRITICAL FIX: White screen issue - REAL FIX
+  - Fixed missing settingsStore import in App.svelte
   - Application now loads correctly on all platforms
+- **1.0.13** (2025-11-24) - White screen issue (Partial fix)
+  - Fixed Svelte 5 attribute stringification causing app crash
+  - Application partially fixed
 - **1.0.12** (2025-11-24) - Project drag-and-drop, UI overhaul, and build fixes
   - Complete drag-and-drop support for task organization
   - Major project list redesign with improved UX
@@ -459,6 +470,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Full internationalization (5 languages)
   - Complete documentation
 
+[1.0.14]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.14
 [1.0.13]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.13
 [1.0.12]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.12
 [1.0.11]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.11
@@ -470,4 +482,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.5]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.5
 [1.0.4]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.4
 [1.0.0]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.0
-[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.13...HEAD
+[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.14...HEAD
