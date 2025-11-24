@@ -163,5 +163,13 @@
 		"taskDeleted": "Task deleted",
 		"projectCreated": "Project created",
 		"projectDeleted": "Project deleted"
+	},
+	"dialogs": {
+		"deleteTaskTitle": "Delete Task",
+		"deleteTaskConfirm": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
+		"deleteProjectTitle": "Delete Project",
+		"deleteProjectConfirm": "Are you sure you want to delete \"{name}\"? All tasks will remain but will no longer be associated with this project.",
+		"languageTitle": "Language / Langue",
+		"done": "Done"
 	}
 }
