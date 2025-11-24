@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Application principale TomatoTask
 	import { onMount } from 'svelte';
+	import { _ } from 'svelte-i18n';
 	import PomodoroTimer from '$lib/components/timer/PomodoroTimer.svelte';
 	import TaskList from '$lib/components/tasks/TaskList.svelte';
 	import TaskModal from '$lib/components/tasks/TaskModal.svelte';
@@ -122,6 +123,14 @@
 	 */
 	function handleProjectSelect(projectId: number | null) {
 		taskStore.setProjectFilter(projectId);
+		
+		// Auto-select first task of the project if available
+		const tasks = taskStore.filteredTasks;
+		if (tasks.length > 0) {
+			selectTask(tasks[0]);
+		} else {
+			selectTask(null);
+		}
 	}
 
 	/**
@@ -188,6 +197,11 @@
 		// Charge les tâches et projets au démarrage
 		await initializeTasks();
 		await projectStore.load();
+
+		// Auto-select first task if none selected
+		if (!taskStore.selectedTask && taskStore.tasks.length > 0) {
+			selectTask(taskStore.tasks[0]);
+		}
 
 		// Enregistre les raccourcis clavier
 		registerShortcut('s', handleStartStopShortcut, true); // Ctrl+S
@@ -290,9 +304,9 @@
 		class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-6 shadow-2xl m-0 z-50 max-w-md"
 		style="backdrop-filter: blur(4px);"
 	>
-		<h2 class="mb-4 text-lg font-semibold">Delete Task</h2>
+		<h2 class="mb-4 text-lg font-semibold">{$_('dialogs.deleteTaskTitle')}</h2>
 		<p class="mb-6 text-muted-foreground">
-			Are you sure you want to delete "{taskToDelete.title}"? This action cannot be undone.
+			{$_('dialogs.deleteTaskConfirm', { values: { name: taskToDelete.title } })}
 		</p>
 
 		<div class="flex justify-end gap-2">
@@ -304,7 +318,7 @@
 				}}
 				class="rounded-md border px-4 py-2 hover:bg-muted"
 			>
-				Cancel
+				{$_('common.cancel')}
 			</button>
 
 			<button
@@ -312,7 +326,7 @@
 				onclick={confirmDelete}
 				class="rounded-md bg-destructive px-4 py-2 text-destructive-foreground hover:bg-destructive/90"
 			>
-				Delete
+				{$_('common.delete')}
 			</button>
 		</div>
 	</dialog>
@@ -333,7 +347,7 @@
 		<div class="w-full max-w-md">
 			<!-- Header -->
 			<div class="flex items-center justify-between border-b pb-4 mb-4">
-				<h2 class="text-lg font-semibold">Language / Langue</h2>
+				<h2 class="text-lg font-semibold">{$_('dialogs.languageTitle')}</h2>
 
 				<button
 					type="button"
@@ -362,7 +376,7 @@
 					onclick={() => (showLanguageSelector = false)}
 					class="rounded-md bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90"
 				>
-					Done
+					{$_('dialogs.done')}
 				</button>
 			</div>
 		</div>
@@ -398,10 +412,9 @@
 		class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-6 shadow-2xl m-0 z-50 max-w-md"
 		style="backdrop-filter: blur(4px);"
 	>
-		<h2 class="mb-4 text-lg font-semibold">Delete Project</h2>
+		<h2 class="mb-4 text-lg font-semibold">{$_('dialogs.deleteProjectTitle')}</h2>
 		<p class="mb-6 text-muted-foreground">
-			Are you sure you want to delete "{projectToDelete.name}"? All tasks will remain but will no
-			longer be associated with this project.
+			{$_('dialogs.deleteProjectConfirm', { values: { name: projectToDelete.name } })}
 		</p>
 
 		<div class="flex justify-end gap-2">
@@ -413,7 +426,7 @@
 				}}
 				class="rounded-md border px-4 py-2 hover:bg-muted"
 			>
-				Cancel
+				{$_('common.cancel')}
 			</button>
 
 			<button
@@ -421,7 +434,7 @@
 				onclick={confirmProjectDelete}
 				class="rounded-md bg-destructive px-4 py-2 text-destructive-foreground hover:bg-destructive/90"
 			>
-				Delete
+				{$_('common.delete')}
 			</button>
 		</div>
 	</dialog>
