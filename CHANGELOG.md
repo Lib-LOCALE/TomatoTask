@@ -5,6 +5,27 @@ All notable changes to TomatoTask will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.11] - 2025-11-24
+
+### Fixed
+- Updated GitHub Actions security workflow to use CodeQL Action v4 (from deprecated v3)
+  - Prevents future deprecation warnings and ensures continued security scanning
+  - Updated all CodeQL action references: init@v4, autobuild@v4, analyze@v4
+
+## [1.0.10] - 2025-11-24
+
+### Added
+- **Sound Effects** - Added completion sound (squashed_tomato.mp3) for better feedback when tasks are completed
+
+### Changed
+- **UX Improvements** - Enhanced user experience across the application
+  - Improved App.svelte main interface
+  - Enhanced ProjectList component with better interactions
+- **Translation Updates** - Fixed and improved translations
+  - Updated English translations (en.json)
+  - Updated French translations (fr.json)
+- **Notification Service** - Improved notification handling and user feedback
+
 ## [1.0.9] - 2025-11-16
 
 ### Fixed
@@ -367,6 +388,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **1.0.11** (2025-11-24) - GitHub Actions security update (CodeQL v4)
+- **1.0.10** (2025-11-24) - Sound effects, UX improvements, and translation updates
+- **1.0.9** (2025-11-16) - Dark mode UI improvements and Flatpak support
 - **1.0.8** (2025-11-15) - CRITICAL FIX: Linux AppImage black screen resolved
   - Removed external Google Fonts dependency causing Linux issues
   - Added proper CSP for better security and compatibility
@@ -385,10 +409,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Full internationalization (5 languages)
   - Complete documentation
 
+[1.0.11]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.11
+[1.0.10]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.10
+[1.0.9]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.9
 [1.0.8]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.8
 [1.0.7]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.7
 [1.0.6]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.6
 [1.0.5]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.5
 [1.0.4]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.4
 [1.0.0]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.0
-[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.8...HEAD
+[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.11...HEAD
