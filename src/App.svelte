@@ -16,6 +16,7 @@
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { projectStore } from '$lib/stores/projects.svelte';
+	import { settingsStore } from '$lib/stores/settings.svelte';
 	import { startSession, pauseTimer, resumeTimer } from '$lib/services/timer-service';
 	import { initializeTasks, deleteTask, selectTask } from '$lib/services/task-service';
 	import { registerShortcut } from '$lib/utils/keyboard';
