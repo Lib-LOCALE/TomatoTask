@@ -61,8 +61,15 @@
 				{$_('common.loading')}
 			</div>
 		{:else if projectStore.projects.length === 0}
-			<div class="p-4 text-center text-sm text-muted-foreground">
-				<p>{$_('projects.noProjects')}</p>
+			<div class="flex flex-col items-center justify-center p-6 text-center text-muted-foreground">
+				<p class="mb-3 text-sm">{$_('projects.noProjects')}</p>
+				<button
+					type="button"
+					onclick={handleNewProject}
+					class="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+				>
+					{$_('projects.form.createTitle')}
+				</button>
 			</div>
 		{:else}
 			<!-- Option "All Projects" -->
