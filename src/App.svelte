@@ -195,7 +195,8 @@
 			showOnboarding = true;
 		}
 
-		// Charge les tâches et projets au démarrage
+		// Charge les paramètres, tâches et projets au démarrage
+		await settingsStore.load();
 		await initializeTasks();
 		await projectStore.load();
 
