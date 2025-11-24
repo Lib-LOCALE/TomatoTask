@@ -30,7 +30,7 @@
 	<!-- Header avec filtres -->
 	<div class="flex flex-col border-b px-6 py-4 gap-4">
 		{#if selectedProject}
-			<ProjectHeader project="{selectedProject}" />
+			<ProjectHeader project={selectedProject} />
 		{/if}
 
 		<div class="flex items-center justify-between">
