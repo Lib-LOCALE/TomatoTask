@@ -5,6 +5,40 @@ All notable changes to TomatoTask will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.12] - 2025-11-24
+
+### Added
+- **Project Drag-and-Drop** - Complete drag-and-drop support for task organization
+  - Drag tasks between projects for easy reorganization
+  - Visual feedback during drag operations with hover states
+  - Smooth animations and transitions
+- **Project Header Component** - New dedicated component for project information display
+  - Shows project name with color indicator
+  - Displays task progress and statistics
+  - Clean, modern design with better visual hierarchy
+
+### Changed
+- **Project List Overhaul** - Major redesign of the project sidebar
+  - Improved UI with better visual feedback
+  - Enhanced expand/collapse functionality
+  - Better hover states and interactions
+  - Optimized layout and spacing
+- **Task List Improvements** - Enhanced task display and organization
+  - Better integration with project header
+  - Improved visual hierarchy
+  - Smoother interactions
+
+### Fixed
+- **HTML Validation Error** - Resolved nested button issue in ProjectList component
+  - Replaced parent button with semantic div role="button"
+  - Maintained full accessibility with keyboard support
+  - Fixed GitHub Actions build failures on Linux and Windows
+- **Build Pipeline** - All builds now pass successfully on all platforms
+
+### Technical
+- Cleaned up git history to consolidate all commits under single author
+- Improved code maintainability and organization
+
 ## [1.0.11] - 2025-11-24
 
 ### Fixed
@@ -388,6 +422,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **1.0.12** (2025-11-24) - Project drag-and-drop, UI overhaul, and build fixes
+  - Complete drag-and-drop support for task organization
+  - Major project list redesign with improved UX
+  - Fixed nested button HTML validation error
+  - All GitHub Actions builds now passing
 - **1.0.11** (2025-11-24) - GitHub Actions security update (CodeQL v4)
 - **1.0.10** (2025-11-24) - Sound effects, UX improvements, and translation updates
 - **1.0.9** (2025-11-16) - Dark mode UI improvements and Flatpak support
@@ -409,6 +448,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Full internationalization (5 languages)
   - Complete documentation
 
+[1.0.12]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.12
 [1.0.11]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.11
 [1.0.10]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.10
 [1.0.9]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.9
@@ -418,4 +458,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.5]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.5
 [1.0.4]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.4
 [1.0.0]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.0
-[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.11...HEAD
+[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.12...HEAD
