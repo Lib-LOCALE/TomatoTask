@@ -105,9 +105,12 @@
 
 <div class="flex flex-col h-full">
 	<!-- Section Header (Collapsible) -->
-	<button
-		class="flex items-center justify-between p-4 w-full hover:bg-muted/50 transition-colors group"
+	<div
+		role="button"
+		tabindex="0"
+		class="flex items-center justify-between p-4 w-full hover:bg-muted/50 transition-colors group cursor-pointer"
 		onclick={() => (isExpanded = !isExpanded)}
+		onkeydown={(e) => e.key === 'Enter' && (isExpanded = !isExpanded)}
 	>
 		<div class="flex items-center gap-2 font-semibold text-sm text-muted-foreground group-hover:text-foreground transition-colors">
 			{#if isExpanded}
@@ -117,16 +120,16 @@
 			{/if}
 			{$_('projects.title')}
 		</div>
-		
+
 		<button
 			type="button"
-			onclick={handleNewProject}
+			onclick={(e) => { e.stopPropagation(); handleNewProject(); }}
 			class="opacity-0 group-hover:opacity-100 p-1 hover:bg-background rounded-md transition-all"
 			title={$_('projects.newProject')}
 		>
 			<Plus class="h-4 w-4" />
 		</button>
-	</button>
+	</div>
 
 	{#if isExpanded}
 		<div class="flex-1 overflow-y-auto px-2 pb-2 space-y-1">
