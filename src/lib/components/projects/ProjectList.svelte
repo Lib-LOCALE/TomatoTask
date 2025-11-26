@@ -2,7 +2,7 @@
 	// Liste des projets avec sélection pour filtrage
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
-	import { ChevronDown } from '@lucide/svelte';
+	import { ChevronDown, ChevronRight, Plus, Inbox, Edit2, Trash2 } from '@lucide/svelte';
 	import { projectStore } from '$lib/stores/projects.svelte';
 	import { updateTask } from '$lib/services/task-service';
 	import { taskStore } from '$lib/stores/tasks.svelte';
