@@ -8,7 +8,7 @@
 	import { notifyComplete } from '$lib/services/notification-service';
 	import TimerDisplay from './TimerDisplay.svelte';
 	import TimerControls from './TimerControls.svelte';
-	import TaskSelector from './TaskSelector.svelte';
+	import TaskSelectDisplay from './TaskSelectDisplay.svelte';
 	import type { SessionType, Task } from '$lib/types';
 	import { _ } from 'svelte-i18n';
 
@@ -81,13 +81,13 @@
 	});
 </script>
 
-<div class="flex flex-col items-center justify-center min-h-screen p-8">
+<div class="flex min-h-screen flex-col items-center justify-center p-8">
 	<!-- Conteneur principal -->
 	<div class="w-full max-w-2xl">
 		<!-- Feedback de complétion animé -->
 		{#if showCompletionFeedback}
 			<div
-				class="mb-4 rounded-lg border-2 p-4 text-center shadow-lg animate-bounce"
+				class="mb-4 animate-bounce rounded-lg border-2 p-4 text-center shadow-lg"
 				class:border-green-500={completedSessionType === 'work'}
 				class:bg-green-50={completedSessionType === 'work'}
 				class:dark:bg-green-950={completedSessionType === 'work'}
@@ -95,17 +95,17 @@
 				class:bg-blue-50={completedSessionType !== 'work'}
 				class:dark:bg-blue-950={completedSessionType !== 'work'}
 			>
-				<div class="text-2xl mb-2">
+				<div class="mb-2 text-2xl">
 					{#if completedSessionType === 'work'}
 						🎉
 					{:else}
 						✨
 					{/if}
 				</div>
-				<div class="font-semibold text-lg">
+				<div class="text-lg font-semibold">
 					{$_('timer.completed')}
 				</div>
-				<div class="text-sm opacity-75 mt-1">
+				<div class="mt-1 text-sm opacity-75">
 					{#if completedSessionType === 'work'}
 						{$_('notifications.workComplete')}
 					{:else}
@@ -116,7 +116,7 @@
 		{/if}
 
 		<!-- Carte du timer -->
-		<div class="bg-card text-card-foreground rounded-lg shadow-lg p-8 border">
+		<div class="bg-card text-card-foreground rounded-lg border p-8 shadow-lg">
 			<!-- Affichage du timer -->
 			<TimerDisplay showProgress={true} />
 
@@ -126,7 +126,7 @@
 			<!-- Sélecteur de tâche (visible uniquement quand le timer n'est pas actif) -->
 			{#if timerStore.remainingSeconds === 0}
 				<div class="mb-6">
-					<TaskSelector
+					<TaskSelectDisplay
 						{selectedTaskId}
 						onTaskSelected={(task) => (selectedTaskId = task?.id)}
 					/>
@@ -142,13 +142,14 @@
 		</div>
 
 		<!-- Informations supplémentaires -->
-		<div class="mt-6 text-center text-sm text-muted-foreground space-y-1">
+		<div class="text-muted-foreground mt-6 space-y-1 text-center text-sm">
 			<p>
-				Press <kbd class="px-2 py-1 bg-muted rounded text-xs font-mono">Ctrl+S</kbd> to start/stop
-				the timer
+				Press <kbd class="bg-muted rounded px-2 py-1 font-mono text-xs">Ctrl+S</kbd> to start/stop the
+				timer
 			</p>
 			<p>
-				Press <kbd class="px-2 py-1 bg-muted rounded text-xs font-mono">Ctrl+/</kbd> for all keyboard shortcuts
+				Press <kbd class="bg-muted rounded px-2 py-1 font-mono text-xs">Ctrl+/</kbd> for all keyboard
+				shortcuts
 			</p>
 		</div>
 	</div>

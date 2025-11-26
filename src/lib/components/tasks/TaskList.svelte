@@ -28,7 +28,7 @@
 
 <div class="flex h-full flex-col">
 	<!-- Header avec filtres -->
-	<div class="flex flex-col border-b px-6 py-4 gap-4">
+	<div class="flex flex-col gap-4 border-b px-6 py-4">
 		{#if selectedProject}
 			<ProjectHeader project={selectedProject} />
 		{/if}
@@ -40,13 +40,13 @@
 				</h2>
 
 				<!-- Compteurs -->
-				<span class="rounded-full bg-muted px-2 py-1 text-xs font-medium">
-					{taskStore.activeCount()} active
+				<span class="bg-muted rounded-full px-2 py-1 text-xs font-medium">
+					{taskStore.activeCount} active
 				</span>
 			</div>
 
 			<!-- Bouton nouvelle tâche -->
-			<Button onclick="{onNewTask}">
+			<Button onclick={onNewTask}>
 				{$_('tasks.newTask')}
 			</Button>
 		</div>
@@ -55,25 +55,25 @@
 	<!-- Filtres -->
 	<div class="flex gap-2 border-b px-6 py-3">
 		<Button
-			variant="{taskStore.filterCompleted === 'all' ? 'default' : 'outline'}"
+			variant={taskStore.filterCompleted === 'all' ? 'default' : 'outline'}
 			size="sm"
-			onclick="{() => taskStore.setCompletionFilter('all')}"
+			onclick={() => taskStore.setCompletionFilter('all')}
 		>
 			All
 		</Button>
 
 		<Button
-			variant="{taskStore.filterCompleted === 'active' ? 'default' : 'outline'}"
+			variant={taskStore.filterCompleted === 'active' ? 'default' : 'outline'}
 			size="sm"
-			onclick="{() => taskStore.setCompletionFilter('active')}"
+			onclick={() => taskStore.setCompletionFilter('active')}
 		>
 			Active
 		</Button>
 
 		<Button
-			variant="{taskStore.filterCompleted === 'completed' ? 'default' : 'outline'}"
+			variant={taskStore.filterCompleted === 'completed' ? 'default' : 'outline'}
 			size="sm"
-			onclick="{() => taskStore.setCompletionFilter('completed')}"
+			onclick={() => taskStore.setCompletionFilter('completed')}
 		>
 			Completed
 		</Button>
@@ -95,11 +95,11 @@
 					{taskStore.error}
 				</div>
 			</div>
-		{:else if taskStore.filteredTasks().length === 0}
+		{:else if taskStore.filteredTasks.length === 0}
 			<!-- État vide -->
 			<div class="flex flex-col items-center justify-center py-12 text-center">
 				<svg
-					class="mb-4 h-16 w-16 text-muted-foreground opacity-50"
+					class="text-muted-foreground mb-4 h-16 w-16 opacity-50"
 					fill="none"
 					stroke="currentColor"
 					stroke-width="1.5"
@@ -116,31 +116,26 @@
 					{$_('tasks.noTasks')}
 				</p>
 
-				<Button class="mt-4" onclick="{onNewTask}">
+				<Button class="mt-4" onclick={onNewTask}>
 					{$_('tasks.newTask')}
 				</Button>
 			</div>
 		{:else}
 			<!-- Liste des tâches -->
 			<div class="space-y-3">
-				{#each taskStore.filteredTasks() as task (task.id)}
+				{#each taskStore.filteredTasks as task (task.id)}
 					<div
 						role="listitem"
 						draggable="true"
-						ondragstart="{(e) => {
+						ondragstart={(e) => {
 							if (e.dataTransfer) {
 								e.dataTransfer.setData('text/plain', task.id.toString());
 								e.dataTransfer.effectAllowed = 'move';
 							}
-						}}"
+						}}
 						class="cursor-grab active:cursor-grabbing"
 					>
-						<TaskCard
-							{task}
-							onEdit="{onEditTask}"
-							onDelete="{onDeleteTask}"
-							onSelect="{onSelectTask}"
-						/>
+						<TaskCard {task} onEdit={onEditTask} onDelete={onDeleteTask} onSelect={onSelectTask} />
 					</div>
 				{/each}
 			</div>

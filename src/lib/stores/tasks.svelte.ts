@@ -17,7 +17,7 @@ class TaskStore {
 	error = $state<string | null>(null);
 
 	// Dérivé: tâches filtrées
-	filteredTasks = $derived(() => {
+	filteredTasks = $derived.by(() => {
 		let filtered = this.tasks;
 
 		// Filtre par statut de complétion
@@ -36,12 +36,12 @@ class TaskStore {
 	});
 
 	// Dérivé: nombre de tâches actives
-	activeCount = $derived(() => {
+	activeCount = $derived.by(() => {
 		return this.tasks.filter((t) => !t.isCompleted).length;
 	});
 
 	// Dérivé: nombre de tâches complétées
-	completedCount = $derived(() => {
+	completedCount = $derived.by(() => {
 		return this.tasks.filter((t) => t.isCompleted).length;
 	});
 
