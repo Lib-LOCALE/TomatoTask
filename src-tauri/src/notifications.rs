@@ -27,6 +27,7 @@ pub fn notify_break_complete(app: &AppHandle) {
 }
 
 /// Envoie une notification de tâche terminée
+#[allow(dead_code)]
 pub fn notify_task_complete(app: &AppHandle, task_title: &str) {
     send_notification(
         app,
