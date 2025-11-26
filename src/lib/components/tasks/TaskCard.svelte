@@ -36,13 +36,11 @@
 	}
 
 	// Calcule la progression des Pomodoros
-	const progress = $derived(() => {
-		return calculateProgress(task.completedPomodoros, task.estimatedPomodoros);
-	});
+	const progress = $derived(calculateProgress(task.completedPomodoros, task.estimatedPomodoros));
 </script>
 
 <div
-	class="group relative rounded-lg border bg-card p-4 transition-all hover:shadow-md"
+	class="group bg-card relative rounded-lg border p-4 transition-all hover:shadow-md"
 	class:opacity-60={task.isCompleted}
 >
 	<!-- Header: Checkbox + Titre -->
@@ -59,32 +57,25 @@
 		>
 			{#if task.isCompleted}
 				<svg
-					class="h-3 w-3 text-primary-foreground"
+					class="text-primary-foreground h-3 w-3"
 					fill="none"
 					stroke="currentColor"
 					stroke-width="3"
 					viewBox="0 0 24 24"
 				>
-					<polyline points="20 6 9 17 4 12" />
+					<polyline points="20 6 9 17 4 12"></polyline>
 				</svg>
 			{/if}
 		</button>
 
 		<!-- Titre et Description -->
-		<button
-			type="button"
-			onclick={() => onSelect?.(task)}
-			class="flex-1 text-left"
-		>
-			<h3
-				class="font-medium"
-				class:line-through={task.isCompleted}
-			>
+		<button type="button" onclick={() => onSelect?.(task)} class="flex-1 text-left">
+			<h3 class="font-medium" class:line-through={task.isCompleted}>
 				{task.title}
 			</h3>
 
 			{#if task.description}
-				<p class="mt-1 text-sm text-muted-foreground">
+				<p class="text-muted-foreground mt-1 text-sm">
 					{task.description}
 				</p>
 			{/if}
@@ -92,19 +83,11 @@
 
 		<!-- Actions (visible au hover) -->
 		<div class="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
-			<Button
-				variant="ghost"
-				size="sm"
-				onclick={() => onEdit?.(task)}
-			>
+			<Button variant="ghost" size="sm" onclick={() => onEdit?.(task)}>
 				{$_('common.edit')}
 			</Button>
 
-			<Button
-				variant="ghost"
-				size="sm"
-				onclick={() => onDelete?.(task)}
-			>
+			<Button variant="ghost" size="sm" onclick={() => onDelete?.(task)}>
 				{$_('common.delete')}
 			</Button>
 		</div>
@@ -114,15 +97,12 @@
 	{#if task.estimatedPomodoros > 0}
 		<div class="mt-3 space-y-2">
 			<!-- Barre de progression -->
-			<div class="h-2 w-full overflow-hidden rounded-full bg-muted">
-				<div
-					class="h-full bg-primary transition-all"
-					style:width="{progress()}%"
-				></div>
+			<div class="bg-muted h-2 w-full overflow-hidden rounded-full">
+				<div class="bg-primary h-full transition-all" style:width="{progress}%"></div>
 			</div>
 
 			<!-- Texte de progression -->
-			<div class="flex items-center justify-between text-xs text-muted-foreground">
+			<div class="text-muted-foreground flex items-center justify-between text-xs">
 				<span>
 					{$_('tasks.completedPomodoros', {
 						values: {
