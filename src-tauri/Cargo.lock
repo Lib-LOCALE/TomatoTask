@@ -3867,7 +3867,7 @@ dependencies = [
 
 [[package]]
 name = "tomatotask"
-version = "1.0.12"
+version = "1.0.16"
 dependencies = [
  "chrono",
  "log",
