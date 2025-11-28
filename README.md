@@ -13,6 +13,8 @@
 - **Multi-language** - Available in English (EN), French (FR), Spanish (ES), Italian (IT), German (DE)
 - **Theme Support** - Light and dark modes
 - **Keyboard Shortcuts** - Quick actions with keyboard shortcuts
+- **Taskbar Integration** - View timer progress directly in your taskbar (Windows)
+- **Dynamic Window Title** - Window title updates with remaining time
 
 ## 📥 Installation
 

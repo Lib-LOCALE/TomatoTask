@@ -68,7 +68,7 @@ fn get_session_by_id(conn: &Connection, session_id: i64) -> Result<PomodoroSessi
         |row| {
             let session_type_str: String = row.get(5)?;
             let session_type = SessionType::from_str(&session_type_str)
-                .map_err(|e| rusqlite::Error::InvalidQuery)?;
+                .map_err(|_e| rusqlite::Error::InvalidQuery)?;
 
             Ok(PomodoroSession {
                 id: row.get(0)?,

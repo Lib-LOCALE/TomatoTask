@@ -65,7 +65,7 @@
 <form onsubmit={handleSubmit} class="space-y-4">
 	<!-- Nom du projet -->
 	<div>
-		<label for="project-name" class="block text-sm font-medium mb-1 text-foreground">
+		<label for="project-name" class="text-foreground mb-1 block text-sm font-medium">
 			{$_('projects.form.name')}
 		</label>
 		<Input
@@ -80,10 +80,10 @@
 
 	<!-- Couleur du projet -->
 	<div>
-		<label class="block text-sm font-medium mb-2 text-foreground">
+		<div id="color-label" class="text-foreground mb-2 block text-sm font-medium">
 			{$_('projects.form.color')}
-		</label>
-		<div class="flex flex-wrap gap-2">
+		</div>
+		<div class="flex flex-wrap gap-2" role="group" aria-labelledby="color-label">
 			{#each predefinedColors as presetColor}
 				<button
 					type="button"
@@ -94,7 +94,8 @@
 					class:ring-primary={color === presetColor}
 					style="background-color: {presetColor}"
 					title={presetColor}
-				/>
+					aria-label={presetColor}
+				></button>
 			{/each}
 
 			<!-- Sélecteur de couleur personnalisé -->
@@ -102,14 +103,14 @@
 				<input
 					type="color"
 					bind:value={color}
-					class="h-8 w-8 rounded-md border-2 cursor-pointer"
+					class="h-8 w-8 cursor-pointer rounded-md border-2"
 					title={$_('projects.form.customColor')}
 				/>
 			</div>
 		</div>
 
 		<!-- Aperçu de la couleur sélectionnée -->
-		<div class="mt-2 flex items-center gap-2 text-sm text-foreground/70">
+		<div class="text-foreground/70 mt-2 flex items-center gap-2 text-sm">
 			<div class="h-4 w-4 rounded-full" style="background-color: {color}"></div>
 			<span>{color}</span>
 		</div>
@@ -117,7 +118,9 @@
 
 	<!-- Message d'erreur -->
 	{#if error}
-		<div class="rounded-md bg-destructive/10 border border-destructive/20 p-3 text-sm text-destructive">
+		<div
+			class="bg-destructive/10 border-destructive/20 text-destructive rounded-md border p-3 text-sm"
+		>
 			{error}
 		</div>
 	{/if}

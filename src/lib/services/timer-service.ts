@@ -3,6 +3,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { timerStore } from '$lib/stores/timer.svelte';
 import { settingsStore } from '$lib/stores/settings.svelte';
 import type { SessionType, PomodoroSession } from '$lib/types';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 
 /**
  * Intervalle du timer (mis à jour chaque seconde)
@@ -71,8 +72,29 @@ function startInterval(): void {
 		clearInterval(timerInterval);
 	}
 
-	timerInterval = window.setInterval(() => {
+	timerInterval = window.setInterval(async () => {
 		const isComplete = timerStore.tick();
+
+		// Update taskbar progress and title
+		const state = timerStore.getState();
+		if (state.totalSeconds > 0) {
+			const progress = Math.round((1 - state.remainingSeconds / state.totalSeconds) * 100);
+			const minutes = Math.floor(state.remainingSeconds / 60);
+			const seconds = state.remainingSeconds % 60;
+			const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+			try {
+				const window = getCurrentWindow();
+				await window.setTitle(`${timeString} - TomatoTask`);
+				// @ts-ignore
+				await window.setProgressBar({
+					status: 'normal',
+					progress: progress
+				});
+			} catch (e) {
+				// Ignore errors
+			}
+		}
 
 		if (isComplete) {
 			handleSessionComplete();
@@ -125,6 +147,16 @@ export async function stopTimer(interrupted: boolean = true): Promise<void> {
 	}
 
 	timerStore.stop();
+
+	// Reset taskbar progress and title
+	try {
+		const window = getCurrentWindow();
+		await window.setTitle('TomatoTask');
+		// @ts-ignore
+		await window.setProgressBar({ status: 'none' });
+	} catch (e) {
+		// Ignore
+	}
 }
 
 /**
@@ -160,6 +192,16 @@ async function handleSessionComplete(): Promise<void> {
 	}
 
 	timerStore.stop();
+
+	// Reset taskbar progress and title
+	try {
+		const window = getCurrentWindow();
+		await window.setTitle('TomatoTask');
+		// @ts-ignore
+		await window.setProgressBar({ status: 'none' });
+	} catch (e) {
+		// Ignore
+	}
 }
 
 /**

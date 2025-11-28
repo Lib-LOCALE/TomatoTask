@@ -2,7 +2,10 @@
 	// Vue principale des résumés et statistiques
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
+	import { invoke } from '@tauri-apps/api/core';
 	import SummaryCard from './SummaryCard.svelte';
+	import BarChart from '$lib/components/stats/BarChart.svelte';
+	import DonutChart from '$lib/components/stats/DonutChart.svelte';
 	import {
 		getTodaySummary,
 		getThisWeekSummary,
@@ -11,11 +14,28 @@
 	} from '$lib/services/summary-service';
 	import type { DailySummary } from '$lib/types';
 
+	// Types pour les graphiques
+	interface DailyFocusTime {
+		date: string;
+		minutes: number;
+	}
+
+	interface ProjectDistribution {
+		projectName: string;
+		color: string | null;
+		minutes: number;
+		percentage: number;
+	}
+
 	// État local
 	let period = $state<'daily' | 'weekly'>('daily');
 	let isLoading = $state(true);
 	let dailySummary = $state<DailySummary | null>(null);
 	let weeklySummaries = $state<DailySummary[]>([]);
+
+	// État pour les graphiques
+	let dailyFocus = $state<DailyFocusTime[]>([]);
+	let projectDist = $state<ProjectDistribution[]>([]);
 
 	// Données affichées selon la période sélectionnée
 	const displayData = $derived(() => {
@@ -45,20 +65,41 @@
 		return $_('summary.minutes', { values: { count: minutes } });
 	});
 
+	// Données formatées pour les graphiques
+	let barChartData = $derived(
+		dailyFocus.map((d) => ({
+			label: new Date(d.date).toLocaleDateString(undefined, { weekday: 'short' }),
+			value: d.minutes
+		}))
+	);
+
+	let donutChartData = $derived(
+		projectDist.map((p) => ({
+			label: p.projectName,
+			value: p.minutes,
+			percentage: p.percentage,
+			color: p.color || '#64748b' // Default slate-500
+		}))
+	);
+
 	/**
 	 * Charge les données de résumé
 	 */
 	async function loadSummaries() {
 		isLoading = true;
 		try {
-			// Charge les deux types de données
-			const [today, week] = await Promise.all([
+			// Charge toutes les données en parallèle
+			const [today, week, focus, dist] = await Promise.all([
 				getTodaySummary(),
-				getThisWeekSummary()
+				getThisWeekSummary(),
+				invoke('get_daily_focus_time') as Promise<DailyFocusTime[]>,
+				invoke('get_project_distribution') as Promise<ProjectDistribution[]>
 			]);
 
 			dailySummary = today;
 			weeklySummaries = week;
+			dailyFocus = focus;
+			projectDist = dist;
 		} catch (error) {
 			console.error('Failed to load summaries:', error);
 		} finally {
@@ -82,7 +123,7 @@
 	});
 </script>
 
-<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-8">
 	<!-- En-tête avec sélecteur de période -->
 	<div class="flex items-center justify-between">
 		<h2 class="text-2xl font-bold">{$_('summary.title')}</h2>
@@ -115,15 +156,15 @@
 
 	<!-- Cartes de statistiques -->
 	{#if isLoading}
-		<div class="text-center py-8 text-muted-foreground">
+		<div class="text-muted-foreground py-8 text-center">
 			{$_('common.loading')}
 		</div>
-	{:else if displayData().completedTasks === 0 && displayData().completedPomodoros === 0}
-		<div class="text-center py-8 text-muted-foreground">
+	{:else if displayData().completedTasks === 0 && displayData().completedPomodoros === 0 && dailyFocus.length === 0}
+		<div class="text-muted-foreground py-8 text-center">
 			<p>{$_('summary.noData')}</p>
 		</div>
 	{:else}
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
 			<!-- Tâches complétées -->
 			<SummaryCard
 				title={$_('summary.completedTasks')}
@@ -148,24 +189,12 @@
 				color="warning"
 			/>
 		</div>
-	{/if}
 
-	<!-- Graphique hebdomadaire (placeholder pour futures améliorations) -->
-	{#if period === 'weekly' && weeklySummaries.length > 0}
-		<div class="mt-4 rounded-lg border bg-card p-4">
-			<h3 class="mb-4 text-lg font-semibold">Weekly Breakdown</h3>
-			<div class="space-y-2">
-				{#each weeklySummaries as daySummary}
-					<div class="flex items-center justify-between text-sm">
-						<span class="font-medium">{daySummary.date}</span>
-						<div class="flex gap-4 text-muted-foreground">
-							<span>✅ {daySummary.completedTasksCount}</span>
-							<span>🍅 {daySummary.completedPomodorosCount}</span>
-							<span>⏱️ {daySummary.totalFocusMinutes}min</span>
-						</div>
-					</div>
-				{/each}
-			</div>
+		<!-- Graphiques -->
+		<div class="grid gap-6 md:grid-cols-2">
+			<BarChart title={$_('summary.focusActivity')} data={barChartData} color="bg-orange-500" />
+
+			<DonutChart title={$_('summary.projectDistribution')} data={donutChartData} />
 		</div>
 	{/if}
 </div>

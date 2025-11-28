@@ -31,7 +31,13 @@
 		"deleteConfirm": "Êtes-vous sûr de vouloir supprimer cette tâche ?",
 		"created": "Créée",
 		"updated": "Modifiée",
-		"completed": "Terminée"
+		"completed": "Terminée",
+		"selectTask": "Sélectionner une tâche",
+		"currentTask": "Tâche en cours",
+		"noActiveTasks": "Aucune tâche active disponible",
+		"filterAll": "Toutes",
+		"filterActive": "Actives",
+		"filterCompleted": "Terminées"
 	},
 	"projects": {
 		"title": "Projets",
@@ -57,6 +63,23 @@
 			"saveFailed": "Échec de l'enregistrement du projet"
 		}
 	},
+	"common": {
+		"loading": "Chargement...",
+		"error": "Une erreur s'est produite",
+		"success": "Succès !",
+		"minutes": "minutes",
+		"hours": "heures",
+		"back": "Retour",
+		"next": "Suivant",
+		"change": "Changer",
+		"cancel": "Annuler",
+		"save": "Enregistrer",
+		"edit": "Modifier",
+		"delete": "Supprimer",
+		"close": "Fermer",
+		"yes": "Oui",
+		"no": "Non"
+	},
 	"summary": {
 		"title": "Résumé",
 		"daily": "Aujourd'hui",
@@ -65,9 +88,11 @@
 		"completedTasks": "Tâches terminées",
 		"completedPomodoros": "Pomodoros terminés",
 		"focusTime": "Temps de focus",
-		"minutes": "{count} min",
-		"hours": "{count}h {minutes}min",
-		"noData": "Aucune donnée pour cette période"
+		"focusActivity": "Activité de focus (7 derniers jours)",
+		"projectDistribution": "Distribution par projet",
+		"noData": "Aucune activité enregistrée",
+		"hours": "{count}h {minutes}m",
+		"minutes": "{count}m"
 	},
 	"settings": {
 		"title": "Paramètres",
@@ -83,36 +108,24 @@
 		"theme": "Thème",
 		"light": "Clair",
 		"dark": "Sombre",
-		"notificationSound": "Son de notification",
-		"resetDefaults": "Réinitialiser aux valeurs par défaut",
-		"saved": "Paramètres enregistrés !"
+		"resetDefaults": "Réinitialiser",
+		"saved": "Paramètres enregistrés"
+	},
+	"sounds": {
+		"title": "Sons d'ambiance"
 	},
 	"keyboard": {
 		"shortcuts": "Raccourcis Clavier",
 		"newTask": "Nouvelle tâche",
 		"startStop": "Démarrer/Arrêter le minuteur",
 		"changeLanguage": "Changer la langue",
-		"close": "Fermer"
-	},
-	"common": {
-		"save": "Enregistrer",
-		"cancel": "Annuler",
-		"delete": "Supprimer",
-		"edit": "Modifier",
 		"close": "Fermer",
-		"yes": "Oui",
-		"no": "Non",
-		"loading": "Chargement...",
-		"error": "Une erreur s'est produite",
-		"success": "Succès !",
-		"minutes": "minutes",
-		"hours": "heures",
-		"back": "Retour",
-		"next": "Suivant"
+		"pressToStart": "Appuyez sur <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Ctrl+S</kbd> pour démarrer/arrêter",
+		"pressForShortcuts": "Appuyez sur <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Ctrl+/</kbd> pour les raccourcis"
 	},
 	"onboarding": {
 		"welcome": {
-			"title": "Bienvenue sur TomatoTask !",
+			"title": "Bienvenue sur TomatoTask!",
 			"subtitle": "Votre compagnon de productivité utilisant la Technique Pomodoro"
 		},
 		"pomodoro": {

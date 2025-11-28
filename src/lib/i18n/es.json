@@ -31,7 +31,13 @@
 		"deleteConfirm": "¿Estás seguro de que quieres eliminar esta tarea?",
 		"created": "Creada",
 		"updated": "Actualizada",
-		"completed": "Completada"
+		"completed": "Completada",
+		"selectTask": "Seleccionar una tarea",
+		"currentTask": "Tarea actual",
+		"noActiveTasks": "No hay tareas activas disponibles",
+		"filterAll": "Todas",
+		"filterActive": "Activas",
+		"filterCompleted": "Completadas"
 	},
 	"projects": {
 		"title": "Proyectos",
@@ -92,7 +98,9 @@
 		"newTask": "Nueva tarea",
 		"startStop": "Iniciar/Detener temporizador",
 		"changeLanguage": "Cambiar idioma",
-		"close": "Cerrar"
+		"close": "Cerrar",
+		"pressToStart": "Presiona <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Ctrl+S</kbd> para iniciar/detener",
+		"pressForShortcuts": "Presiona <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Ctrl+/</kbd> para todos los atajos"
 	},
 	"common": {
 		"save": "Guardar",
@@ -108,7 +116,8 @@
 		"minutes": "minutos",
 		"hours": "horas",
 		"back": "Atrás",
-		"next": "Siguiente"
+		"next": "Siguiente",
+		"change": "Cambiar"
 	},
 	"onboarding": {
 		"welcome": {

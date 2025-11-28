@@ -9,6 +9,7 @@ pub fn send_notification(_app: &AppHandle, _title: &str, _body: &str) {
 }
 
 /// Envoie une notification de session Pomodoro terminée
+#[allow(dead_code)]
 pub fn notify_work_complete(app: &AppHandle) {
     send_notification(
         app,
@@ -18,6 +19,7 @@ pub fn notify_work_complete(app: &AppHandle) {
 }
 
 /// Envoie une notification de pause terminée
+#[allow(dead_code)]
 pub fn notify_break_complete(app: &AppHandle) {
     send_notification(
         app,

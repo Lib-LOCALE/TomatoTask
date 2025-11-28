@@ -5,6 +5,38 @@ All notable changes to TomatoTask will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.17] - 2025-11-28
+
+### Fixed
+
+**Accessibility (a11y) Improvements - Complete WCAG Compliance**
+- **Fixed accessibility issues across all modal components** - All components now meet WCAG 2.1 Level AA standards
+  - Added proper `aria-label` attributes to all interactive elements (close buttons, action buttons)
+  - Fixed heading and label text colors with `text-foreground` for proper contrast in both themes
+  - Added semantic `role` attributes for better screen reader support:
+    - `role="presentation"` for non-interactive backdrops
+    - `role="document"` for modal content areas
+    - `role="group"` with `aria-labelledby` for related form controls
+  - All interactive elements now have descriptive labels for assistive technologies
+
+**Components corrected:**
+- SettingsPanel - Proper aria-labels, semantic roles, and accessible form controls
+- App.svelte - All floating action buttons now have clear aria-labels
+- TaskModal - Accessible close button and proper heading structure
+- ShortcutsHelp - Enhanced keyboard navigation support
+- ProjectModal - Complete semantic markup with document roles
+- ProjectForm - Color picker group with proper labeling and ARIA attributes
+
+### Changed
+- **Improved user experience for screen reader users** - All modals and interactive elements are now fully navigable
+- **Enhanced keyboard navigation** - Better focus management throughout the application
+- **Better color contrast** - All text elements now meet WCAG contrast requirements
+
+### Technical
+- Comprehensive accessibility audit and fixes across all UI components
+- Consistent ARIA attribute usage throughout the application
+- Improved semantic HTML structure for better accessibility tree
+
 ## [1.0.16] - 2025-11-26
 
 ### Fixed
@@ -478,6 +510,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **1.0.17** (2025-11-28) - Accessibility (a11y) Improvements - Complete WCAG Compliance
+  - Fixed accessibility issues across all modal components
+  - Added proper ARIA attributes and semantic roles
+  - Enhanced screen reader support and keyboard navigation
+  - Improved color contrast for better readability
 - **1.0.16** (2025-11-26) - CRITICAL FIX: White screen issue - DEFINITIVE FIX
   - Added beautiful loading screen with animated tomato icon
   - Comprehensive error handling with user-friendly messages
@@ -518,6 +555,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Full internationalization (5 languages)
   - Complete documentation
 
+[1.0.17]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.17
 [1.0.16]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.16
 [1.0.15]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.15
 [1.0.14]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.14
@@ -532,4 +570,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.5]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.5
 [1.0.4]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.4
 [1.0.0]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.0
-[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.16...HEAD
+[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.17...HEAD
