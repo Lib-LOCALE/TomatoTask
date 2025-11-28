@@ -91,19 +91,25 @@
 	<!-- Modal -->
 	<dialog
 		open
-		class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-0 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-0 z-50"
+		class="border-border bg-background text-foreground fixed top-1/2 left-1/2 z-50 m-0 max-h-[90vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg border p-0 shadow-2xl"
 	>
-		<div class="w-full" onclick={(e) => e.stopPropagation()}>
+		<div
+			class="w-full"
+			role="document"
+			onclick={(e) => e.stopPropagation()}
+			onkeydown={(e) => e.stopPropagation()}
+		>
 			<!-- Header -->
 			<div class="flex items-center justify-between border-b px-6 py-4">
-				<h2 class="text-lg font-semibold">
+				<h2 class="text-foreground text-lg font-semibold">
 					{$_('settings.title')}
 				</h2>
 
 				<button
 					type="button"
 					onclick={handleClose}
-					class="rounded-md p-1 hover:bg-muted"
+					class="hover:bg-muted rounded-md p-1"
+					aria-label={$_('common.close')}
 				>
 					<svg
 						class="h-5 w-5"
@@ -112,20 +118,20 @@
 						stroke-width="2"
 						viewBox="0 0 24 24"
 					>
-						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
 					</svg>
 				</button>
 			</div>
 
 			<!-- Contenu -->
-			<div class="px-6 py-4 space-y-6">
+			<div class="space-y-6 px-6 py-4">
 				<!-- Timer Settings -->
 				<section>
-					<h3 class="text-md font-semibold mb-4 text-foreground">{$_('settings.timer')}</h3>
+					<h3 class="text-md text-foreground mb-4 font-semibold">{$_('settings.timer')}</h3>
 					<div class="space-y-4">
 						<!-- Work Duration -->
 						<div>
-							<label for="work-duration" class="block text-sm font-medium mb-1 text-foreground">
+							<label for="work-duration" class="text-foreground mb-1 block text-sm font-medium">
 								{$_('settings.workDuration')}
 							</label>
 							<div class="flex items-center gap-2">
@@ -137,13 +143,16 @@
 									max="60"
 									class="w-24"
 								/>
-								<span class="text-sm text-foreground/70">{$_('common.minutes')}</span>
+								<span class="text-foreground/70 text-sm">{$_('common.minutes')}</span>
 							</div>
 						</div>
 
 						<!-- Short Break Duration -->
 						<div>
-							<label for="short-break-duration" class="block text-sm font-medium mb-1 text-foreground">
+							<label
+								for="short-break-duration"
+								class="text-foreground mb-1 block text-sm font-medium"
+							>
 								{$_('settings.shortBreakDuration')}
 							</label>
 							<div class="flex items-center gap-2">
@@ -155,13 +164,16 @@
 									max="30"
 									class="w-24"
 								/>
-								<span class="text-sm text-foreground/70">{$_('common.minutes')}</span>
+								<span class="text-foreground/70 text-sm">{$_('common.minutes')}</span>
 							</div>
 						</div>
 
 						<!-- Long Break Duration -->
 						<div>
-							<label for="long-break-duration" class="block text-sm font-medium mb-1 text-foreground">
+							<label
+								for="long-break-duration"
+								class="text-foreground mb-1 block text-sm font-medium"
+							>
 								{$_('settings.longBreakDuration')}
 							</label>
 							<div class="flex items-center gap-2">
@@ -173,13 +185,16 @@
 									max="60"
 									class="w-24"
 								/>
-								<span class="text-sm text-foreground/70">{$_('common.minutes')}</span>
+								<span class="text-foreground/70 text-sm">{$_('common.minutes')}</span>
 							</div>
 						</div>
 
 						<!-- Pomodoros Until Long Break -->
 						<div>
-							<label for="pomodoros-until-long-break" class="block text-sm font-medium mb-1 text-foreground">
+							<label
+								for="pomodoros-until-long-break"
+								class="text-foreground mb-1 block text-sm font-medium"
+							>
 								{$_('settings.pomodorosUntilLongBreak')}
 							</label>
 							<Input
@@ -198,18 +213,18 @@
 								<input
 									type="checkbox"
 									bind:checked={localSettings.autoStartBreaks}
-									class="h-4 w-4 rounded border-input"
+									class="border-input h-4 w-4 rounded"
 								/>
-								<span class="text-sm text-foreground">{$_('settings.autoStartBreaks')}</span>
+								<span class="text-foreground text-sm">{$_('settings.autoStartBreaks')}</span>
 							</label>
 
 							<label class="flex items-center gap-2">
 								<input
 									type="checkbox"
 									bind:checked={localSettings.autoStartPomodoros}
-									class="h-4 w-4 rounded border-input"
+									class="border-input h-4 w-4 rounded"
 								/>
-								<span class="text-sm text-foreground">{$_('settings.autoStartPomodoros')}</span>
+								<span class="text-foreground text-sm">{$_('settings.autoStartPomodoros')}</span>
 							</label>
 						</div>
 					</div>
@@ -217,16 +232,16 @@
 
 				<!-- Appearance Settings -->
 				<section>
-					<h3 class="text-md font-semibold mb-4 text-foreground">{$_('settings.appearance')}</h3>
+					<h3 class="text-md text-foreground mb-4 font-semibold">{$_('settings.appearance')}</h3>
 					<div class="space-y-4">
 						<!-- Theme Toggle -->
 						<div>
-							<label class="block text-sm font-medium mb-2 text-foreground">
+							<div class="text-foreground mb-2 block text-sm font-medium">
 								{$_('settings.theme')}
-							</label>
+							</div>
 							<div class="flex items-center gap-2">
 								<ThemeToggle variant="toggle" />
-								<span class="text-sm text-foreground/70">
+								<span class="text-foreground/70 text-sm">
 									{localSettings.theme === 'dark' ? $_('settings.dark') : $_('settings.light')}
 								</span>
 							</div>
@@ -241,14 +256,16 @@
 
 				<!-- Success Message -->
 				{#if saveSuccess}
-					<div class="rounded-md bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 p-3 text-sm text-green-700 dark:text-green-300">
+					<div
+						class="rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300"
+					>
 						{$_('settings.saved')}
 					</div>
 				{/if}
 			</div>
 
 			<!-- Footer -->
-			<div class="border-t px-6 py-4 flex justify-between">
+			<div class="flex justify-between border-t px-6 py-4">
 				<Button type="button" variant="outline" onclick={handleReset}>
 					{$_('settings.resetDefaults')}
 				</Button>

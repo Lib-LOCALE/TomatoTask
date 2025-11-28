@@ -31,7 +31,13 @@
 		"deleteConfirm": "Sei sicuro di voler eliminare questa attività?",
 		"created": "Creata",
 		"updated": "Aggiornata",
-		"completed": "Completata"
+		"completed": "Completata",
+		"selectTask": "Seleziona un'attività",
+		"currentTask": "Attività corrente",
+		"noActiveTasks": "Nessuna attività attiva disponibile",
+		"filterAll": "Tutte",
+		"filterActive": "Attive",
+		"filterCompleted": "Completate"
 	},
 	"projects": {
 		"title": "Progetti",
@@ -92,7 +98,9 @@
 		"newTask": "Nuova attività",
 		"startStop": "Avvia/Ferma timer",
 		"changeLanguage": "Cambia lingua",
-		"close": "Chiudi"
+		"close": "Chiudi",
+		"pressToStart": "Premi <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Ctrl+S</kbd> per avviare/fermare",
+		"pressForShortcuts": "Premi <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Ctrl+/</kbd> per tutte le scorciatoie"
 	},
 	"common": {
 		"save": "Salva",
@@ -108,7 +116,8 @@
 		"minutes": "minuti",
 		"hours": "ore",
 		"back": "Indietro",
-		"next": "Prossimo"
+		"next": "Prossimo",
+		"change": "Cambia"
 	},
 	"onboarding": {
 		"welcome": {

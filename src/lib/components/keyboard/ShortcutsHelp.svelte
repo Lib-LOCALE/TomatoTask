@@ -74,19 +74,20 @@
 	<dialog
 		open
 		onclick={handleBackdropClick}
-		class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-0 shadow-2xl m-0 z-50"
+		class="border-border bg-background fixed top-1/2 left-1/2 z-50 m-0 -translate-x-1/2 -translate-y-1/2 rounded-lg border p-0 shadow-2xl"
 	>
 		<div class="w-full max-w-2xl">
 			<!-- Header -->
 			<div class="flex items-center justify-between border-b px-6 py-4">
-				<h2 class="text-lg font-semibold text-foreground">
+				<h2 class="text-foreground text-lg font-semibold">
 					{$_('keyboard.shortcuts')}
 				</h2>
 
 				<button
 					type="button"
 					onclick={handleClose}
-					class="rounded-md p-1 hover:bg-muted"
+					class="hover:bg-muted rounded-md p-1"
+					aria-label={$_('common.close')}
 				>
 					<svg
 						class="h-5 w-5"
@@ -95,24 +96,24 @@
 						stroke-width="2"
 						viewBox="0 0 24 24"
 					>
-						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
 					</svg>
 				</button>
 			</div>
 
 			<!-- Contenu -->
-			<div class="px-6 py-4 space-y-6">
+			<div class="space-y-6 px-6 py-4">
 				<!-- Timer Shortcuts -->
 				<div>
-					<h3 class="text-sm font-semibold text-foreground/70 mb-2 uppercase">
+					<h3 class="text-foreground/70 mb-2 text-sm font-semibold uppercase">
 						{$_('timer.work')}
 					</h3>
 					<div class="space-y-2">
 						{#each groupedShortcuts().timer as shortcut}
 							<div class="flex items-center justify-between">
-								<span class="text-sm text-foreground">{$_(shortcut.description)}</span>
+								<span class="text-foreground text-sm">{$_(shortcut.description)}</span>
 								<kbd
-									class="rounded-md border border-muted bg-muted px-3 py-1.5 text-xs font-mono font-semibold"
+									class="border-muted bg-muted rounded-md border px-3 py-1.5 font-mono text-xs font-semibold"
 								>
 									{shortcut.key}
 								</kbd>
@@ -123,15 +124,15 @@
 
 				<!-- Task Shortcuts -->
 				<div>
-					<h3 class="text-sm font-semibold text-foreground/70 mb-2 uppercase">
+					<h3 class="text-foreground/70 mb-2 text-sm font-semibold uppercase">
 						{$_('tasks.title')}
 					</h3>
 					<div class="space-y-2">
 						{#each groupedShortcuts().tasks as shortcut}
 							<div class="flex items-center justify-between">
-								<span class="text-sm text-foreground">{$_(shortcut.description)}</span>
+								<span class="text-foreground text-sm">{$_(shortcut.description)}</span>
 								<kbd
-									class="rounded-md border border-muted bg-muted px-3 py-1.5 text-xs font-mono font-semibold"
+									class="border-muted bg-muted rounded-md border px-3 py-1.5 font-mono text-xs font-semibold"
 								>
 									{shortcut.key}
 								</kbd>
@@ -142,15 +143,15 @@
 
 				<!-- Settings Shortcuts -->
 				<div>
-					<h3 class="text-sm font-semibold text-foreground/70 mb-2 uppercase">
+					<h3 class="text-foreground/70 mb-2 text-sm font-semibold uppercase">
 						{$_('settings.title')}
 					</h3>
 					<div class="space-y-2">
 						{#each groupedShortcuts().settings as shortcut}
 							<div class="flex items-center justify-between">
-								<span class="text-sm text-foreground">{$_(shortcut.description)}</span>
+								<span class="text-foreground text-sm">{$_(shortcut.description)}</span>
 								<kbd
-									class="rounded-md border border-muted bg-muted px-3 py-1.5 text-xs font-mono font-semibold"
+									class="border-muted bg-muted rounded-md border px-3 py-1.5 font-mono text-xs font-semibold"
 								>
 									{shortcut.key}
 								</kbd>
@@ -161,15 +162,13 @@
 
 				<!-- Help Shortcuts -->
 				<div>
-					<h3 class="text-sm font-semibold text-foreground/70 mb-2 uppercase">
-						Help
-					</h3>
+					<h3 class="text-foreground/70 mb-2 text-sm font-semibold uppercase">Help</h3>
 					<div class="space-y-2">
 						{#each groupedShortcuts().help as shortcut}
 							<div class="flex items-center justify-between">
-								<span class="text-sm text-foreground">{$_(shortcut.description)}</span>
+								<span class="text-foreground text-sm">{$_(shortcut.description)}</span>
 								<kbd
-									class="rounded-md border border-muted bg-muted px-3 py-1.5 text-xs font-mono font-semibold"
+									class="border-muted bg-muted rounded-md border px-3 py-1.5 font-mono text-xs font-semibold"
 								>
 									{shortcut.key}
 								</kbd>
@@ -180,11 +179,11 @@
 			</div>
 
 			<!-- Footer -->
-			<div class="border-t px-6 py-4 flex justify-end">
+			<div class="flex justify-end border-t px-6 py-4">
 				<button
 					type="button"
 					onclick={handleClose}
-					class="rounded-md bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90"
+					class="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2"
 				>
 					{$_('common.close')}
 				</button>

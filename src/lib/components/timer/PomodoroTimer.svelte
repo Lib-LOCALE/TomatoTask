@@ -9,6 +9,7 @@
 	import TimerDisplay from './TimerDisplay.svelte';
 	import TimerControls from './TimerControls.svelte';
 	import TaskSelectDisplay from './TaskSelectDisplay.svelte';
+	import SoundControl from '$lib/components/sounds/SoundControl.svelte';
 	import type { SessionType, Task } from '$lib/types';
 	import { _ } from 'svelte-i18n';
 
@@ -139,17 +140,20 @@
 				onSessionStart={(type) => console.log('Session started:', type)}
 				onSessionStop={() => console.log('Session stopped')}
 			/>
+
+			<!-- Contrôle des sons d'ambiance -->
+			<div class="mt-6 border-t pt-6">
+				<SoundControl />
+			</div>
 		</div>
 
 		<!-- Informations supplémentaires -->
-		<div class="text-muted-foreground mt-6 space-y-1 text-center text-sm">
-			<p>
-				Press <kbd class="bg-muted rounded px-2 py-1 font-mono text-xs">Ctrl+S</kbd> to start/stop the
-				timer
+		<div class="text-muted-foreground mt-8 text-center text-sm">
+			<p class="mb-1">
+				{@html $_('keyboard.pressToStart')}
 			</p>
 			<p>
-				Press <kbd class="bg-muted rounded px-2 py-1 font-mono text-xs">Ctrl+/</kbd> for all keyboard
-				shortcuts
+				{@html $_('keyboard.pressForShortcuts')}
 			</p>
 		</div>
 	</div>

@@ -100,28 +100,23 @@
 <dialog
 	bind:this={dialogElement}
 	onclick={handleBackdropClick}
-	class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-border bg-background p-0 shadow-2xl m-0 z-50"
+	class="border-border bg-background fixed top-1/2 left-1/2 z-50 m-0 -translate-x-1/2 -translate-y-1/2 rounded-lg border p-0 shadow-2xl"
 >
 	<div class="w-full max-w-md">
 		<!-- Header -->
 		<div class="flex items-center justify-between border-b px-6 py-4">
-			<h2 class="text-lg font-semibold text-foreground">
+			<h2 class="text-foreground text-lg font-semibold">
 				{task ? $_('tasks.editTask') : $_('tasks.newTask')}
 			</h2>
 
 			<button
 				type="button"
 				onclick={handleClose}
-				class="rounded-md p-1 hover:bg-muted"
+				class="hover:bg-muted rounded-md p-1"
+				aria-label={$_('common.close')}
 			>
-				<svg
-					class="h-5 w-5"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					viewBox="0 0 24 24"
-				>
-					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+				<svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
 				</svg>
 			</button>
 		</div>

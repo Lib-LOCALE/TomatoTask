@@ -31,7 +31,13 @@
 		"deleteConfirm": "Bist du sicher, dass du diese Aufgabe löschen möchtest?",
 		"created": "Erstellt",
 		"updated": "Aktualisiert",
-		"completed": "Abgeschlossen"
+		"completed": "Abgeschlossen",
+		"selectTask": "Aufgabe auswählen",
+		"currentTask": "Aktuelle Aufgabe",
+		"noActiveTasks": "Keine aktiven Aufgaben verfügbar",
+		"filterAll": "Alle",
+		"filterActive": "Aktiv",
+		"filterCompleted": "Erledigt"
 	},
 	"projects": {
 		"title": "Projekte",
@@ -92,7 +98,9 @@
 		"newTask": "Neue Aufgabe",
 		"startStop": "Timer starten/stoppen",
 		"changeLanguage": "Sprache wechseln",
-		"close": "Schließen"
+		"close": "Schließen",
+		"pressToStart": "Drücke <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Strg+S</kbd> zum Starten/Stoppen",
+		"pressForShortcuts": "Drücke <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Strg+/</kbd> für alle Tastenkürzel"
 	},
 	"common": {
 		"save": "Speichern",
@@ -108,7 +116,8 @@
 		"minutes": "Minuten",
 		"hours": "Stunden",
 		"back": "Zurück",
-		"next": "Weiter"
+		"next": "Weiter",
+		"change": "Ändern"
 	},
 	"onboarding": {
 		"welcome": {
