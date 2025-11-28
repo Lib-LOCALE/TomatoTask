@@ -105,6 +105,8 @@ pub fn run() {
             // Commandes de résumé/analytics
             commands::get_daily_summary,
             commands::get_weekly_summary,
+            commands::get_daily_focus_time,
+            commands::get_project_distribution,
             // Commandes de notifications (temporairement désactivées)
             // notifications::send_custom_notification,
             // Commandes de system tray

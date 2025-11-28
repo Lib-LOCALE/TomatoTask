@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "TomatoTask",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "identifier": "com.tomatotask.app",
   "build": {
     "frontendDist": "../dist",
@@ -21,7 +21,7 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: asset: https://asset.localhost; script-src 'self'"
+      "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: asset: https://asset.localhost; script-src 'self'; media-src 'self' https://assets.mixkit.co"
     },
     "trayIcon": {
       "iconPath": "icons/tomatoIcon.png",

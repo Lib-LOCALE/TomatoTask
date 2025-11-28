@@ -130,3 +130,21 @@ pub struct DailySummary {
     pub completed_pomodoros_count: i32,
     pub total_focus_minutes: i32,
 }
+
+/// Temps de focus quotidien pour les graphiques
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct DailyFocusTime {
+    pub date: String,
+    pub minutes: i32,
+}
+
+/// Distribution des projets pour les graphiques
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ProjectDistribution {
+    pub project_name: String,
+    pub color: Option<String>,
+    pub minutes: i32,
+    pub percentage: f32,
+}

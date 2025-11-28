@@ -59,7 +59,7 @@
 			size="sm"
 			onclick={() => taskStore.setCompletionFilter('all')}
 		>
-			All
+			{$_('tasks.filterAll')}
 		</Button>
 
 		<Button
@@ -67,7 +67,7 @@
 			size="sm"
 			onclick={() => taskStore.setCompletionFilter('active')}
 		>
-			Active
+			{$_('tasks.filterActive')}
 		</Button>
 
 		<Button
@@ -75,7 +75,7 @@
 			size="sm"
 			onclick={() => taskStore.setCompletionFilter('completed')}
 		>
-			Completed
+			{$_('tasks.filterCompleted')}
 		</Button>
 	</div>
 
