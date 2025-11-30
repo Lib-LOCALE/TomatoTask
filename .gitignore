@@ -31,3 +31,7 @@ dist-ssr
 IMPLEMENTATION_STATUS.md
 PR_DESCRIPTION.md
 PIXEL_ART_GUIDE.md
+
+# Output files
+*output*.txt
+check_output*.txt
