@@ -73,6 +73,42 @@ class ProjectStore {
 	getById(id: number): Project | undefined {
 		return this.projects.find((p) => p.id === id);
 	}
+
+	/**
+	 * Réordonne les projets
+	 *
+	 * @param projectIds - Liste des IDs de projets dans le nouvel ordre
+	 */
+	async reorder(projectIds: number[]): Promise<void> {
+		try {
+			// Optimistic update
+			const idToProject = new Map(this.projects.map((p) => [p.id, p]));
+			const newProjects: Project[] = [];
+
+			// Add reordered projects
+			projectIds.forEach((id, index) => {
+				const project = idToProject.get(id);
+				if (project) {
+					project.position = index;
+					newProjects.push(project);
+					idToProject.delete(id);
+				}
+			});
+
+			// Add remaining projects
+			idToProject.forEach((project) => {
+				newProjects.push(project);
+			});
+
+			this.projects = newProjects;
+
+			await invoke('reorder_projects', { projectIds });
+		} catch (err) {
+			console.error('Failed to reorder projects:', err);
+			// Revert on error
+			await this.load();
+		}
+	}
 }
 
 // Instance singleton exportée

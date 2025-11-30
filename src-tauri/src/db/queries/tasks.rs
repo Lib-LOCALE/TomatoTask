@@ -12,9 +12,9 @@ use rusqlite::{Connection, Result, params};
 pub fn get_all_tasks(conn: &Connection) -> Result<Vec<Task>> {
     let mut stmt = conn.prepare(
         "SELECT id, title, description, project_id, estimated_pomodoros,
-                completed_pomodoros, is_completed, created_at, updated_at, completed_at
+                completed_pomodoros, is_completed, created_at, updated_at, completed_at, position
          FROM tasks
-         ORDER BY created_at DESC",
+         ORDER BY position ASC, created_at DESC",
     )?;
 
     let tasks = stmt.query_map([], |row| {
@@ -29,6 +29,7 @@ pub fn get_all_tasks(conn: &Connection) -> Result<Vec<Task>> {
             created_at: row.get(7)?,
             updated_at: row.get(8)?,
             completed_at: row.get(9)?,
+            position: row.get(10)?,
         })
     })?;
 
@@ -43,7 +44,7 @@ pub fn get_all_tasks(conn: &Connection) -> Result<Vec<Task>> {
 pub fn get_task_by_id(conn: &Connection, task_id: i64) -> Result<Task> {
     conn.query_row(
         "SELECT id, title, description, project_id, estimated_pomodoros,
-                completed_pomodoros, is_completed, created_at, updated_at, completed_at
+                completed_pomodoros, is_completed, created_at, updated_at, completed_at, position
          FROM tasks
          WHERE id = ?1",
         [task_id],
@@ -59,6 +60,7 @@ pub fn get_task_by_id(conn: &Connection, task_id: i64) -> Result<Task> {
                 created_at: row.get(7)?,
                 updated_at: row.get(8)?,
                 completed_at: row.get(9)?,
+                position: row.get(10)?,
             })
         },
     )
@@ -170,10 +172,10 @@ pub fn increment_completed_pomodoros(conn: &Connection, task_id: i64) -> Result<
 pub fn get_tasks_by_project(conn: &Connection, project_id: i64) -> Result<Vec<Task>> {
     let mut stmt = conn.prepare(
         "SELECT id, title, description, project_id, estimated_pomodoros,
-                completed_pomodoros, is_completed, created_at, updated_at, completed_at
+                completed_pomodoros, is_completed, created_at, updated_at, completed_at, position
          FROM tasks
          WHERE project_id = ?1
-         ORDER BY created_at DESC",
+         ORDER BY position ASC, created_at DESC",
     )?;
 
     let tasks = stmt.query_map([project_id], |row| {
@@ -188,6 +190,7 @@ pub fn get_tasks_by_project(conn: &Connection, project_id: i64) -> Result<Vec<Ta
             created_at: row.get(7)?,
             updated_at: row.get(8)?,
             completed_at: row.get(9)?,
+            position: row.get(10)?,
         })
     })?;
 

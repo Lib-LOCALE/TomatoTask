@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import { settingsStore } from '$lib/stores/settings.svelte';
-	import { changeLanguage, SUPPORTED_LANGUAGES, getLanguageName, getLanguageCode, getLanguageFlag, getLanguageFlagPath } from '$lib/services/i18n-service';
+	import {
+		changeLanguage,
+		SUPPORTED_LANGUAGES,
+		getLanguageName,
+		getLanguageFlagPath
+	} from '$lib/services/i18n-service';
 	import type { Language } from '$lib/types';
 
 	interface Props {
@@ -13,11 +18,7 @@
 	let currentStep = $state(0);
 	let selectedLanguage = $state<Language>('en');
 
-	const steps = [
-		'language',
-		'welcome',
-		'guide'
-	];
+	const steps = ['language', 'welcome', 'guide', 'features'];
 
 	async function handleLanguageSelect(lang: Language) {
 		selectedLanguage = lang;
@@ -48,9 +49,11 @@
 </script>
 
 <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-	<div class="max-w-2xl w-full bg-background rounded-xl shadow-2xl p-8 m-4 max-h-[90vh] overflow-y-auto">
+	<div
+		class="bg-background m-4 max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl p-8 shadow-2xl"
+	>
 		<!-- Progress indicator -->
-		<div class="flex justify-center gap-2 mb-8">
+		<div class="mb-8 flex justify-center gap-2">
 			{#each steps as _, index}
 				<div
 					class="h-2 w-16 rounded-full transition-colors"
@@ -63,22 +66,22 @@
 		<!-- Step 1: Language Selection -->
 		{#if currentStep === 0}
 			<div class="text-center">
-				<h1 class="text-3xl font-bold mb-4 text-foreground">🍅 TomatoTask</h1>
-				<h2 class="text-xl mb-6 text-foreground">Choose your language / Choisissez votre langue</h2>
+				<h1 class="text-foreground mb-4 text-3xl font-bold">🍅 TomatoTask</h1>
+				<h2 class="text-foreground mb-6 text-xl">Choose your language / Choisissez votre langue</h2>
 
-				<div class="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-lg mx-auto">
+				<div class="mx-auto grid max-w-lg grid-cols-2 gap-3 md:grid-cols-3">
 					{#each SUPPORTED_LANGUAGES as lang}
 						<button
 							type="button"
 							onclick={() => handleLanguageSelect(lang)}
-							class="p-4 rounded-lg border-2 transition-all hover:border-primary hover:bg-accent flex flex-col items-center gap-2"
+							class="hover:border-primary hover:bg-accent flex flex-col items-center gap-2 rounded-lg border-2 p-4 transition-all"
 						>
 							<img
 								src={getLanguageFlagPath(lang)}
 								alt={getLanguageName(lang)}
-								class="w-12 h-12 object-contain rounded"
+								class="h-12 w-12 rounded object-contain"
 							/>
-							<div class="text-sm font-medium text-foreground">{getLanguageName(lang)}</div>
+							<div class="text-foreground text-sm font-medium">{getLanguageName(lang)}</div>
 						</button>
 					{/each}
 				</div>
@@ -88,48 +91,54 @@
 		<!-- Step 2: Pomodoro Explanation -->
 		{#if currentStep === 1}
 			<div class="text-center">
-				<div class="text-6xl mb-6">🍅</div>
-				<h2 class="text-2xl font-bold mb-4 text-foreground">{$_('onboarding.welcome.title')}</h2>
-				<p class="text-lg text-foreground/70 mb-6">{$_('onboarding.welcome.subtitle')}</p>
+				<div class="mb-6 text-6xl">🍅</div>
+				<h2 class="text-foreground mb-4 text-2xl font-bold">{$_('onboarding.welcome.title')}</h2>
+				<p class="text-foreground/70 mb-6 text-lg">{$_('onboarding.welcome.subtitle')}</p>
 
-				<div class="text-left max-w-lg mx-auto space-y-4 mb-8">
+				<div class="mx-auto mb-8 max-w-lg space-y-4 text-left">
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">⏱️</div>
 						<div>
-							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.pomodoro.step1.title')}</h3>
-							<p class="text-sm text-foreground/70">{$_('onboarding.pomodoro.step1.desc')}</p>
+							<h3 class="text-foreground mb-1 font-semibold">
+								{$_('onboarding.pomodoro.step1.title')}
+							</h3>
+							<p class="text-foreground/70 text-sm">{$_('onboarding.pomodoro.step1.desc')}</p>
 						</div>
 					</div>
 
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">☕</div>
 						<div>
-							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.pomodoro.step2.title')}</h3>
-							<p class="text-sm text-foreground/70">{$_('onboarding.pomodoro.step2.desc')}</p>
+							<h3 class="text-foreground mb-1 font-semibold">
+								{$_('onboarding.pomodoro.step2.title')}
+							</h3>
+							<p class="text-foreground/70 text-sm">{$_('onboarding.pomodoro.step2.desc')}</p>
 						</div>
 					</div>
 
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">🎯</div>
 						<div>
-							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.pomodoro.step3.title')}</h3>
-							<p class="text-sm text-foreground/70">{$_('onboarding.pomodoro.step3.desc')}</p>
+							<h3 class="text-foreground mb-1 font-semibold">
+								{$_('onboarding.pomodoro.step3.title')}
+							</h3>
+							<p class="text-foreground/70 text-sm">{$_('onboarding.pomodoro.step3.desc')}</p>
 						</div>
 					</div>
 				</div>
 
-				<div class="flex gap-3 justify-center">
+				<div class="flex justify-center gap-3">
 					<button
 						type="button"
 						onclick={prevStep}
-						class="px-6 py-2 rounded-md border hover:bg-muted"
+						class="hover:bg-muted rounded-md border px-6 py-2"
 					>
 						{$_('common.back')}
 					</button>
 					<button
 						type="button"
 						onclick={nextStep}
-						class="px-6 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
+						class="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-6 py-2"
 					>
 						{$_('common.next')}
 					</button>
@@ -140,62 +149,140 @@
 		<!-- Step 3: Quick Guide -->
 		{#if currentStep === 2}
 			<div class="text-center">
-				<h2 class="text-2xl font-bold mb-6">{$_('onboarding.guide.title')}</h2>
+				<h2 class="mb-6 text-2xl font-bold">{$_('onboarding.guide.title')}</h2>
 
-				<div class="text-left max-w-lg mx-auto space-y-4 mb-8">
+				<div class="mx-auto mb-8 max-w-lg space-y-4 text-left">
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">1️⃣</div>
 						<div>
-							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.guide.step1.title')}</h3>
-							<p class="text-sm text-foreground/70">{$_('onboarding.guide.step1.desc')}</p>
+							<h3 class="text-foreground mb-1 font-semibold">
+								{$_('onboarding.guide.step1.title')}
+							</h3>
+							<p class="text-foreground/70 text-sm">{$_('onboarding.guide.step1.desc')}</p>
 						</div>
 					</div>
 
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">2️⃣</div>
 						<div>
-							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.guide.step2.title')}</h3>
-							<p class="text-sm text-foreground/70">{$_('onboarding.guide.step2.desc')}</p>
+							<h3 class="text-foreground mb-1 font-semibold">
+								{$_('onboarding.guide.step2.title')}
+							</h3>
+							<p class="text-foreground/70 text-sm">{$_('onboarding.guide.step2.desc')}</p>
 						</div>
 					</div>
 
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">3️⃣</div>
 						<div>
-							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.guide.step3.title')}</h3>
-							<p class="text-sm text-foreground/70">{$_('onboarding.guide.step3.desc')}</p>
+							<h3 class="text-foreground mb-1 font-semibold">
+								{$_('onboarding.guide.step3.title')}
+							</h3>
+							<p class="text-foreground/70 text-sm">{$_('onboarding.guide.step3.desc')}</p>
 						</div>
 					</div>
 
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">4️⃣</div>
 						<div>
-							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.guide.step4.title')}</h3>
-							<p class="text-sm text-foreground/70">{$_('onboarding.guide.step4.desc')}</p>
+							<h3 class="text-foreground mb-1 font-semibold">
+								{$_('onboarding.guide.step4.title')}
+							</h3>
+							<p class="text-foreground/70 text-sm">{$_('onboarding.guide.step4.desc')}</p>
 						</div>
 					</div>
 
 					<div class="flex items-start gap-3">
 						<div class="text-2xl">⌨️</div>
 						<div>
-							<h3 class="font-semibold mb-1 text-foreground">{$_('onboarding.guide.shortcuts.title')}</h3>
-							<p class="text-sm text-foreground/70">{$_('onboarding.guide.shortcuts.desc')}</p>
+							<h3 class="text-foreground mb-1 font-semibold">
+								{$_('onboarding.guide.shortcuts.title')}
+							</h3>
+							<p class="text-foreground/70 text-sm">{$_('onboarding.guide.shortcuts.desc')}</p>
 						</div>
 					</div>
 				</div>
 
-				<div class="flex gap-3 justify-center">
+				<div class="flex justify-center gap-3">
 					<button
 						type="button"
 						onclick={prevStep}
-						class="px-6 py-2 rounded-md border hover:bg-muted"
+						class="hover:bg-muted rounded-md border px-6 py-2"
+					>
+						{$_('common.back')}
+					</button>
+					<button
+						type="button"
+						onclick={nextStep}
+						class="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-6 py-2"
+					>
+						{$_('common.next')}
+					</button>
+				</div>
+			</div>
+		{/if}
+
+		<!-- Step 4: Features -->
+		{#if currentStep === 3}
+			<div class="text-center">
+				<h2 class="mb-6 text-2xl font-bold">{$_('onboarding.features.title')}</h2>
+
+				<div class="mx-auto mb-8 max-w-lg space-y-4 text-left">
+					<div class="flex items-start gap-3">
+						<div class="text-2xl">⇅</div>
+						<div>
+							<h3 class="text-foreground mb-1 font-semibold">
+								{$_('onboarding.features.dragDrop.title')}
+							</h3>
+							<p class="text-foreground/70 text-sm">{$_('onboarding.features.dragDrop.desc')}</p>
+						</div>
+					</div>
+
+					<div class="flex items-start gap-3">
+						<div class="text-2xl">📊</div>
+						<div>
+							<h3 class="text-foreground mb-1 font-semibold">
+								{$_('onboarding.features.stats.title')}
+							</h3>
+							<p class="text-foreground/70 text-sm">{$_('onboarding.features.stats.desc')}</p>
+						</div>
+					</div>
+
+					<div class="flex items-start gap-3">
+						<div class="text-2xl">💾</div>
+						<div>
+							<h3 class="text-foreground mb-1 font-semibold">
+								{$_('onboarding.features.backup.title')}
+							</h3>
+							<p class="text-foreground/70 text-sm">{$_('onboarding.features.backup.desc')}</p>
+						</div>
+					</div>
+
+					<div class="flex items-start gap-3">
+						<div class="text-2xl">🔔</div>
+						<div>
+							<h3 class="text-foreground mb-1 font-semibold">
+								{$_('onboarding.features.notifications.title')}
+							</h3>
+							<p class="text-foreground/70 text-sm">
+								{$_('onboarding.features.notifications.desc')}
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="flex justify-center gap-3">
+					<button
+						type="button"
+						onclick={prevStep}
+						class="hover:bg-muted rounded-md border px-6 py-2"
 					>
 						{$_('common.back')}
 					</button>
 					<button
 						type="button"
 						onclick={complete}
-						class="px-6 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
+						class="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-6 py-2"
 					>
 						{$_('onboarding.guide.start')} 🚀
 					</button>

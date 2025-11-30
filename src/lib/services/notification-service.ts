@@ -1,29 +1,50 @@
 // Service de gestion des notifications desktop
-// NOTE: Notifications desktop temporairement désactivées en attendant la configuration correcte du plugin
+import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/plugin-notification';
 import type { SessionType } from '$lib/types';
 
 /**
  * Vérifie et demande la permission pour les notifications
- * STUB: Retourne toujours false temporairement
  *
  * @returns true si permission accordée
  */
 export async function ensureNotificationPermission(): Promise<boolean> {
-	// TODO: Réactiver quand le plugin notification sera configuré
-	console.log('Notifications desktop temporairement désactivées');
-	return false;
+	try {
+		let permission = await isPermissionGranted();
+
+		if (!permission) {
+			const permissionResponse = await requestPermission();
+			permission = permissionResponse === 'granted';
+		}
+
+		return permission;
+	} catch (error) {
+		console.error('Failed to check/request notification permission:', error);
+		return false;
+	}
 }
 
 /**
  * Envoie une notification desktop
- * STUB: Ne fait rien temporairement
  *
  * @param title - Titre de la notification
  * @param body - Corps de la notification
  */
 export async function showNotification(title: string, body: string): Promise<void> {
-	// TODO: Réactiver quand le plugin notification sera configuré
-	console.log('Notification:', title, body);
+	try {
+		const permission = await ensureNotificationPermission();
+
+		if (permission) {
+			sendNotification({
+				title,
+				body,
+				sound: 'default'
+			});
+		} else {
+			console.warn('Notification permission denied');
+		}
+	} catch (error) {
+		console.error('Failed to send notification:', error);
+	}
 }
 
 /**
@@ -82,6 +103,6 @@ export async function notifyComplete(sessionType: SessionType): Promise<void> {
 	const soundName = sessionType === 'work' ? 'squashed_tomato' : 'notification';
 	playNotificationSound(soundName);
 
-	// Envoie la notification desktop (désactivée temporairement)
+	// Envoie la notification desktop
 	await notifySessionComplete(sessionType);
 }

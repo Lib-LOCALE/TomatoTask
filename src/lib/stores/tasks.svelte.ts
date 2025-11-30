@@ -186,6 +186,43 @@ class TaskStore {
 		this.filterCompleted = 'all';
 		this.filterProjectId = null;
 	}
+
+	/**
+	 * Réordonne les tâches
+	 *
+	 * @param taskIds - Liste des IDs de tâches dans le nouvel ordre
+	 */
+	async reorder(taskIds: number[]): Promise<void> {
+		try {
+			// Optimistic update
+			const idToTask = new Map(this.tasks.map((t) => [t.id, t]));
+			const newTasks: Task[] = [];
+
+			// Add reordered tasks
+			taskIds.forEach((id, index) => {
+				const task = idToTask.get(id);
+				if (task) {
+					task.position = index;
+					newTasks.push(task);
+					idToTask.delete(id);
+				}
+			});
+
+			// Add remaining tasks (if any)
+			idToTask.forEach((task) => {
+				newTasks.push(task);
+			});
+
+			this.tasks = newTasks;
+
+			await invoke('reorder_tasks', { taskIds });
+		} catch (err) {
+			console.error('Failed to reorder tasks:', err);
+			this.error = 'Failed to reorder tasks';
+			// Revert on error would require reloading
+			await this.load();
+		}
+	}
 }
 
 // Instance singleton exportée

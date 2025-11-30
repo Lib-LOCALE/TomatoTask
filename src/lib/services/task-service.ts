@@ -124,3 +124,12 @@ export function filterTasksByProject(projectId: number | null): void {
 export function clearTaskFilters(): void {
 	taskStore.clearFilters();
 }
+
+/**
+ * Réordonne les tâches
+ *
+ * @param taskIds - Liste des IDs de tâches dans le nouvel ordre
+ */
+export async function reorderTasks(taskIds: number[]): Promise<void> {
+	await taskStore.reorder(taskIds);
+}

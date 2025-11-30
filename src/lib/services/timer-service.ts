@@ -88,7 +88,7 @@ function startInterval(): void {
 				await window.setTitle(`${timeString} - TomatoTask`);
 				// @ts-ignore
 				await window.setProgressBar({
-					status: 'normal',
+					status: 'normal' as any,
 					progress: progress
 				});
 			} catch (e) {
