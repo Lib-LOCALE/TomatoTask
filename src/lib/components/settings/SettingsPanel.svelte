@@ -93,12 +93,7 @@
 		open
 		class="border-border bg-background text-foreground fixed top-1/2 left-1/2 z-50 m-0 max-h-[90vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg border p-0 shadow-2xl"
 	>
-		<div
-			class="w-full"
-			role="document"
-			onclick={(e) => e.stopPropagation()}
-			onkeydown={(e) => e.stopPropagation()}
-		>
+		<div class="w-full" role="none">
 			<!-- Header -->
 			<div class="flex items-center justify-between border-b px-6 py-4">
 				<h2 class="text-foreground text-lg font-semibold">
@@ -250,6 +245,55 @@
 						<!-- Language Selector -->
 						<div>
 							<LanguageSelector variant="buttons" />
+						</div>
+					</div>
+				</section>
+
+				<!-- Data Management -->
+				<!-- Data Management -->
+				<section>
+					<h3 class="text-md text-foreground mb-4 font-semibold">
+						{$_('settings.dataManagement.title')}
+					</h3>
+					<div class="flex flex-col gap-3">
+						<div class="flex items-center justify-between rounded-lg border p-3">
+							<div>
+								<div class="font-medium">{$_('settings.dataManagement.backupTitle')}</div>
+								<div class="text-muted-foreground text-xs">
+									{$_('settings.dataManagement.backupDesc')}
+								</div>
+							</div>
+							<Button
+								variant="outline"
+								size="sm"
+								onclick={async () => {
+								const { exportBackup } = await import('$lib/services/backup-service');
+								await exportBackup();
+							}}
+							>
+								{$_('settings.dataManagement.export')}
+							</Button>
+						</div>
+
+						<div class="flex items-center justify-between rounded-lg border p-3">
+							<div>
+								<div class="font-medium">{$_('settings.dataManagement.restoreTitle')}</div>
+								<div class="text-muted-foreground text-xs">
+									{$_('settings.dataManagement.restoreDesc')}
+								</div>
+							</div>
+							<Button
+								variant="outline"
+								size="sm"
+								onclick={async () => {
+								if (confirm($_('settings.dataManagement.overwriteConfirm'))) {
+									const { importBackup } = await import('$lib/services/backup-service');
+									await importBackup();
+								}
+							}}
+							>
+								{$_('settings.dataManagement.import')}
+							</Button>
 						</div>
 					</div>
 				</section>

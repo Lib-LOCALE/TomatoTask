@@ -9,6 +9,8 @@ pub struct Project {
     pub color: Option<String>,
     pub created_at: String,
     pub updated_at: String,
+    #[serde(default)]
+    pub position: i32,
 }
 
 /// Input pour créer un nouveau projet
@@ -32,6 +34,8 @@ pub struct Task {
     pub created_at: String,
     pub updated_at: String,
     pub completed_at: Option<String>,
+    #[serde(default)]
+    pub position: i32,
 }
 
 /// Input pour créer une nouvelle tâche

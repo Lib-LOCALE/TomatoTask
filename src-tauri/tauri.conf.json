@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "TomatoTask",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "identifier": "com.tomatotask.app",
   "build": {
     "frontendDist": "../dist",
@@ -24,7 +24,7 @@
       "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: asset: https://asset.localhost; script-src 'self'; media-src 'self' https://assets.mixkit.co"
     },
     "trayIcon": {
-      "iconPath": "icons/tomatoIcon.png",
+      "iconPath": "icons/icon.png",
       "iconAsTemplate": true,
       "menuOnLeftClick": false,
       "tooltip": "TomatoTask - Pomodoro Timer"
@@ -35,12 +35,11 @@
     "targets": "all",
     "icon": [
       "icons/32x32.png",
-      "icons/tomatoIcon128x128.png",
-      "icons/tomatoIcon142x142.png",
-      "icons/tomatoIcon150x150.png",
-      "icons/tomatoIcon.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.png",
       "icons/icon.icns",
-      "icons/tomatoIcon.ico"
+      "icons/icon.ico"
     ]
   }
 }

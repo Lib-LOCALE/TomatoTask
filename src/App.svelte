@@ -218,10 +218,18 @@
 		}
 
 		// Enregistre les raccourcis clavier
-		registerShortcut('s', handleStartStopShortcut, true); // Ctrl+S
-		registerShortcut('n', handleNewTaskShortcut, true); // Ctrl+N
 		registerShortcut('l', handleLanguageShortcut, true); // Ctrl+L
 		registerShortcut('/', handleShortcutsHelpShortcut, true); // Ctrl+/
+	});
+
+	// Applique le thème quand il change
+	$effect(() => {
+		const theme = settingsStore.settings.theme;
+		if (theme === 'dark') {
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
 	});
 </script>
 
@@ -255,61 +263,66 @@
 		</aside>
 
 		<!-- Zone principale du timer et statistiques (2/3 de l'écran) -->
-		<section class="relative flex-1 overflow-y-auto">
-			<!-- Boutons flottants (floating top-right) -->
-			<div class="absolute top-4 right-4 z-10 flex gap-2">
-				<!-- Bouton Mini Mode -->
-				<button
-					type="button"
-					onclick={toggleMiniMode}
-					class="hover:bg-muted rounded-md p-2 transition-colors"
-					title="Mini Mode"
-					aria-label="Mini Mode"
-				>
-					<Minimize2 class="h-5 w-5" />
-				</button>
-
-				<!-- Bouton paramètres -->
-				<button
-					type="button"
-					onclick={() => (showSettings = true)}
-					class="hover:bg-muted rounded-md p-2 transition-colors"
-					title="Settings"
-					aria-label={$_('settings.title')}
-				>
-					<svg
-						class="h-5 w-5"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						viewBox="0 0 24 24"
+		<section class="relative flex flex-1 flex-col overflow-hidden">
+			<!-- Boutons fixes en haut à droite -->
+			<div class="z-10 flex w-full shrink-0 justify-end p-4">
+				<div class="flex gap-2">
+					<!-- Bouton Mini Mode -->
+					<button
+						type="button"
+						onclick={toggleMiniMode}
+						class="hover:bg-muted rounded-md p-2 transition-colors"
+						title="Mini Mode"
+						aria-label="Mini Mode"
 					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-						></path>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-						></path>
-					</svg>
-				</button>
+						<Minimize2 class="h-5 w-5" />
+					</button>
 
-				<!-- Toggle thème -->
-				<ThemeToggle variant="button" />
+					<!-- Bouton paramètres -->
+					<button
+						type="button"
+						onclick={() => (showSettings = true)}
+						class="hover:bg-muted rounded-md p-2 transition-colors"
+						title="Settings"
+						aria-label={$_('settings.title')}
+					>
+						<svg
+							class="h-5 w-5"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+							></path>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+							></path>
+						</svg>
+					</button>
+
+					<!-- Toggle thème -->
+					<ThemeToggle variant="button" />
+				</div>
 			</div>
 
-			<div class="flex flex-col gap-8">
-				<!-- Timer Pomodoro -->
-				<div>
-					<PomodoroTimer autoAdvance={true} />
-				</div>
+			<!-- Zone principale du timer et statistiques (scrollable) -->
+			<div class="w-full flex-1 overflow-y-auto">
+				<div class="flex flex-col gap-8">
+					<!-- Timer Pomodoro -->
+					<div>
+						<PomodoroTimer autoAdvance={true} />
+					</div>
 
-				<!-- Statistiques et résumés -->
-				<div class="px-8 pb-8">
-					<SummaryView />
+					<!-- Statistiques et résumés -->
+					<div class="px-8 pb-8">
+						<SummaryView />
+					</div>
 				</div>
 			</div>
 		</section>

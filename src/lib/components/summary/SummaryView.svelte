@@ -6,12 +6,14 @@
 	import SummaryCard from './SummaryCard.svelte';
 	import BarChart from '$lib/components/stats/BarChart.svelte';
 	import DonutChart from '$lib/components/stats/DonutChart.svelte';
+	import Heatmap from '$lib/components/stats/Heatmap.svelte';
 	import {
 		getTodaySummary,
 		getThisWeekSummary,
 		aggregateSummaries,
 		formatFocusTime
 	} from '$lib/services/summary-service';
+	import { getFocusHistory } from '$lib/services/stats-service';
 	import type { DailySummary } from '$lib/types';
 
 	// Types pour les graphiques
@@ -36,6 +38,7 @@
 	// État pour les graphiques
 	let dailyFocus = $state<DailyFocusTime[]>([]);
 	let projectDist = $state<ProjectDistribution[]>([]);
+	let historyData = $state<DailyFocusTime[]>([]);
 
 	// Données affichées selon la période sélectionnée
 	const displayData = $derived(() => {
@@ -89,17 +92,19 @@
 		isLoading = true;
 		try {
 			// Charge toutes les données en parallèle
-			const [today, week, focus, dist] = await Promise.all([
+			const [today, week, focus, dist, history] = await Promise.all([
 				getTodaySummary(),
 				getThisWeekSummary(),
 				invoke('get_daily_focus_time') as Promise<DailyFocusTime[]>,
-				invoke('get_project_distribution') as Promise<ProjectDistribution[]>
+				invoke('get_project_distribution') as Promise<ProjectDistribution[]>,
+				getFocusHistory(365)
 			]);
 
 			dailySummary = today;
 			weeklySummaries = week;
 			dailyFocus = focus;
 			projectDist = dist;
+			historyData = history;
 		} catch (error) {
 			console.error('Failed to load summaries:', error);
 		} finally {
@@ -195,6 +200,11 @@
 			<BarChart title={$_('summary.focusActivity')} data={barChartData} color="bg-orange-500" />
 
 			<DonutChart title={$_('summary.projectDistribution')} data={donutChartData} />
+		</div>
+
+		<!-- Heatmap -->
+		<div class="mt-4">
+			<Heatmap data={historyData} />
 		</div>
 	{/if}
 </div>

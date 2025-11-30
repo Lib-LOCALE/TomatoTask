@@ -7,31 +7,31 @@
 		"work": "Arbeit",
 		"shortBreak": "Kurze Pause",
 		"longBreak": "Lange Pause",
-		"start": "Starten",
+		"start": "Start",
 		"pause": "Pause",
-		"resume": "Fortsetzen",
-		"stop": "Stoppen",
-		"completed": "Sitzung abgeschlossen!",
+		"resume": "Weiter",
+		"stop": "Stopp",
+		"completed": "Sitzung beendet!",
 		"pomodoroCount": "Pomodoros: {count}",
 		"workingOn": "Arbeiten an"
 	},
 	"tasks": {
 		"title": "Aufgaben",
 		"newTask": "Neue Aufgabe",
-		"editTask": "Aufgabe Bearbeiten",
-		"deleteTask": "Aufgabe Löschen",
+		"editTask": "Aufgabe bearbeiten",
+		"deleteTask": "Aufgabe löschen",
 		"taskTitle": "Aufgabentitel",
 		"description": "Beschreibung",
 		"project": "Projekt",
 		"estimatedPomodoros": "Geschätzte Pomodoros",
-		"completedPomodoros": "Abgeschlossen: {completed}/{estimated}",
+		"completedPomodoros": "Erledigt: {completed}/{estimated}",
 		"markComplete": "Als erledigt markieren",
 		"markIncomplete": "Als unerledigt markieren",
-		"noTasks": "Noch keine Aufgaben. Erstelle deine erste Aufgabe!",
-		"deleteConfirm": "Bist du sicher, dass du diese Aufgabe löschen möchtest?",
+		"noTasks": "Keine Aufgaben. Erstellen Sie Ihre erste Aufgabe!",
+		"deleteConfirm": "Sind Sie sicher, dass Sie diese Aufgabe löschen möchten?",
 		"created": "Erstellt",
 		"updated": "Aktualisiert",
-		"completed": "Abgeschlossen",
+		"completed": "Erledigt",
 		"selectTask": "Aufgabe auswählen",
 		"currentTask": "Aktuelle Aufgabe",
 		"noActiveTasks": "Keine aktiven Aufgaben verfügbar",
@@ -46,22 +46,39 @@
 		"projectColor": "Farbe",
 		"allProjects": "Alle Projekte",
 		"noProject": "Kein Projekt",
-		"noProjects": "Noch keine Projekte. Erstelle dein erstes Projekt!",
-		"deleteConfirm": "Bist du sicher? Aufgaben werden von diesem Projekt getrennt.",
+		"noProjects": "Noch keine Projekte. Erstellen Sie Ihr erstes Projekt!",
+		"deleteConfirm": "Sind Sie sicher? Aufgaben werden von diesem Projekt getrennt.",
 		"form": {
-			"createTitle": "Projekt Erstellen",
-			"editTitle": "Projekt Bearbeiten",
+			"createTitle": "Projekt erstellen",
+			"editTitle": "Projekt bearbeiten",
 			"name": "Projektname",
-			"namePlaceholder": "Projektnamen eingeben",
+			"namePlaceholder": "Projektname eingeben",
 			"color": "Projektfarbe",
 			"customColor": "Benutzerdefinierte Farbe",
-			"create": "Projekt Erstellen"
+			"create": "Projekt erstellen"
 		},
 		"errors": {
 			"nameRequired": "Projektname ist erforderlich",
-			"nameTooLong": "Projektname muss 50 Zeichen oder weniger sein",
+			"nameTooLong": "Projektname muss 50 Zeichen oder weniger lang sein",
 			"saveFailed": "Projekt konnte nicht gespeichert werden"
 		}
+	},
+	"common": {
+		"loading": "Laden...",
+		"error": "Ein Fehler ist aufgetreten",
+		"success": "Erfolg!",
+		"minutes": "Minuten",
+		"hours": "Stunden",
+		"back": "Zurück",
+		"next": "Weiter",
+		"change": "Ändern",
+		"cancel": "Abbrechen",
+		"save": "Speichern",
+		"edit": "Bearbeiten",
+		"delete": "Löschen",
+		"close": "Schließen",
+		"yes": "Ja",
+		"no": "Nein"
 	},
 	"summary": {
 		"title": "Zusammenfassung",
@@ -69,11 +86,22 @@
 		"weekly": "Diese Woche",
 		"monthly": "Diesen Monat",
 		"completedTasks": "Erledigte Aufgaben",
-		"completedPomodoros": "Abgeschlossene Pomodoros",
+		"completedPomodoros": "Erledigte Pomodoros",
 		"focusTime": "Fokuszeit",
-		"minutes": "{count} Min",
-		"hours": "{count}h {minutes}Min",
-		"noData": "Keine Daten für diesen Zeitraum"
+		"focusActivity": "Fokus-Aktivität (Letzte 7 Tage)",
+		"yearlyActivity": "Jährliche Aktivität",
+		"projectDistribution": "Projektverteilung",
+		"noData": "Keine Aktivität aufgezeichnet",
+		"hours": "{count}h {minutes}m",
+		"minutes": "{count}m"
+	},
+	"stats": {
+		"yearlyActivity": "Jährliche Aktivität",
+		"less": "Weniger",
+		"more": "Mehr"
+	},
+	"sounds": {
+		"title": "Umgebungsgeräusche"
 	},
 	"settings": {
 		"title": "Einstellungen",
@@ -86,91 +114,110 @@
 		"pomodorosUntilLongBreak": "Pomodoros bis zur langen Pause",
 		"autoStartBreaks": "Pausen automatisch starten",
 		"autoStartPomodoros": "Pomodoros automatisch starten",
-		"theme": "Design",
+		"theme": "Thema",
 		"light": "Hell",
 		"dark": "Dunkel",
-		"notificationSound": "Benachrichtigungston",
-		"resetDefaults": "Auf Standardwerte zurücksetzen",
-		"saved": "Einstellungen gespeichert!"
+		"resetDefaults": "Standardwerte wiederherstellen",
+		"saved": "Einstellungen gespeichert!",
+		"dataManagement": {
+			"title": "Datenverwaltung",
+			"backupTitle": "Daten sichern",
+			"backupDesc": "Exportieren Sie alle Ihre Daten in eine JSON-Datei",
+			"export": "Exportieren",
+			"restoreTitle": "Daten wiederherstellen",
+			"restoreDesc": "Importieren Sie Daten aus einer JSON-Datei (Überschreibt aktuelle Daten)",
+			"import": "Importieren",
+			"overwriteConfirm": "Dies überschreibt alle aktuellen Daten. Sind Sie sicher?"
+		}
 	},
 	"keyboard": {
-		"shortcuts": "Tastenkürzel",
+		"shortcuts": "Tastenkombinationen",
 		"newTask": "Neue Aufgabe",
-		"startStop": "Timer starten/stoppen",
-		"changeLanguage": "Sprache wechseln",
+		"startStop": "Timer Start/Stopp",
+		"changeLanguage": "Sprache ändern",
 		"close": "Schließen",
-		"pressToStart": "Drücke <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Strg+S</kbd> zum Starten/Stoppen",
-		"pressForShortcuts": "Drücke <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Strg+/</kbd> für alle Tastenkürzel"
-	},
-	"common": {
-		"save": "Speichern",
-		"cancel": "Abbrechen",
-		"delete": "Löschen",
-		"edit": "Bearbeiten",
-		"close": "Schließen",
-		"yes": "Ja",
-		"no": "Nein",
-		"loading": "Lädt...",
-		"error": "Ein Fehler ist aufgetreten",
-		"success": "Erfolg!",
-		"minutes": "Minuten",
-		"hours": "Stunden",
-		"back": "Zurück",
-		"next": "Weiter",
-		"change": "Ändern"
+		"pressToStart": "Drücken Sie <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Ctrl+S</kbd> zum Starten/Stoppen",
+		"pressForShortcuts": "Drücken Sie <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Ctrl+/</kbd> für alle Tastenkombinationen"
 	},
 	"onboarding": {
 		"welcome": {
 			"title": "Willkommen bei TomatoTask!",
-			"subtitle": "Dein Produktivitätsbegleiter mit der Pomodoro-Technik"
+			"subtitle": "Ihr Produktivitätsbegleiter mit der Pomodoro-Technik"
 		},
 		"pomodoro": {
 			"step1": {
-				"title": "Arbeite konzentriert",
-				"desc": "Stelle einen Timer für 25 Minuten ein und konzentriere dich auf eine einzige Aufgabe ohne Ablenkungen"
+				"title": "Arbeiten Sie mit Fokus",
+				"desc": "Stellen Sie einen Timer auf 25 Minuten und konzentrieren Sie sich ohne Ablenkung auf eine einzige Aufgabe"
 			},
 			"step2": {
-				"title": "Mache kurze Pausen",
-				"desc": "Nach jeder Arbeitssitzung machst du eine 5-minütige Pause, um dich zu erholen"
+				"title": "Machen Sie kurze Pausen",
+				"desc": "Machen Sie nach jeder Arbeitssitzung eine 5-minütige Pause, um neue Energie zu tanken"
 			},
 			"step3": {
 				"title": "Lange Pause nach 4 Pomodoros",
-				"desc": "Nach 4 Arbeitssitzungen gönnst du dir eine Belohnung mit einer 15-minütigen Pause"
+				"desc": "Belohnen Sie sich nach 4 Arbeitssitzungen mit einer 15-minütigen Pause"
 			}
 		},
 		"guide": {
 			"title": "Schnellstartanleitung",
 			"step1": {
-				"title": "Erstelle deine Aufgaben",
-				"desc": "Füge Aufgaben in der linken Seitenleiste hinzu. Schätze, wie viele Pomodoros jede Aufgabe benötigt."
+				"title": "Erstellen Sie Ihre Aufgaben",
+				"desc": "Fügen Sie Aufgaben in der linken Seitenleiste hinzu. Schätzen Sie, wie viele Pomodoros jede dauern wird."
 			},
 			"step2": {
-				"title": "Organisiere mit Projekten",
-				"desc": "Gruppiere deine Aufgaben nach Projekten für bessere Organisation und Verfolgung"
+				"title": "Organisieren mit Projekten",
+				"desc": "Gruppieren Sie Ihre Aufgaben nach Projekten für eine bessere Organisation und Verfolgung"
 			},
 			"step3": {
-				"title": "Wähle eine Aufgabe aus und starte",
-				"desc": "Klicke auf eine Aufgabe, um daran zu arbeiten, und starte dann den Timer"
+				"title": "Wählen Sie eine Aufgabe und starten Sie",
+				"desc": "Klicken Sie auf eine Aufgabe, um daran zu arbeiten, und starten Sie dann den Timer"
 			},
 			"step4": {
-				"title": "Verfolge deinen Fortschritt",
-				"desc": "Sieh, wie sich deine abgeschlossenen Pomodoros anhäufen, und feiere deine Produktivität!"
+				"title": "Verfolgen Sie Ihren Fortschritt",
+				"desc": "Beobachten Sie, wie sich Ihre erledigten Pomodoros summieren, und feiern Sie Ihre Produktivität!"
 			},
 			"shortcuts": {
-				"title": "Nützliche Tastenkürzel",
-				"desc": "Strg+S zum Starten/Stoppen, Strg+N für neue Aufgabe, Strg+/ für alle Tastenkürzel"
+				"title": "Nützliche Tastenkombinationen",
+				"desc": "Ctrl+S für Start/Stopp, Ctrl+N für neue Aufgabe, Ctrl+/ für alle Tastenkombinationen"
 			},
-			"start": "TomatoTask jetzt verwenden"
+			"start": "Starten Sie mit TomatoTask"
+		},
+		"features": {
+			"title": "Neue Funktionen",
+			"dragDrop": {
+				"title": "Drag & Drop",
+				"desc": "Ordnen Sie Ihre Aufgaben und Projekte einfach neu an, um das Wesentliche zu priorisieren."
+			},
+			"stats": {
+				"title": "Erweiterte Statistiken",
+				"desc": "Visualisieren Sie Ihre Produktivität mit jährlichen Heatmaps und detaillierten Diagrammen."
+			},
+			"backup": {
+				"title": "Datensicherung",
+				"desc": "Exportieren und importieren Sie Ihre Daten, um sie sicher aufzubewahren oder zwischen Geräten zu wechseln."
+			},
+			"notifications": {
+				"title": "Desktop-Benachrichtigungen",
+				"desc": "Erhalten Sie Benachrichtigungen, wenn Sitzungen enden, auch wenn die App im Hintergrund läuft."
+			}
 		}
 	},
 	"notifications": {
-		"workComplete": "Arbeitssitzung abgeschlossen! Zeit für eine Pause.",
-		"breakComplete": "Die Pause ist vorbei! Bereit zum Fokussieren?",
+		"workComplete": "Arbeitssitzung beendet! Zeit für eine Pause.",
+		"breakComplete": "Pause ist vorbei! Bereit zum Fokussieren?",
 		"taskComplete": "Aufgabe erledigt!",
 		"taskCreated": "Aufgabe erstellt",
 		"taskUpdated": "Aufgabe aktualisiert",
 		"taskDeleted": "Aufgabe gelöscht",
 		"projectCreated": "Projekt erstellt",
 		"projectDeleted": "Projekt gelöscht"
+	},
+	"dialogs": {
+		"deleteTaskTitle": "Aufgabe löschen",
+		"deleteTaskConfirm": "Sind Sie sicher, dass Sie \"{name}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+		"deleteProjectTitle": "Projekt löschen",
+		"deleteProjectConfirm": "Sind Sie sicher, dass Sie \"{name}\" löschen möchten? Alle Aufgaben bleiben erhalten, sind aber nicht mehr diesem Projekt zugeordnet.",
+		"languageTitle": "Sprache / Language",
+		"done": "Fertig"
 	}
 }

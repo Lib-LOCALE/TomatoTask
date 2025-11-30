@@ -20,3 +20,12 @@ pub fn get_project_distribution(db: State<DbConnection>) -> Result<Vec<ProjectDi
     
     stats::get_project_distribution(&conn).map_err(|e| e.to_string())
 }
+
+/// Commande pour obtenir l'historique de focus sur une période
+#[tauri::command]
+pub fn get_focus_history(days: i32, db: State<DbConnection>) -> Result<Vec<DailyFocusTime>, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+    
+    stats::get_focus_history(&conn, days).map_err(|e| e.to_string())
+}

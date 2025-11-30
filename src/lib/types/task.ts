@@ -14,6 +14,7 @@ export interface Task {
 	createdAt: string;
 	updatedAt: string;
 	completedAt?: string;
+	position: number;
 }
 
 /**
@@ -46,6 +47,7 @@ export interface Project {
 	createdAt: string;
 	updatedAt: string;
 	taskCount?: number;
+	position: number;
 }
 
 /**

@@ -5,6 +5,7 @@ mod commands;
 mod db;
 mod tray;
 mod notifications;
+pub mod utils;
 
 use db::{DbConnection, migrations};
 use std::path::PathBuf;
@@ -31,6 +32,9 @@ pub fn run() {
                         .build(),
                 )?;
             }
+            app.handle().plugin(tauri_plugin_notification::init())?;
+            app.handle().plugin(tauri_plugin_dialog::init())?;
+            app.handle().plugin(tauri_plugin_fs::init())?;
 
             // Obtient le répertoire de données de l'application
             let app_dir = app
@@ -89,11 +93,13 @@ pub fn run() {
             commands::delete_task,
             commands::toggle_task_completion,
             commands::get_tasks_by_project,
+            commands::reorder_tasks,
             // Commandes de gestion des projets
             commands::get_projects,
             commands::create_project,
             commands::update_project,
             commands::delete_project,
+            commands::reorder_projects,
             // Commandes de gestion des sessions Pomodoro
             commands::create_session,
             commands::complete_session,
@@ -107,13 +113,15 @@ pub fn run() {
             commands::get_weekly_summary,
             commands::get_daily_focus_time,
             commands::get_project_distribution,
-            // Commandes de notifications (temporairement désactivées)
-            // notifications::send_custom_notification,
-            // Commandes de system tray
-            tray::toggle_window,
-            tray::show_window,
-            tray::hide_window,
-            tray::quit_app,
+            commands::get_focus_history,
+            // Commandes de backup
+            commands::export_data,
+            commands::import_data,
+            // Commandes du tray
+            crate::tray::toggle_window,
+            crate::tray::show_window,
+            crate::tray::hide_window,
+            crate::tray::quit_app,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

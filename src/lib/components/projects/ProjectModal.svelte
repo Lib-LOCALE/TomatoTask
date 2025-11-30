@@ -67,12 +67,7 @@
 		class="border-border bg-background fixed top-1/2 left-1/2 z-50 m-0 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border p-0 shadow-2xl"
 	>
 		>
-		<div
-			class="w-full"
-			role="document"
-			onclick={(e) => e.stopPropagation()}
-			onkeydown={(e) => e.stopPropagation()}
-		>
+		<div class="w-full" role="none">
 			<!-- Header -->
 			<div class="flex items-center justify-between border-b px-6 py-4">
 				<h2 class="text-foreground text-lg font-semibold">
