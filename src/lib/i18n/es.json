@@ -63,6 +63,23 @@
 			"saveFailed": "Error al guardar el proyecto"
 		}
 	},
+	"common": {
+		"loading": "Cargando...",
+		"error": "Ocurrió un error",
+		"success": "¡Éxito!",
+		"minutes": "minutos",
+		"hours": "horas",
+		"back": "Atrás",
+		"next": "Siguiente",
+		"change": "Cambiar",
+		"cancel": "Cancelar",
+		"save": "Guardar",
+		"edit": "Editar",
+		"delete": "Eliminar",
+		"close": "Cerrar",
+		"yes": "Sí",
+		"no": "No"
+	},
 	"summary": {
 		"title": "Resumen",
 		"daily": "Hoy",
@@ -71,9 +88,20 @@
 		"completedTasks": "Tareas completadas",
 		"completedPomodoros": "Pomodoros completados",
 		"focusTime": "Tiempo de enfoque",
-		"minutes": "{count} min",
-		"hours": "{count}h {minutes}min",
-		"noData": "Sin datos para este período"
+		"focusActivity": "Actividad de enfoque (Últimos 7 días)",
+		"yearlyActivity": "Actividad anual",
+		"projectDistribution": "Distribución por proyecto",
+		"noData": "Sin datos para este período",
+		"hours": "{count}h {minutes}m",
+		"minutes": "{count}m"
+	},
+	"stats": {
+		"yearlyActivity": "Actividad anual",
+		"less": "Menos",
+		"more": "Más"
+	},
+	"sounds": {
+		"title": "Sonidos ambientales"
 	},
 	"settings": {
 		"title": "Configuración",
@@ -89,9 +117,18 @@
 		"theme": "Tema",
 		"light": "Claro",
 		"dark": "Oscuro",
-		"notificationSound": "Sonido de notificación",
 		"resetDefaults": "Restablecer valores predeterminados",
-		"saved": "¡Configuración guardada!"
+		"saved": "¡Configuración guardada!",
+		"dataManagement": {
+			"title": "Gestión de Datos",
+			"backupTitle": "Copia de Seguridad",
+			"backupDesc": "Exporta todos tus datos a un archivo JSON",
+			"export": "Exportar",
+			"restoreTitle": "Restaurar Datos",
+			"restoreDesc": "Importa datos desde un archivo JSON (Sobrescribe los datos actuales)",
+			"import": "Importar",
+			"overwriteConfirm": "Esto sobrescribirá todos los datos actuales. ¿Estás seguro?"
+		}
 	},
 	"keyboard": {
 		"shortcuts": "Atajos de Teclado",
@@ -101,23 +138,6 @@
 		"close": "Cerrar",
 		"pressToStart": "Presiona <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Ctrl+S</kbd> para iniciar/detener",
 		"pressForShortcuts": "Presiona <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Ctrl+/</kbd> para todos los atajos"
-	},
-	"common": {
-		"save": "Guardar",
-		"cancel": "Cancelar",
-		"delete": "Eliminar",
-		"edit": "Editar",
-		"close": "Cerrar",
-		"yes": "Sí",
-		"no": "No",
-		"loading": "Cargando...",
-		"error": "Ocurrió un error",
-		"success": "¡Éxito!",
-		"minutes": "minutos",
-		"hours": "horas",
-		"back": "Atrás",
-		"next": "Siguiente",
-		"change": "Cambiar"
 	},
 	"onboarding": {
 		"welcome": {
@@ -161,6 +181,25 @@
 				"desc": "Ctrl+S para iniciar/detener, Ctrl+N para nueva tarea, Ctrl+/ para todos los atajos"
 			},
 			"start": "Comienza a usar TomatoTask"
+		},
+		"features": {
+			"title": "Nuevas Características",
+			"dragDrop": {
+				"title": "Arrastrar y Soltar",
+				"desc": "Reorganiza fácilmente tus tareas y proyectos para priorizar lo esencial."
+			},
+			"stats": {
+				"title": "Estadísticas Avanzadas",
+				"desc": "Visualiza tu productividad con mapas de calor anuales y gráficos detallados."
+			},
+			"backup": {
+				"title": "Copia de Seguridad",
+				"desc": "Exporta e importa tus datos para mantenerlos seguros o cambiar de dispositivo."
+			},
+			"notifications": {
+				"title": "Notificaciones de Escritorio",
+				"desc": "Recibe notificaciones cuando terminen las sesiones, incluso si la aplicación está en segundo plano."
+			}
 		}
 	},
 	"notifications": {
@@ -172,5 +211,13 @@
 		"taskDeleted": "Tarea eliminada",
 		"projectCreated": "Proyecto creado",
 		"projectDeleted": "Proyecto eliminado"
+	},
+	"dialogs": {
+		"deleteTaskTitle": "Eliminar Tarea",
+		"deleteTaskConfirm": "¿Estás seguro de que quieres eliminar \"{name}\"? Esta acción es irreversible.",
+		"deleteProjectTitle": "Eliminar Proyecto",
+		"deleteProjectConfirm": "¿Estás seguro de que quieres eliminar \"{name}\"? Todas las tareas permanecerán pero ya no estarán asociadas a este proyecto.",
+		"languageTitle": "Idioma / Language",
+		"done": "Hecho"
 	}
 }

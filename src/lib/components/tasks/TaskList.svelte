@@ -123,7 +123,7 @@
 		{:else}
 			<!-- Liste des tâches -->
 			<div class="space-y-3">
-				{#each taskStore.filteredTasks as task (task.id)}
+				{#each taskStore.filteredTasks as task, index (task.id)}
 					<div
 						role="listitem"
 						draggable="true"
@@ -131,9 +131,40 @@
 							if (e.dataTransfer) {
 								e.dataTransfer.setData('text/plain', task.id.toString());
 								e.dataTransfer.effectAllowed = 'move';
+								// Store the dragging index for visual feedback if needed
 							}
 						}}
-						class="cursor-grab active:cursor-grabbing"
+						ondragover={(e) => {
+							e.preventDefault(); // Necessary to allow dropping
+							// Optional: Add visual feedback for drop target
+						}}
+						ondrop={async (e) => {
+							e.preventDefault();
+							const draggedTaskIdStr = e.dataTransfer?.getData('text/plain');
+							if (draggedTaskIdStr) {
+								const draggedTaskId = parseInt(draggedTaskIdStr);
+								if (!isNaN(draggedTaskId) && draggedTaskId !== task.id) {
+									// Calculate new order
+									const currentTasks = [...taskStore.filteredTasks];
+									const draggedIndex = currentTasks.findIndex(t => t.id === draggedTaskId);
+									const targetIndex = index;
+									
+									if (draggedIndex !== -1) {
+										// Move the task in the array
+										const [draggedTask] = currentTasks.splice(draggedIndex, 1);
+										currentTasks.splice(targetIndex, 0, draggedTask);
+										
+										// Extract IDs for the new order
+										const newTaskIds = currentTasks.map(t => t.id);
+										
+										// Call service to update order
+										const { reorderTasks } = await import('$lib/services/task-service');
+										await reorderTasks(newTaskIds);
+									}
+								}
+							}
+						}}
+						class="cursor-grab transition-transform active:cursor-grabbing"
 					>
 						<TaskCard {task} onEdit={onEditTask} onDelete={onDeleteTask} onSelect={onSelectTask} />
 					</div>

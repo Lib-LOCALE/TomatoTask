@@ -89,10 +89,19 @@
 		"completedPomodoros": "Pomodoros completed",
 		"focusTime": "Focus time",
 		"focusActivity": "Focus Activity (Last 7 Days)",
+		"yearlyActivity": "Yearly Activity",
 		"projectDistribution": "Project Distribution",
 		"noData": "No activity recorded yet",
 		"hours": "{count}h {minutes}m",
 		"minutes": "{count}m"
+	},
+	"stats": {
+		"yearlyActivity": "Yearly Activity",
+		"less": "Less",
+		"more": "More"
+	},
+	"sounds": {
+		"title": "Ambient Sounds"
 	},
 	"settings": {
 		"title": "Settings",
@@ -109,10 +118,17 @@
 		"light": "Light",
 		"dark": "Dark",
 		"resetDefaults": "Reset defaults",
-		"saved": "Settings saved"
-	},
-	"sounds": {
-		"title": "Ambient Sounds"
+		"saved": "Settings saved",
+		"dataManagement": {
+			"title": "Data Management",
+			"backupTitle": "Backup Data",
+			"backupDesc": "Export all your data to a JSON file",
+			"export": "Export",
+			"restoreTitle": "Restore Data",
+			"restoreDesc": "Import data from a JSON file (Overwrites current data)",
+			"import": "Import",
+			"overwriteConfirm": "This will overwrite all current data. Are you sure?"
+		}
 	},
 	"keyboard": {
 		"shortcuts": "Keyboard Shortcuts",
@@ -165,6 +181,25 @@
 				"desc": "Ctrl+S to start/stop, Ctrl+N for new task, Ctrl+/ for all shortcuts"
 			},
 			"start": "Start using TomatoTask"
+		},
+		"features": {
+			"title": "New Features",
+			"dragDrop": {
+				"title": "Drag & Drop",
+				"desc": "Easily reorder your tasks and projects to prioritize what matters."
+			},
+			"stats": {
+				"title": "Advanced Statistics",
+				"desc": "Visualize your productivity with yearly heatmaps and detailed charts."
+			},
+			"backup": {
+				"title": "Data Backup",
+				"desc": "Export and import your data to keep it safe or move between devices."
+			},
+			"notifications": {
+				"title": "Desktop Notifications",
+				"desc": "Get notified when sessions end, even if the app is in the background."
+			}
 		}
 	},
 	"notifications": {

@@ -96,3 +96,27 @@ pub fn get_tasks_by_project(project_id: i64, db: State<DbConnection>) -> Result<
 
     queries::get_tasks_by_project(&conn, project_id).map_err(|e| e.to_string())
 }
+
+/// Réordonne les tâches
+///
+/// # Arguments
+/// * `task_ids` - Liste des IDs de tâches dans le nouvel ordre
+/// * `db` - État partagé contenant la connexion à la base de données
+#[tauri::command]
+pub fn reorder_tasks(task_ids: Vec<i64>, db: State<DbConnection>) -> Result<(), String> {
+    let conn = db.get_connection();
+    let mut conn = conn.lock().map_err(|e| e.to_string())?;
+
+    let tx = conn.transaction().map_err(|e| e.to_string())?;
+
+    for (index, id) in task_ids.iter().enumerate() {
+        tx.execute(
+            "UPDATE tasks SET position = ?1 WHERE id = ?2",
+            (index as i32, id),
+        ).map_err(|e| e.to_string())?;
+    }
+
+    tx.commit().map_err(|e| e.to_string())?;
+
+    Ok(())
+}

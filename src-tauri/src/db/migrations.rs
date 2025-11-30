@@ -23,6 +23,11 @@ pub fn run_migrations(conn: &Connection) -> Result<()> {
         set_schema_version(conn, 1)?;
     }
 
+    if current_version < 2 {
+        apply_migration_002(conn)?;
+        set_schema_version(conn, 2)?;
+    }
+
     Ok(())
 }
 
@@ -151,6 +156,38 @@ fn apply_migration_001(conn: &Connection) -> Result<()> {
     // Insère les paramètres par défaut
     conn.execute(
         "INSERT INTO settings (id) VALUES (1)",
+        [],
+    )?;
+
+    Ok(())
+}
+
+/// Migration 002: Ajout de la colonne position pour le tri
+///
+/// Ajoute une colonne position aux tables projects et tasks
+/// Initialise la position avec l'ID pour maintenir l'ordre de création par défaut
+fn apply_migration_002(conn: &Connection) -> Result<()> {
+    // Ajout de la colonne position à la table projects
+    conn.execute(
+        "ALTER TABLE projects ADD COLUMN position INTEGER DEFAULT 0",
+        [],
+    )?;
+
+    // Initialise la position avec l'ID pour les projets existants
+    conn.execute(
+        "UPDATE projects SET position = id",
+        [],
+    )?;
+
+    // Ajout de la colonne position à la table tasks
+    conn.execute(
+        "ALTER TABLE tasks ADD COLUMN position INTEGER DEFAULT 0",
+        [],
+    )?;
+
+    // Initialise la position avec l'ID pour les tâches existantes
+    conn.execute(
+        "UPDATE tasks SET position = id",
         [],
     )?;
 

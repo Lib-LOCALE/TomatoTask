@@ -89,10 +89,19 @@
 		"completedPomodoros": "Pomodoros terminés",
 		"focusTime": "Temps de focus",
 		"focusActivity": "Activité de focus (7 derniers jours)",
+		"yearlyActivity": "Activité annuelle",
 		"projectDistribution": "Distribution par projet",
 		"noData": "Aucune activité enregistrée",
 		"hours": "{count}h {minutes}m",
 		"minutes": "{count}m"
+	},
+	"stats": {
+		"yearlyActivity": "Activité annuelle",
+		"less": "Moins",
+		"more": "Plus"
+	},
+	"sounds": {
+		"title": "Sons d'ambiance"
 	},
 	"settings": {
 		"title": "Paramètres",
@@ -109,10 +118,17 @@
 		"light": "Clair",
 		"dark": "Sombre",
 		"resetDefaults": "Réinitialiser",
-		"saved": "Paramètres enregistrés"
-	},
-	"sounds": {
-		"title": "Sons d'ambiance"
+		"saved": "Paramètres enregistrés",
+		"dataManagement": {
+			"title": "Gestion des Données",
+			"backupTitle": "Sauvegarder les Données",
+			"backupDesc": "Exportez toutes vos données dans un fichier JSON",
+			"export": "Exporter",
+			"restoreTitle": "Restaurer les Données",
+			"restoreDesc": "Importez des données depuis un fichier JSON (Écrase les données actuelles)",
+			"import": "Importer",
+			"overwriteConfirm": "Cela écrasera toutes les données actuelles. Êtes-vous sûr ?"
+		}
 	},
 	"keyboard": {
 		"shortcuts": "Raccourcis Clavier",
@@ -165,6 +181,25 @@
 				"desc": "Ctrl+S pour démarrer/arrêter, Ctrl+N pour nouvelle tâche, Ctrl+/ pour tous les raccourcis"
 			},
 			"start": "Commencer à utiliser TomatoTask"
+		},
+		"features": {
+			"title": "Nouvelles Fonctionnalités",
+			"dragDrop": {
+				"title": "Glisser-Déposer",
+				"desc": "Réorganisez facilement vos tâches et projets pour prioriser l'essentiel."
+			},
+			"stats": {
+				"title": "Statistiques Avancées",
+				"desc": "Visualisez votre productivité avec des heatmaps annuelles et des graphiques détaillés."
+			},
+			"backup": {
+				"title": "Sauvegarde de Données",
+				"desc": "Exportez et importez vos données pour les sécuriser ou changer d'appareil."
+			},
+			"notifications": {
+				"title": "Notifications Bureau",
+				"desc": "Soyez notifié à la fin des sessions, même si l'application est en arrière-plan."
+			}
 		}
 	},
 	"notifications": {

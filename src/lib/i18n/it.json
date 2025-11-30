@@ -1,16 +1,16 @@
 {
 	"app": {
 		"title": "TomatoTask",
-		"description": "Timer Pomodoro con Lista Attività Integrata"
+		"description": "Timer Pomodoro con Lista di Cose da Fare Integrata"
 	},
 	"timer": {
 		"work": "Lavoro",
 		"shortBreak": "Pausa Breve",
 		"longBreak": "Pausa Lunga",
-		"start": "Inizia",
+		"start": "Avvia",
 		"pause": "Pausa",
 		"resume": "Riprendi",
-		"stop": "Ferma",
+		"stop": "Stop",
 		"completed": "Sessione completata!",
 		"pomodoroCount": "Pomodori: {count}",
 		"workingOn": "Lavorando su"
@@ -26,7 +26,7 @@
 		"estimatedPomodoros": "Pomodori Stimati",
 		"completedPomodoros": "Completati: {completed}/{estimated}",
 		"markComplete": "Segna come completata",
-		"markIncomplete": "Segna come incompleta",
+		"markIncomplete": "Segna come non completata",
 		"noTasks": "Nessuna attività. Crea la tua prima attività!",
 		"deleteConfirm": "Sei sicuro di voler eliminare questa attività?",
 		"created": "Creata",
@@ -47,7 +47,7 @@
 		"allProjects": "Tutti i progetti",
 		"noProject": "Nessun progetto",
 		"noProjects": "Nessun progetto ancora. Crea il tuo primo progetto!",
-		"deleteConfirm": "Sei sicuro? Le attività saranno svincolate da questo progetto.",
+		"deleteConfirm": "Sei sicuro? Le attività verranno scollegate da questo progetto.",
 		"form": {
 			"createTitle": "Crea Progetto",
 			"editTitle": "Modifica Progetto",
@@ -63,6 +63,23 @@
 			"saveFailed": "Impossibile salvare il progetto"
 		}
 	},
+	"common": {
+		"loading": "Caricamento...",
+		"error": "Si è verificato un errore",
+		"success": "Successo!",
+		"minutes": "minuti",
+		"hours": "ore",
+		"back": "Indietro",
+		"next": "Avanti",
+		"change": "Cambia",
+		"cancel": "Annulla",
+		"save": "Salva",
+		"edit": "Modifica",
+		"delete": "Elimina",
+		"close": "Chiudi",
+		"yes": "Sì",
+		"no": "No"
+	},
 	"summary": {
 		"title": "Riepilogo",
 		"daily": "Oggi",
@@ -70,17 +87,28 @@
 		"monthly": "Questo Mese",
 		"completedTasks": "Attività completate",
 		"completedPomodoros": "Pomodori completati",
-		"focusTime": "Tempo di concentrazione",
-		"minutes": "{count} min",
-		"hours": "{count}h {minutes}min",
-		"noData": "Nessun dato per questo periodo"
+		"focusTime": "Tempo di focus",
+		"focusActivity": "Attività di focus (Ultimi 7 giorni)",
+		"yearlyActivity": "Attività annuale",
+		"projectDistribution": "Distribuzione per progetto",
+		"noData": "Nessuna attività registrata",
+		"hours": "{count}h {minutes}m",
+		"minutes": "{count}m"
+	},
+	"stats": {
+		"yearlyActivity": "Attività annuale",
+		"less": "Meno",
+		"more": "Più"
+	},
+	"sounds": {
+		"title": "Suoni ambientali"
 	},
 	"settings": {
 		"title": "Impostazioni",
 		"timer": "Timer",
 		"appearance": "Aspetto",
 		"language": "Lingua",
-		"workDuration": "Durata del lavoro",
+		"workDuration": "Durata lavoro",
 		"shortBreakDuration": "Pausa breve",
 		"longBreakDuration": "Pausa lunga",
 		"pomodorosUntilLongBreak": "Pomodori prima della pausa lunga",
@@ -89,9 +117,18 @@
 		"theme": "Tema",
 		"light": "Chiaro",
 		"dark": "Scuro",
-		"notificationSound": "Suono di notifica",
-		"resetDefaults": "Ripristina impostazioni predefinite",
-		"saved": "Impostazioni salvate!"
+		"resetDefaults": "Ripristina predefiniti",
+		"saved": "Impostazioni salvate!",
+		"dataManagement": {
+			"title": "Gestione Dati",
+			"backupTitle": "Backup Dati",
+			"backupDesc": "Esporta tutti i tuoi dati in un file JSON",
+			"export": "Esporta",
+			"restoreTitle": "Ripristina Dati",
+			"restoreDesc": "Importa dati da un file JSON (Sovrascrive i dati correnti)",
+			"import": "Importa",
+			"overwriteConfirm": "Questo sovrascriverà tutti i dati correnti. Sei sicuro?"
+		}
 	},
 	"keyboard": {
 		"shortcuts": "Scorciatoie da Tastiera",
@@ -102,35 +139,18 @@
 		"pressToStart": "Premi <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Ctrl+S</kbd> per avviare/fermare",
 		"pressForShortcuts": "Premi <kbd class=\"bg-muted rounded px-2 py-1 font-mono text-xs\">Ctrl+/</kbd> per tutte le scorciatoie"
 	},
-	"common": {
-		"save": "Salva",
-		"cancel": "Annulla",
-		"delete": "Elimina",
-		"edit": "Modifica",
-		"close": "Chiudi",
-		"yes": "Sì",
-		"no": "No",
-		"loading": "Caricamento...",
-		"error": "Si è verificato un errore",
-		"success": "Successo!",
-		"minutes": "minuti",
-		"hours": "ore",
-		"back": "Indietro",
-		"next": "Prossimo",
-		"change": "Cambia"
-	},
 	"onboarding": {
 		"welcome": {
 			"title": "Benvenuto su TomatoTask!",
-			"subtitle": "Il tuo compagno di produttività usando la Tecnica Pomodoro"
+			"subtitle": "Il tuo compagno di produttività che usa la Tecnica del Pomodoro"
 		},
 		"pomodoro": {
 			"step1": {
 				"title": "Lavora con concentrazione",
-				"desc": "Imposta un timer per 25 minuti e concentrati su un'unica attività senza distrazioni"
+				"desc": "Imposta un timer per 25 minuti e concentrati su una singola attività senza distrazioni"
 			},
 			"step2": {
-				"title": "Fai pause brevi",
+				"title": "Fai brevi pause",
 				"desc": "Dopo ogni sessione di lavoro, fai una pausa di 5 minuti per ricaricarti"
 			},
 			"step3": {
@@ -142,7 +162,7 @@
 			"title": "Guida Rapida",
 			"step1": {
 				"title": "Crea le tue attività",
-				"desc": "Aggiungi attività nella barra laterale sinistra. Stima quanti pomodori ogni attività richiederà."
+				"desc": "Aggiungi attività nella barra laterale. Stima quanti pomodori richiederà ciascuna."
 			},
 			"step2": {
 				"title": "Organizza con progetti",
@@ -150,10 +170,10 @@
 			},
 			"step3": {
 				"title": "Seleziona un'attività e inizia",
-				"desc": "Fai clic su un'attività per lavorarci, poi avvia il timer"
+				"desc": "Clicca su un'attività per lavorarci, poi avvia il timer"
 			},
 			"step4": {
-				"title": "Traccia il tuo progresso",
+				"title": "Traccia i tuoi progressi",
 				"desc": "Guarda i tuoi pomodori completati accumularsi e celebra la tua produttività!"
 			},
 			"shortcuts": {
@@ -161,10 +181,29 @@
 				"desc": "Ctrl+S per avviare/fermare, Ctrl+N per nuova attività, Ctrl+/ per tutte le scorciatoie"
 			},
 			"start": "Inizia a usare TomatoTask"
+		},
+		"features": {
+			"title": "Nuove Funzionalità",
+			"dragDrop": {
+				"title": "Trascina e Rilascia",
+				"desc": "Riordina facilmente le tue attività e i tuoi progetti per dare priorità a ciò che conta."
+			},
+			"stats": {
+				"title": "Statistiche Avanzate",
+				"desc": "Visualizza la tua produttività con heatmap annuali e grafici dettagliati."
+			},
+			"backup": {
+				"title": "Backup dei Dati",
+				"desc": "Esporta e importa i tuoi dati per tenerli al sicuro o spostarli tra dispositivi."
+			},
+			"notifications": {
+				"title": "Notifiche Desktop",
+				"desc": "Ricevi notifiche quando le sessioni terminano, anche se l'app è in background."
+			}
 		}
 	},
 	"notifications": {
-		"workComplete": "Sessione di lavoro completata! È ora di fare una pausa.",
+		"workComplete": "Sessione di lavoro completata! È ora di una pausa.",
 		"breakComplete": "La pausa è finita! Pronto a concentrarti?",
 		"taskComplete": "Attività completata!",
 		"taskCreated": "Attività creata",
@@ -172,5 +211,13 @@
 		"taskDeleted": "Attività eliminata",
 		"projectCreated": "Progetto creato",
 		"projectDeleted": "Progetto eliminato"
+	},
+	"dialogs": {
+		"deleteTaskTitle": "Elimina Attività",
+		"deleteTaskConfirm": "Sei sicuro di voler eliminare \"{name}\"? Questa azione è irreversibile.",
+		"deleteProjectTitle": "Elimina Progetto",
+		"deleteProjectConfirm": "Sei sicuro di voler eliminare \"{name}\"? Tutte le attività rimarranno ma non saranno più associate a questo progetto.",
+		"languageTitle": "Lingua / Language",
+		"done": "Fatto"
 	}
 }

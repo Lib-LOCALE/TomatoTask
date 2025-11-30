@@ -184,21 +184,69 @@
 					</button>
 				</div>
 			{:else}
-				{#each projectStore.projects as project (project.id)}
+				{#each projectStore.projects as project, index (project.id)}
 					<div
 						class="group relative"
 						onmouseenter={() => (hoveredProjectId = project.id)}
 						onmouseleave={() => (hoveredProjectId = null)}
 						role="group"
+						draggable="true"
+						ondragstart={(e) => {
+							if (e.dataTransfer) {
+								e.dataTransfer.setData(
+									'application/json',
+									JSON.stringify({ type: 'project', id: project.id })
+								);
+								e.dataTransfer.effectAllowed = 'move';
+							}
+						}}
+						ondragover={(e) => {
+							// Allow dropping projects on other projects for reordering
+							// But also allow dropping tasks on projects (handled by handleDragOver)
+							// We need to distinguish or handle both.
+							// For project reordering, we check the data type if possible, but data is protected.
+							// We can just allow it and check in drop.
+							handleDragOver(e, project.id);
+						}}
+						ondragleave={handleDragLeave}
+						ondrop={async (e) => {
+							e.preventDefault();
+							dragOverProjectId = null;
+
+							// Check if it's a project being dragged
+							const projectDataStr = e.dataTransfer?.getData('application/json');
+							if (projectDataStr) {
+								try {
+									const data = JSON.parse(projectDataStr);
+									if (data.type === 'project' && data.id !== project.id) {
+										// Reorder projects
+										const currentProjects = [...projectStore.projects];
+										const draggedIndex = currentProjects.findIndex((p) => p.id === data.id);
+										const targetIndex = index;
+
+										if (draggedIndex !== -1) {
+											const [draggedProject] = currentProjects.splice(draggedIndex, 1);
+											currentProjects.splice(targetIndex, 0, draggedProject);
+
+											const newProjectIds = currentProjects.map((p) => p.id);
+											await projectStore.reorder(newProjectIds);
+										}
+										return; // Stop here if it was a project reorder
+									}
+								} catch (e) {
+									// Not a JSON or not a project, continue to task drop logic
+								}
+							}
+
+							// Fallback to task drop logic (assigning task to project)
+							handleDrop(e, project.id);
+						}}
 					>
 						<div
 							role="button"
 							tabindex="0"
 							onclick={() => handleSelectProject(project.id)}
 							onkeydown={(e) => e.key === 'Enter' && handleSelectProject(project.id)}
-							ondragover={(e) => handleDragOver(e, project.id)}
-							ondragleave={handleDragLeave}
-							ondrop={(e) => handleDrop(e, project.id)}
 							class="flex w-full cursor-pointer items-center gap-3 rounded-md border border-transparent px-3 py-2 text-left text-sm transition-all"
 							class:bg-muted={selectedProjectId === project.id && dragOverProjectId !== project.id}
 							class:hover:bg-muted={selectedProjectId !== project.id &&

@@ -8,9 +8,9 @@ use rusqlite::{Connection, Result, params};
 /// * `conn` - Connexion à la base de données
 pub fn get_all_projects(conn: &Connection) -> Result<Vec<Project>> {
     let mut stmt = conn.prepare(
-        "SELECT id, name, color, created_at, updated_at
+        "SELECT id, name, color, created_at, updated_at, position
          FROM projects
-         ORDER BY created_at DESC",
+         ORDER BY position ASC, created_at DESC",
     )?;
 
     let projects = stmt.query_map([], |row| {
@@ -20,6 +20,7 @@ pub fn get_all_projects(conn: &Connection) -> Result<Vec<Project>> {
             color: row.get(2)?,
             created_at: row.get(3)?,
             updated_at: row.get(4)?,
+            position: row.get(5)?,
         })
     })?;
 
@@ -33,7 +34,7 @@ pub fn get_all_projects(conn: &Connection) -> Result<Vec<Project>> {
 /// * `project_id` - ID du projet
 pub fn get_project_by_id(conn: &Connection, project_id: i64) -> Result<Project> {
     conn.query_row(
-        "SELECT id, name, color, created_at, updated_at
+        "SELECT id, name, color, created_at, updated_at, position
          FROM projects
          WHERE id = ?1",
         [project_id],
@@ -44,6 +45,7 @@ pub fn get_project_by_id(conn: &Connection, project_id: i64) -> Result<Project> 
                 color: row.get(2)?,
                 created_at: row.get(3)?,
                 updated_at: row.get(4)?,
+                position: row.get(5)?,
             })
         },
     )
