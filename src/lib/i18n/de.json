@@ -101,7 +101,11 @@
 		"more": "Mehr"
 	},
 	"sounds": {
-		"title": "Umgebungsgeräusche"
+		"title": "Umgebungsgeräusche",
+		"birds": "Vögel",
+		"forest": "Wald",
+		"sea": "Meer",
+		"storm": "Sturm"
 	},
 	"settings": {
 		"title": "Einstellungen",
