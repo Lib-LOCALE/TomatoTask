@@ -24,6 +24,9 @@ dist-ssr
 # Claude Code configuration (personal files)
 .claude/
 
+# MCP configuration (contains API keys)
+.mcp.json
+
 # Specify configuration (project planning files)
 .specify/
 

@@ -1,0 +1,62 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .timer-body { fill: #6366f1; }
+      .timer-face { fill: #ffffff; }
+      .timer-hand { fill: #ef4444; }
+      .timer-accent { fill: #8b5cf6; }
+
+      @keyframes tick {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      @keyframes pulse-ring {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.4;
+        }
+      }
+
+      .timer-hand-group {
+        animation: tick 4s linear infinite;
+        transform-origin: 32px 32px;
+      }
+
+      .pulse-circle {
+        animation: pulse-ring 2s ease-in-out infinite;
+        transform-origin: center;
+      }
+    </style>
+  </defs>
+
+  <!-- Pulsing ring -->
+  <circle cx="32" cy="32" r="28" fill="none" stroke="#6366f1" stroke-width="2" opacity="0.3" class="pulse-circle"/>
+
+  <!-- Timer body -->
+  <circle cx="32" cy="32" r="24" class="timer-body"/>
+
+  <!-- Timer face -->
+  <circle cx="32" cy="32" r="20" class="timer-face"/>
+
+  <!-- Hour markers -->
+  <circle cx="32" cy="14" r="1.5" class="timer-accent"/>
+  <circle cx="50" cy="32" r="1.5" class="timer-accent"/>
+  <circle cx="32" cy="50" r="1.5" class="timer-accent"/>
+  <circle cx="14" cy="32" r="1.5" class="timer-accent"/>
+
+  <!-- Center dot -->
+  <circle cx="32" cy="32" r="2" class="timer-accent"/>
+
+  <!-- Timer hand (rotating) -->
+  <g class="timer-hand-group">
+    <rect x="31" y="16" width="2" height="16" rx="1" class="timer-hand"/>
+  </g>
+
+  <!-- Top button -->
+  <rect x="28" y="4" width="8" height="4" rx="2" class="timer-accent"/>
+</svg>

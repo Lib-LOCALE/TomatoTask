@@ -10,6 +10,7 @@
 	import TimerControls from './TimerControls.svelte';
 	import TaskSelectDisplay from './TaskSelectDisplay.svelte';
 	import SoundControl from '$lib/components/sounds/SoundControl.svelte';
+	import AnimatedIcon from '$lib/components/ui/AnimatedIcon.svelte';
 	import type { SessionType, Task } from '$lib/types';
 	import { _ } from 'svelte-i18n';
 
@@ -88,7 +89,7 @@
 		<!-- Feedback de complétion animé -->
 		{#if showCompletionFeedback}
 			<div
-				class="mb-4 animate-bounce rounded-lg border-2 p-4 text-center shadow-lg"
+				class="mb-4 animate-bounce rounded-lg border-2 p-6 text-center shadow-lg"
 				class:border-green-500={completedSessionType === 'work'}
 				class:bg-green-50={completedSessionType === 'work'}
 				class:dark:bg-green-950={completedSessionType === 'work'}
@@ -96,11 +97,11 @@
 				class:bg-blue-50={completedSessionType !== 'work'}
 				class:dark:bg-blue-950={completedSessionType !== 'work'}
 			>
-				<div class="mb-2 text-2xl">
+				<div class="mb-3 flex justify-center">
 					{#if completedSessionType === 'work'}
-						🎉
+						<AnimatedIcon name="tomato" size={80} />
 					{:else}
-						✨
+						<AnimatedIcon name="check" size={80} />
 					{/if}
 				</div>
 				<div class="text-lg font-semibold">
