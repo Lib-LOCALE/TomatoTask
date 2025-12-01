@@ -99,9 +99,9 @@
 			>
 				<div class="mb-3 flex justify-center">
 					{#if completedSessionType === 'work'}
-						<AnimatedIcon name="tomato" size={80} />
+						<AnimatedIcon name="tomato-celebration" size={96} />
 					{:else}
-						<AnimatedIcon name="check" size={80} />
+						<AnimatedIcon name="tomato-relaxing" size={96} />
 					{/if}
 				</div>
 				<div class="text-lg font-semibold">

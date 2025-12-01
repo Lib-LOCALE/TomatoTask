@@ -4,7 +4,9 @@
 	import { toggleTaskCompletion } from '$lib/services/task-service';
 	import { _ } from 'svelte-i18n';
 	import { calculateProgress } from '$lib/utils/time-formatter';
+	import { toastStore } from '$lib/stores/toast.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import Confetti from '$lib/components/effects/Confetti.svelte';
 
 	// Props
 	interface Props {
@@ -18,6 +20,8 @@
 
 	// État local
 	let isToggling = $state(false);
+	let showConfetti = $state(false);
+	let justCompleted = $state(false);
 
 	/**
 	 * Gère le toggle de la checkbox
@@ -25,11 +29,31 @@
 	async function handleToggle() {
 		if (isToggling) return;
 
+		const wasCompleted = task.isCompleted;
 		isToggling = true;
+
 		try {
 			await toggleTaskCompletion(task.id);
+
+			// Si la tâche vient d'être complétée
+			if (!wasCompleted && task.isCompleted) {
+				justCompleted = true;
+				showConfetti = true;
+				toastStore.celebration($_('tasks.taskCompleted'));
+
+				// Reset confetti après 3s
+				setTimeout(() => {
+					showConfetti = false;
+				}, 3000);
+
+				// Reset animation après 1s
+				setTimeout(() => {
+					justCompleted = false;
+				}, 1000);
+			}
 		} catch (error) {
 			console.error('Failed to toggle task:', error);
+			toastStore.error($_('tasks.taskError'));
 		} finally {
 			isToggling = false;
 		}
@@ -39,9 +63,14 @@
 	const progress = $derived(calculateProgress(task.completedPomodoros, task.estimatedPomodoros));
 </script>
 
+{#if showConfetti}
+	<Confetti duration={3000} particleCount={50} />
+{/if}
+
 <div
-	class="group bg-card relative rounded-lg border p-4 transition-all hover:shadow-md"
+	class="group bg-card relative rounded-lg border p-4 transition-all hover:shadow-md hover-lift scale-in"
 	class:opacity-60={task.isCompleted}
+	class:pop={justCompleted}
 >
 	<!-- Header: Checkbox + Titre -->
 	<div class="flex items-start gap-3">
@@ -83,11 +112,16 @@
 
 		<!-- Actions (visible au hover) -->
 		<div class="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
-			<Button variant="ghost" size="sm" onclick={() => onEdit?.(task)}>
+			<Button variant="ghost" size="sm" class="btn-press hover-bounce" onclick={() => onEdit?.(task)}>
 				{$_('common.edit')}
 			</Button>
 
-			<Button variant="ghost" size="sm" onclick={() => onDelete?.(task)}>
+			<Button
+				variant="ghost"
+				size="sm"
+				class="btn-press hover-bounce"
+				onclick={() => onDelete?.(task)}
+			>
 				{$_('common.delete')}
 			</Button>
 		</div>
@@ -98,7 +132,10 @@
 		<div class="mt-3 space-y-2">
 			<!-- Barre de progression -->
 			<div class="bg-muted h-2 w-full overflow-hidden rounded-full">
-				<div class="bg-primary h-full transition-all" style:width="{progress}%"></div>
+				<div
+					class="bg-primary progress-liquid h-full transition-all duration-500"
+					style:width="{progress}%"
+				></div>
 			</div>
 
 			<!-- Texte de progression -->

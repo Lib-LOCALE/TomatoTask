@@ -1,6 +1,6 @@
 <script lang="ts">
 	interface Props {
-		name: 'tomato' | 'timer' | 'check' | 'focus' | 'stats';
+		name: 'tomato' | 'tomato-celebration' | 'tomato-focused' | 'tomato-relaxing' | 'timer' | 'check' | 'focus' | 'stats';
 		size?: number;
 		class?: string;
 	}
@@ -9,6 +9,9 @@
 
 	const iconPaths: Record<typeof name, string> = {
 		tomato: '/icons/animated-tomato.svg',
+		'tomato-celebration': '/icons/animated-tomato-celebration.svg',
+		'tomato-focused': '/icons/animated-tomato-focused.svg',
+		'tomato-relaxing': '/icons/animated-tomato-relaxing.svg',
 		timer: '/icons/animated-timer.svg',
 		check: '/icons/animated-check.svg',
 		focus: '/icons/animated-focus.svg',

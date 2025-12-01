@@ -1,0 +1,98 @@
+<svg width="512" height="512" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .stem { fill: #4CAF50; }
+      .stem-dark { fill: #2E7D32; }
+      .body { fill: #F44336; }
+      .body-dark { fill: #C62828; }
+      .body-light { fill: #FFCDD2; }
+      .shadow { fill: #B71C1C; }
+      .zzz { fill: #9E9E9E; }
+
+      /* Animations */
+      @keyframes gentle-breathe {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+      }
+
+      @keyframes slow-sway {
+        0%, 100% { transform: rotate(0deg); }
+        50% { transform: rotate(-2deg); }
+      }
+
+      @keyframes float-gentle {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-3px); }
+      }
+
+      @keyframes zzz-rise {
+        0% { transform: translateY(0px) translateX(0px); opacity: 1; }
+        100% { transform: translateY(-15px) translateX(5px); opacity: 0; }
+      }
+
+      .tomato-group {
+        animation: gentle-breathe 4s ease-in-out infinite, float-gentle 5s ease-in-out infinite;
+        transform-origin: center center;
+      }
+
+      .stem-group {
+        animation: slow-sway 4s ease-in-out infinite;
+        transform-origin: 9px 3px;
+      }
+
+      .zzz-1 { animation: zzz-rise 3s ease-in-out infinite; }
+      .zzz-2 { animation: zzz-rise 3s ease-in-out infinite 1s; }
+      .zzz-3 { animation: zzz-rise 3s ease-in-out infinite 2s; }
+    </style>
+  </defs>
+
+  <!-- ZZZ particles (sleeping) -->
+  <g class="zzz-1">
+    <text x="13" y="5" class="zzz" font-size="3" font-family="monospace">z</text>
+  </g>
+  <g class="zzz-2">
+    <text x="14" y="3" class="zzz" font-size="4" font-family="monospace">z</text>
+  </g>
+  <g class="zzz-3">
+    <text x="15" y="1" class="zzz" font-size="5" font-family="monospace">Z</text>
+  </g>
+
+  <!-- Tomato -->
+  <g class="tomato-group">
+    <!-- Stem (drooping a bit) -->
+    <g class="stem-group">
+      <rect x="8" y="2" width="2" height="1" class="stem" />
+      <rect x="7" y="3" width="4" height="1" class="stem" />
+      <rect x="6" y="4" width="6" height="1" class="stem" />
+      <rect x="8" y="4" width="2" height="1" class="stem-dark" />
+    </g>
+
+    <!-- Body (slightly wider, looks more relaxed) -->
+    <rect x="5" y="5" width="8" height="1" class="body" />
+    <rect x="4" y="6" width="10" height="1" class="body" />
+    <rect x="3" y="7" width="12" height="1" class="body" />
+    <rect x="2" y="8" width="14" height="6" class="body" />
+    <rect x="3" y="14" width="12" height="1" class="body" />
+    <rect x="4" y="15" width="10" height="1" class="body" />
+    <rect x="5" y="16" width="8" height="1" class="body" />
+
+    <!-- Shine (soft) -->
+    <rect x="4" y="7" width="2" height="1" class="body-light" />
+    <rect x="3" y="8" width="1" height="2" class="body-light" />
+    <rect x="4" y="8" width="1" height="1" class="body-light" />
+
+    <!-- Shadow (relaxed bottom) -->
+    <rect x="11" y="14" width="4" height="1" class="shadow" />
+    <rect x="9" y="15" width="5" height="1" class="shadow" />
+    <rect x="7" y="16" width="4" height="1" class="shadow" />
+
+    <!-- Closed eyes (two small dark lines) -->
+    <rect x="5" y="9" width="2" height="1" class="body-dark" />
+    <rect x="11" y="9" width="2" height="1" class="body-dark" />
+
+    <!-- Slight smile -->
+    <rect x="7" y="12" width="1" height="1" class="body-dark" />
+    <rect x="8" y="13" width="2" height="1" class="body-dark" />
+    <rect x="10" y="12" width="1" height="1" class="body-dark" />
+  </g>
+</svg>

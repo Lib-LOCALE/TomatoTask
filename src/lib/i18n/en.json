@@ -37,7 +37,9 @@
 		"noActiveTasks": "No active tasks available",
 		"filterAll": "All",
 		"filterActive": "Active",
-		"filterCompleted": "Completed"
+		"filterCompleted": "Completed",
+		"taskCompleted": "🎉 Task completed! Great job!",
+		"taskError": "❌ Error updating task"
 	},
 	"projects": {
 		"title": "Projects",

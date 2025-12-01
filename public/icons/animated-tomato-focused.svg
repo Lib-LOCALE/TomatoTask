@@ -1,0 +1,114 @@
+<svg width="512" height="512" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .stem { fill: #4CAF50; }
+      .stem-dark { fill: #2E7D32; }
+      .body { fill: #F44336; }
+      .body-dark { fill: #C62828; }
+      .body-light { fill: #FFCDD2; }
+      .shadow { fill: #B71C1C; }
+      .focus-ring { fill: none; stroke: #FF9800; stroke-width: 0.5; }
+
+      /* Animations */
+      @keyframes intense-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.08); }
+      }
+
+      @keyframes focused-bob {
+        0%, 100% { transform: translateY(0px); }
+        25% { transform: translateY(-2px); }
+        75% { transform: translateY(2px); }
+      }
+
+      @keyframes stem-focus {
+        0%, 100% { transform: rotate(0deg); }
+        50% { transform: rotate(3deg); }
+      }
+
+      @keyframes focus-ring-pulse {
+        0%, 100% { transform: scale(1); opacity: 0.6; }
+        50% { transform: scale(1.2); opacity: 0.2; }
+      }
+
+      @keyframes spark {
+        0% { opacity: 1; transform: scale(0); }
+        50% { opacity: 1; transform: scale(1); }
+        100% { opacity: 0; transform: scale(0); }
+      }
+
+      .tomato-group {
+        animation: intense-pulse 1.5s ease-in-out infinite, focused-bob 2s ease-in-out infinite;
+        transform-origin: center center;
+      }
+
+      .stem-group {
+        animation: stem-focus 2s ease-in-out infinite;
+        transform-origin: 9px 3px;
+      }
+
+      .focus-ring {
+        animation: focus-ring-pulse 2s ease-in-out infinite;
+        transform-origin: center center;
+      }
+
+      .spark { animation: spark 2s ease-in-out infinite; }
+      .spark-2 { animation: spark 2s ease-in-out infinite 0.7s; }
+      .spark-3 { animation: spark 2s ease-in-out infinite 1.4s; }
+    </style>
+  </defs>
+
+  <!-- Focus rings -->
+  <circle cx="9" cy="10" r="8" class="focus-ring" />
+
+  <!-- Spark effects -->
+  <g class="spark">
+    <rect x="1" y="9" width="1" height="1" fill="#FFD700" />
+  </g>
+  <g class="spark-2">
+    <rect x="16" y="11" width="1" height="1" fill="#FFD700" />
+  </g>
+  <g class="spark-3">
+    <rect x="9" y="1" width="1" height="1" fill="#FFD700" />
+  </g>
+
+  <!-- Tomato -->
+  <g class="tomato-group">
+    <!-- Stem (perky and alert) -->
+    <g class="stem-group">
+      <rect x="8" y="1" width="2" height="1" class="stem" />
+      <rect x="7" y="2" width="4" height="1" class="stem" />
+      <rect x="6" y="3" width="6" height="1" class="stem" />
+      <rect x="8" y="3" width="2" height="1" class="stem-dark" />
+    </g>
+
+    <!-- Body (focused, upright posture) -->
+    <rect x="5" y="4" width="8" height="1" class="body" />
+    <rect x="4" y="5" width="10" height="1" class="body" />
+    <rect x="3" y="6" width="12" height="1" class="body" />
+    <rect x="2" y="7" width="14" height="6" class="body" />
+    <rect x="3" y="13" width="12" height="1" class="body" />
+    <rect x="4" y="14" width="10" height="1" class="body" />
+    <rect x="5" y="15" width="8" height="1" class="body" />
+
+    <!-- Bright shine (alert and awake) -->
+    <rect x="4" y="6" width="2" height="1" class="body-light" />
+    <rect x="3" y="7" width="1" height="2" class="body-light" />
+    <rect x="4" y="7" width="2" height="1" class="body-light" />
+    <rect x="4" y="8" width="1" height="1" class="body-light" />
+
+    <!-- Shadow -->
+    <rect x="11" y="13" width="4" height="1" class="shadow" />
+    <rect x="9" y="14" width="5" height="1" class="shadow" />
+    <rect x="7" y="15" width="4" height="1" class="shadow" />
+
+    <!-- Focused eyes (determined look) -->
+    <rect x="5" y="8" width="2" height="1" class="body-dark" />
+    <rect x="5" y="9" width="1" height="1" class="body-dark" />
+    <rect x="11" y="8" width="2" height="1" class="body-dark" />
+    <rect x="12" y="9" width="1" height="1" class="body-dark" />
+
+    <!-- Determined expression -->
+    <rect x="7" y="11" width="4" height="1" class="body-dark" />
+  </g>
+</svg>
