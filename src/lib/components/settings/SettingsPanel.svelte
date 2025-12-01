@@ -4,6 +4,7 @@
 	import { settingsStore } from '$lib/stores/settings.svelte';
 	import LanguageSelector from './LanguageSelector.svelte';
 	import ThemeToggle from './ThemeToggle.svelte';
+
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import type { Settings } from '$lib/types';

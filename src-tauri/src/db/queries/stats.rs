@@ -9,7 +9,7 @@ pub fn get_daily_focus_time(conn: &Connection) -> Result<Vec<DailyFocusTime>> {
             UNION ALL
             SELECT date(date, '+1 day')
             FROM dates
-            WHERE date < date('now')
+            WHERE date <= date('now')
         )
         SELECT 
             d.date,
@@ -89,7 +89,7 @@ pub fn get_focus_history(conn: &Connection, days: i32) -> Result<Vec<DailyFocusT
             UNION ALL
             SELECT date(date, '+1 day')
             FROM dates
-            WHERE date < date('now')
+            WHERE date <= date('now')
         )
         SELECT 
             d.date,

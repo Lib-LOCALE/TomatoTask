@@ -13,6 +13,8 @@
 	import ThemeToggle from '$lib/components/settings/ThemeToggle.svelte';
 	import SettingsPanel from '$lib/components/settings/SettingsPanel.svelte';
 	import OnboardingFlow from '$lib/components/onboarding/OnboardingFlow.svelte';
+	import ToastContainer from '$lib/components/effects/ToastContainer.svelte';
+	import BackgroundParticles from '$lib/components/effects/BackgroundParticles.svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { projectStore } from '$lib/stores/projects.svelte';
@@ -493,4 +495,12 @@
 <!-- Onboarding Flow (affiché uniquement à la première ouverture) -->
 {#if showOnboarding}
 	<OnboardingFlow onComplete={handleOnboardingComplete} />
+{/if}
+
+<!-- Toast notifications -->
+<ToastContainer />
+
+<!-- Background particles for ambient effect -->
+{#if !isMiniMode}
+	<BackgroundParticles count={15} />
 {/if}
