@@ -101,7 +101,11 @@
 		"more": "Más"
 	},
 	"sounds": {
-		"title": "Sonidos ambientales"
+		"title": "Sonidos ambientales",
+		"birds": "Pájaros",
+		"forest": "Bosque",
+		"sea": "Mar",
+		"storm": "Tormenta"
 	},
 	"settings": {
 		"title": "Configuración",

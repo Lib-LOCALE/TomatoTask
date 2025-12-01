@@ -8,24 +8,24 @@ export interface Sound {
 
 export const sounds: Sound[] = [
     {
-        id: 'rain',
-        name: 'Rain',
-        url: 'https://assets.mixkit.co/sfx/preview/mixkit-light-rain-loop-2393.mp3'
+        id: 'birds',
+        name: 'sounds.birds',
+        url: '/sounds/birds.mp3'
     },
     {
         id: 'forest',
-        name: 'Forest',
-        url: 'https://assets.mixkit.co/sfx/preview/mixkit-forest-birds-ambience-1210.mp3'
+        name: 'sounds.forest',
+        url: '/sounds/forest.mp3'
     },
     {
-        id: 'coffee',
-        name: 'Coffee Shop',
-        url: 'https://assets.mixkit.co/sfx/preview/mixkit-restaurant-crowd-talking-ambience-440.mp3'
+        id: 'sea',
+        name: 'sounds.sea',
+        url: '/sounds/sea.mp3'
     },
     {
-        id: 'fire',
-        name: 'Fireplace',
-        url: 'https://assets.mixkit.co/sfx/preview/mixkit-campfire-crackles-1330.mp3'
+        id: 'storm',
+        name: 'sounds.storm',
+        url: '/sounds/storm.mp3'
     }
 ];
 

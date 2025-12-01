@@ -75,7 +75,7 @@
 					: ''}"
 				onclick={() => handleSoundSelect(sound)}
 			>
-				<span>{sound.name}</span>
+				<span>{$_(sound.name)}</span>
 				{#if $currentSound?.id === sound.id && $isPlaying}
 					<Pause class="h-3 w-3" />
 				{:else}
