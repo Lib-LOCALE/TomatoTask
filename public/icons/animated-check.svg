@@ -1,0 +1,94 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .check-circle {
+        fill: none;
+        stroke: #22c55e;
+        stroke-width: 4;
+      }
+      .check-mark {
+        fill: none;
+        stroke: #22c55e;
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .check-bg {
+        fill: #dcfce7;
+      }
+
+      @keyframes draw-circle {
+        0% {
+          stroke-dasharray: 0, 157;
+        }
+        100% {
+          stroke-dasharray: 157, 157;
+        }
+      }
+
+      @keyframes draw-check {
+        0% {
+          stroke-dasharray: 0, 50;
+        }
+        100% {
+          stroke-dasharray: 50, 50;
+        }
+      }
+
+      @keyframes scale-in {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .check-circle {
+        animation: draw-circle 0.6s ease-out forwards;
+        transform-origin: center;
+      }
+
+      .check-mark {
+        animation: draw-check 0.4s 0.3s ease-out forwards;
+        stroke-dasharray: 0, 50;
+      }
+
+      .check-bg {
+        animation: scale-in 0.3s ease-out forwards;
+        transform-origin: center;
+      }
+
+      /* Continuous pulse for completed state */
+      @keyframes pulse-success {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.9;
+        }
+      }
+
+      svg:hover .check-circle,
+      svg:hover .check-mark {
+        animation: pulse-success 1.5s ease-in-out infinite;
+      }
+    </style>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="24" class="check-bg"/>
+
+  <!-- Check circle -->
+  <circle cx="32" cy="32" r="25" class="check-circle"/>
+
+  <!-- Check mark -->
+  <path d="M 20 32 L 28 40 L 44 24" class="check-mark"/>
+</svg>
