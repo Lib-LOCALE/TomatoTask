@@ -10,22 +10,22 @@ export const sounds: Sound[] = [
     {
         id: 'birds',
         name: 'sounds.birds',
-        url: '/sounds/birds.mp3'
+        url: '/sounds/birds.ogg'
     },
     {
         id: 'forest',
         name: 'sounds.forest',
-        url: '/sounds/forest.mp3'
+        url: '/sounds/forest.ogg'
     },
     {
         id: 'sea',
         name: 'sounds.sea',
-        url: '/sounds/sea.mp3'
+        url: '/sounds/sea.ogg'
     },
     {
         id: 'storm',
         name: 'sounds.storm',
-        url: '/sounds/storm.mp3'
+        url: '/sounds/storm.ogg'
     }
 ];
 
