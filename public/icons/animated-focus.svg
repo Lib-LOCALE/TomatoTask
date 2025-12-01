@@ -1,0 +1,109 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .focus-ring {
+        fill: none;
+        stroke: #f59e0b;
+        stroke-width: 2;
+      }
+      .focus-center {
+        fill: #f59e0b;
+      }
+      .focus-ray {
+        fill: #fbbf24;
+      }
+
+      @keyframes rotate-slow {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      @keyframes rotate-reverse {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(-360deg); }
+      }
+
+      @keyframes pulse-glow {
+        0%, 100% {
+          opacity: 0.6;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.15);
+        }
+      }
+
+      @keyframes ray-pulse {
+        0%, 100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .outer-ring {
+        animation: rotate-slow 8s linear infinite;
+        transform-origin: center;
+      }
+
+      .inner-ring {
+        animation: rotate-reverse 6s linear infinite;
+        transform-origin: center;
+      }
+
+      .focus-center {
+        animation: pulse-glow 2s ease-in-out infinite;
+        transform-origin: center;
+      }
+
+      .focus-ray {
+        animation: ray-pulse 2s ease-in-out infinite;
+      }
+
+      .focus-ray:nth-child(2) {
+        animation-delay: 0.25s;
+      }
+
+      .focus-ray:nth-child(3) {
+        animation-delay: 0.5s;
+      }
+
+      .focus-ray:nth-child(4) {
+        animation-delay: 0.75s;
+      }
+    </style>
+
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+
+  <!-- Outer rotating ring -->
+  <g class="outer-ring">
+    <circle cx="32" cy="32" r="28" class="focus-ring" opacity="0.3"/>
+    <circle cx="32" cy="4" r="2" class="focus-ray"/>
+    <circle cx="60" cy="32" r="2" class="focus-ray"/>
+    <circle cx="32" cy="60" r="2" class="focus-ray"/>
+    <circle cx="4" cy="32" r="2" class="focus-ray"/>
+  </g>
+
+  <!-- Inner rotating ring -->
+  <g class="inner-ring">
+    <circle cx="32" cy="32" r="20" class="focus-ring" opacity="0.5"/>
+    <circle cx="32" cy="12" r="1.5" class="focus-ray"/>
+    <circle cx="52" cy="32" r="1.5" class="focus-ray"/>
+    <circle cx="32" cy="52" r="1.5" class="focus-ray"/>
+    <circle cx="12" cy="32" r="1.5" class="focus-ray"/>
+  </g>
+
+  <!-- Center circle -->
+  <circle cx="32" cy="32" r="12" fill="url(#centerGlow)" class="focus-center"/>
+  <circle cx="32" cy="32" r="8" fill="#fef3c7"/>
+
+  <!-- Eye symbol in center -->
+  <ellipse cx="32" cy="32" rx="6" ry="4" fill="#f59e0b"/>
+  <circle cx="32" cy="32" r="2" fill="#1f2937"/>
+</svg>

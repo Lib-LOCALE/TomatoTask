@@ -92,23 +92,14 @@
 
 ## 📥 Installation
 
-### Windows
+### Windows (x64)
 
 Download and run the installer:
-- **Recommended**: `TomatoTask_1.0.19_x64-setup.exe` (NSIS installer)
-- Alternative: `TomatoTask_1.0.19_x64-setup.msi` (MSI installer)
+- `TomatoTask_1.0.19_x64-setup.exe` (NSIS installer)
 
 ### Linux
 
-**Flatpak (Recommended):**
-
-```bash
-# From GitHub Releases
-flatpak install tomatotask-v1.0.19.flatpak
-flatpak run com.tomatotask.app
-```
-
-**AppImage:**
+**AppImage (Universal):**
 
 ```bash
 # Download and make executable
@@ -116,17 +107,7 @@ chmod +x TomatoTask_1.0.19_amd64.AppImage
 ./TomatoTask_1.0.19_amd64.AppImage
 ```
 
-**Debian/Ubuntu:**
-
-```bash
-sudo dpkg -i tomatotask_1.0.19_amd64.deb
-```
-
-### macOS
-
-Download and open the DMG file:
-- `TomatoTask_1.0.19_x64.dmg` (Intel)
-- `TomatoTask_1.0.19_aarch64.dmg` (Apple Silicon)
+The AppImage format works on all Linux distributions without installation.
 
 [**📦 Download Latest Release**](https://github.com/AnthonyMahe/TomatoTask/releases/latest)
 

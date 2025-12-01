@@ -7,6 +7,7 @@
 	import BarChart from '$lib/components/stats/BarChart.svelte';
 	import DonutChart from '$lib/components/stats/DonutChart.svelte';
 	import Heatmap from '$lib/components/stats/Heatmap.svelte';
+	import AnimatedIcon from '$lib/components/ui/AnimatedIcon.svelte';
 	import {
 		getTodaySummary,
 		getThisWeekSummary,
@@ -131,7 +132,10 @@
 <div class="flex flex-col gap-8">
 	<!-- En-tête avec sélecteur de période -->
 	<div class="flex items-center justify-between">
-		<h2 class="text-2xl font-bold">{$_('summary.title')}</h2>
+		<div class="flex items-center gap-3">
+			<AnimatedIcon name="stats" size={48} />
+			<h2 class="text-2xl font-bold">{$_('summary.title')}</h2>
+		</div>
 
 		<!-- Toggle daily/weekly -->
 		<div class="flex gap-2">
