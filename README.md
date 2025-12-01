@@ -4,9 +4,9 @@
 
 ### A modern Pomodoro timer with integrated task management
 
-[![Version](https://img.shields.io/badge/version-1.0.19-blue.svg)](https://github.com/AnthonyMahe/TomatoTask)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/AnthonyMahe/TomatoTask)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](https://github.com/AnthonyMahe/TomatoTask/releases/latest)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)](https://github.com/AnthonyMahe/TomatoTask/releases/latest)
 
 [Download](https://github.com/AnthonyMahe/TomatoTask/releases/latest) • [Documentation](#-usage) • [Contributing](CONTRIBUTING.md)
 
@@ -18,17 +18,28 @@
 
 <div align="center">
 
-### Main Timer Interface
-![Main Interface](public/captureImg/Capture%20d'écran%202025-12-01%20095142.png)
-
-### Task Management & Projects
-![Task Management](public/captureImg/Capture%20d'écran%202025-12-01%20095150.png)
-
-### Statistics & Productivity Tracking
-![Statistics](public/captureImg/Capture%20d'écran%202025-12-01%20095157.png)
-
-### Settings & Customization
-![Settings](public/captureImg/Capture%20d'écran%202025-12-01%20095207.png)
+<table>
+  <tr>
+    <td width="50%">
+      <img src="public/captureImg/Capture%20d'écran%202025-12-01%20095142.png" alt="Main Timer Interface" />
+      <p align="center"><b>🍅 Main Timer Interface</b></p>
+    </td>
+    <td width="50%">
+      <img src="public/captureImg/Capture%20d'écran%202025-12-01%20095150.png" alt="Task Management" />
+      <p align="center"><b>📋 Task Management & Projects</b></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="public/captureImg/Capture%20d'écran%202025-12-01%20095157.png" alt="Statistics" />
+      <p align="center"><b>📊 Statistics & Productivity</b></p>
+    </td>
+    <td width="50%">
+      <img src="public/captureImg/Capture%20d'écran%202025-12-01%20095207.png" alt="Settings" />
+      <p align="center"><b>⚙️ Settings & Customization</b></p>
+    </td>
+  </tr>
+</table>
 
 </div>
 
@@ -95,7 +106,7 @@
 ### Windows (x64)
 
 Download and run the installer:
-- `TomatoTask_1.0.19_x64-setup.exe` (NSIS installer)
+- `TomatoTask_1.1.0_x64-setup.exe` (NSIS installer)
 
 ### Linux
 
@@ -103,8 +114,8 @@ Download and run the installer:
 
 ```bash
 # Download and make executable
-chmod +x TomatoTask_1.0.19_amd64.AppImage
-./TomatoTask_1.0.19_amd64.AppImage
+chmod +x TomatoTask_1.1.0_amd64.AppImage
+./TomatoTask_1.1.0_amd64.AppImage
 ```
 
 The AppImage format works on all Linux distributions without installation.
