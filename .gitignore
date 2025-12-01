@@ -38,3 +38,7 @@ PIXEL_ART_GUIDE.md
 # Output files
 *output*.txt
 check_output*.txt
+
+# Audio optimization
+public/sounds/originals/
+public/sounds/temp/

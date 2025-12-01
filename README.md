@@ -21,21 +21,21 @@
 <table>
   <tr>
     <td width="50%">
-      <img src="public/captureImg/Capture%20d'écran%202025-12-01%20095142.png" alt="Main Timer Interface" />
+      <img src=".github/images/Capture%20d'écran%202025-12-01%20095142.png" alt="Main Timer Interface" />
       <p align="center"><b>🍅 Main Timer Interface</b></p>
     </td>
     <td width="50%">
-      <img src="public/captureImg/Capture%20d'écran%202025-12-01%20095150.png" alt="Task Management" />
+      <img src=".github/images/Capture%20d'écran%202025-12-01%20095150.png" alt="Task Management" />
       <p align="center"><b>📋 Task Management & Projects</b></p>
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <img src="public/captureImg/Capture%20d'écran%202025-12-01%20095157.png" alt="Statistics" />
+      <img src=".github/images/Capture%20d'écran%202025-12-01%20095157.png" alt="Statistics" />
       <p align="center"><b>📊 Statistics & Productivity</b></p>
     </td>
     <td width="50%">
-      <img src="public/captureImg/Capture%20d'écran%202025-12-01%20095207.png" alt="Settings" />
+      <img src=".github/images/Capture%20d'écran%202025-12-01%20095207.png" alt="Settings" />
       <p align="center"><b>⚙️ Settings & Customization</b></p>
     </td>
   </tr>
