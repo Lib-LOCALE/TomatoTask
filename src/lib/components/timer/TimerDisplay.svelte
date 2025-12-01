@@ -90,7 +90,7 @@
 		<!-- Temps au centre -->
 		<div class="absolute inset-0 flex flex-col items-center justify-center">
 			<!-- Tomate animée quand le timer est actif -->
-			{#if timerStore.isActive}
+			{#if timerStore.isRunning}
 				<div class="mb-2">
 					{#if timerStore.sessionType === 'work'}
 						<AnimatedIcon name="tomato-focused" size={64} />
