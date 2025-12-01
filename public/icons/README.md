@@ -6,9 +6,30 @@ This directory contains SVG animated icons for TomatoTask application.
 
 ### 🍅 Animated Tomato (`animated-tomato.svg`)
 - **Animation**: Floating + Pulsing + Stem waving
-- **Usage**: Completion feedback, loading screens
+- **Usage**: General purpose tomato animation
 - **Colors**: Red (#F44336), Green stem (#4CAF50)
 - **Duration**: 2-3 seconds per cycle
+
+### 🎉 Celebration Tomato (`animated-tomato-celebration.svg`)
+- **Animation**: Bouncing + Wiggling + Confetti + Twinkling stars
+- **Usage**: Work session completion, achievements
+- **Colors**: Red (#F44336), Green stem (#4CAF50), Multi-colored confetti
+- **Duration**: 2 seconds per cycle
+- **Special**: Confetti particles fall and rotate, stars twinkle around the tomato
+
+### 🎯 Focused Tomato (`animated-tomato-focused.svg`)
+- **Animation**: Intense pulsing + Bobbing + Focus ring + Spark effects
+- **Usage**: Active work timer, concentration mode
+- **Colors**: Red (#F44336), Green stem (#4CAF50), Orange focus ring (#FF9800), Gold sparks (#FFD700)
+- **Duration**: 1.5-2 seconds per cycle
+- **Special**: Determined expression, focus ring pulses, golden sparks appear randomly
+
+### 😴 Relaxing Tomato (`animated-tomato-relaxing.svg`)
+- **Animation**: Gentle breathing + Slow sway + ZZZ particles
+- **Usage**: Break periods, rest mode
+- **Colors**: Red (#F44336), Green stem (#4CAF50), Gray ZZZ (#9E9E9E)
+- **Duration**: 3-5 seconds per cycle
+- **Special**: Closed eyes with smile, ZZZ particles rise up indicating rest
 
 ### ⏱️ Animated Timer (`animated-timer.svg`)
 - **Animation**: Rotating hand + Pulsing ring
@@ -41,7 +62,13 @@ This directory contains SVG animated icons for TomatoTask application.
   import AnimatedIcon from '$lib/components/ui/AnimatedIcon.svelte';
 </script>
 
+<!-- Tomato variants -->
 <AnimatedIcon name="tomato" size={64} />
+<AnimatedIcon name="tomato-celebration" size={96} />
+<AnimatedIcon name="tomato-focused" size={64} />
+<AnimatedIcon name="tomato-relaxing" size={64} />
+
+<!-- Other icons -->
 <AnimatedIcon name="timer" size={48} class="custom-class" />
 <AnimatedIcon name="check" size={80} />
 <AnimatedIcon name="focus" size={64} />
@@ -73,12 +100,4 @@ This directory contains SVG animated icons for TomatoTask application.
 4. **Performance**: Uses CSS transforms, no JavaScript required
 5. **Accessible**: Works with screen readers, respects prefers-reduced-motion
 
-## Future Icons (via PixelLab MCP)
 
-The PixelLab MCP server is configured for generating additional pixel art assets:
-- Directional character sprites
-- Animated game sprites
-- Isometric tiles
-- Custom map objects
-
-Use `claude mcp list` to verify PixelLab connection status.
