@@ -5,6 +5,68 @@ All notable changes to TomatoTask will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.19] - 2025-12-01
+
+### Added
+
+**🎵 Ambient Sounds for Better Focus**
+- **New ambient soundscapes** - Four beautiful ambient sounds to enhance your focus sessions
+  - 🐦 **Birds** - Peaceful chirping for a calming atmosphere
+  - 🌲 **Forest** - Natural forest ambiance for deep concentration
+  - 🌊 **Sea** - Ocean waves for relaxation and focus
+  - ⛈️ **Storm** - Thunder and rain for immersive work sessions
+- **Sound Control Panel** - Comprehensive audio controls
+  - Individual volume sliders for each sound
+  - Play/pause individual sounds or all at once
+  - Mix multiple sounds together for your perfect focus environment
+  - Persistent sound preferences (remembered between sessions)
+- **Full internationalization** - Sound controls and labels translated in all 5 supported languages
+
+### Changed
+- **Enhanced focus experience** - Audio feedback now includes ambient soundscapes
+- **Improved Settings Panel** - New dedicated section for ambient sounds
+
+### Technical
+- Added high-quality MP3 audio files for all ambient sounds
+- Implemented sound service with mixing capabilities
+- Sound state persistence in application settings
+- Audio playback optimization for minimal resource usage
+
+## [1.0.18] - 2025-11-30
+
+### Added
+- **Advanced Statistics Dashboard** - Comprehensive productivity analytics
+  - Interactive heatmap showing activity patterns
+  - Donut charts for session type distribution
+  - Bar charts for daily/weekly comparisons
+  - Visual insights into your productivity trends
+- **Data Backup & Export** - Protect your productivity data
+  - Export all data to JSON format
+  - Import data from previous backups
+  - Restore functionality for data recovery
+  - Backup includes tasks, projects, sessions, and settings
+- **Drag & Drop Task Management** - Enhanced task organization
+  - Drag tasks between projects effortlessly
+  - Visual feedback during drag operations
+  - Smooth animations and transitions
+  - Better project-based task organization
+
+### Changed
+- **Improved Statistics UI** - More visual and informative charts
+- **Enhanced Project Management** - Better visual feedback and organization
+- **Updated Icons** - Optimized application icons for all platforms
+
+### Fixed
+- **WebKit Dependencies** - Updated to version 4.1 for Ubuntu 24.04 compatibility
+- **Build Process** - Cleaned up output files and improved .gitignore
+
+### Technical
+- Added new backend commands for statistics queries
+- Implemented data backup service with import/export functionality
+- Enhanced database migrations for statistics tracking
+- Added new UI components: Heatmap, DonutChart, BarChart
+- Improved project drag-and-drop functionality
+
 ## [1.0.17] - 2025-11-28
 
 ### Fixed
@@ -510,6 +572,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **1.0.19** (2025-12-01) - Ambient Sounds for Better Focus
+  - Added four ambient soundscapes (Birds, Forest, Sea, Storm)
+  - Comprehensive sound control panel with volume sliders
+  - Sound mixing capabilities for personalized focus environment
+  - Full internationalization for sound controls
+- **1.0.18** (2025-11-30) - Advanced Statistics, Data Backup, and Drag & Drop
+  - Interactive heatmap, donut charts, and bar charts for productivity insights
+  - Complete data backup and export functionality
+  - Enhanced drag & drop task management
+  - Ubuntu 24.04 compatibility improvements
 - **1.0.17** (2025-11-28) - Accessibility (a11y) Improvements - Complete WCAG Compliance
   - Fixed accessibility issues across all modal components
   - Added proper ARIA attributes and semantic roles
@@ -555,6 +627,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Full internationalization (5 languages)
   - Complete documentation
 
+[1.0.19]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.19
+[1.0.18]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.18
 [1.0.17]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.17
 [1.0.16]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.16
 [1.0.15]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.15
@@ -570,4 +644,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.5]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.5
 [1.0.4]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.4
 [1.0.0]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.0
-[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.17...HEAD
+[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.19...HEAD

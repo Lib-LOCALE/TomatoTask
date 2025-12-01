@@ -101,7 +101,11 @@
 		"more": "More"
 	},
 	"sounds": {
-		"title": "Ambient Sounds"
+		"title": "Ambient Sounds",
+		"birds": "Birds",
+		"forest": "Forest",
+		"sea": "Sea",
+		"storm": "Storm"
 	},
 	"settings": {
 		"title": "Settings",

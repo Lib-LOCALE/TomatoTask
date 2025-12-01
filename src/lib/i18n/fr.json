@@ -101,7 +101,11 @@
 		"more": "Plus"
 	},
 	"sounds": {
-		"title": "Sons d'ambiance"
+		"title": "Sons d'ambiance",
+		"birds": "Oiseaux",
+		"forest": "Forêt",
+		"sea": "Mer",
+		"storm": "Orage"
 	},
 	"settings": {
 		"title": "Paramètres",
