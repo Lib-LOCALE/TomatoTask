@@ -38,7 +38,7 @@
 		const timer = setTimeout(() => {
 			visible = false;
 			setTimeout(() => {
-				onClose?.();
+				if (onClose) onClose();
 			}, 300); // Wait for exit animation
 		}, duration);
 
@@ -76,8 +76,9 @@
 		<button
 			onclick={() => {
 				visible = false;
-				setTimeout(onClose, 300);
+				if (onClose) setTimeout(onClose, 300);
 			}}
+			aria-label="Close notification"
 			class="shrink-0 rounded p-1 transition-colors hover:bg-black/10 dark:hover:bg-white/10"
 		>
 			<svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
