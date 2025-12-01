@@ -7,6 +7,8 @@
 	import { updateTask } from '$lib/services/task-service';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import type { Project } from '$lib/types';
+	import { slide } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 
 	// Props
 	interface Props {
@@ -187,6 +189,8 @@
 				{#each projectStore.projects as project, index (project.id)}
 					<div
 						class="group relative"
+						transition:slide={{ duration: 200, axis: 'y' }}
+						animate:flip={{ duration: 300 }}
 						onmouseenter={() => (hoveredProjectId = project.id)}
 						onmouseleave={() => (hoveredProjectId = null)}
 						role="group"

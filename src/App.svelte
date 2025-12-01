@@ -27,6 +27,7 @@
 	import { WindowService } from '$lib/services/window-service';
 	import MiniTimer from '$lib/components/timer/MiniTimer.svelte';
 	import { Minimize2 } from '@lucide/svelte';
+	import { fade, fly } from 'svelte/transition';
 
 	// État des modals
 	let isModalOpen = $state(false);
@@ -354,31 +355,34 @@
 		}}
 		class="border-border bg-background fixed top-1/2 left-1/2 z-50 m-0 max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border p-6 shadow-2xl"
 		style="backdrop-filter: blur(4px);"
+		transition:fade={{ duration: 200 }}
 	>
-		<h2 class="mb-4 text-lg font-semibold">{$_('dialogs.deleteTaskTitle')}</h2>
-		<p class="text-muted-foreground mb-6">
-			{$_('dialogs.deleteTaskConfirm', { values: { name: taskToDelete.title } })}
-		</p>
+		<div in:fly={{ y: 20, duration: 300 }}>
+			<h2 class="mb-4 text-lg font-semibold">{$_('dialogs.deleteTaskTitle')}</h2>
+			<p class="text-muted-foreground mb-6">
+				{$_('dialogs.deleteTaskConfirm', { values: { name: taskToDelete.title } })}
+			</p>
 
-		<div class="flex justify-end gap-2">
-			<button
-				type="button"
-				onclick={() => {
-					showDeleteConfirm = false;
-					taskToDelete = null;
-				}}
-				class="hover:bg-muted rounded-md border px-4 py-2"
-			>
-				{$_('common.cancel')}
-			</button>
+			<div class="flex justify-end gap-2">
+				<button
+					type="button"
+					onclick={() => {
+						showDeleteConfirm = false;
+						taskToDelete = null;
+					}}
+					class="hover:bg-muted rounded-md border px-4 py-2"
+				>
+					{$_('common.cancel')}
+				</button>
 
-			<button
-				type="button"
-				onclick={confirmDelete}
-				class="bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-md px-4 py-2"
-			>
-				{$_('common.delete')}
-			</button>
+				<button
+					type="button"
+					onclick={confirmDelete}
+					class="bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-md px-4 py-2"
+				>
+					{$_('common.delete')}
+				</button>
+			</div>
 		</div>
 	</dialog>
 {/if}
@@ -394,8 +398,9 @@
 		}}
 		class="border-border bg-background fixed top-1/2 left-1/2 z-50 m-0 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border p-6 shadow-2xl"
 		style="backdrop-filter: blur(4px);"
+		transition:fade={{ duration: 200 }}
 	>
-		<div class="w-full max-w-md">
+		<div class="w-full max-w-md" in:fly={{ y: 20, duration: 300 }}>
 			<!-- Header -->
 			<div class="mb-4 flex items-center justify-between border-b pb-4">
 				<h2 class="text-lg font-semibold">{$_('dialogs.languageTitle')}</h2>
@@ -463,31 +468,34 @@
 		}}
 		class="border-border bg-background fixed top-1/2 left-1/2 z-50 m-0 max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border p-6 shadow-2xl"
 		style="backdrop-filter: blur(4px);"
+		transition:fade={{ duration: 200 }}
 	>
-		<h2 class="mb-4 text-lg font-semibold">{$_('dialogs.deleteProjectTitle')}</h2>
-		<p class="text-muted-foreground mb-6">
-			{$_('dialogs.deleteProjectConfirm', { values: { name: projectToDelete.name } })}
-		</p>
+		<div in:fly={{ y: 20, duration: 300 }}>
+			<h2 class="mb-4 text-lg font-semibold">{$_('dialogs.deleteProjectTitle')}</h2>
+			<p class="text-muted-foreground mb-6">
+				{$_('dialogs.deleteProjectConfirm', { values: { name: projectToDelete.name } })}
+			</p>
 
-		<div class="flex justify-end gap-2">
-			<button
-				type="button"
-				onclick={() => {
-					showProjectDeleteConfirm = false;
-					projectToDelete = null;
-				}}
-				class="hover:bg-muted rounded-md border px-4 py-2"
-			>
-				{$_('common.cancel')}
-			</button>
+			<div class="flex justify-end gap-2">
+				<button
+					type="button"
+					onclick={() => {
+						showProjectDeleteConfirm = false;
+						projectToDelete = null;
+					}}
+					class="hover:bg-muted rounded-md border px-4 py-2"
+				>
+					{$_('common.cancel')}
+				</button>
 
-			<button
-				type="button"
-				onclick={confirmProjectDelete}
-				class="bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-md px-4 py-2"
-			>
-				{$_('common.delete')}
-			</button>
+				<button
+					type="button"
+					onclick={confirmProjectDelete}
+					class="bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-md px-4 py-2"
+				>
+					{$_('common.delete')}
+				</button>
+			</div>
 		</div>
 	</dialog>
 {/if}

@@ -7,6 +7,9 @@
 	import ProjectHeader from '$lib/components/projects/ProjectHeader.svelte';
 	import type { Task } from '$lib/types';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { reorderTasks } from '$lib/services/task-service';
+	import { slide, fade } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 
 	// Props
 	interface Props {
@@ -126,6 +129,8 @@
 				{#each taskStore.filteredTasks as task, index (task.id)}
 					<div
 						role="listitem"
+						transition:slide={{ duration: 300, axis: 'y' }}
+						animate:flip={{ duration: 300 }}
 						draggable="true"
 						ondragstart={(e) => {
 							if (e.dataTransfer) {
@@ -146,19 +151,18 @@
 								if (!isNaN(draggedTaskId) && draggedTaskId !== task.id) {
 									// Calculate new order
 									const currentTasks = [...taskStore.filteredTasks];
-									const draggedIndex = currentTasks.findIndex(t => t.id === draggedTaskId);
+									const draggedIndex = currentTasks.findIndex((t) => t.id === draggedTaskId);
 									const targetIndex = index;
-									
+
 									if (draggedIndex !== -1) {
 										// Move the task in the array
 										const [draggedTask] = currentTasks.splice(draggedIndex, 1);
 										currentTasks.splice(targetIndex, 0, draggedTask);
-										
+
 										// Extract IDs for the new order
-										const newTaskIds = currentTasks.map(t => t.id);
-										
+										const newTaskIds = currentTasks.map((t) => t.id);
+
 										// Call service to update order
-										const { reorderTasks } = await import('$lib/services/task-service');
 										await reorderTasks(newTaskIds);
 									}
 								}
