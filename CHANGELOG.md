@@ -332,7 +332,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - All builds now pass successfully ✅
 - Confirmed all modals properly close when clicking outside (backdrop click)
 - Improved modal backdrop with consistent blur effect across all dialogs
-- Updated author information in package.json and Cargo.toml (AnthonyMahe)
+- Updated author information in package.json and Cargo.toml
 - Synchronized version numbers across all configuration files (1.0.4)
 - Fixed .gitignore typo (.speify → .specify)
 - Removed .claude/ and .specify/ development files from git tracking
@@ -627,21 +627,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Full internationalization (5 languages)
   - Complete documentation
 
-[1.0.19]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.19
-[1.0.18]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.18
-[1.0.17]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.17
-[1.0.16]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.16
-[1.0.15]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.15
-[1.0.14]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.14
-[1.0.13]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.13
-[1.0.12]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.12
-[1.0.11]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.11
-[1.0.10]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.10
-[1.0.9]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.9
-[1.0.8]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.8
-[1.0.7]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.7
-[1.0.6]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.6
-[1.0.5]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.5
-[1.0.4]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.4
-[1.0.0]: https://github.com/AnthonyMahe/TomatoTask/releases/tag/v1.0.0
-[Unreleased]: https://github.com/AnthonyMahe/TomatoTask/compare/v1.0.19...HEAD
+[1.0.19]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.19
+[1.0.18]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.18
+[1.0.17]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.17
+[1.0.16]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.16
+[1.0.15]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.15
+[1.0.14]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.14
+[1.0.13]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.13
+[1.0.12]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.12
+[1.0.11]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.11
+[1.0.10]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.10
+[1.0.9]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.9
+[1.0.8]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.8
+[1.0.7]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.7
+[1.0.6]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.6
+[1.0.5]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.5
+[1.0.4]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.4
+[1.0.0]: https://github.com/Lib-LOCALE/TomatoTask/releases/tag/v1.0.0
+[Unreleased]: https://github.com/Lib-LOCALE/TomatoTask/compare/v1.0.19...HEAD
