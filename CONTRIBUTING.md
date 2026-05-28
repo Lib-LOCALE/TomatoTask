@@ -14,7 +14,7 @@ Thank you for your interest in contributing to TomatoTask!
 
 ```bash
 # Clone the repository
-git clone https://github.com/AnthonyMahe/TomatoTask.git
+git clone https://github.com/Lib-LOCALE/TomatoTask.git
 cd TomatoTask
 
 # Install dependencies
@@ -126,4 +126,4 @@ npm run preview      # Preview production build
 
 ## 📞 Support
 
-For bugs, questions, and discussions please use the [GitHub Issues](https://github.com/AnthonyMahe/TomatoTask/issues).
+For bugs, questions, and discussions please use the [GitHub Issues](https://github.com/Lib-LOCALE/TomatoTask/issues).
