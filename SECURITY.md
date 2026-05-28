@@ -17,8 +17,8 @@ The TomatoTask team takes security bugs seriously. We appreciate your efforts to
 
 If you discover a security vulnerability, please report it by:
 
-1. **Email**: Send details to snpepito@gmail.com
-2. **Private Security Advisory**: Use GitHub's private vulnerability reporting feature at https://github.com/AnthonyMahe/TomatoTask/security/advisories/new
+1. **Email**: Send details to anthony.blanchard@tuta.io
+2. **Private Security Advisory**: Use GitHub's private vulnerability reporting feature at https://github.com/Lib-LOCALE/TomatoTask/security/advisories/new
 
 ### What to Include
 
@@ -85,7 +85,7 @@ We will not pursue legal action against researchers who follow these guidelines.
 
 ## Contact
 
-For any security-related questions or concerns, please contact the maintainers at snpepito@gmail.com.
+For any security-related questions or concerns, please contact the maintainers at anthony.blanchard@tuta.io.
 
 ---
 
