@@ -33,16 +33,10 @@ pub fn run_migrations(conn: &Connection) -> Result<()> {
 
 /// Obtient la version actuelle du schéma
 fn get_schema_version(conn: &Connection) -> Result<i32> {
-    let version: Result<i32> = conn.query_row(
-        "SELECT MAX(version) FROM schema_version",
-        [],
-        |row| row.get(0),
-    );
-
-    match version {
-        Ok(v) => Ok(v),
-        Err(_) => Ok(0), // Pas de version = schéma vide
-    }
+    conn.query_row("SELECT MAX(version) FROM schema_version", [], |row| {
+        row.get::<_, Option<i32>>(0)
+            .map(|version| version.unwrap_or(0))
+    })
 }
 
 /// Enregistre une nouvelle version de schéma
@@ -133,10 +127,7 @@ fn apply_migration_001(conn: &Connection) -> Result<()> {
     )?;
 
     // Index pour optimiser les requêtes fréquentes
-    conn.execute(
-        "CREATE INDEX idx_tasks_project ON tasks(project_id)",
-        [],
-    )?;
+    conn.execute("CREATE INDEX idx_tasks_project ON tasks(project_id)", [])?;
 
     conn.execute(
         "CREATE INDEX idx_tasks_completed ON tasks(is_completed)",
@@ -154,10 +145,7 @@ fn apply_migration_001(conn: &Connection) -> Result<()> {
     )?;
 
     // Insère les paramètres par défaut
-    conn.execute(
-        "INSERT INTO settings (id) VALUES (1)",
-        [],
-    )?;
+    conn.execute("INSERT INTO settings (id) VALUES (1)", [])?;
 
     Ok(())
 }
@@ -174,10 +162,7 @@ fn apply_migration_002(conn: &Connection) -> Result<()> {
     )?;
 
     // Initialise la position avec l'ID pour les projets existants
-    conn.execute(
-        "UPDATE projects SET position = id",
-        [],
-    )?;
+    conn.execute("UPDATE projects SET position = id", [])?;
 
     // Ajout de la colonne position à la table tasks
     conn.execute(
@@ -186,10 +171,7 @@ fn apply_migration_002(conn: &Connection) -> Result<()> {
     )?;
 
     // Initialise la position avec l'ID pour les tâches existantes
-    conn.execute(
-        "UPDATE tasks SET position = id",
-        [],
-    )?;
+    conn.execute("UPDATE tasks SET position = id", [])?;
 
     Ok(())
 }
@@ -202,6 +184,7 @@ mod tests {
     #[test]
     fn test_migrations_run_successfully() {
         let conn = Connection::open_in_memory().unwrap();
+        run_migrations(&conn).unwrap();
         run_migrations(&conn).unwrap();
 
         // Vérifie que toutes les tables existent
@@ -225,9 +208,11 @@ mod tests {
         run_migrations(&conn).unwrap();
 
         let work_duration: i32 = conn
-            .query_row("SELECT work_duration FROM settings WHERE id = 1", [], |row| {
-                row.get(0)
-            })
+            .query_row(
+                "SELECT work_duration FROM settings WHERE id = 1",
+                [],
+                |row| row.get(0),
+            )
             .unwrap();
 
         assert_eq!(work_duration, 25);
