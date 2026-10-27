@@ -46,3 +46,23 @@ test('captures des vues principales', async ({ page }) => {
 	await page.getByText('Choose your language / Choisissez votre langue').waitFor();
 	await page.screenshot({ path: 'screenshots/onboarding.png' });
 });
+
+test('captures du bilan', async ({ page }) => {
+	mkdirSync('screenshots', { recursive: true });
+	await page.goto('/');
+	await page.getByRole('button', { name: 'Review', exact: true }).click();
+	await page.getByRole('heading', { name: 'Your fresco' }).waitFor();
+	await page.screenshot({ path: 'screenshots/bilan-clair.png', fullPage: true });
+	await page.getByRole('heading', { name: 'Your fresco' }).scrollIntoViewIfNeeded();
+	await page.screenshot({ path: 'screenshots/bilan-fresque-clair.png' });
+	await page.locator('.workspace-scroll').evaluate((element) => element.scrollTo(0, 0));
+	await page.getByRole('button', { name: 'Switch to dark mode' }).click();
+	await page.screenshot({ path: 'screenshots/bilan-sombre.png', fullPage: true });
+	await page.getByRole('heading', { name: 'Your fresco' }).scrollIntoViewIfNeeded();
+	await page.screenshot({ path: 'screenshots/bilan-fresque-sombre.png' });
+	await page.locator('.workspace-scroll').evaluate((element) => element.scrollTo(0, 0));
+	await page.setViewportSize({ width: 900, height: 800 });
+	await page.screenshot({ path: 'screenshots/bilan-900.png', fullPage: true });
+	await page.getByRole('heading', { name: 'Your fresco' }).scrollIntoViewIfNeeded();
+	await page.screenshot({ path: 'screenshots/bilan-fresque-900.png' });
+});
