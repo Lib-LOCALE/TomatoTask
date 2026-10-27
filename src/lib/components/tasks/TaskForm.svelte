@@ -4,7 +4,6 @@
 	import { _ } from 'svelte-i18n';
 	import { untrack } from 'svelte';
 	import { localDate } from '$lib/stores/plan.svelte';
-	import Tile from '$lib/components/majolica/Tile.svelte';
 	import { projectStore } from '$lib/stores/projects.svelte';
 	import { validateTaskTitle, validatePomodoroCount } from '$lib/utils/validators';
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -170,13 +169,13 @@
 		{/if}
 	</div>
 
-	<div class="flex gap-px">
-		{#each Array(Math.max(0, Math.min(20, Math.floor(formData.estimatedPomodoros || 0)))) as _, i}<span
-				class="w-6 border"><Tile position={i} /></span
-			>{/each}
-	</div>
-	<label class="flex items-center gap-2"
-		><input type="checkbox" bind:checked={formData.planToday} /> {$_('plan.planToday')}</label
+	<label class="text-foreground flex items-center gap-2"
+		><input
+			type="checkbox"
+			style="accent-color: var(--primary)"
+			bind:checked={formData.planToday}
+		/>
+		{$_('plan.planToday')}</label
 	>
 	{#if submitError}<p role="alert" class="text-destructive">{$_('tasks.taskError')}</p>{/if}
 	<!-- Actions -->
