@@ -191,9 +191,10 @@
 	.grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1px;
-		padding: 1px;
+		gap: 3px;
+		padding: 3px;
 		background: var(--grout);
+		box-shadow: inset 0 2px 4px rgba(24, 20, 18, 0.25);
 	}
 	.empty {
 		padding: 24px 0;
