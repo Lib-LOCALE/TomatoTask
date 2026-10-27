@@ -1,0 +1,25 @@
+{
+	"plan": {
+		"title": "Plan your day",
+		"stock": "Available tasks",
+		"day": "My day",
+		"all": "All projects",
+		"emptyStock": "No unplanned tasks.",
+		"emptyDay": "No tasks planned yet.",
+		"add": "Plan today",
+		"remove": "Remove from day",
+		"carried": "Carried over",
+		"start": "Start the day",
+		"planned": "Planned",
+		"completed": "Completed",
+		"capacity": "A full day: more than 12 pomodoros is over five hours of focus.",
+		"up": "Move up",
+		"down": "Move down",
+		"decrease": "Decrease estimate",
+		"increase": "Increase estimate",
+		"error": "Could not update the plan.",
+		"planToday": "Plan for today",
+		"today": "Today",
+		"newProject": "New project"
+	}
+}

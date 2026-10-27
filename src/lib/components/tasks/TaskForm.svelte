@@ -2,6 +2,10 @@
 	// Formulaire de création/édition de tâche
 	import type { Task } from '$lib/types';
 	import { _ } from 'svelte-i18n';
+	import { untrack } from 'svelte';
+	import { localDate } from '$lib/stores/plan.svelte';
+	import Tile from '$lib/components/majolica/Tile.svelte';
+	import { projectStore } from '$lib/stores/projects.svelte';
 	import { validateTaskTitle, validatePomodoroCount } from '$lib/utils/validators';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
@@ -21,18 +25,23 @@
 		description: string;
 		estimatedPomodoros: number;
 		projectId?: number;
+		planToday: boolean;
 	}
 
 	// Initialise avec les valeurs existantes ou par défaut
-	let formData = $state<FormData>({
-		title: task?.title || '',
-		description: task?.description || '',
-		estimatedPomodoros: task?.estimatedPomodoros || 1,
-		projectId: task?.projectId
-	});
+	let formData = $state<FormData>(
+		untrack(() => ({
+			title: task?.title || '',
+			description: task?.description || '',
+			estimatedPomodoros: task?.estimatedPomodoros ?? 1,
+			projectId: task?.projectId,
+			planToday: task?.plannedFor === localDate()
+		}))
+	);
 
 	// État du formulaire
 	let isSubmitting = $state(false);
+	let submitError = $state(false);
 	let errors = $state<Partial<Record<keyof FormData, string>>>({});
 
 	/**
@@ -68,10 +77,12 @@
 		}
 
 		isSubmitting = true;
+		submitError = false;
 		try {
 			await onSubmit(formData);
 		} catch (error) {
 			console.error('Failed to submit form:', error);
+			submitError = true;
 		} finally {
 			isSubmitting = false;
 		}
@@ -111,6 +122,18 @@
 		></textarea>
 	</div>
 
+	<div>
+		<label for="task-project" class="text-foreground mb-1 block text-sm font-medium"
+			>{$_('projects.title')}</label
+		><select
+			id="task-project"
+			class="border-input bg-background text-foreground w-full rounded-md border px-3 py-2"
+			bind:value={formData.projectId}
+			><option value={undefined}>{$_('plan.all')}</option
+			>{#each projectStore.projects as project}<option value={project.id}>{project.name}</option
+				>{/each}</select
+		>
+	</div>
 	<!-- Pomodoros estimés -->
 	<div>
 		<label for="task-pomodoros" class="text-foreground mb-1 block text-sm font-medium">
@@ -147,6 +170,15 @@
 		{/if}
 	</div>
 
+	<div class="flex gap-px">
+		{#each Array(Math.max(0, Math.min(20, Math.floor(formData.estimatedPomodoros || 0)))) as _, i}<span
+				class="w-6 border"><Tile position={i} /></span
+			>{/each}
+	</div>
+	<label class="flex items-center gap-2"
+		><input type="checkbox" bind:checked={formData.planToday} /> {$_('plan.planToday')}</label
+	>
+	{#if submitError}<p role="alert" class="text-destructive">{$_('tasks.taskError')}</p>{/if}
 	<!-- Actions -->
 	<div class="flex justify-end gap-2 pt-4">
 		<Button type="button" variant="outline" onclick={onCancel}>

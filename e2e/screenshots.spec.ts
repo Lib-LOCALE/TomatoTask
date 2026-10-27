@@ -19,7 +19,7 @@ test('captures des vues principales', async ({ page }) => {
 		const { timerStore } = await import(/* @vite-ignore */ path);
 		timerStore.remainingSeconds = 1;
 	});
-	await page.getByText('5 of 18').waitFor();
+	await page.getByText('5 of 5').waitFor();
 	await page.waitForTimeout(1000);
 	await page.screenshot({ path: 'screenshots/fresque-peinte.png' });
 	await page.getByRole('button', { name: 'Switch to dark mode' }).click();
@@ -45,4 +45,23 @@ test('captures des vues principales', async ({ page }) => {
 	await page.goto('/?onboarding=1');
 	await page.getByText('Choose your language / Choisissez votre langue').waitFor();
 	await page.screenshot({ path: 'screenshots/onboarding.png' });
+});
+
+test('captures de la planification', async ({ page }) => {
+	mkdirSync('screenshots', { recursive: true });
+	await page.goto('/');
+	await page.getByRole('button', { name: 'Plan', exact: true }).click();
+	await page
+		.locator('.plan-view')
+		.getByRole('button', { name: 'Plan today : Préparer la réunion' })
+		.click();
+	await page
+		.locator('.plan-view')
+		.getByRole('button', { name: 'Plan today : Répondre aux messages' })
+		.click();
+	await page.screenshot({ path: 'screenshots/plan-clair.png' });
+	await page.getByRole('button', { name: 'Switch to dark mode' }).click();
+	await page.screenshot({ path: 'screenshots/plan-sombre.png' });
+	await page.setViewportSize({ width: 900, height: 800 });
+	await page.screenshot({ path: 'screenshots/plan-900.png' });
 });

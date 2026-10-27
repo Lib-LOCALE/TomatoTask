@@ -31,8 +31,43 @@ test('la fresque et les tâches restent accessibles dans le tiroir', async ({ pa
 	const task = page.getByRole('button', { name: 'Préparer la réunion', exact: true });
 	await expect(task).toBeVisible();
 	await task.focus();
-	await expect(task.locator('..').locator('div').last()).toHaveCSS('opacity', '1');
+	await expect(
+		page.getByRole('button', { name: 'Edit : Préparer la réunion' }).locator('..')
+	).toHaveCSS('opacity', '1');
 	await page.getByRole('button', { name: 'Close', exact: true }).first().click();
 	await page.getByText('Weekly fresco').click();
 	await expect(page.locator('.week-row')).toHaveCount(7);
+});
+
+test('planifier deux tâches, ajuster et commencer la journée', async ({ page }) => {
+	await page.goto('/');
+	await page.getByRole('button', { name: 'Plan', exact: true }).click();
+	await page
+		.locator('.plan-view')
+		.getByRole('button', { name: 'Plan today : Préparer la réunion' })
+		.click();
+	await page
+		.locator('.plan-view')
+		.getByRole('button', { name: 'Plan today : Répondre aux messages' })
+		.click();
+	await page.getByRole('button', { name: 'Increase estimate : Préparer la réunion' }).click();
+	await expect(page.locator('.summary')).toContainText('6 Planned');
+	await page.getByRole('button', { name: 'Start the day' }).click();
+	await expect(page.getByRole('heading', { name: 'Préparer la réunion', level: 1 })).toBeVisible();
+});
+
+test('créer un projet dans le rail et fermer son édition au clavier', async ({ page }) => {
+	await page.goto('/');
+	const add = page.getByRole('button', { name: 'New Project' });
+	await add.focus();
+	await page.keyboard.press('Enter');
+	await page.getByRole('textbox', { name: 'Project Name' }).fill('Atelier');
+	await page.getByRole('button', { name: 'Create Project' }).click();
+	const row = page.locator('.projects').getByRole('group').filter({ hasText: 'Atelier' });
+	await expect(row).toBeVisible();
+	await row.getByRole('button', { name: 'Edit' }).focus();
+	await page.keyboard.press('Enter');
+	await expect(page.getByRole('dialog')).toBeVisible();
+	await page.keyboard.press('Escape');
+	await expect(page.getByRole('dialog')).toBeHidden();
 });
