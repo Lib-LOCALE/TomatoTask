@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Formulaire pour créer/éditer un projet
 	import { _ } from 'svelte-i18n';
+	import { untrack } from 'svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import type { Project } from '$lib/types';
@@ -15,8 +16,8 @@
 	let { project = null, onSave, onCancel }: Props = $props();
 
 	// État du formulaire
-	let name = $state(project?.name || '');
-	let color = $state(project?.color || '#3b82f6');
+	let name = $state(untrack(() => project?.name || ''));
+	let color = $state(untrack(() => project?.color || '#1d3f83'));
 	let isSaving = $state(false);
 	let error = $state<string | null>(null);
 

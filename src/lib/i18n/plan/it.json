@@ -1,0 +1,25 @@
+{
+	"plan": {
+		"title": "Pianifica la giornata",
+		"stock": "Attività disponibili",
+		"day": "La mia giornata",
+		"all": "Tutti i progetti",
+		"emptyStock": "Nessuna attività da pianificare.",
+		"emptyDay": "Nessuna attività pianificata.",
+		"add": "Pianifica per oggi",
+		"remove": "Rimuovi dalla giornata",
+		"carried": "Rimandata",
+		"start": "Inizia la giornata",
+		"planned": "Previsti",
+		"completed": "Completati",
+		"capacity": "Una giornata intensa: oltre 12 pomodori sono più di cinque ore di concentrazione.",
+		"up": "Sposta su",
+		"down": "Sposta giù",
+		"decrease": "Riduci la stima",
+		"increase": "Aumenta la stima",
+		"error": "Impossibile aggiornare il piano.",
+		"planToday": "Pianifica per oggi",
+		"today": "Oggi",
+		"newProject": "Nuovo progetto"
+	}
+}
