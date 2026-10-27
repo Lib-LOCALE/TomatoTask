@@ -1,6 +1,6 @@
 // Requêtes SQL pour la gestion des paramètres
 use crate::db::models::Settings;
-use rusqlite::{Connection, Result, params};
+use rusqlite::{params, Connection, Result};
 
 /// Récupère les paramètres de l'application
 ///

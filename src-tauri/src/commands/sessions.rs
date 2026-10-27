@@ -46,8 +46,7 @@ pub fn complete_session(id: i64, db: State<DbConnection>) -> Result<PomodoroSess
     // Si la session est de type "work" et associée à une tâche, incrémente le compteur
     if session.session_type == SessionType::Work {
         if let Some(task_id) = session.task_id {
-            queries::increment_completed_pomodoros(&conn, task_id)
-                .map_err(|e| e.to_string())?;
+            queries::increment_completed_pomodoros(&conn, task_id).map_err(|e| e.to_string())?;
         }
     }
 
@@ -82,6 +81,5 @@ pub fn get_sessions_by_date_range(
     let conn = db.get_connection();
     let conn = conn.lock().map_err(|e| e.to_string())?;
 
-    queries::get_sessions_by_date_range(&conn, &start_date, &end_date)
-        .map_err(|e| e.to_string())
+    queries::get_sessions_by_date_range(&conn, &start_date, &end_date).map_err(|e| e.to_string())
 }

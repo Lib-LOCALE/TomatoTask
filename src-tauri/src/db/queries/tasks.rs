@@ -1,6 +1,6 @@
 // Requêtes SQL pour la gestion des tâches
 use crate::db::models::{CreateTaskInput, Task, UpdateTaskInput};
-use rusqlite::{Connection, Result, params};
+use rusqlite::{params, Connection, Result};
 
 /// Récupère toutes les tâches
 ///
@@ -93,11 +93,7 @@ pub fn create_task(conn: &Connection, input: &CreateTaskInput) -> Result<Task> {
 /// * `conn` - Connexion à la base de données
 /// * `task_id` - ID de la tâche à mettre à jour
 /// * `input` - Nouvelles données de la tâche
-pub fn update_task(
-    conn: &Connection,
-    task_id: i64,
-    input: &UpdateTaskInput,
-) -> Result<Task> {
+pub fn update_task(conn: &Connection, task_id: i64, input: &UpdateTaskInput) -> Result<Task> {
     conn.execute(
         "UPDATE tasks
          SET title = ?1, description = ?2, project_id = ?3,
@@ -207,6 +203,35 @@ mod tests {
         let conn = Connection::open_in_memory().unwrap();
         run_migrations(&conn).unwrap();
         conn
+    }
+
+    #[test]
+    fn met_a_jour_et_supprime_une_tache() {
+        let conn = setup_test_db();
+        let task = create_task(
+            &conn,
+            &CreateTaskInput {
+                title: "avant".into(),
+                description: None,
+                project_id: None,
+                estimated_pomodoros: 1,
+            },
+        )
+        .unwrap();
+        let updated = update_task(
+            &conn,
+            task.id,
+            &UpdateTaskInput {
+                title: "après".into(),
+                description: Some("détail".into()),
+                project_id: None,
+                estimated_pomodoros: 2,
+            },
+        )
+        .unwrap();
+        assert_eq!(updated.title, "après");
+        delete_task(&conn, task.id).unwrap();
+        assert!(get_task_by_id(&conn, task.id).is_err());
     }
 
     #[test]
