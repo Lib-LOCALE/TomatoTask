@@ -239,15 +239,6 @@
 >
 	<!-- En-tête : session et tâche -->
 	<header class="focus-header">
-		<span class="session-badge" class:badge-break={isBreak}>
-			{#if currentType === 'work'}
-				{$_('focus.workSession')}
-			{:else if currentType === 'short_break'}
-				{$_('focus.shortBreak')}
-			{:else}
-				{$_('focus.longBreak')}
-			{/if}
-		</span>
 		<h1 class="task-title">
 			{task?.title || $_('focus.noTask')}
 		</h1>
@@ -259,19 +250,26 @@
 		{/if}
 	</header>
 
-	<!-- Centre : grand carreau de majolique -->
+	<!-- Centre : le carreau qui se peint, et le minuteur à échelle d'affiche -->
 	<div class="tile-stage">
 		<div class="tile-frame">
 			<Tile state={tileState} position={4} {progress} animate={animateTile} />
 		</div>
-	</div>
-
-	<!-- Minuteur géant en Bodoni Moda -->
-	<div class="timer-section">
-		<div class="time-display" class:time-break={isBreak} aria-label={time}>
-			{#each time.split('') as char}
-				<span class:colon={char === ':'}>{char}</span>
-			{/each}
+		<div class="timer-section">
+			<div class="time-display" class:time-break={isBreak} aria-label={time}>
+				{#each time.split('') as char}
+					<span class:colon={char === ':'}>{char}</span>
+				{/each}
+			</div>
+			<span class="session-badge" class:badge-break={isBreak}>
+				{#if currentType === 'work'}
+					{$_('focus.workSession')}
+				{:else if currentType === 'short_break'}
+					{$_('focus.shortBreak')}
+				{:else}
+					{$_('focus.longBreak')}
+				{/if}
+			</span>
 		</div>
 	</div>
 
@@ -388,11 +386,9 @@
 	}
 
 	.session-badge {
-		font-size: 0.85rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		color: rgba(237, 243, 255, 0.75);
+		font-size: clamp(1rem, 1.6vw, 1.25rem);
+		font-weight: 600;
+		color: rgba(237, 243, 255, 0.78);
 	}
 
 	.session-badge.badge-break {
@@ -418,13 +414,15 @@
 		align-items: center;
 		justify-content: center;
 		flex: 1;
+		flex-wrap: wrap;
+		gap: clamp(24px, 6vw, 88px);
 		min-height: 0;
 		padding: 8px 0;
 	}
 
 	.tile-frame {
-		width: min(50vh, 50vw);
-		height: min(50vh, 50vw);
+		width: min(52vh, 38vw);
+		height: min(52vh, 38vw);
 		max-width: 520px;
 		max-height: 520px;
 		min-width: 220px;
@@ -442,9 +440,9 @@
 	/* Chiffres du minuteur en Bodoni géant */
 	.timer-section {
 		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin-top: 4px;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
 	}
 
 	.time-display {
@@ -452,7 +450,7 @@
 		align-items: center;
 		justify-content: center;
 		font-family: var(--font-heading, 'Bodoni Moda Variable', serif);
-		font-size: clamp(3.8rem, 8.5vw, 6.8rem);
+		font-size: clamp(4.5rem, 11vw, 10rem);
 		font-weight: 700;
 		line-height: 1;
 		font-variant-numeric: tabular-nums;
