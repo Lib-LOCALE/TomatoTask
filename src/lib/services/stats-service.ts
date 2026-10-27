@@ -24,3 +24,17 @@ export async function getProjectDistribution(): Promise<ProjectDistribution[]> {
 export async function getFocusHistory(days: number): Promise<DailyFocusTime[]> {
 	return await invoke<DailyFocusTime[]>('get_focus_history', { days });
 }
+
+export async function getInsights(days: number): Promise<import('$lib/types').Insights> {
+	return invoke('get_insights', { days });
+}
+
+export async function getFocusStreak(): Promise<import('$lib/types').FocusStreak> {
+	return invoke('get_focus_streak');
+}
+
+/** Numéros des carreaux d'une période, dans l'ordre chronologique. */
+export function frescoSerials(counts: number[], lifetimeTotal: number): number[][] {
+	let serial = lifetimeTotal - counts.reduce((sum, count) => sum + count, 0);
+	return counts.map((count) => Array.from({ length: count }, () => ++serial));
+}

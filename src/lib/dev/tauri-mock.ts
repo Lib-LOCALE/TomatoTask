@@ -60,9 +60,11 @@ export function installTauriMock(
 			plannedFor: null,
 			planPosition: null
 		}));
-		sessions = Array.from({ length: 33 }, (_, i) => {
+		sessions = Array.from({ length: 100 }, (_, i) => {
 			const date = new Date();
-			date.setDate(date.getDate() - Math.max(0, i - 3));
+			const offset = Math.max(0, i - 3);
+			date.setDate(date.getDate() - offset - Math.floor(offset / 6));
+			date.setHours(8 + (i % 9), (i % 2) * 30, 0, 0);
 			return {
 				id: i + 1,
 				taskId: (i % 8) + 1,
@@ -315,6 +317,78 @@ export function installTauriMock(
 						total_pomodoros: work.length,
 						today_pomodoros: work.filter((s) => localDay(new Date(s.completedAt)) === todayKey)
 							.length
+					};
+				}
+				case 'get_insights': {
+					const days = Number(a.days);
+					const localDay = (date: Date) =>
+						`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+					const today = new Date();
+					today.setHours(0, 0, 0, 0);
+					const start = new Date(today);
+					start.setDate(start.getDate() - days + 1);
+					const previous = new Date(start);
+					previous.setDate(previous.getDate() - days);
+					const work = sessions.filter(
+						(s) => s.sessionType === 'work' && new Date(s.startedAt) >= start
+					);
+					const completed = work.filter((s) => s.completedAt && !s.interrupted);
+					const daily = Array.from({ length: days }, (_, index) => {
+						const date = new Date(start);
+						date.setDate(date.getDate() + index);
+						const key = localDay(date);
+						const rows = completed.filter((s) => localDay(new Date(s.startedAt)) === key);
+						return {
+							date: key,
+							pomodoros: rows.length,
+							focus_minutes: rows.reduce((n, s) => n + s.durationMinutes, 0)
+						};
+					});
+					const by_hour = Array.from(
+						{ length: 24 },
+						(_, hour) => completed.filter((s) => new Date(s.startedAt).getHours() === hour).length
+					);
+					const by_weekday = Array.from(
+						{ length: 7 },
+						(_, day) =>
+							completed.filter((s) => (new Date(s.startedAt).getDay() + 6) % 7 === day).length
+					);
+					return {
+						total_focus_minutes: daily.reduce((n, d) => n + d.focus_minutes, 0),
+						total_pomodoros: completed.length,
+						daily,
+						by_hour,
+						best_hour: completed.length ? by_hour.indexOf(Math.max(...by_hour)) : null,
+						by_weekday,
+						completion_rate: work.length ? completed.length / work.length : 0,
+						previous_period_pomodoros: sessions.filter(
+							(s) =>
+								s.sessionType === 'work' &&
+								s.completedAt &&
+								!s.interrupted &&
+								new Date(s.startedAt) >= previous &&
+								new Date(s.startedAt) < start
+						).length,
+						top_tasks: tasks
+							.map((t) => ({
+								task_id: t.id,
+								title: t.title,
+								pomodoros: completed.filter((s) => s.taskId === t.id).length
+							}))
+							.filter((t) => t.pomodoros)
+							.sort((a, b) => b.pomodoros - a.pomodoros)
+							.slice(0, 5),
+						top_projects: projects
+							.map((p) => ({
+								project_id: p.id,
+								name: p.name,
+								color: p.color,
+								pomodoros: completed.filter((s) =>
+									tasks.some((t) => t.id === s.taskId && t.projectId === p.id)
+								).length
+							}))
+							.filter((p) => p.pomodoros)
+							.sort((a, b) => b.pomodoros - a.pomodoros)
 					};
 				}
 				case 'get_daily_summary':

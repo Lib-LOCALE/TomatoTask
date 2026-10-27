@@ -294,11 +294,14 @@
 					onclick={() => (drawerOpen = true)}
 					aria-label={$_('majolica.menu')}><Menu size={20} /></button
 				>
-				<nav class="view-tabs" aria-label={$_('plan.title')}>
-					{#each views as item}<button
-							aria-current={view === item ? 'page' : undefined}
-							onclick={() => (view = item)}>{$_(`views.${item}`)}</button
-						>{/each}
+				<nav class="view-tabs" aria-label={$_('views.label')}>
+					{#each views as tab}
+						<button
+							type="button"
+							aria-current={view === tab ? 'page' : undefined}
+							onclick={() => (view = tab)}>{$_(`views.${tab}`)}</button
+						>
+					{/each}
 				</nav>
 				<div class="header-actions">
 					<button
