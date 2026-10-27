@@ -250,7 +250,7 @@
 		color: var(--session);
 	}
 	.progress-tile {
-		width: clamp(45px, 5vw, 72px);
+		width: clamp(80px, 10vw, 128px);
 		flex: none;
 		border: 1px solid var(--grout);
 	}

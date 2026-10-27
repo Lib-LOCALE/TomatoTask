@@ -124,7 +124,7 @@
 			<button
 				type="button"
 				onclick={handleClose}
-				class="hover:bg-muted rounded-md p-1"
+				class="text-foreground hover:bg-muted rounded-md p-1"
 				aria-label={$_('common.close')}
 			>
 				<svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

@@ -108,7 +108,7 @@
 		gap: 1px;
 	}
 	.mini-tiles span {
-		width: 10px;
+		width: 15px;
 		border: 1px solid #ffffff80;
 	}
 	.badge {
