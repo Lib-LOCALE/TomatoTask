@@ -2,6 +2,15 @@
 	// Toggle pour basculer entre thème clair et sombre
 	import { settingsStore } from '$lib/stores/settings.svelte';
 	import type { Theme } from '$lib/types';
+	import { onMount } from 'svelte';
+	let systemDark = $state(false);
+	onMount(() => {
+		const preference = matchMedia('(prefers-color-scheme: dark)');
+		const update = () => (systemDark = preference.matches);
+		update();
+		preference.addEventListener('change', update);
+		return () => preference.removeEventListener('change', update);
+	});
 
 	// Props
 	interface Props {
@@ -11,7 +20,13 @@
 	let { variant = 'toggle' }: Props = $props();
 
 	// Thème courant depuis les paramètres
-	const currentTheme = $derived(settingsStore.settings.theme);
+	const currentTheme = $derived(
+		settingsStore.settings.theme === 'system'
+			? systemDark
+				? 'dark'
+				: 'light'
+			: settingsStore.settings.theme
+	);
 
 	/**
 	 * Bascule entre les thèmes clair et sombre

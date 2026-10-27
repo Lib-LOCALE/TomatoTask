@@ -72,7 +72,10 @@ async function bootstrap() {
 		await initializeI18n(settings.language);
 
 		// Applique le thème sauvegardé
-		if (settings.theme === 'dark') {
+		if (
+			settings.theme === 'dark' ||
+			(settings.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+		) {
 			document.documentElement.classList.add('dark');
 		}
 	} catch (error) {

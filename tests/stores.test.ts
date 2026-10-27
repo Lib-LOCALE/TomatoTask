@@ -8,6 +8,7 @@ import { toastStore } from '../src/lib/stores/toast.svelte';
 import {
 	getNextSessionType,
 	pauseTimer,
+	resumeTimer,
 	startSession,
 	stopTimer
 } from '../src/lib/services/timer-service';
@@ -60,6 +61,21 @@ describe('stores et minuteur', () => {
 		timerStore.sessionType = 'short_break';
 		expect(getNextSessionType()).toBe('work');
 		await stopTimer();
+	});
+	it('la reprise après une pause relance le décompte', async () => {
+		vi.useFakeTimers();
+		await settingsStore.load();
+		await startSession('work');
+		await vi.advanceTimersByTimeAsync(1000);
+		pauseTimer();
+		const remaining = timerStore.remainingSeconds;
+		await vi.advanceTimersByTimeAsync(2000);
+		expect(timerStore.remainingSeconds).toBe(remaining);
+		resumeTimer();
+		await vi.advanceTimersByTimeAsync(1000);
+		expect(timerStore.remainingSeconds).toBe(remaining - 1);
+		await stopTimer();
+		vi.useRealTimers();
 	});
 	it('termine une session de travail et incrémente les compteurs', async () => {
 		vi.useFakeTimers();

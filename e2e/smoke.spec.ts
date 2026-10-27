@@ -36,3 +36,48 @@ test('la fresque et les tâches restent accessibles dans le tiroir', async ({ pa
 	await page.getByText('Weekly fresco').click();
 	await expect(page.locator('.week-row')).toHaveCount(7);
 });
+
+test('onboarding et aide clavier accessibles', async ({ page }) => {
+	await page.goto('/?onboarding=1&seed=empty');
+	await expect(page.getByRole('heading', { name: 'A session becomes a tile' })).toBeVisible();
+	await page.getByRole('button', { name: 'Next' }).click();
+	await page.getByRole('button', { name: 'Next' }).click();
+	await page.getByLabel('Task name').fill('Premier carreau');
+	await page.getByRole('button', { name: 'Create task' }).click();
+	await expect(page.getByText('Premier carreau').first()).toBeVisible();
+	await page.keyboard.press('Control+/');
+	await expect(page.getByRole('dialog', { name: 'Keyboard Shortcuts' })).toBeVisible();
+	await page.keyboard.press('Escape');
+	await expect(page.getByRole('dialog', { name: 'Keyboard Shortcuts' })).toBeHidden();
+});
+
+test('le thème système suit les changements de préférence', async ({ page }) => {
+	await page.emulateMedia({ colorScheme: 'dark' });
+	await page.goto('/');
+	await page.getByRole('button', { name: 'Settings' }).click();
+	await page.getByLabel('Theme', { exact: true }).selectOption('system');
+	await page.getByRole('button', { name: 'Save', exact: true }).click();
+	await expect(page.locator('html')).toHaveClass(/dark/);
+	await page.emulateMedia({ colorScheme: 'light' });
+	await expect(page.locator('html')).not.toHaveClass(/dark/);
+});
+
+test('le sélecteur de langue est modal et se ferme avec Échap', async ({ page }) => {
+	await page.goto('/');
+	await page.getByRole('button', { name: 'Settings' }).focus();
+	await page.keyboard.press('Control+l');
+	const dialog = page.locator('dialog:modal');
+	await expect(dialog).toBeVisible();
+	await page.keyboard.press('Escape');
+	await expect(dialog).toHaveCount(0);
+	await expect(page.getByRole('button', { name: 'Settings' })).toBeFocused();
+});
+
+test('le mini-mode affiche les commandes dans une fenêtre de 300 par 150', async ({ page }) => {
+	await page.goto('/');
+	await page.getByRole('button', { name: 'Mini mode' }).click();
+	await page.setViewportSize({ width: 300, height: 150 });
+	await expect(page.getByText('25:00')).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Start', exact: true })).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Return to full window' })).toBeVisible();
+});
