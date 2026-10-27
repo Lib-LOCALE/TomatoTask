@@ -1,5 +1,6 @@
 // Module contenant toutes les commandes Tauri
 pub mod backup;
+pub mod plan;
 pub mod projects;
 pub mod sessions;
 pub mod settings;
@@ -8,6 +9,7 @@ pub mod summary;
 pub mod tasks;
 
 pub use backup::*;
+pub use plan::*;
 pub use projects::*;
 pub use sessions::*;
 pub use settings::*;

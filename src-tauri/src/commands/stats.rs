@@ -41,3 +41,10 @@ pub fn get_focus_streak(db: State<DbConnection>) -> Result<stats::FocusStreak, S
     let conn = conn.lock().map_err(|e| e.to_string())?;
     stats::get_focus_streak(&conn, chrono::Local::now().date_naive()).map_err(|e| e.to_string())
 }
+
+#[tauri::command]
+pub fn get_insights(days: u32, db: State<DbConnection>) -> Result<stats::Insights, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+    stats::get_insights(&conn, days, chrono::Local::now().date_naive()).map_err(|e| e.to_string())
+}

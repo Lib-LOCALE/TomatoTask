@@ -28,6 +28,10 @@ pub fn run_migrations(conn: &Connection) -> Result<()> {
         set_schema_version(conn, 2)?;
     }
 
+    if current_version < 3 {
+        conn.execute_batch("BEGIN; ALTER TABLE tasks ADD COLUMN planned_for TEXT; ALTER TABLE tasks ADD COLUMN plan_position INTEGER; INSERT INTO schema_version (version) VALUES (3); COMMIT;")?;
+    }
+
     Ok(())
 }
 
@@ -200,6 +204,26 @@ mod tests {
         assert!(tables.contains(&"tasks".to_string()));
         assert!(tables.contains(&"pomodoro_sessions".to_string()));
         assert!(tables.contains(&"settings".to_string()));
+    }
+
+    #[test]
+    fn migration_plan_sur_base_deja_en_version_deux() {
+        let conn = Connection::open_in_memory().unwrap();
+        conn.execute_batch("CREATE TABLE schema_version (version INTEGER PRIMARY KEY, applied_at TEXT DEFAULT (datetime('now'))); INSERT INTO schema_version(version) VALUES (1), (2);").unwrap();
+        apply_migration_001(&conn).unwrap();
+        apply_migration_002(&conn).unwrap();
+        conn.execute("INSERT INTO tasks(title) VALUES ('ancien')", [])
+            .unwrap();
+        run_migrations(&conn).unwrap();
+        run_migrations(&conn).unwrap();
+        let values: (Option<String>, Option<i64>) = conn
+            .query_row(
+                "SELECT planned_for, plan_position FROM tasks WHERE id = 1",
+                [],
+                |r| Ok((r.get(0)?, r.get(1)?)),
+            )
+            .unwrap();
+        assert_eq!(values, (None, None));
     }
 
     #[test]

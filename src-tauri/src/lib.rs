@@ -94,6 +94,11 @@ pub fn run() {
             commands::toggle_task_completion,
             commands::get_tasks_by_project,
             commands::reorder_tasks,
+            commands::plan_task,
+            commands::unplan_task,
+            commands::reorder_plan,
+            commands::get_day_plan,
+            commands::get_insights,
             // Commandes de gestion des projets
             commands::get_projects,
             commands::create_project,
