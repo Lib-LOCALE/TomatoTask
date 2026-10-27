@@ -1,0 +1,25 @@
+{
+	"plan": {
+		"title": "Planificar el día",
+		"stock": "Tareas disponibles",
+		"day": "Mi día",
+		"all": "Todos los proyectos",
+		"emptyStock": "No hay tareas sin planificar.",
+		"emptyDay": "Aún no hay tareas planificadas.",
+		"add": "Planificar para hoy",
+		"remove": "Quitar del día",
+		"carried": "Aplazada",
+		"start": "Comenzar el día",
+		"planned": "Previsto",
+		"completed": "Realizado",
+		"capacity": "Un día lleno: más de 12 pomodoros son más de cinco horas de concentración.",
+		"up": "Subir",
+		"down": "Bajar",
+		"decrease": "Reducir estimación",
+		"increase": "Aumentar estimación",
+		"error": "No se pudo actualizar el plan.",
+		"planToday": "Planificar para hoy",
+		"today": "Hoy",
+		"newProject": "Nuevo proyecto"
+	}
+}

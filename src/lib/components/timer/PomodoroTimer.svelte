@@ -1,161 +1,302 @@
 <script lang="ts">
-	// Composant principal du timer Pomodoro
 	import { onMount } from 'svelte';
+	import { _ } from 'svelte-i18n';
+	import { Volume2, Play, Pause } from '@lucide/svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { settingsStore } from '$lib/stores/settings.svelte';
-	import { onSessionCompleteCallback, startNextSession } from '$lib/services/timer-service';
+	import {
+		onSessionCompleteCallback,
+		startNextSession,
+		startSession,
+		pauseTimer,
+		resumeTimer,
+		stopTimer
+	} from '$lib/services/timer-service';
 	import { notifyComplete } from '$lib/services/notification-service';
-	import TimerDisplay from './TimerDisplay.svelte';
-	import TimerControls from './TimerControls.svelte';
-	import TaskSelectDisplay from './TaskSelectDisplay.svelte';
 	import SoundControl from '$lib/components/sounds/SoundControl.svelte';
-	import AnimatedIcon from '$lib/components/ui/AnimatedIcon.svelte';
-	import type { SessionType, Task } from '$lib/types';
-	import { _ } from 'svelte-i18n';
-
-	// Props
-	interface Props {
-		autoAdvance?: boolean;
-	}
-
-	let { autoAdvance = false }: Props = $props();
-
-	// État local pour la tâche sélectionnée
-	let selectedTaskId = $state<number | undefined>(undefined);
-
-	// Synchronise selectedTaskId avec taskStore.selectedTask
-	$effect(() => {
-		selectedTaskId = taskStore.selectedTask?.id;
-	});
-
-	// État pour le feedback visuel de complétion
-	let showCompletionFeedback = $state(false);
-	let completedSessionType = $state<SessionType>('work');
-
-	/**
-	 * Gère la complétion d'une session
-	 *
-	 * 1. Affiche un feedback visuel de célébration
-	 * 2. Envoie une notification
-	 * 3. Démarre automatiquement la prochaine session si configuré
-	 */
-	async function handleSessionComplete(sessionType: SessionType) {
-		// Affiche le feedback de complétion
-		completedSessionType = sessionType;
-		showCompletionFeedback = true;
-
-		// Cache le feedback après 4 secondes
-		setTimeout(() => {
-			showCompletionFeedback = false;
-		}, 4000);
-		// Notification desktop + son
-		await notifyComplete(sessionType);
-
-		// Auto-advance si configuré
-		if (autoAdvance) {
-			const settings = settingsStore.settings;
-
-			// Vérifie les paramètres d'auto-start
-			const shouldAutoStart =
-				(sessionType === 'work' && settings.autoStartBreaks) ||
-				(sessionType !== 'work' && settings.autoStartPomodoros);
-
-			if (shouldAutoStart) {
-				// Attend 3 secondes avant de démarrer la prochaine session
-				setTimeout(async () => {
-					try {
-						await startNextSession(selectedTaskId);
-					} catch (error) {
-						console.error('Failed to auto-start next session:', error);
-					}
-				}, 3000);
-			}
+	import Tile from '$lib/components/majolica/Tile.svelte';
+	import type { SessionType } from '$lib/types';
+	let { autoAdvance = false }: { autoAdvance?: boolean } = $props();
+	let selectedType = $state<SessionType>('work');
+	let busy = $state(false);
+	const task = $derived(
+		timerStore.taskId
+			? taskStore.tasks.find((t) => t.id === timerStore.taskId)
+			: taskStore.selectedTask
+	);
+	const type = $derived(timerStore.remainingSeconds > 0 ? timerStore.sessionType : selectedType);
+	const duration = $derived(
+		type === 'work'
+			? settingsStore.settings.workDuration
+			: type === 'short_break'
+				? settingsStore.settings.shortBreakDuration
+				: settingsStore.settings.longBreakDuration
+	);
+	const time = $derived(
+		timerStore.remainingSeconds > 0
+			? timerStore.displayTime()
+			: `${String(duration).padStart(2, '0')}:00`
+	);
+	async function toggle() {
+		if (busy) return;
+		if (timerStore.isRunning) {
+			pauseTimer();
+			return;
+		}
+		if (timerStore.remainingSeconds > 0) {
+			resumeTimer();
+			return;
+		}
+		busy = true;
+		try {
+			await startSession(selectedType, taskStore.selectedTask?.id);
+		} finally {
+			busy = false;
 		}
 	}
-
-	onMount(() => {
-		// Charge les paramètres au montage
-		settingsStore.load();
-
-		// Enregistre le callback de complétion
-		onSessionCompleteCallback(handleSessionComplete);
-	});
+	async function skip() {
+		const currentType = type;
+		await stopTimer();
+		selectedType = currentType === 'work' ? 'short_break' : 'work';
+	}
+	async function complete(sessionType: SessionType) {
+		if (sessionType === 'work') await taskStore.load();
+		await notifyComplete(sessionType);
+		if (
+			autoAdvance &&
+			((sessionType === 'work' && settingsStore.settings.autoStartBreaks) ||
+				(sessionType !== 'work' && settingsStore.settings.autoStartPomodoros))
+		) {
+			setTimeout(() => void startNextSession(taskStore.selectedTask?.id), 3000);
+		} else selectedType = sessionType === 'work' ? 'short_break' : 'work';
+	}
+	onMount(() => onSessionCompleteCallback(complete));
 </script>
 
-<div class="flex min-h-screen flex-col items-center justify-center p-8">
-	<!-- Conteneur principal -->
-	<div class="w-full max-w-2xl">
-		<!-- Feedback de complétion animé -->
-		{#if showCompletionFeedback}
-			<div
-				class="mb-4 animate-bounce rounded-lg border-2 p-6 text-center shadow-lg"
-				class:border-green-500={completedSessionType === 'work'}
-				class:bg-green-50={completedSessionType === 'work'}
-				class:dark:bg-green-950={completedSessionType === 'work'}
-				class:border-blue-500={completedSessionType !== 'work'}
-				class:bg-blue-50={completedSessionType !== 'work'}
-				class:dark:bg-blue-950={completedSessionType !== 'work'}
-			>
-				<div class="mb-3 flex justify-center">
-					{#if completedSessionType === 'work'}
-						<AnimatedIcon name="tomato-celebration" size={96} />
-					{:else}
-						<AnimatedIcon name="tomato-relaxing" size={96} />
-					{/if}
-				</div>
-				<div class="text-lg font-semibold">
-					{$_('timer.completed')}
-				</div>
-				<div class="mt-1 text-sm opacity-75">
-					{#if completedSessionType === 'work'}
-						{$_('notifications.workComplete')}
-					{:else}
-						{$_('notifications.breakComplete')}
-					{/if}
-				</div>
-			</div>
-		{/if}
-
-		<!-- Carte du timer -->
-		<div class="bg-card text-card-foreground rounded-lg border p-8 shadow-lg">
-			<!-- Affichage du timer -->
-			<TimerDisplay showProgress={true} />
-
-			<!-- Espacement -->
-			<div class="h-8"></div>
-
-			<!-- Sélecteur de tâche (visible uniquement quand le timer n'est pas actif) -->
-			{#if timerStore.remainingSeconds === 0}
-				<div class="mb-6">
-					<TaskSelectDisplay
-						{selectedTaskId}
-						onTaskSelected={(task) => (selectedTaskId = task?.id)}
-					/>
-				</div>
-			{/if}
-
-			<!-- Contrôles du timer -->
-			<TimerControls
-				{selectedTaskId}
-				onSessionStart={(type) => console.log('Session started:', type)}
-				onSessionStop={() => console.log('Session stopped')}
-			/>
-
-			<!-- Contrôle des sons d'ambiance -->
-			<div class="mt-6 border-t pt-6">
-				<SoundControl />
-			</div>
+<div class="timer" class:short={type === 'short_break'} class:long={type === 'long_break'}>
+	<div class="timer-top">
+		<div class="tabs" role="group" aria-label={$_('timer.title')}>
+			{#each ['work', 'short_break', 'long_break'] as item}
+				<button
+					type="button"
+					class:active={type === item}
+					disabled={timerStore.remainingSeconds > 0}
+					onclick={() => (selectedType = item as SessionType)}
+					>{$_(
+						item === 'work'
+							? 'timer.work'
+							: item === 'short_break'
+								? 'timer.shortBreak'
+								: 'timer.longBreak'
+					)}</button
+				>
+			{/each}
 		</div>
-
-		<!-- Informations supplémentaires -->
-		<div class="text-muted-foreground mt-8 text-center text-sm">
-			<p class="mb-1">
-				{@html $_('keyboard.pressToStart')}
+		<details class="sounds">
+			<summary aria-label={$_('majolica.sounds')} title={$_('majolica.sounds')}
+				><Volume2 size={19} /></summary
+			>
+			<div><SoundControl /></div>
+		</details>
+	</div>
+	<div class="spotlight">
+		<h1>{task?.title || $_('majolica.noTask')}</h1>
+		{#if task && task.estimatedPomodoros > 0}<p>
+				{$_('majolica.pomodoro', {
+					values: {
+						current: Math.min(task.completedPomodoros + 1, task.estimatedPomodoros),
+						total: task.estimatedPomodoros
+					}
+				})}
 			</p>
-			<p>
-				{@html $_('keyboard.pressForShortcuts')}
-			</p>
+			<div class="mini-tiles" aria-hidden="true">
+				{#each Array(task.estimatedPomodoros) as _, i}<span class:done={i < task.completedPomodoros}
+					></span>{/each}
+			</div>{/if}
+	</div>
+	<div class="time-row">
+		<div class="digits" aria-label={time}>
+			{#each time.split('') as digit}<span class:colon={digit === ':'}>{digit}</span>{/each}
+		</div>
+		<div class="progress-tile">
+			<Tile state="painting" position={4} progress={timerStore.progress() / 100} />
+		</div>
+	</div>
+	<div class="actions">
+		<button class="primary-action" type="button" onclick={toggle} disabled={busy}
+			>{#if timerStore.isRunning}<Pause size={20} />{$_('timer.pause')}{:else}<Play
+					size={20}
+				/>{timerStore.remainingSeconds > 0 ? $_('timer.resume') : $_('timer.start')}{/if}</button
+		>
+		<div class="secondary-actions">
+			<button type="button" onclick={skip}>{$_('majolica.skip')}</button><button
+				type="button"
+				onclick={() => stopTimer()}>{$_('majolica.reset')}</button
+			>
 		</div>
 	</div>
 </div>
+
+<style>
+	.timer {
+		--session: var(--session-work);
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 650px;
+		padding: 24px 34px 48px;
+	}
+	.timer.short {
+		--session: var(--session-short-break);
+	}
+	.timer.long {
+		--session: var(--session-long-break);
+	}
+	.timer-top {
+		display: flex;
+		justify-content: space-between;
+		align-items: start;
+		gap: 12px;
+	}
+	.tabs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+	}
+	.tabs button {
+		padding: 8px 10px;
+		border-radius: 3px;
+		font-weight: 700;
+		color: var(--muted-foreground);
+	}
+	.tabs button.active {
+		background: var(--primary);
+		color: var(--primary-foreground);
+	}
+	.tabs button:disabled {
+		opacity: 0.75;
+	}
+	.sounds {
+		position: relative;
+	}
+	summary {
+		list-style: none;
+		cursor: pointer;
+		padding: 8px;
+	}
+	summary::-webkit-details-marker {
+		display: none;
+	}
+	.sounds div {
+		position: absolute;
+		right: 0;
+		top: 40px;
+		width: 300px;
+		z-index: 4;
+		background: var(--popover);
+		color: var(--popover-foreground);
+		border: 1px solid var(--border);
+		box-shadow: var(--enamel-shadow);
+		padding: 12px;
+	}
+	.spotlight {
+		text-align: center;
+		margin: 30px 0 10px;
+	}
+	h1 {
+		font-size: clamp(1.5rem, 2.5vw, 2.3rem);
+	}
+	.spotlight p {
+		color: var(--muted-foreground);
+		margin-top: 10px;
+	}
+	.mini-tiles {
+		display: flex;
+		gap: 3px;
+		justify-content: center;
+		margin-top: 8px;
+	}
+	.mini-tiles span {
+		width: 12px;
+		height: 12px;
+		border: 1px solid var(--grout);
+		background: var(--glaze);
+	}
+	.mini-tiles .done {
+		background: var(--session);
+	}
+	.time-row {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+	}
+	.digits {
+		display: flex;
+		font-family: var(--font-heading);
+		font-size: clamp(5rem, 10vw, 12rem);
+		font-weight: 700;
+		line-height: 1;
+		font-variant-numeric: tabular-nums;
+		letter-spacing: -0.04em;
+	}
+	.digits span {
+		width: 0.62em;
+		text-align: center;
+	}
+	.digits .colon {
+		width: 0.28em;
+		color: var(--session);
+	}
+	.progress-tile {
+		width: clamp(80px, 10vw, 128px);
+		flex: none;
+		border: 1px solid var(--grout);
+	}
+	.actions {
+		width: min(100%, 420px);
+		margin: 30px auto 0;
+	}
+	.primary-action {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		background: var(--session);
+		color: #fff;
+		padding: 15px;
+		font-weight: 700;
+		border-radius: 4px;
+		box-shadow: var(--enamel-shadow);
+	}
+	:global(.dark) .primary-action {
+		color: #172e59;
+	}
+	.short .primary-action {
+		color: #172e59;
+	}
+	.long .primary-action {
+		color: #102d20;
+	}
+	.secondary-actions {
+		display: flex;
+		justify-content: center;
+		gap: 24px;
+		margin-top: 16px;
+	}
+	.secondary-actions button {
+		text-decoration: underline;
+		text-underline-offset: 4px;
+	}
+	@media (max-width: 760px) {
+		.timer {
+			min-height: 570px;
+			padding: 20px;
+		}
+		.digits {
+			font-size: clamp(3.8rem, 14vw, 8rem);
+		}
+	}
+</style>

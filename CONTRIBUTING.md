@@ -38,6 +38,7 @@ npm run tauri build
 ### Technology Stack
 
 **Frontend:**
+
 - [Svelte 5](https://svelte.dev/) - Reactive UI framework with Runes API
 - [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
@@ -45,6 +46,7 @@ npm run tauri build
 - [svelte-i18n](https://github.com/kaisermann/svelte-i18n) - Internationalization
 
 **Backend:**
+
 - [Tauri 2](https://tauri.app/) - Lightweight desktop application framework
 - [Rust](https://www.rust-lang.org/) - Systems programming language
 - [SQLite](https://www.sqlite.org/) - Embedded database
@@ -86,6 +88,7 @@ TomatoTask/
 ### Database Schema
 
 SQLite database with 4 tables:
+
 - `projects` - Project organization with colors
 - `tasks` - Task items with Pomodoro tracking
 - `pomodoro_sessions` - Historical session data

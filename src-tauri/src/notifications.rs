@@ -31,21 +31,13 @@ pub fn notify_break_complete(app: &AppHandle) {
 /// Envoie une notification de tâche terminée
 #[allow(dead_code)]
 pub fn notify_task_complete(app: &AppHandle, task_title: &str) {
-    send_notification(
-        app,
-        "Task Completed!",
-        &format!("✅ {}", task_title),
-    );
+    send_notification(app, "Task Completed!", &format!("✅ {}", task_title));
 }
 
 /// Envoie une notification personnalisée depuis le frontend (commande désactivée)
 #[allow(dead_code)]
 #[tauri::command]
-pub fn send_custom_notification(
-    app: AppHandle,
-    title: String,
-    body: String,
-) -> Result<(), String> {
+pub fn send_custom_notification(app: AppHandle, title: String, body: String) -> Result<(), String> {
     send_notification(&app, &title, &body);
     Ok(())
 }

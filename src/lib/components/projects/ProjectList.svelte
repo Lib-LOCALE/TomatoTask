@@ -13,16 +13,28 @@
 	// Props
 	interface Props {
 		onProjectSelect?: (projectId: number | null) => void;
-		onNewProject?: () => void;
 		onEditProject?: (project: Project) => void;
 		onDeleteProject?: (project: Project) => void;
 	}
 
-	let { onProjectSelect, onNewProject, onEditProject, onDeleteProject }: Props = $props();
+	let { onProjectSelect, onEditProject, onDeleteProject }: Props = $props();
 
 	// État local
 	let isExpanded = $state(true);
-	let hoveredProjectId = $state<number | null>(null);
+	let creating = $state(false);
+	let newName = $state('');
+	let createError = $state(false);
+	async function createInline() {
+		if (!newName.trim()) return;
+		try {
+			await projectStore.create(newName.trim(), '#1d3f83');
+			newName = '';
+			creating = false;
+			createError = false;
+		} catch {
+			createError = true;
+		}
+	}
 	let dragOverProjectId = $state<number | null | 'inbox'>(null);
 
 	// Projet sélectionné
@@ -41,7 +53,8 @@
 	 */
 	function handleNewProject(e: MouseEvent) {
 		e.stopPropagation();
-		onNewProject?.();
+		creating = !creating;
+		isExpanded = true;
 	}
 
 	/**
@@ -110,13 +123,12 @@
 <div class="flex h-full flex-col">
 	<!-- Section Header (Collapsible) -->
 	<div
-		role="button"
-		tabindex="0"
-		class="hover:bg-muted/50 group flex w-full cursor-pointer items-center justify-between p-4 transition-colors"
-		onclick={() => (isExpanded = !isExpanded)}
-		onkeydown={(e) => e.key === 'Enter' && (isExpanded = !isExpanded)}
+		class="hover:bg-muted/50 group flex w-full items-center justify-between p-4 transition-colors"
 	>
-		<div
+		<button
+			type="button"
+			aria-expanded={isExpanded}
+			onclick={() => (isExpanded = !isExpanded)}
 			class="text-muted-foreground group-hover:text-foreground flex items-center gap-2 text-sm font-semibold transition-colors"
 		>
 			{#if isExpanded}
@@ -125,7 +137,7 @@
 				<ChevronRight class="h-4 w-4" />
 			{/if}
 			{$_('projects.title')}
-		</div>
+		</button>
 
 		<button
 			type="button"
@@ -133,7 +145,8 @@
 				e.stopPropagation();
 				handleNewProject(e);
 			}}
-			class="hover:bg-background rounded-md p-1 opacity-0 transition-all group-hover:opacity-100"
+			class="hover:bg-background rounded-md p-1 opacity-0 transition-all group-hover:opacity-100 focus:opacity-100"
+			aria-label={$_('projects.newProject')}
 			title={$_('projects.newProject')}
 		>
 			<Plus class="h-4 w-4" />
@@ -142,6 +155,23 @@
 
 	{#if isExpanded}
 		<div class="flex-1 space-y-1 overflow-y-auto px-2 pb-2">
+			{#if creating}<form
+					class="flex gap-1 px-4"
+					onsubmit={(e) => {
+						e.preventDefault();
+						void createInline();
+					}}
+				>
+					<input
+						class="text-foreground bg-background min-w-0 flex-1 px-2"
+						aria-label={$_('projects.form.name')}
+						maxlength="50"
+						bind:value={newName}
+						required
+					/><button type="submit" aria-label={$_('projects.form.create')}><Plus size={18} /></button
+					>
+				</form>
+				{#if createError}<p role="alert">{$_('projects.errors.saveFailed')}</p>{/if}{/if}
 			<!-- All Tasks / Inbox -->
 			<div
 				role="button"
@@ -160,11 +190,9 @@
 			>
 				<Inbox class="h-4 w-4" />
 				<span class="font-medium">{$_('projects.allProjects')}</span>
-				{#if projectStore.projects.length > 0}
-					<span class="ml-auto text-xs opacity-70">
-						{projectStore.projects.reduce((acc, p) => acc + (p.taskCount || 0), 0)}
-					</span>
-				{/if}
+				<span class="ml-auto text-xs">
+					{taskStore.tasks.length}
+				</span>
 			</div>
 
 			<div class="bg-border/50 mx-2 my-2 h-px"></div>
@@ -191,8 +219,6 @@
 						class="group relative"
 						transition:slide={{ duration: 200, axis: 'y' }}
 						animate:flip={{ duration: 300 }}
-						onmouseenter={() => (hoveredProjectId = project.id)}
-						onmouseleave={() => (hoveredProjectId = null)}
 						role="group"
 						draggable="true"
 						ondragstart={(e) => {
@@ -267,44 +293,44 @@
 							<span class="flex-1 truncate font-medium opacity-90">{project.name}</span>
 
 							<!-- Task Count Badge -->
-							{#if (project.taskCount || 0) > 0}
+							{#if taskStore.tasks.some((t) => t.projectId === project.id)}
 								<span
 									class="bg-background/50 text-muted-foreground rounded-full px-1.5 py-0.5 text-xs"
 								>
-									{project.taskCount}
+									{taskStore.tasks.filter((t) => t.projectId === project.id).length}
 								</span>
 							{/if}
 						</div>
 
 						<!-- Actions Menu (visible on hover) -->
-						{#if hoveredProjectId === project.id}
-							<div
-								class="bg-muted/80 absolute top-1/2 right-2 flex -translate-y-1/2 gap-1 rounded-md p-0.5 shadow-sm backdrop-blur-sm"
+						<div
+							class="bg-muted absolute top-1/2 right-2 flex -translate-y-1/2 gap-1 rounded-md p-0.5 opacity-0 group-focus-within:opacity-100 group-hover:opacity-100"
+						>
+							<button
+								type="button"
+								onclick={(e) => {
+									e.stopPropagation();
+									onEditProject?.(project);
+								}}
+								class="hover:bg-background text-muted-foreground hover:text-foreground rounded-sm p-1 transition-colors"
+								aria-label={$_('common.edit')}
+								title={$_('common.edit')}
 							>
-								<button
-									type="button"
-									onclick={(e) => {
-										e.stopPropagation();
-										onEditProject?.(project);
-									}}
-									class="hover:bg-background text-muted-foreground hover:text-foreground rounded-sm p-1 transition-colors"
-									title="Edit"
-								>
-									<Edit2 class="h-3 w-3" />
-								</button>
-								<button
-									type="button"
-									onclick={(e) => {
-										e.stopPropagation();
-										onDeleteProject?.(project);
-									}}
-									class="hover:bg-destructive hover:text-destructive-foreground text-muted-foreground rounded-sm p-1 transition-colors"
-									title="Delete"
-								>
-									<Trash2 class="h-3 w-3" />
-								</button>
-							</div>
-						{/if}
+								<Edit2 class="h-3 w-3" />
+							</button>
+							<button
+								type="button"
+								onclick={(e) => {
+									e.stopPropagation();
+									onDeleteProject?.(project);
+								}}
+								class="hover:bg-destructive hover:text-destructive-foreground text-muted-foreground rounded-sm p-1 transition-colors"
+								aria-label={$_('common.delete')}
+								title={$_('common.delete')}
+							>
+								<Trash2 class="h-3 w-3" />
+							</button>
+						</div>
 					</div>
 				{/each}
 			{/if}

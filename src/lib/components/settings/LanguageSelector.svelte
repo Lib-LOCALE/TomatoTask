@@ -1,107 +1,76 @@
 <script lang="ts">
-	// Sélecteur de langue avec persistance dans les paramètres
-	import { locale } from 'svelte-i18n';
+	import { locale, _ } from 'svelte-i18n';
 	import { settingsStore } from '$lib/stores/settings.svelte';
-	import {
-		SUPPORTED_LANGUAGES,
-		changeLanguage,
-		getLanguageName,
-		getLanguageCode,
-		getLanguageFlag,
-		getLanguageFlagPath
-	} from '$lib/services/i18n-service';
+	import { SUPPORTED_LANGUAGES, changeLanguage, getLanguageName } from '$lib/services/i18n-service';
 	import type { Language } from '$lib/types';
 
-	// Props
-	interface Props {
-		variant?: 'dropdown' | 'buttons';
-	}
-
-	let { variant = 'dropdown' }: Props = $props();
-
-	// Langue courante depuis svelte-i18n
+	let { variant = 'dropdown' }: { variant?: 'dropdown' | 'buttons' } = $props();
 	let currentLanguage = $derived($locale as Language);
-
-	/**
-	 * Change la langue et sauvegarde dans les paramètres
-	 */
-	async function handleLanguageChange(newLanguage: Language) {
+	let error = $state(false);
+	async function selectLanguage(language: Language) {
 		try {
-			// Change la langue dans svelte-i18n
-			changeLanguage(newLanguage);
-
-			// Sauvegarde dans les paramètres
-			await settingsStore.updateSetting('language', newLanguage);
-		} catch (error) {
-			console.error('Failed to change language:', error);
+			await settingsStore.updateSetting('language', language);
+			changeLanguage(language);
+			error = false;
+		} catch {
+			error = true;
 		}
-	}
-
-	/**
-	 * Gère le changement via dropdown
-	 */
-	function handleSelectChange(event: Event) {
-		const select = event.target as HTMLSelectElement;
-		handleLanguageChange(select.value as Language);
 	}
 </script>
 
 {#if variant === 'dropdown'}
-	<!-- Dropdown standard -->
-	<div class="w-full">
-		<label for="language-select" class="mb-2 block text-sm font-medium text-foreground">
-			Language / Langue
-		</label>
-
-		<select
-			id="language-select"
-			onchange={handleSelectChange}
-			value={currentLanguage}
-			class="flex h-10 w-full rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-		>
-			{#each SUPPORTED_LANGUAGES as lang}
-				<option value={lang} class="text-foreground">
-					{getLanguageFlag(lang)} {getLanguageName(lang)} ({getLanguageCode(lang)})
-				</option>
-			{/each}
-		</select>
-	</div>
+	<label for="language-select">{$_('chrome.settings.language')}</label>
+	<select
+		id="language-select"
+		value={currentLanguage}
+		onchange={(event) => selectLanguage(event.currentTarget.value as Language)}
+	>
+		{#each SUPPORTED_LANGUAGES as language}<option value={language}
+				>{getLanguageName(language)}</option
+			>{/each}
+	</select>
 {:else}
-	<!-- Groupe de boutons avec drapeaux -->
-	<div class="w-full">
-		<div class="mb-3 text-sm font-medium text-foreground">Language / Langue</div>
-
-		<div class="flex flex-wrap gap-3">
-			{#each SUPPORTED_LANGUAGES as lang}
-				{@const isSelected = currentLanguage === lang}
+	<fieldset>
+		<legend>{$_('chrome.settings.language')}</legend>
+		<div class="languages">
+			{#each SUPPORTED_LANGUAGES as language}
 				<button
 					type="button"
-					onclick={() => handleLanguageChange(lang)}
-					class:border-primary={isSelected}
-					class:bg-accent={isSelected}
-					class:shadow-md={isSelected}
-					class:border-border={!isSelected}
-					class:hover:bg-muted={!isSelected}
-					class="group relative rounded-lg border-2 px-4 py-3 text-sm font-medium text-foreground transition-all duration-200 flex items-center gap-3 min-w-[160px]"
+					aria-pressed={currentLanguage === language}
+					class:selected={currentLanguage === language}
+					onclick={() => selectLanguage(language)}>{getLanguageName(language)}</button
 				>
-					<!-- Drapeau image -->
-					<img
-						src={getLanguageFlagPath(lang)}
-						alt={getLanguageName(lang)}
-						class="w-8 h-8 object-contain rounded"
-					/>
-
-					<!-- Nom de la langue -->
-					<span class="flex-1 text-left text-foreground">{getLanguageName(lang)}</span>
-
-					<!-- Icône de sélection -->
-					{#if isSelected}
-						<svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
-							<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-						</svg>
-					{/if}
-				</button>
 			{/each}
 		</div>
-	</div>
+	</fieldset>
 {/if}
+{#if error}<p role="alert">{$_('chrome.settings.languageError')}</p>{/if}
+
+<style>
+	legend,
+	label {
+		margin-bottom: 8px;
+		font-weight: 600;
+	}
+	.languages {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+	button,
+	select {
+		border: 1px solid var(--border);
+		border-radius: 4px;
+		background: var(--background);
+		color: var(--foreground);
+		padding: 6px 12px;
+	}
+	button.selected {
+		background: var(--primary);
+		color: var(--primary-foreground);
+		border-color: var(--primary);
+	}
+	p {
+		color: var(--destructive);
+	}
+</style>

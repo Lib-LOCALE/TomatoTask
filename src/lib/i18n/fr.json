@@ -225,5 +225,30 @@
 		"deleteProjectConfirm": "Êtes-vous sûr de vouloir supprimer \"{name}\" ? Toutes les tâches resteront mais ne seront plus associées à ce projet.",
 		"languageTitle": "Langue / Language",
 		"done": "Terminé"
+	},
+	"majolica": {
+		"fresco": "Fresque du jour",
+		"frescoDescription": "Chaque session de travail terminée peint un carreau.",
+		"count": "{done} sur {total}",
+		"empty": "Aucun carreau prévu. Ajoutez une estimation à une tâche.",
+		"week": "Fresque de la semaine",
+		"loadError": "Impossible de charger la fresque.",
+		"streak": "{count} jours d’affilée",
+		"menu": "Menu",
+		"sounds": "Sons d’ambiance",
+		"skip": "Passer",
+		"reset": "Réinitialiser",
+		"pomodoro": "Pomodoro {current} sur {total}",
+		"noTask": "Aucune tâche sélectionnée",
+		"mini": "Mini-mode",
+		"markComplete": "Terminer {title}",
+		"markActive": "Réactiver {title}"
+	},
+	"views": {
+		"label": "Vues",
+		"today": "Aujourd'hui",
+		"plan": "Planifier",
+		"insights": "Bilan",
+		"focus": "Mode focus"
 	}
 }

@@ -1,179 +1,99 @@
 <script lang="ts">
-	// Composant liste de tâches avec filtres
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { projectStore } from '$lib/stores/projects.svelte';
 	import { _ } from 'svelte-i18n';
+	import { Plus } from '@lucide/svelte';
 	import TaskCard from './TaskCard.svelte';
-	import ProjectHeader from '$lib/components/projects/ProjectHeader.svelte';
 	import type { Task } from '$lib/types';
-	import Button from '$lib/components/ui/button/button.svelte';
 	import { reorderTasks } from '$lib/services/task-service';
-	import { slide, fade } from 'svelte/transition';
-	import { flip } from 'svelte/animate';
-
-	// Props
+	function drop(event: DragEvent, target: number) {
+		event.preventDefault();
+		const id = Number(event.dataTransfer?.getData('text/plain'));
+		const ids = taskStore.filteredTasks.map((t) => t.id);
+		const from = ids.indexOf(id);
+		const to = ids.indexOf(target);
+		if (from < 0 || to < 0 || from === to) return;
+		ids.splice(to, 0, ids.splice(from, 1)[0]);
+		void reorderTasks(ids);
+	}
 	interface Props {
 		onEditTask?: (task: Task) => void;
 		onDeleteTask?: (task: Task) => void;
 		onSelectTask?: (task: Task) => void;
 		onNewTask?: () => void;
 	}
-
 	let { onEditTask, onDeleteTask, onSelectTask, onNewTask }: Props = $props();
-
-	// Projet sélectionné
-	const selectedProject = $derived(
-		projectStore.selectedProjectId
-			? projectStore.projects.find((p) => p.id === projectStore.selectedProjectId)
-			: null
-	);
 </script>
 
-<div class="flex h-full flex-col">
-	<!-- Header avec filtres -->
-	<div class="flex flex-col gap-4 border-b px-6 py-4">
-		{#if selectedProject}
-			<ProjectHeader project={selectedProject} />
-		{/if}
-
-		<div class="flex items-center justify-between">
-			<div class="flex items-center gap-2">
-				<h2 class="text-xl font-semibold">
-					{selectedProject ? $_('tasks.projectTasks') : $_('tasks.title')}
-				</h2>
-
-				<!-- Compteurs -->
-				<span class="bg-muted rounded-full px-2 py-1 text-xs font-medium">
-					{taskStore.activeCount} active
-				</span>
-			</div>
-
-			<!-- Bouton nouvelle tâche -->
-			<Button onclick={onNewTask}>
-				{$_('tasks.newTask')}
-			</Button>
-		</div>
+<div class="list">
+	<div class="heading">
+		<h2>{projectStore.selectedProjectId ? $_('tasks.projectTasks') : $_('tasks.title')}</h2>
+		<button onclick={onNewTask} aria-label={$_('tasks.newTask')} title={$_('tasks.newTask')}
+			><Plus size={18} /></button
+		>
 	</div>
-
-	<!-- Filtres -->
-	<div class="flex gap-2 border-b px-6 py-3">
-		<Button
-			variant={taskStore.filterCompleted === 'all' ? 'default' : 'outline'}
-			size="sm"
-			onclick={() => taskStore.setCompletionFilter('all')}
-		>
-			{$_('tasks.filterAll')}
-		</Button>
-
-		<Button
-			variant={taskStore.filterCompleted === 'active' ? 'default' : 'outline'}
-			size="sm"
-			onclick={() => taskStore.setCompletionFilter('active')}
-		>
-			{$_('tasks.filterActive')}
-		</Button>
-
-		<Button
-			variant={taskStore.filterCompleted === 'completed' ? 'default' : 'outline'}
-			size="sm"
-			onclick={() => taskStore.setCompletionFilter('completed')}
-		>
-			{$_('tasks.filterCompleted')}
-		</Button>
+	<div class="filters">
+		{#each ['all', 'active', 'completed'] as filter}<button
+				class:active={taskStore.filterCompleted === filter}
+				onclick={() => taskStore.setCompletionFilter(filter as 'all' | 'active' | 'completed')}
+				>{$_(`tasks.filter${filter[0].toUpperCase()}${filter.slice(1)}`)}</button
+			>{/each}
 	</div>
-
-	<!-- Liste des tâches -->
-	<div class="flex-1 overflow-y-auto p-6">
-		{#if taskStore.isLoading}
-			<!-- État de chargement -->
-			<div class="flex items-center justify-center py-12">
-				<div class="text-muted-foreground">
-					{$_('common.loading')}
-				</div>
-			</div>
-		{:else if taskStore.error}
-			<!-- État d'erreur -->
-			<div class="flex items-center justify-center py-12">
-				<div class="text-destructive">
-					{taskStore.error}
-				</div>
-			</div>
-		{:else if taskStore.filteredTasks.length === 0}
-			<!-- État vide -->
-			<div class="flex flex-col items-center justify-center py-12 text-center">
-				<svg
-					class="text-muted-foreground mb-4 h-16 w-16 opacity-50"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="1.5"
-					viewBox="0 0 24 24"
+	<div class="rows">
+		{#if taskStore.isLoading}<p>{$_('common.loading')}</p>{:else if taskStore.error}<p role="alert">
+				{$_('tasks.taskError')}
+			</p>{:else if !taskStore.filteredTasks.length}<p>
+				{$_('tasks.noTasks')}
+			</p>{:else}{#each taskStore.filteredTasks as task (task.id)}<div
+					draggable="true"
+					role="listitem"
+					ondragstart={(event) => event.dataTransfer?.setData('text/plain', String(task.id))}
+					ondragover={(event) => event.preventDefault()}
+					ondrop={(event) => drop(event, task.id)}
 				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-					></path>
-				</svg>
-
-				<p class="text-muted-foreground">
-					{$_('tasks.noTasks')}
-				</p>
-
-				<Button class="mt-4" onclick={onNewTask}>
-					{$_('tasks.newTask')}
-				</Button>
-			</div>
-		{:else}
-			<!-- Liste des tâches -->
-			<div class="space-y-3">
-				{#each taskStore.filteredTasks as task, index (task.id)}
-					<div
-						role="listitem"
-						transition:slide={{ duration: 300, axis: 'y' }}
-						animate:flip={{ duration: 300 }}
-						draggable="true"
-						ondragstart={(e) => {
-							if (e.dataTransfer) {
-								e.dataTransfer.setData('text/plain', task.id.toString());
-								e.dataTransfer.effectAllowed = 'move';
-								// Store the dragging index for visual feedback if needed
-							}
-						}}
-						ondragover={(e) => {
-							e.preventDefault(); // Necessary to allow dropping
-							// Optional: Add visual feedback for drop target
-						}}
-						ondrop={async (e) => {
-							e.preventDefault();
-							const draggedTaskIdStr = e.dataTransfer?.getData('text/plain');
-							if (draggedTaskIdStr) {
-								const draggedTaskId = parseInt(draggedTaskIdStr);
-								if (!isNaN(draggedTaskId) && draggedTaskId !== task.id) {
-									// Calculate new order
-									const currentTasks = [...taskStore.filteredTasks];
-									const draggedIndex = currentTasks.findIndex((t) => t.id === draggedTaskId);
-									const targetIndex = index;
-
-									if (draggedIndex !== -1) {
-										// Move the task in the array
-										const [draggedTask] = currentTasks.splice(draggedIndex, 1);
-										currentTasks.splice(targetIndex, 0, draggedTask);
-
-										// Extract IDs for the new order
-										const newTaskIds = currentTasks.map((t) => t.id);
-
-										// Call service to update order
-										await reorderTasks(newTaskIds);
-									}
-								}
-							}
-						}}
-						class="cursor-grab transition-transform active:cursor-grabbing"
-					>
-						<TaskCard {task} onEdit={onEditTask} onDelete={onDeleteTask} onSelect={onSelectTask} />
-					</div>
-				{/each}
-			</div>
-		{/if}
+					<TaskCard {task} onEdit={onEditTask} onDelete={onDeleteTask} onSelect={onSelectTask} />
+				</div>{/each}{/if}
 	</div>
 </div>
+
+<style>
+	.list {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		min-height: 0;
+		padding: 12px 16px;
+	}
+	.heading {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.heading h2 {
+		font-size: 1.15rem;
+	}
+	.heading button {
+		padding: 5px;
+	}
+	.filters {
+		display: flex;
+		gap: 4px;
+		margin: 10px 0 4px;
+	}
+	.filters button {
+		font-size: 0.75rem;
+		padding: 4px 6px;
+		border: 1px solid transparent;
+	}
+	.filters .active {
+		border-color: currentColor;
+	}
+	.rows {
+		overflow: auto;
+		min-height: 0;
+	}
+	.rows p {
+		padding: 12px 0;
+		font-size: 0.85rem;
+	}
+</style>

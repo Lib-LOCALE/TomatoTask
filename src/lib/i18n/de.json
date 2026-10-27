@@ -223,5 +223,30 @@
 		"deleteProjectConfirm": "Sind Sie sicher, dass Sie \"{name}\" löschen möchten? Alle Aufgaben bleiben erhalten, sind aber nicht mehr diesem Projekt zugeordnet.",
 		"languageTitle": "Sprache / Language",
 		"done": "Fertig"
+	},
+	"majolica": {
+		"fresco": "Fresko des Tages",
+		"frescoDescription": "Jede abgeschlossene Arbeitseinheit bemalt eine Kachel.",
+		"count": "{done} von {total}",
+		"empty": "Noch keine Kacheln geplant. Schätze eine Aufgabe.",
+		"week": "Wochenfresko",
+		"loadError": "Das Fresko konnte nicht geladen werden.",
+		"streak": "{count} Tage in Folge",
+		"menu": "Menü",
+		"sounds": "Hintergrundklänge",
+		"skip": "Überspringen",
+		"reset": "Zurücksetzen",
+		"pomodoro": "Pomodoro {current} von {total}",
+		"noTask": "Keine Aufgabe ausgewählt",
+		"mini": "Mini-Modus",
+		"markComplete": "{title} abschließen",
+		"markActive": "{title} wieder öffnen"
+	},
+	"views": {
+		"label": "Ansichten",
+		"today": "Heute",
+		"plan": "Planen",
+		"insights": "Rückblick",
+		"focus": "Fokusmodus"
 	}
 }

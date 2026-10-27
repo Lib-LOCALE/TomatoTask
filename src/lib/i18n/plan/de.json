@@ -1,0 +1,25 @@
+{
+	"plan": {
+		"title": "Tag planen",
+		"stock": "Verfügbare Aufgaben",
+		"day": "Mein Tag",
+		"all": "Alle Projekte",
+		"emptyStock": "Keine ungeplanten Aufgaben.",
+		"emptyDay": "Noch keine Aufgaben geplant.",
+		"add": "Für heute planen",
+		"remove": "Aus dem Tag entfernen",
+		"carried": "Übertragen",
+		"start": "Tag beginnen",
+		"planned": "Geplant",
+		"completed": "Erledigt",
+		"capacity": "Ein voller Tag: Mehr als 12 Pomodoros bedeuten über fünf Stunden Konzentration.",
+		"up": "Nach oben",
+		"down": "Nach unten",
+		"decrease": "Schätzung verringern",
+		"increase": "Schätzung erhöhen",
+		"error": "Der Tagesplan konnte nicht aktualisiert werden.",
+		"planToday": "Für heute planen",
+		"today": "Heute",
+		"newProject": "Neues Projekt"
+	}
+}

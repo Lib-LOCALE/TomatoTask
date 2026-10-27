@@ -19,7 +19,10 @@ export async function getDailySummary(date: string): Promise<DailySummary> {
  * @param endDate - Date de fin au format ISO (YYYY-MM-DD)
  * @returns Liste des résumés quotidiens
  */
-export async function getWeeklySummary(startDate: string, endDate: string): Promise<DailySummary[]> {
+export async function getWeeklySummary(
+	startDate: string,
+	endDate: string
+): Promise<DailySummary[]> {
 	return await invoke<DailySummary[]>('get_weekly_summary', { startDate, endDate });
 }
 

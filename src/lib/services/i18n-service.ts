@@ -2,12 +2,15 @@
 import { register, init, locale, getLocaleFromNavigator } from 'svelte-i18n';
 import type { Language } from '$lib/types';
 
-// Enregistre tous les fichiers de traduction
-register('en', () => import('$lib/i18n/en.json'));
-register('fr', () => import('$lib/i18n/fr.json'));
-register('es', () => import('$lib/i18n/es.json'));
-register('it', () => import('$lib/i18n/it.json'));
-register('de', () => import('$lib/i18n/de.json'));
+// Enregistre les traductions : fichiers racine (src/lib/i18n/<langue>.json)
+// et fichiers par fonctionnalité (src/lib/i18n/<fonctionnalité>/<langue>.json), fusionnés par svelte-i18n
+const translationFiles = import.meta.glob<Record<string, unknown>>('../i18n/**/*.json', {
+	import: 'default'
+});
+for (const [path, load] of Object.entries(translationFiles)) {
+	const lang = path.split('/').pop()!.replace('.json', '');
+	register(lang, load);
+}
 
 /**
  * Langues supportées par l'application
@@ -110,7 +113,7 @@ export function getLanguageFlag(lang: Language): string {
 		fr: '🇫🇷', // Drapeau France
 		es: '🇪🇸', // Drapeau Espagne
 		it: '🇮🇹', // Drapeau Italie
-		de: '🇩🇪'  // Drapeau Allemagne
+		de: '🇩🇪' // Drapeau Allemagne
 	};
 
 	return flags[lang];
