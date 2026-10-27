@@ -2,9 +2,9 @@ name: Check
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [main, master, develop]
   pull_request:
-    branches: [ main, master, develop ]
+    branches: [main, master, develop]
 
 jobs:
   check:
@@ -16,7 +16,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install Rust
@@ -32,6 +32,9 @@ jobs:
 
       - name: Check frontend
         run: npm run check
+
+      - name: Test frontend
+        run: npm test
 
       - name: Check backend
         run: |

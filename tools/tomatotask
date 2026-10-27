@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+case "${1:-}" in
+ doctor)
+  node --version; npm --version; cargo --version
+  if pkg-config --exists webkit2gtk-4.1; then echo 'webkit2gtk-4.1 : présent'; else echo 'webkit2gtk-4.1 : absent'; fi
+  if compgen -G "$HOME/.cache/ms-playwright/chromium-*" >/dev/null; then echo 'Chromium Playwright : présent'; else echo 'Chromium Playwright : absent'; fi ;;
+ verify) npm run check; npm run lint; npm test; npm run build ;;
+ test) npm test ;;
+ e2e) npx playwright test ;;
+ screenshots) npm run screenshots ;;
+ *) echo 'Usage : tools/tomatotask {doctor|verify|test|e2e|screenshots}' >&2; exit 2 ;;
+esac
