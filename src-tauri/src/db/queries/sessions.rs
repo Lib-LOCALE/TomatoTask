@@ -1,6 +1,6 @@
 // Requêtes SQL pour la gestion des sessions Pomodoro
 use crate::db::models::{CreateSessionInput, PomodoroSession, SessionType};
-use rusqlite::{Connection, Result, params};
+use rusqlite::{params, Connection, Result};
 
 /// Crée une nouvelle session Pomodoro
 ///
@@ -103,8 +103,8 @@ pub fn get_sessions_by_date_range(
 
     let sessions = stmt.query_map(params![start_date, end_date], |row| {
         let session_type_str: String = row.get(5)?;
-        let session_type = SessionType::from_str(&session_type_str)
-            .map_err(|_| rusqlite::Error::InvalidQuery)?;
+        let session_type =
+            SessionType::from_str(&session_type_str).map_err(|_| rusqlite::Error::InvalidQuery)?;
 
         Ok(PomodoroSession {
             id: row.get(0)?,
