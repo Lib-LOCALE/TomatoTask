@@ -46,3 +46,5 @@ public/sounds/temp/
 /screenshots/
 /test-results/
 /playwright-report/
+tools/env.local
+.impeccable/mocks/

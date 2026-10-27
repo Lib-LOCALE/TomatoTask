@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+# Réglages propres à la machine (non versionnés), voir tools/env.local.example
+if [ -f tools/env.local ]; then . tools/env.local; fi
 case "${1:-}" in
  doctor)
   node --version; npm --version; cargo --version
   if pkg-config --exists webkit2gtk-4.1; then echo 'webkit2gtk-4.1 : présent'; else echo 'webkit2gtk-4.1 : absent'; fi
   if compgen -G "$HOME/.cache/ms-playwright/chromium-*" >/dev/null; then echo 'Chromium Playwright : présent'; else echo 'Chromium Playwright : absent'; fi ;;
- verify) npm run check; npm run lint; npm test; npm run build ;;
+ verify) npm run check; npm run lint; npm test; npm run build; (cd src-tauri && cargo fmt --check && cargo clippy --all-targets -- -D warnings && cargo test) ;;
+ rust) cd src-tauri && cargo test ;;
  test) npm test ;;
  e2e) npx playwright test ;;
  screenshots) npm run screenshots ;;
- *) echo 'Usage : tools/tomatotask {doctor|verify|test|e2e|screenshots}' >&2; exit 2 ;;
+ *) echo 'Usage : tools/tomatotask {doctor|verify|test|rust|e2e|screenshots}' >&2; exit 2 ;;
 esac
