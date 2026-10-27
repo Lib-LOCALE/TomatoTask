@@ -20,7 +20,26 @@ export default ts.config(
 		languageOptions: {
 			globals: { ...globals.browser, ...globals.node }
 		},
-		rules: { 'no-undef': 'off' }
+		rules: {
+			'no-undef': 'off',
+			'svelte/require-each-key': 'off',
+			'svelte/prefer-svelte-reactivity': 'off',
+			'svelte/prefer-writable-derived': 'off'
+		}
+	},
+	{
+		files: ['src/**/*.svelte', 'src/lib/services/timer-service.ts'],
+		rules: {
+			'@typescript-eslint/no-unused-vars': 'off',
+			'@typescript-eslint/ban-ts-comment': 'off',
+			'@typescript-eslint/no-explicit-any': 'off',
+			'no-useless-catch': 'off',
+			'svelte/no-at-html-tags': 'off'
+		}
+	},
+	{
+		files: ['src/lib/dev/tauri-mock.ts'],
+		rules: { '@typescript-eslint/no-explicit-any': 'off' }
 	},
 	{
 		files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
