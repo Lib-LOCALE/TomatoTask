@@ -12,10 +12,12 @@ export function frescoTiles(
 	painting: boolean
 ): FrescoTile[] {
 	const done = Math.max(0, Math.floor(completed));
-	const count = Math.max(0, Math.floor(planned), done + (painting ? 1 : 0));
+	const occupied = Math.max(0, Math.floor(planned), done + (painting ? 1 : 0));
+	const count = Math.max(6, Math.ceil(occupied / 6) * 6);
 	return Array.from({ length: count }, (_, index) => {
 		if (index < done) return { state: 'glazed', serial: Math.max(0, total - done) + index + 1 };
-		return { state: painting && index === done ? 'painting' : 'planned' };
+		if (painting && index === done) return { state: 'painting' };
+		return { state: index < occupied ? 'planned' : 'empty' };
 	});
 }
 

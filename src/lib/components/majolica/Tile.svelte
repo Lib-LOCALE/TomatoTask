@@ -6,8 +6,16 @@
 		progress?: number;
 		serial?: number;
 		animate?: boolean;
+		framed?: boolean;
 	}
-	let { state = 'empty', position = 0, progress = 0, serial, animate = false }: Props = $props();
+	let {
+		state = 'empty',
+		position = 0,
+		progress = 0,
+		serial,
+		animate = false,
+		framed = true
+	}: Props = $props();
 	const pattern = $derived(patterns[patternIndex(position)]);
 	const reveal = $derived(
 		state === 'glazed' ? 100 : state === 'painting' ? Math.max(0, Math.min(100, progress * 100)) : 0
@@ -18,10 +26,11 @@
 	class="tile"
 	class:glazed={state === 'glazed'}
 	class:painting={state === 'painting'}
+	class:planned={state === 'planned'}
 	class:animate
 	aria-hidden="true"
 >
-	{#if state !== 'empty' && state !== 'planned'}<svg
+	{#if framed && state !== 'empty' && state !== 'planned'}<svg
 			class="ornament"
 			viewBox="0 0 100 100"
 			preserveAspectRatio="none"
@@ -44,7 +53,7 @@
 				stroke-width="2"
 			/>
 		</svg>{/if}
-	{#if state === 'painting'}
+	{#if state === 'painting' || state === 'planned'}
 		<svg class="sketch" viewBox="0 0 100 100" preserveAspectRatio="none">
 			<path d={pattern.stem} />
 			<path d={pattern.leaf} />
@@ -90,7 +99,8 @@
 		box-shadow: inset 0 1px 3px rgba(36, 28, 22, 0.18);
 	}
 	.tile.glazed,
-	.tile.painting {
+	.tile.painting,
+	.tile.planned {
 		background: color-mix(in srgb, var(--card) 65%, var(--glaze));
 		box-shadow:
 			inset 0 1px 2px rgba(255, 255, 255, 0.48),

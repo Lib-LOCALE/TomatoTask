@@ -36,8 +36,9 @@ test('la fresque et les tâches restent accessibles dans le tiroir', async ({ pa
 		page.getByRole('button', { name: 'Edit : Préparer la réunion' }).locator('..')
 	).toHaveCSS('opacity', '1');
 	await page.getByRole('button', { name: 'Close', exact: true }).first().click();
-	await page.getByText('Weekly fresco').click();
-	await expect(page.locator('.week-row')).toHaveCount(7);
+	await expect(page.getByRole('heading', { name: 'Weekly fresco' })).toBeVisible();
+	await expect(page.locator('.week-labels span')).toHaveCount(7);
+	await expect(page.locator('.week-wall')).toBeVisible();
 });
 
 test('planifier deux tâches, ajuster et commencer la journée', async ({ page }) => {
