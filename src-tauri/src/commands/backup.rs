@@ -45,7 +45,7 @@ fn export_backup(conn: &rusqlite::Connection) -> Result<BackupData, String> {
 
     // 2. Fetch Tasks
     let mut stmt = conn
-        .prepare("SELECT id, title, description, project_id, estimated_pomodoros, completed_pomodoros, is_completed, created_at, updated_at, completed_at, position FROM tasks")
+        .prepare("SELECT id, title, description, project_id, estimated_pomodoros, completed_pomodoros, is_completed, created_at, updated_at, completed_at, position, planned_for, plan_position FROM tasks")
         .map_err(|e| e.to_string())?;
 
     let tasks = stmt
@@ -62,6 +62,8 @@ fn export_backup(conn: &rusqlite::Connection) -> Result<BackupData, String> {
                 updated_at: row.get(8)?,
                 completed_at: row.get(9)?,
                 position: row.get(10)?,
+                planned_for: row.get(11)?,
+                plan_position: row.get(12)?,
             })
         })
         .map_err(|e| e.to_string())?
@@ -200,8 +202,8 @@ fn import_backup(conn: &mut rusqlite::Connection, data: BackupData) -> Result<()
     // 3. Insert Tasks
     for task in data.tasks {
         tx.execute(
-            "INSERT INTO tasks (id, title, description, project_id, estimated_pomodoros, completed_pomodoros, is_completed, created_at, updated_at, completed_at, position) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)",
-            (task.id, task.title, task.description, task.project_id, task.estimated_pomodoros, task.completed_pomodoros, task.is_completed, task.created_at, task.updated_at, task.completed_at, task.position),
+            "INSERT INTO tasks (id, title, description, project_id, estimated_pomodoros, completed_pomodoros, is_completed, created_at, updated_at, completed_at, position, planned_for, plan_position) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)",
+            (task.id, task.title, task.description, task.project_id, task.estimated_pomodoros, task.completed_pomodoros, task.is_completed, task.created_at, task.updated_at, task.completed_at, task.position, task.planned_for, task.plan_position),
         ).map_err(|e| e.to_string())?;
     }
 
@@ -248,12 +250,14 @@ mod tests {
         let mut conn = rusqlite::Connection::open_in_memory().unwrap();
         conn.execute_batch("PRAGMA foreign_keys = ON").unwrap();
         run_migrations(&conn).unwrap();
-        conn.execute_batch("INSERT INTO projects (name) VALUES ('projet'); INSERT INTO tasks (title, project_id) VALUES ('tache', 1); INSERT INTO pomodoro_sessions (task_id, started_at, completed_at, duration_minutes, session_type) VALUES (1, '2026-01-01 12:00:00', '2026-01-01 12:25:00', 25, 'work')").unwrap();
+        conn.execute_batch("INSERT INTO projects (name) VALUES ('projet'); INSERT INTO tasks (title, project_id, planned_for, plan_position) VALUES ('tache', 1, '2026-01-01', 3); INSERT INTO pomodoro_sessions (task_id, started_at, completed_at, duration_minutes, session_type) VALUES (1, '2026-01-01 12:00:00', '2026-01-01 12:25:00', 25, 'work')").unwrap();
         let backup = export_backup(&conn).unwrap();
         import_backup(&mut conn, backup).unwrap();
         let restored = export_backup(&conn).unwrap();
         assert_eq!(restored.projects.len(), 1);
         assert_eq!(restored.tasks[0].project_id, Some(1));
+        assert_eq!(restored.tasks[0].planned_for.as_deref(), Some("2026-01-01"));
+        assert_eq!(restored.tasks[0].plan_position, Some(3));
         assert_eq!(restored.sessions[0].task_id, Some(1));
     }
 

@@ -36,6 +36,10 @@ pub struct Task {
     pub completed_at: Option<String>,
     #[serde(default)]
     pub position: i32,
+    #[serde(default)]
+    pub planned_for: Option<String>,
+    #[serde(default)]
+    pub plan_position: Option<i64>,
 }
 
 /// Input pour créer une nouvelle tâche

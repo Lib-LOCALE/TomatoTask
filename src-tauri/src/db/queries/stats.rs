@@ -225,3 +225,193 @@ mod tests {
         );
     }
 }
+
+#[derive(Debug, serde::Serialize)]
+pub struct InsightDay {
+    date: String,
+    pomodoros: u32,
+    focus_minutes: i64,
+}
+#[derive(Debug, serde::Serialize)]
+pub struct InsightTask {
+    task_id: i64,
+    title: String,
+    pomodoros: u32,
+}
+#[derive(Debug, serde::Serialize)]
+pub struct InsightProject {
+    project_id: i64,
+    name: String,
+    color: Option<String>,
+    pomodoros: u32,
+}
+#[derive(Debug, serde::Serialize)]
+pub struct Insights {
+    total_focus_minutes: i64,
+    total_pomodoros: u32,
+    daily: Vec<InsightDay>,
+    by_hour: [u32; 24],
+    best_hour: Option<u8>,
+    by_weekday: [u32; 7],
+    completion_rate: f64,
+    previous_period_pomodoros: u32,
+    top_tasks: Vec<InsightTask>,
+    top_projects: Vec<InsightProject>,
+}
+
+pub fn get_insights(conn: &Connection, days: u32, today: chrono::NaiveDate) -> Result<Insights> {
+    use chrono::{Datelike, Duration};
+    let mut result = Insights {
+        total_focus_minutes: 0,
+        total_pomodoros: 0,
+        daily: Vec::new(),
+        by_hour: [0; 24],
+        best_hour: None,
+        by_weekday: [0; 7],
+        completion_rate: 0.0,
+        previous_period_pomodoros: 0,
+        top_tasks: Vec::new(),
+        top_projects: Vec::new(),
+    };
+    if days == 0 {
+        return Ok(result);
+    }
+    if days > 36_600 {
+        return Err(rusqlite::Error::InvalidQuery);
+    }
+    let start = today
+        .checked_sub_signed(Duration::days(i64::from(days) - 1))
+        .ok_or(rusqlite::Error::InvalidQuery)?;
+    let previous = start
+        .checked_sub_signed(Duration::days(i64::from(days)))
+        .ok_or(rusqlite::Error::InvalidQuery)?;
+    for offset in 0..days {
+        let date = start
+            .checked_add_signed(Duration::days(i64::from(offset)))
+            .ok_or(rusqlite::Error::InvalidQuery)?;
+        result.daily.push(InsightDay {
+            date: date.to_string(),
+            pomodoros: 0,
+            focus_minutes: 0,
+        });
+    }
+    let mut stmt = conn.prepare("SELECT date(s.started_at, 'localtime'), CAST(strftime('%H', s.started_at, 'localtime') AS INTEGER), s.completed_at IS NOT NULL AND s.interrupted = 0, s.duration_minutes, t.id, t.title, p.id, p.name, p.color FROM pomodoro_sessions s LEFT JOIN tasks t ON t.id = s.task_id LEFT JOIN projects p ON p.id = t.project_id WHERE s.session_type = 'work' AND date(s.started_at, 'localtime') BETWEEN ?1 AND ?2")?;
+    let mut rows = stmt.query((previous.to_string(), today.to_string()))?;
+    let mut started = 0_u32;
+    let mut tasks = std::collections::HashMap::<i64, InsightTask>::new();
+    let mut projects = std::collections::HashMap::<i64, InsightProject>::new();
+    while let Some(row) = rows.next()? {
+        let date: String = row.get(0)?;
+        let date = chrono::NaiveDate::parse_from_str(&date, "%Y-%m-%d")
+            .map_err(|_| rusqlite::Error::InvalidQuery)?;
+        let completed: bool = row.get(2)?;
+        if date < start {
+            if completed {
+                result.previous_period_pomodoros += 1;
+            }
+            continue;
+        }
+        started += 1;
+        if !completed {
+            continue;
+        }
+        let hour: u8 = row.get(1)?;
+        let minutes: i64 = row.get(3)?;
+        let index = (date - start).num_days() as usize;
+        result.daily[index].pomodoros += 1;
+        result.daily[index].focus_minutes += minutes;
+        result.total_pomodoros += 1;
+        result.total_focus_minutes += minutes;
+        result.by_hour[usize::from(hour)] += 1;
+        result.by_weekday[date.weekday().num_days_from_monday() as usize] += 1;
+        if let Some(id) = row.get::<_, Option<i64>>(4)? {
+            let title: String = row.get(5)?;
+            tasks
+                .entry(id)
+                .or_insert(InsightTask {
+                    task_id: id,
+                    title,
+                    pomodoros: 0,
+                })
+                .pomodoros += 1;
+        }
+        if let Some(id) = row.get::<_, Option<i64>>(6)? {
+            let name: String = row.get(7)?;
+            let color: Option<String> = row.get(8)?;
+            projects
+                .entry(id)
+                .or_insert(InsightProject {
+                    project_id: id,
+                    name,
+                    color,
+                    pomodoros: 0,
+                })
+                .pomodoros += 1;
+        }
+    }
+    if started > 0 {
+        result.completion_rate = f64::from(result.total_pomodoros) / f64::from(started);
+    }
+    result.best_hour = result
+        .by_hour
+        .iter()
+        .enumerate()
+        .filter(|(_, n)| **n > 0)
+        .max_by_key(|(hour, n)| (**n, std::cmp::Reverse(*hour)))
+        .map(|(hour, _)| hour as u8);
+    result.top_tasks = tasks.into_values().collect();
+    result
+        .top_tasks
+        .sort_by_key(|t| (std::cmp::Reverse(t.pomodoros), t.task_id));
+    result.top_tasks.truncate(5);
+    result.top_projects = projects.into_values().collect();
+    result
+        .top_projects
+        .sort_by_key(|p| (std::cmp::Reverse(p.pomodoros), p.project_id));
+    Ok(result)
+}
+
+#[cfg(test)]
+mod insight_tests {
+    use super::*;
+    #[test]
+    fn heures_locales_autour_du_changement_d_heure() {
+        let conn = Connection::open_in_memory().unwrap();
+        crate::db::migrations::run_migrations(&conn).unwrap();
+        conn.execute_batch("INSERT INTO pomodoro_sessions(started_at, completed_at, duration_minutes, session_type) VALUES ('2026-03-29 00:30:00', '2026-03-29 00:55:00', 25, 'work'), ('2026-03-29 01:30:00', '2026-03-29 01:55:00', 25, 'work')").unwrap();
+        let today = chrono::NaiveDate::from_ymd_opt(2026, 3, 29).unwrap();
+        let result = get_insights(&conn, 1, today).unwrap();
+        if std::env::var("TZ").as_deref() == Ok("Europe/Paris") {
+            assert_eq!(result.by_hour[1], 1);
+            assert_eq!(result.by_hour[2], 0);
+            assert_eq!(result.by_hour[3], 1);
+        }
+    }
+
+    #[test]
+    fn periodes_vides_et_sessions_de_travail() {
+        let conn = Connection::open_in_memory().unwrap();
+        crate::db::migrations::run_migrations(&conn).unwrap();
+        conn.execute_batch("INSERT INTO projects(name, color) VALUES ('projet', '#fff'); INSERT INTO tasks(title, project_id) VALUES ('tâche', 1); INSERT INTO pomodoro_sessions(task_id, started_at, completed_at, duration_minutes, session_type, interrupted) VALUES (1, '2026-01-02 12:00:00', '2026-01-02 12:25:00', 25, 'work', 0), (1, '2026-01-02 13:00:00', NULL, 25, 'work', 0), (NULL, '2025-12-31 12:00:00', '2025-12-31 12:25:00', 25, 'work', 0), (1, '2026-01-02 14:00:00', '2026-01-02 14:05:00', 5, 'short_break', 0)").unwrap();
+        let today = chrono::NaiveDate::from_ymd_opt(2026, 1, 2).unwrap();
+        let empty = get_insights(&conn, 0, today).unwrap();
+        assert!(empty.daily.is_empty());
+        assert_eq!(empty.best_hour, None);
+        let stats = get_insights(&conn, 2, today).unwrap();
+        assert_eq!(stats.daily.len(), 2);
+        assert_eq!(stats.daily[0].pomodoros, 0);
+        assert_eq!(
+            (
+                stats.total_pomodoros,
+                stats.total_focus_minutes,
+                stats.previous_period_pomodoros
+            ),
+            (1, 25, 1)
+        );
+        assert_eq!(stats.completion_rate, 0.5);
+        assert_eq!(stats.top_tasks[0].task_id, 1);
+        assert_eq!(stats.top_projects[0].project_id, 1);
+        assert_eq!(stats.by_hour.iter().sum::<u32>(), 1);
+        assert_eq!(stats.by_weekday.iter().sum::<u32>(), 1);
+    }
+}
