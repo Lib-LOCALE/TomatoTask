@@ -43,7 +43,7 @@ test('captures des vues principales', async ({ page }) => {
 	await page.screenshot({ path: 'screenshots/mobile-tiroir.png' });
 	await page.setViewportSize({ width: 1280, height: 800 });
 	await page.goto('/?onboarding=1');
-	await page.getByText('Choose your language / Choisissez votre langue').waitFor();
+	await page.getByRole('heading', { name: 'A session becomes a tile' }).waitFor();
 	await page.screenshot({ path: 'screenshots/onboarding.png' });
 });
 
@@ -84,4 +84,17 @@ test('captures du bilan', async ({ page }) => {
 	await page.screenshot({ path: 'screenshots/bilan-900.png', fullPage: true });
 	await page.getByRole('heading', { name: 'Your fresco' }).scrollIntoViewIfNeeded();
 	await page.screenshot({ path: 'screenshots/bilan-fresque-900.png' });
+});
+
+test('captures chrome Majolique', async ({ page }) => {
+	mkdirSync('screenshots', { recursive: true });
+	await page.goto('/');
+	await page.getByRole('button', { name: 'Settings' }).click();
+	await page.screenshot({ path: 'screenshots/chrome-parametres-clair.png' });
+	await page.getByRole('button', { name: 'Close', exact: true }).last().click();
+	await page.getByRole('button', { name: 'Switch to dark mode' }).click();
+	await page.getByRole('button', { name: 'Settings' }).click();
+	await page.screenshot({ path: 'screenshots/chrome-parametres-sombre.png' });
+	await page.setViewportSize({ width: 900, height: 800 });
+	await page.screenshot({ path: 'screenshots/chrome-parametres-900.png' });
 });

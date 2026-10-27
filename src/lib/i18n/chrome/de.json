@@ -1,0 +1,38 @@
+{
+	"chrome": {
+		"mini": {
+			"expand": "Zum vollständigen Fenster zurückkehren"
+		},
+		"settings": {
+			"presets": "Voreinstellungen",
+			"saveError": "Einstellungen konnten nicht gespeichert werden. Bitte erneut versuchen.",
+			"exportError": "Sicherung konnte nicht exportiert werden. Ziel prüfen und erneut versuchen.",
+			"importError": "Sicherung konnte nicht importiert werden. Datei prüfen und erneut versuchen.",
+			"volume": "Lautstärke",
+			"system": "System",
+			"endSound": "Endton",
+			"soundDefault": "Tomate",
+			"soundNone": "Keiner",
+			"preview": "Anhören",
+			"language": "Sprache",
+			"languageError": "Sprache konnte nicht geändert werden. Bitte erneut versuchen."
+		},
+		"onboarding": {
+			"skip": "Überspringen",
+			"tileTitle": "Eine Sitzung wird zur Kachel",
+			"tileText": "Nach einer Fokus-Sitzung wird ihre Kachel glasiert und bemalt.",
+			"dayTitle": "Planen Sie Ihren Tag",
+			"dayText": "Planen Sie Aufgaben in Kacheln. Kommen Sie täglich zurück, um Ihre Serie aufzubauen.",
+			"taskTitle": "Beginnen Sie mit einer Aufgabe",
+			"taskText": "Worauf möchten Sie sich zuerst konzentrieren?",
+			"taskLabel": "Aufgabenname",
+			"create": "Aufgabe erstellen",
+			"error": "Aufgabe konnte nicht erstellt werden. Bitte erneut versuchen."
+		},
+		"notification": {
+			"tile": "Kachel Nr. {serial} glasiert — {minutes} Min. Pause",
+			"work": "Sitzung beendet — {minutes} Min. Pause",
+			"break": "Pause beendet — bereit für den Fokus?"
+		}
+	}
+}

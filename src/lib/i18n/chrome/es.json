@@ -1,0 +1,38 @@
+{
+	"chrome": {
+		"mini": {
+			"expand": "Volver a la ventana completa"
+		},
+		"settings": {
+			"presets": "Preajustes",
+			"saveError": "No se pudieron guardar los ajustes. Inténtalo de nuevo.",
+			"exportError": "No se pudo exportar la copia. Comprueba el destino e inténtalo de nuevo.",
+			"importError": "No se pudo importar la copia. Comprueba el archivo e inténtalo de nuevo.",
+			"volume": "Volumen",
+			"system": "Sistema",
+			"endSound": "Sonido final",
+			"soundDefault": "Tomate",
+			"soundNone": "Ninguno",
+			"preview": "Escuchar",
+			"language": "Idioma",
+			"languageError": "No se pudo cambiar el idioma. Inténtalo de nuevo."
+		},
+		"onboarding": {
+			"skip": "Omitir",
+			"tileTitle": "Una sesión se convierte en una baldosa",
+			"tileText": "Al terminar una sesión de concentración, su baldosa se esmalta y se pinta.",
+			"dayTitle": "Planifica tu día",
+			"dayText": "Planifica las tareas en baldosas. Vuelve cada día para mantener tu racha.",
+			"taskTitle": "Empieza con una tarea",
+			"taskText": "¿En qué quieres concentrarte primero?",
+			"taskLabel": "Nombre de la tarea",
+			"create": "Crear tarea",
+			"error": "No se pudo crear la tarea. Inténtalo de nuevo."
+		},
+		"notification": {
+			"tile": "Baldosa n.º {serial} esmaltada — descanso de {minutes} min",
+			"work": "Sesión terminada — descanso de {minutes} min",
+			"break": "Descanso terminado. ¿Listo para concentrarte?"
+		}
+	}
+}

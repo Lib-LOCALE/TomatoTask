@@ -32,6 +32,28 @@ pub fn run_migrations(conn: &Connection) -> Result<()> {
         conn.execute_batch("BEGIN; ALTER TABLE tasks ADD COLUMN planned_for TEXT; ALTER TABLE tasks ADD COLUMN plan_position INTEGER; INSERT INTO schema_version (version) VALUES (3); COMMIT;")?;
     }
 
+    if current_version < 4 {
+        conn.execute_batch("BEGIN;
+            CREATE TABLE settings_v4 (
+                id INTEGER PRIMARY KEY CHECK (id = 1),
+                work_duration INTEGER DEFAULT 25 CHECK (work_duration BETWEEN 1 AND 180),
+                short_break_duration INTEGER DEFAULT 5 CHECK (short_break_duration BETWEEN 1 AND 60),
+                long_break_duration INTEGER DEFAULT 15 CHECK (long_break_duration BETWEEN 1 AND 60),
+                pomodoros_until_long_break INTEGER DEFAULT 4 CHECK (pomodoros_until_long_break BETWEEN 1 AND 10),
+                language TEXT DEFAULT 'en' CHECK (language IN ('en', 'fr', 'es', 'it', 'de')),
+                theme TEXT DEFAULT 'light' CHECK (theme IN ('light', 'dark', 'system')),
+                notification_sound TEXT DEFAULT 'default',
+                auto_start_breaks INTEGER DEFAULT 0,
+                auto_start_pomodoros INTEGER DEFAULT 0,
+                updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+            );
+            INSERT INTO settings_v4 SELECT * FROM settings;
+            DROP TABLE settings;
+            ALTER TABLE settings_v4 RENAME TO settings;
+            INSERT INTO schema_version (version) VALUES (4);
+            COMMIT;")?;
+    }
+
     Ok(())
 }
 
@@ -224,6 +246,30 @@ mod tests {
             )
             .unwrap();
         assert_eq!(values, (None, None));
+    }
+
+    #[test]
+    fn migration_theme_systeme_preserve_les_parametres() {
+        let conn = Connection::open_in_memory().unwrap();
+        conn.execute_batch("CREATE TABLE schema_version (version INTEGER PRIMARY KEY, applied_at TEXT DEFAULT (datetime('now'))); INSERT INTO schema_version(version) VALUES (1), (2), (3);").unwrap();
+        apply_migration_001(&conn).unwrap();
+        apply_migration_002(&conn).unwrap();
+        conn.execute(
+            "UPDATE settings SET work_duration = 42, theme = 'dark' WHERE id = 1",
+            [],
+        )
+        .unwrap();
+        run_migrations(&conn).unwrap();
+        conn.execute("UPDATE settings SET theme = 'system' WHERE id = 1", [])
+            .unwrap();
+        let values: (i32, String) = conn
+            .query_row(
+                "SELECT work_duration, theme FROM settings WHERE id = 1",
+                [],
+                |row| Ok((row.get(0)?, row.get(1)?)),
+            )
+            .unwrap();
+        assert_eq!(values, (42, "system".to_string()));
     }
 
     #[test]
