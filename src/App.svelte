@@ -28,7 +28,7 @@
 
 	import { WindowService } from '$lib/services/window-service';
 	import MiniTimer from '$lib/components/timer/MiniTimer.svelte';
-	import { Minimize2, Maximize2, Settings, Menu, X } from '@lucide/svelte';
+	import { PictureInPicture2, Focus, Settings, Menu, X } from '@lucide/svelte';
 	import { fade, fly } from 'svelte/transition';
 
 	// État des modals
@@ -314,11 +314,11 @@
 					<button
 						onclick={() => (focusOpen = true)}
 						title={$_('views.focus')}
-						aria-label={$_('views.focus')}><Maximize2 size={20} /></button
+						aria-label={$_('views.focus')}><Focus size={20} /></button
 					><button
 						onclick={toggleMiniMode}
 						title={$_('majolica.mini')}
-						aria-label={$_('majolica.mini')}><Minimize2 size={20} /></button
+						aria-label={$_('majolica.mini')}><PictureInPicture2 size={20} /></button
 					><button
 						onclick={() => (showSettings = true)}
 						title={$_('settings.title')}
@@ -554,7 +554,7 @@
 		flex-direction: column;
 		background: var(--sidebar);
 		color: var(--sidebar-foreground);
-		overflow: hidden;
+		overflow: auto;
 		transition:
 			opacity 0.3s,
 			filter 0.3s;
@@ -584,14 +584,12 @@
 		font-size: 0.9rem;
 	}
 	.projects {
-		flex: 0 1 28%;
-		min-height: 120px;
-		overflow: auto;
+		flex: 0 0 auto;
 		border-bottom: 1px solid #8298c0;
 	}
 	.tasks {
 		flex: 1 1 0;
-		min-height: 0;
+		min-height: 180px;
 		overflow: hidden;
 	}
 	.rail :global(.bg-card),
@@ -673,6 +671,9 @@
 		gap: 4px;
 		margin-left: auto;
 	}
+	.header-actions > button:nth-child(3) {
+		margin-left: 12px;
+	}
 	.header-actions button,
 	.open-drawer,
 	.close-drawer {
@@ -681,6 +682,9 @@
 	}
 	.header-actions :global(button) {
 		color: var(--foreground);
+	}
+	.header-actions :global(button svg) {
+		stroke: var(--foreground);
 	}
 	.header-actions button:hover {
 		background: var(--muted);

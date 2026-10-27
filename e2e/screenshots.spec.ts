@@ -114,3 +114,27 @@ test('captures des fresques et du focus — correctifs A', async ({ page }) => {
 	await page.waitForTimeout(1100);
 	await page.screenshot({ path: 'screenshots/focus-progression.png' });
 });
+
+test('captures des correctifs B', async ({ page }) => {
+	mkdirSync('screenshots', { recursive: true });
+	await page.goto('/');
+	await page.screenshot({ path: 'screenshots/correctifs-b-minuteur.png' });
+	await page.getByRole('button', { name: 'Plan', exact: true }).click();
+	await page
+		.locator('.plan-view')
+		.getByRole('button', { name: 'Plan today : Préparer la réunion' })
+		.click();
+	await page
+		.locator('.plan-view')
+		.getByRole('button', { name: 'Plan today : Répondre aux messages' })
+		.click();
+	await page.screenshot({ path: 'screenshots/correctifs-b-clair.png' });
+	await page.getByRole('button', { name: 'Switch to dark mode' }).click();
+	await page.waitForTimeout(300);
+	await page.screenshot({ path: 'screenshots/correctifs-b-sombre.png' });
+	await page.setViewportSize({ width: 900, height: 800 });
+	await page.screenshot({ path: 'screenshots/correctifs-b-900.png' });
+	await page.keyboard.press('Control+n');
+	await page.getByPlaceholder('Write documentation').waitFor();
+	await page.screenshot({ path: 'screenshots/correctifs-b-formulaire.png' });
+});
