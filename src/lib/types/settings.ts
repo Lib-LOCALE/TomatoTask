@@ -17,7 +17,7 @@ export interface Settings {
 	workDuration: number;
 	shortBreakDuration: number;
 	longBreakDuration: number;
-	pomosorosUntilLongBreak: number;
+	pomodorosUntilLongBreak: number;
 	language: Language;
 	theme: Theme;
 	notificationSound: string;

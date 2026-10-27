@@ -9,7 +9,7 @@ const DEFAULT_SETTINGS: Settings = {
 	workDuration: 25,
 	shortBreakDuration: 5,
 	longBreakDuration: 15,
-	pomosorosUntilLongBreak: 4,
+	pomodorosUntilLongBreak: 4,
 	language: 'en',
 	theme: 'light',
 	notificationSound: 'default',
@@ -38,7 +38,7 @@ class SettingsStore {
 
 		try {
 			const settings = await invoke<Settings>('get_settings');
-			this.settings = settings;
+			this.settings = { ...DEFAULT_SETTINGS, ...settings };
 		} catch (err) {
 			console.error('Failed to load settings:', err);
 			this.error = 'Failed to load settings';
@@ -54,7 +54,7 @@ class SettingsStore {
 	async save(newSettings: Settings): Promise<void> {
 		try {
 			const updated = await invoke<Settings>('update_settings', { settings: newSettings });
-			this.settings = updated;
+			this.settings = { ...DEFAULT_SETTINGS, ...updated };
 			this.error = null;
 		} catch (err) {
 			console.error('Failed to save settings:', err);
@@ -66,10 +66,7 @@ class SettingsStore {
 	/**
 	 * Met à jour un paramètre spécifique
 	 */
-	async updateSetting<K extends keyof Settings>(
-		key: K,
-		value: Settings[K]
-	): Promise<void> {
+	async updateSetting<K extends keyof Settings>(key: K, value: Settings[K]): Promise<void> {
 		const newSettings = { ...this.settings, [key]: value };
 		await this.save(newSettings);
 	}

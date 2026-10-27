@@ -51,6 +51,16 @@ function showLoadingScreen() {
  * 5. Initialise les raccourcis clavier globaux
  */
 async function bootstrap() {
+	if (!('__TAURI_INTERNALS__' in window)) {
+		const { installTauriMock } = await import('$lib/dev/tauri-mock');
+		installTauriMock();
+		if (new URLSearchParams(location.search).get('onboarding') === '1') {
+			localStorage.removeItem('tomatotask_onboarding_completed');
+		} else {
+			localStorage.setItem('tomatotask_onboarding_completed', 'true');
+		}
+	}
+
 	// Affiche l'écran de chargement immédiatement
 	showLoadingScreen();
 

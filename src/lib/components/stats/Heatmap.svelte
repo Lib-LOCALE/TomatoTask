@@ -12,9 +12,8 @@
 	// Génère les données pour la heatmap
 	// On veut afficher une grille de 52 semaines x 7 jours
 
-	const today = new Date();
-	const startDate = new Date(year, 0, 1); // 1er janvier
-	const endDate = new Date(year, 11, 31); // 31 décembre
+	const startDate = $derived(new Date(year, 0, 1)); // 1er janvier
+	const endDate = $derived(new Date(year, 11, 31)); // 31 décembre
 
 	// Map des données pour accès rapide par date
 	const dataMap = $derived(new Map(data.map((d) => [d.date, d.minutes])));
