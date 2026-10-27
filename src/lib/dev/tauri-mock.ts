@@ -58,9 +58,9 @@ export function installTauriMock(
 			completedAt: i > 5 ? now() : null,
 			position: i
 		}));
-		sessions = Array.from({ length: 30 }, (_, i) => {
+		sessions = Array.from({ length: 33 }, (_, i) => {
 			const date = new Date();
-			date.setDate(date.getDate() - i);
+			date.setDate(date.getDate() - Math.max(0, i - 3));
 			return {
 				id: i + 1,
 				taskId: (i % 8) + 1,
@@ -218,6 +218,34 @@ export function installTauriMock(
 								s.startedAt.slice(0, 10) >= a.startDate && s.startedAt.slice(0, 10) <= a.endDate
 						)
 					);
+				case 'get_focus_streak': {
+					const work = sessions.filter(
+						(s) => s.completedAt && !s.interrupted && s.sessionType === 'work'
+					);
+					const localDay = (value: Date) =>
+						`${value.getFullYear()}-${String(value.getMonth() + 1).padStart(2, '0')}-${String(value.getDate()).padStart(2, '0')}`;
+					const days = [...new Set(work.map((s) => localDay(new Date(s.completedAt))))].sort();
+					let best = 0,
+						run = 0,
+						previous = '';
+					for (const day of days) {
+						const date = new Date(`${day}T12:00:00`);
+						date.setDate(date.getDate() - 1);
+						run = previous === localDay(date) ? run + 1 : 1;
+						best = Math.max(best, run);
+						previous = day;
+					}
+					const today = new Date();
+					const todayKey = localDay(today);
+					today.setDate(today.getDate() - 1);
+					return {
+						current_days: previous === todayKey || previous === localDay(today) ? run : 0,
+						best_days: best,
+						total_pomodoros: work.length,
+						today_pomodoros: work.filter((s) => localDay(new Date(s.completedAt)) === todayKey)
+							.length
+					};
+				}
 				case 'get_daily_summary':
 					return summary(a.date);
 				case 'get_weekly_summary':

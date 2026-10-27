@@ -14,7 +14,7 @@
 	import SettingsPanel from '$lib/components/settings/SettingsPanel.svelte';
 	import OnboardingFlow from '$lib/components/onboarding/OnboardingFlow.svelte';
 	import ToastContainer from '$lib/components/effects/ToastContainer.svelte';
-	import BackgroundParticles from '$lib/components/effects/BackgroundParticles.svelte';
+	import DayFresco from '$lib/components/majolica/DayFresco.svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { projectStore } from '$lib/stores/projects.svelte';
@@ -26,7 +26,7 @@
 
 	import { WindowService } from '$lib/services/window-service';
 	import MiniTimer from '$lib/components/timer/MiniTimer.svelte';
-	import { Minimize2 } from '@lucide/svelte';
+	import { Minimize2, Settings, Menu, X } from '@lucide/svelte';
 	import { fade, fly } from 'svelte/transition';
 
 	// État des modals
@@ -38,6 +38,8 @@
 	let showShortcutsHelp = $state(false);
 	let showSettings = $state(false);
 	let isMiniMode = $state(false);
+	let drawerOpen = $state(false);
+	let streak = $state(0);
 
 	// État des projets
 	let isProjectModalOpen = $state(false);
@@ -241,23 +243,37 @@
 {#if isMiniMode}
 	<MiniTimer onExpand={toggleMiniMode} />
 {:else}
-	<main class="bg-background text-foreground flex h-screen overflow-hidden">
-		<!-- Sidebar des projets et tâches (1/3 de l'écran) -->
-		<aside class="flex w-1/3 flex-col border-r">
-			<!-- Liste des projets (1/3 du sidebar) -->
-			{#if settingsStore.settings.enableProjects}
-				<div class="h-1/3 border-b">
+	<main class="app-shell" class:focused={timerStore.isRunning && timerStore.sessionType === 'work'}>
+		<aside class="rail" class:open={drawerOpen}>
+			<div class="brand">
+				<span class="logo"
+					><svg aria-hidden="true" viewBox="0 0 32 32"
+						><path
+							d="M16 9 C6 5 3 13 4 20 C5 29 27 29 28 20 C29 13 26 5 16 9Z"
+							fill="#f06b55"
+						/><path
+							d="M16 9 L16 3 M16 9 L9 5 M16 9 L23 5 M16 9 L12 13 M16 9 L20 13"
+							fill="none"
+							stroke="#a6d8ae"
+							stroke-width="2"
+						/></svg
+					>TomatoTask</span
+				><button
+					class="close-drawer"
+					onclick={() => (drawerOpen = false)}
+					aria-label={$_('common.close')}><X size={20} /></button
+				>
+			</div>
+			<p class="streak">{$_('majolica.streak', { values: { count: streak } })}</p>
+			{#if settingsStore.settings.enableProjects}<div class="projects">
 					<ProjectList
 						onProjectSelect={handleProjectSelect}
 						onNewProject={handleNewProject}
 						onEditProject={handleEditProject}
 						onDeleteProject={handleDeleteProject}
 					/>
-				</div>
-			{/if}
-
-			<!-- Liste des tâches (2/3 du sidebar) -->
-			<div class="flex-1">
+				</div>{/if}
+			<div class="tasks">
 				<TaskList
 					onNewTask={handleNewTask}
 					onEditTask={handleEditTask}
@@ -266,69 +282,36 @@
 				/>
 			</div>
 		</aside>
-
-		<!-- Zone principale du timer et statistiques (2/3 de l'écran) -->
-		<section class="relative flex flex-1 flex-col overflow-hidden">
-			<!-- Boutons fixes en haut à droite -->
-			<div class="z-10 flex w-full shrink-0 justify-end p-4">
-				<div class="flex gap-2">
-					<!-- Bouton Mini Mode -->
+		{#if drawerOpen}<button
+				class="drawer-backdrop"
+				aria-label={$_('common.close')}
+				onclick={() => (drawerOpen = false)}
+			></button>{/if}
+		<section class="workspace">
+			<header class="app-header">
+				<button
+					class="open-drawer"
+					onclick={() => (drawerOpen = true)}
+					aria-label={$_('majolica.menu')}><Menu size={20} /></button
+				>
+				<div class="header-actions">
 					<button
-						type="button"
 						onclick={toggleMiniMode}
-						class="hover:bg-muted rounded-md p-2 transition-colors"
-						title="Mini Mode"
-						aria-label="Mini Mode"
-					>
-						<Minimize2 class="h-5 w-5" />
-					</button>
-
-					<!-- Bouton paramètres -->
-					<button
-						type="button"
+						title={$_('majolica.mini')}
+						aria-label={$_('majolica.mini')}><Minimize2 size={20} /></button
+					><button
 						onclick={() => (showSettings = true)}
-						class="hover:bg-muted rounded-md p-2 transition-colors"
-						title="Settings"
-						aria-label={$_('settings.title')}
-					>
-						<svg
-							class="h-5 w-5"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							viewBox="0 0 24 24"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-							></path>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-							></path>
-						</svg>
-					</button>
-
-					<!-- Toggle thème -->
-					<ThemeToggle variant="button" />
+						title={$_('settings.title')}
+						aria-label={$_('settings.title')}><Settings size={20} /></button
+					><ThemeToggle variant="button" />
 				</div>
-			</div>
-
-			<!-- Zone principale du timer et statistiques (scrollable) -->
-			<div class="w-full flex-1 overflow-y-auto">
-				<div class="flex flex-col gap-8">
-					<!-- Timer Pomodoro -->
-					<div>
-						<PomodoroTimer autoAdvance={true} />
-					</div>
-
-					<!-- Statistiques et résumés -->
-					<div class="px-8 pb-8">
-						<SummaryView />
-					</div>
+			</header>
+			<div class="workspace-scroll">
+				<div class="main-grid">
+					<PomodoroTimer autoAdvance={true} />
+					<div class="fresco-panel"><DayFresco onStreak={(days) => (streak = days)} /></div>
 				</div>
+				<div id="statistics" class="statistics"><SummaryView /></div>
 			</div>
 		</section>
 	</main>
@@ -510,7 +493,199 @@
 <!-- Toast notifications -->
 <ToastContainer />
 
-<!-- Background particles for ambient effect -->
-{#if !isMiniMode}
-	<BackgroundParticles count={15} />
-{/if}
+<style>
+	.app-shell {
+		display: flex;
+		height: 100vh;
+		overflow: hidden;
+		background: var(--background);
+		color: var(--foreground);
+	}
+	.rail {
+		width: 280px;
+		flex: none;
+		min-height: 0;
+		display: flex;
+		flex-direction: column;
+		background: var(--sidebar);
+		color: var(--sidebar-foreground);
+		overflow: hidden;
+		transition:
+			opacity 0.3s,
+			filter 0.3s;
+	}
+	.brand {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 24px 20px 4px;
+	}
+	.logo {
+		display: flex;
+		align-items: center;
+		gap: 9px;
+		font-family: var(--font-heading);
+		font-size: 1.3rem;
+		font-weight: 700;
+	}
+	.logo svg {
+		width: 30px;
+		height: 30px;
+	}
+	.streak {
+		padding: 4px 20px 18px;
+		color: #ffe5a4;
+		font-weight: 700;
+		font-size: 0.9rem;
+	}
+	.projects {
+		flex: 0 1 28%;
+		min-height: 120px;
+		overflow: auto;
+		border-bottom: 1px solid #8298c0;
+	}
+	.tasks {
+		flex: 1 1 0;
+		min-height: 0;
+		overflow: hidden;
+	}
+	.rail :global(.bg-card),
+	.rail :global(.bg-background) {
+		background: #294a84;
+		color: white;
+	}
+	.rail :global(.text-muted-foreground) {
+		color: #e0e8f8;
+	}
+	.rail :global(.bg-muted) {
+		background: #385b9a;
+		color: white;
+	}
+	.rail :global(h2) {
+		font-size: 1.1rem;
+	}
+	.rail :global(button) {
+		font-size: 0.8rem;
+	}
+	.rail :global(.px-6) {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+	.rail :global(.p-6) {
+		padding: 12px;
+	}
+	.rail :global(.group > .flex > div:last-child) {
+		position: absolute;
+		right: 8px;
+		top: 8px;
+		background: #294a84;
+	}
+	.rail :global(.border-muted-foreground) {
+		border-color: #dce9ff;
+	}
+	.rail :global(.group:focus-within > .flex > div:last-child) {
+		opacity: 1;
+	}
+	.rail :global(.group h3) {
+		font-family: var(--font-body);
+		font-size: 0.95rem;
+		line-height: 1.3;
+	}
+	.rail :global(.gap-4) {
+		gap: 8px;
+	}
+	.workspace {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+	}
+	.app-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 12px 20px 0;
+	}
+	.header-actions {
+		display: flex;
+		gap: 4px;
+		margin-left: auto;
+	}
+	.header-actions button,
+	.open-drawer,
+	.close-drawer {
+		padding: 8px;
+		border-radius: 4px;
+	}
+	.header-actions :global(button) {
+		color: var(--foreground);
+	}
+	.header-actions button:hover {
+		background: var(--muted);
+	}
+	.workspace-scroll {
+		overflow: auto;
+		flex: 1;
+		min-height: 0;
+	}
+	.main-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 320px;
+		min-height: calc(100vh - 52px);
+	}
+	.statistics {
+		padding: 32px;
+		border-top: 1px solid var(--grout);
+	}
+	.focused .rail,
+	.focused .fresco-panel,
+	.focused .app-header,
+	.focused .statistics {
+		opacity: 0.85;
+		filter: saturate(0.65);
+	}
+	.focused .rail:hover,
+	.focused .fresco-panel:hover,
+	.focused .app-header:hover,
+	.focused .statistics:hover,
+	.focused .rail:focus-within,
+	.focused .app-header:focus-within {
+		opacity: 1;
+		filter: none;
+	}
+	.open-drawer,
+	.close-drawer,
+	.drawer-backdrop {
+		display: none;
+	}
+	@media (max-width: 1099px) {
+		.main-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+	@media (max-width: 759px) {
+		.rail {
+			position: fixed;
+			z-index: 30;
+			inset: 0 auto 0 0;
+			transform: translateX(-100%);
+			visibility: hidden;
+			transition: transform 0.25s;
+		}
+		.rail.open {
+			visibility: visible;
+			transform: translateX(0);
+		}
+		.open-drawer,
+		.close-drawer {
+			display: block;
+		}
+		.drawer-backdrop {
+			display: block;
+			position: fixed;
+			z-index: 20;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.45);
+		}
+	}
+</style>

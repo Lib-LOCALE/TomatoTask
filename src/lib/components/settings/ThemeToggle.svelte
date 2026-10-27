@@ -48,6 +48,7 @@
 		type="button"
 		onclick={toggleTheme}
 		class="hover:bg-muted rounded-md p-2 transition-colors"
+		style="color: var(--foreground)"
 		aria-label={currentTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
 		title={currentTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
 	>
