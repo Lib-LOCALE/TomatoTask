@@ -243,5 +243,12 @@
 		"mini": "Mini-mode",
 		"markComplete": "Terminer {title}",
 		"markActive": "Réactiver {title}"
+	},
+	"views": {
+		"label": "Vues",
+		"today": "Aujourd'hui",
+		"plan": "Planifier",
+		"insights": "Bilan",
+		"focus": "Mode focus"
 	}
 }
