@@ -196,7 +196,7 @@
 							<Input
 								id="pomodoros-until-long-break"
 								type="number"
-								bind:value={localSettings.pomosorosUntilLongBreak}
+								bind:value={localSettings.pomodorosUntilLongBreak}
 								min="2"
 								max="10"
 								class="w-24"
@@ -268,9 +268,9 @@
 								variant="outline"
 								size="sm"
 								onclick={async () => {
-								const { exportBackup } = await import('$lib/services/backup-service');
-								await exportBackup();
-							}}
+									const { exportBackup } = await import('$lib/services/backup-service');
+									await exportBackup();
+								}}
 							>
 								{$_('settings.dataManagement.export')}
 							</Button>
@@ -287,11 +287,11 @@
 								variant="outline"
 								size="sm"
 								onclick={async () => {
-								if (confirm($_('settings.dataManagement.overwriteConfirm'))) {
-									const { importBackup } = await import('$lib/services/backup-service');
-									await importBackup();
-								}
-							}}
+									if (confirm($_('settings.dataManagement.overwriteConfirm'))) {
+										const { importBackup } = await import('$lib/services/backup-service');
+										await importBackup();
+									}
+								}}
 							>
 								{$_('settings.dataManagement.import')}
 							</Button>

@@ -221,6 +221,8 @@
 		}
 
 		// Enregistre les raccourcis clavier
+		registerShortcut('n', handleNewTaskShortcut, true);
+		registerShortcut('s', handleStartStopShortcut, true);
 		registerShortcut('l', handleLanguageShortcut, true); // Ctrl+L
 		registerShortcut('/', handleShortcutsHelpShortcut, true); // Ctrl+/
 	});
