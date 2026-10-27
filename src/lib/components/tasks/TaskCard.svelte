@@ -78,6 +78,9 @@
 		<button
 			type="button"
 			onclick={handleToggle}
+			aria-label={$_(task.isCompleted ? 'majolica.markActive' : 'majolica.markComplete', {
+				values: { title: task.title }
+			})}
 			disabled={isToggling}
 			class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors"
 			class:border-primary={task.isCompleted}
