@@ -15,6 +15,8 @@ export interface Task {
 	updatedAt: string;
 	completedAt?: string;
 	position: number;
+	plannedFor: string | null;
+	planPosition: number | null;
 }
 
 /**

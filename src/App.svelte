@@ -159,14 +159,6 @@
 	}
 
 	/**
-	 * Ouvre la modal de création de projet
-	 */
-	function handleNewProject() {
-		projectToEdit = null;
-		isProjectModalOpen = true;
-	}
-
-	/**
 	 * Ouvre la modal d'édition de projet
 	 */
 	function handleEditProject(project: Project) {
@@ -277,7 +269,6 @@
 			{#if settingsStore.settings.enableProjects}<div class="projects">
 					<ProjectList
 						onProjectSelect={handleProjectSelect}
-						onNewProject={handleNewProject}
 						onEditProject={handleEditProject}
 						onDeleteProject={handleDeleteProject}
 					/>
@@ -303,6 +294,12 @@
 					onclick={() => (drawerOpen = true)}
 					aria-label={$_('majolica.menu')}><Menu size={20} /></button
 				>
+				<nav class="view-tabs" aria-label={$_('plan.title')}>
+					{#each views as item}<button
+							aria-current={view === item ? 'page' : undefined}
+							onclick={() => (view = item)}>{$_(`views.${item}`)}</button
+						>{/each}
+				</nav>
 				<div class="header-actions">
 					<button
 						onclick={() => (focusOpen = true)}
@@ -326,7 +323,12 @@
 						<div class="fresco-panel"><DayFresco onStreak={(days) => (streak = days)} /></div>
 					</div>
 				{:else if view === 'plan'}
-					<PlanView />
+					<PlanView
+						onStart={(task) => {
+							selectTask(task);
+							view = 'today';
+						}}
+					/>
 				{:else}
 					<InsightsView />
 				{/if}

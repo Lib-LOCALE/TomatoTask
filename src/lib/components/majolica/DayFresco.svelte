@@ -2,7 +2,7 @@
 	import { invoke } from '@tauri-apps/api/core';
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
-	import { taskStore } from '$lib/stores/tasks.svelte';
+	import { planStore } from '$lib/stores/plan.svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import type { PomodoroSession } from '$lib/types';
 	import Tile from './Tile.svelte';
@@ -20,12 +20,11 @@
 	let animatedIndex = $state(-1);
 	let error = $state(false);
 	let week = $state<{ label: string; count: number }[]>([]);
-	const planned = $derived(
-		taskStore.tasks.filter((t) => !t.isCompleted).reduce((sum, t) => sum + t.estimatedPomodoros, 0)
-	);
+	const planned = $derived(planStore.plan?.planned_pomodoros ?? 0);
 	const painting = $derived(timerStore.sessionType === 'work' && timerStore.remainingSeconds > 0);
 	const tiles = $derived(frescoTiles(planned, completed, total, painting));
 	async function refresh() {
+		await planStore.load();
 		const date = new Date();
 		const day = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 		const yesterday = new Date(date);
