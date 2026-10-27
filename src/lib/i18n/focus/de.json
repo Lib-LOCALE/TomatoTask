@@ -1,0 +1,17 @@
+{
+	"focus": {
+		"title": "Fokusmodus",
+		"exit": "Beenden",
+		"exitAria": "Fokusmodus beenden",
+		"start": "Starten",
+		"pause": "Pause",
+		"resume": "Fortsetzen",
+		"skip": "Überspringen",
+		"tileGlazed": "Kachel glasiert",
+		"noTask": "Keine aktive Aufgabe",
+		"workSession": "Fokussitzung",
+		"shortBreak": "Kurze Pause",
+		"longBreak": "Lange Pause",
+		"shortcutsHint": "Leertaste: Pause/Fortsetzen · Esc: Beenden"
+	}
+}

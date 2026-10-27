@@ -1,6 +1,6 @@
 // Requêtes SQL pour la gestion des tâches
 use crate::db::models::{CreateTaskInput, Task, UpdateTaskInput};
-use rusqlite::{Connection, Result, params};
+use rusqlite::{params, Connection, Result};
 
 /// Récupère toutes les tâches
 ///
@@ -12,7 +12,7 @@ use rusqlite::{Connection, Result, params};
 pub fn get_all_tasks(conn: &Connection) -> Result<Vec<Task>> {
     let mut stmt = conn.prepare(
         "SELECT id, title, description, project_id, estimated_pomodoros,
-                completed_pomodoros, is_completed, created_at, updated_at, completed_at, position
+                completed_pomodoros, is_completed, created_at, updated_at, completed_at, position, planned_for, plan_position
          FROM tasks
          ORDER BY position ASC, created_at DESC",
     )?;
@@ -30,6 +30,8 @@ pub fn get_all_tasks(conn: &Connection) -> Result<Vec<Task>> {
             updated_at: row.get(8)?,
             completed_at: row.get(9)?,
             position: row.get(10)?,
+            planned_for: row.get(11)?,
+            plan_position: row.get(12)?,
         })
     })?;
 
@@ -44,7 +46,7 @@ pub fn get_all_tasks(conn: &Connection) -> Result<Vec<Task>> {
 pub fn get_task_by_id(conn: &Connection, task_id: i64) -> Result<Task> {
     conn.query_row(
         "SELECT id, title, description, project_id, estimated_pomodoros,
-                completed_pomodoros, is_completed, created_at, updated_at, completed_at, position
+                completed_pomodoros, is_completed, created_at, updated_at, completed_at, position, planned_for, plan_position
          FROM tasks
          WHERE id = ?1",
         [task_id],
@@ -61,6 +63,8 @@ pub fn get_task_by_id(conn: &Connection, task_id: i64) -> Result<Task> {
                 updated_at: row.get(8)?,
                 completed_at: row.get(9)?,
                 position: row.get(10)?,
+            planned_for: row.get(11)?,
+            plan_position: row.get(12)?,
             })
         },
     )
@@ -93,11 +97,7 @@ pub fn create_task(conn: &Connection, input: &CreateTaskInput) -> Result<Task> {
 /// * `conn` - Connexion à la base de données
 /// * `task_id` - ID de la tâche à mettre à jour
 /// * `input` - Nouvelles données de la tâche
-pub fn update_task(
-    conn: &Connection,
-    task_id: i64,
-    input: &UpdateTaskInput,
-) -> Result<Task> {
+pub fn update_task(conn: &Connection, task_id: i64, input: &UpdateTaskInput) -> Result<Task> {
     conn.execute(
         "UPDATE tasks
          SET title = ?1, description = ?2, project_id = ?3,
@@ -172,7 +172,7 @@ pub fn increment_completed_pomodoros(conn: &Connection, task_id: i64) -> Result<
 pub fn get_tasks_by_project(conn: &Connection, project_id: i64) -> Result<Vec<Task>> {
     let mut stmt = conn.prepare(
         "SELECT id, title, description, project_id, estimated_pomodoros,
-                completed_pomodoros, is_completed, created_at, updated_at, completed_at, position
+                completed_pomodoros, is_completed, created_at, updated_at, completed_at, position, planned_for, plan_position
          FROM tasks
          WHERE project_id = ?1
          ORDER BY position ASC, created_at DESC",
@@ -191,6 +191,8 @@ pub fn get_tasks_by_project(conn: &Connection, project_id: i64) -> Result<Vec<Ta
             updated_at: row.get(8)?,
             completed_at: row.get(9)?,
             position: row.get(10)?,
+            planned_for: row.get(11)?,
+            plan_position: row.get(12)?,
         })
     })?;
 
@@ -207,6 +209,35 @@ mod tests {
         let conn = Connection::open_in_memory().unwrap();
         run_migrations(&conn).unwrap();
         conn
+    }
+
+    #[test]
+    fn met_a_jour_et_supprime_une_tache() {
+        let conn = setup_test_db();
+        let task = create_task(
+            &conn,
+            &CreateTaskInput {
+                title: "avant".into(),
+                description: None,
+                project_id: None,
+                estimated_pomodoros: 1,
+            },
+        )
+        .unwrap();
+        let updated = update_task(
+            &conn,
+            task.id,
+            &UpdateTaskInput {
+                title: "après".into(),
+                description: Some("détail".into()),
+                project_id: None,
+                estimated_pomodoros: 2,
+            },
+        )
+        .unwrap();
+        assert_eq!(updated.title, "après");
+        delete_task(&conn, task.id).unwrap();
+        assert!(get_task_by_id(&conn, task.id).is_err());
     }
 
     #[test]

@@ -223,5 +223,30 @@
 		"deleteProjectConfirm": "Sei sicuro di voler eliminare \"{name}\"? Tutte le attività rimarranno ma non saranno più associate a questo progetto.",
 		"languageTitle": "Lingua / Language",
 		"done": "Fatto"
+	},
+	"majolica": {
+		"fresco": "Affresco di oggi",
+		"frescoDescription": "Ogni sessione di lavoro completata dipinge una piastrella.",
+		"count": "{done} di {total}",
+		"empty": "Nessuna piastrella prevista. Aggiungi una stima a un’attività.",
+		"week": "Affresco settimanale",
+		"loadError": "Impossibile caricare l’affresco.",
+		"streak": "{count} giorni consecutivi",
+		"menu": "Menu",
+		"sounds": "Suoni ambientali",
+		"skip": "Salta",
+		"reset": "Reimposta",
+		"pomodoro": "Pomodoro {current} di {total}",
+		"noTask": "Nessuna attività selezionata",
+		"mini": "Modalità mini",
+		"markComplete": "Completa {title}",
+		"markActive": "Riattiva {title}"
+	},
+	"views": {
+		"label": "Viste",
+		"today": "Oggi",
+		"plan": "Pianifica",
+		"insights": "Bilancio",
+		"focus": "Modalità focus"
 	}
 }

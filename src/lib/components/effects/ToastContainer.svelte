@@ -3,7 +3,7 @@
 	import Toast from './Toast.svelte';
 </script>
 
-<div class="toast-container fixed right-4 top-4 z-50 flex flex-col gap-2">
+<div class="toast-container fixed top-4 right-4 z-50 flex flex-col gap-2">
 	{#each toastStore.toasts as toast (toast.id)}
 		<Toast
 			message={toast.message}

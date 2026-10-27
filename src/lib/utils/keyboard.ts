@@ -80,9 +80,7 @@ export function handleKeyboardEvent(event: KeyboardEvent): void {
 	// Ignore les événements dans les inputs/textarea sauf Escape
 	const target = event.target as HTMLElement;
 	const isInputField =
-		target.tagName === 'INPUT' ||
-		target.tagName === 'TEXTAREA' ||
-		target.isContentEditable;
+		target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
 
 	if (isInputField && event.key !== 'Escape') {
 		return;

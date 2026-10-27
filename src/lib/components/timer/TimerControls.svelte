@@ -62,49 +62,25 @@
 <div class="flex items-center justify-center gap-3">
 	{#if !timerStore.isRunning && timerStore.remainingSeconds === 0}
 		<!-- État initial: bouton Start -->
-		<Button
-			size="lg"
-			onclick={handleStart}
-			disabled={isStarting}
-			class="px-8 py-6 text-lg"
-		>
+		<Button size="lg" onclick={handleStart} disabled={isStarting} class="px-8 py-6 text-lg">
 			{isStarting ? $_('common.loading') : $_('timer.start')}
 		</Button>
 	{:else if timerStore.isRunning}
 		<!-- Timer en cours: boutons Pause et Stop -->
-		<Button
-			size="lg"
-			variant="secondary"
-			onclick={handlePause}
-			class="px-6"
-		>
+		<Button size="lg" variant="secondary" onclick={handlePause} class="px-6">
 			{$_('timer.pause')}
 		</Button>
 
-		<Button
-			size="lg"
-			variant="destructive"
-			onclick={handleStop}
-			class="px-6"
-		>
+		<Button size="lg" variant="destructive" onclick={handleStop} class="px-6">
 			{$_('timer.stop')}
 		</Button>
 	{:else}
 		<!-- Timer en pause: boutons Resume et Stop -->
-		<Button
-			size="lg"
-			onclick={handleResume}
-			class="px-6"
-		>
+		<Button size="lg" onclick={handleResume} class="px-6">
 			{$_('timer.resume')}
 		</Button>
 
-		<Button
-			size="lg"
-			variant="destructive"
-			onclick={handleStop}
-			class="px-6"
-		>
+		<Button size="lg" variant="destructive" onclick={handleStop} class="px-6">
 			{$_('timer.stop')}
 		</Button>
 	{/if}
@@ -112,7 +88,8 @@
 
 <!-- Affichage de la durée configurée quand le timer n'est pas actif -->
 {#if timerStore.remainingSeconds === 0}
-	<div class="text-center text-sm text-muted-foreground mt-4">
-		{$_('settings.workDuration')}: {settingsStore.settings.workDuration} {$_('common.minutes')}
+	<div class="text-muted-foreground mt-4 text-center text-sm">
+		{$_('settings.workDuration')}: {settingsStore.settings.workDuration}
+		{$_('common.minutes')}
 	</div>
 {/if}

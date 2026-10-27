@@ -1,0 +1,38 @@
+{
+	"chrome": {
+		"mini": {
+			"expand": "Return to full window"
+		},
+		"settings": {
+			"presets": "Presets",
+			"saveError": "Could not save settings. Try again.",
+			"exportError": "Could not export the backup. Check the destination and try again.",
+			"importError": "Could not import the backup. Check the file and try again.",
+			"volume": "Volume",
+			"system": "System",
+			"endSound": "End sound",
+			"soundDefault": "Tomato",
+			"soundNone": "None",
+			"preview": "Preview",
+			"language": "Language",
+			"languageError": "Could not change language. Please try again."
+		},
+		"onboarding": {
+			"skip": "Skip",
+			"tileTitle": "A session becomes a tile",
+			"tileText": "Finish a focus session and its tile is glazed and painted.",
+			"dayTitle": "Plan your day",
+			"dayText": "Plan tasks in tiles. Return on consecutive days to build your streak.",
+			"taskTitle": "Start with a task",
+			"taskText": "What would you like to focus on first?",
+			"taskLabel": "Task name",
+			"create": "Create task",
+			"error": "Could not create the task. Please try again."
+		},
+		"notification": {
+			"tile": "Tile no. {serial} glazed — {minutes} min break",
+			"work": "Session complete — {minutes} min break",
+			"break": "Break finished — ready to focus?"
+		}
+	}
+}

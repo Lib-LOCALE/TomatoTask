@@ -5,6 +5,7 @@
 	import { createTask, updateTask } from '$lib/services/task-service';
 	import { _ } from 'svelte-i18n';
 	import TaskForm from './TaskForm.svelte';
+	import { planStore, localDate } from '$lib/stores/plan.svelte';
 
 	// Props
 	interface Props {
@@ -17,6 +18,7 @@
 	let { isOpen = $bindable(), task, onClose, onTaskCreated }: Props = $props();
 
 	let dialogElement: HTMLDialogElement;
+	let pendingCreated = $state<Task | null>(null);
 
 	/**
 	 * Gère la soumission du formulaire
@@ -26,12 +28,14 @@
 		description: string;
 		estimatedPomodoros: number;
 		projectId?: number;
+		planToday: boolean;
 	}) {
 		try {
-			if (task) {
-				// Mode édition
-				await updateTask(
-					task.id,
+			let saved: Task;
+			if (task || pendingCreated) {
+				// Mode édition ou reprise après erreur de planification
+				saved = await updateTask(
+					(task ?? pendingCreated)!.id,
 					data.title,
 					data.description,
 					data.projectId,
@@ -46,11 +50,18 @@
 					data.estimatedPomodoros
 				);
 
+				saved = newTask;
+				pendingCreated = newTask;
 				// Notifie le parent de la création de la tâche
 				onTaskCreated?.(newTask);
 			}
 
+			if (data.planToday && saved.plannedFor !== localDate())
+				await planStore.change('plan_task', saved.id);
+			else if (!data.planToday && saved.plannedFor === localDate())
+				await planStore.change('unplan_task', saved.id);
 			// Ferme le modal
+			pendingCreated = null;
 			isOpen = false;
 			onClose();
 		} catch (error) {
@@ -63,6 +74,7 @@
 	 * Gère la fermeture du modal
 	 */
 	function handleClose() {
+		pendingCreated = null;
 		isOpen = false;
 		onClose();
 	}
@@ -112,7 +124,7 @@
 			<button
 				type="button"
 				onclick={handleClose}
-				class="hover:bg-muted rounded-md p-1"
+				class="text-foreground hover:bg-muted rounded-md p-1"
 				aria-label={$_('common.close')}
 			>
 				<svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -123,7 +135,7 @@
 
 		<!-- Contenu -->
 		<div class="px-6 py-4">
-			<TaskForm {task} onSubmit={handleSubmit} onCancel={handleClose} />
+			{#if isOpen}<TaskForm {task} onSubmit={handleSubmit} onCancel={handleClose} />{/if}
 		</div>
 	</div>
 </dialog>
@@ -136,6 +148,5 @@
 
 	dialog::backdrop {
 		background-color: rgba(0, 0, 0, 0.7);
-		backdrop-filter: blur(4px);
 	}
 </style>

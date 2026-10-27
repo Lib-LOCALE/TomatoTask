@@ -4,6 +4,8 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { _ } from 'svelte-i18n';
 
+	let { flat = false }: { flat?: boolean } = $props();
+
 	// Stores
 	const isPlaying = soundService.isPlaying;
 	const currentSound = soundService.currentSound;
@@ -25,7 +27,14 @@
 	}
 </script>
 
-<div class="bg-card flex flex-col gap-4 rounded-lg border p-4 shadow-sm">
+<div
+	class="flex flex-col gap-4"
+	class:bg-card={!flat}
+	class:rounded-lg={!flat}
+	class:border={!flat}
+	class:p-4={!flat}
+	class:shadow-sm={!flat}
+>
 	<div class="flex items-center justify-between">
 		<h3 class="flex items-center gap-2 font-semibold">
 			<Music class="h-4 w-4" />
@@ -38,6 +47,7 @@
 				variant="ghost"
 				size="icon"
 				class="h-8 w-8"
+				aria-label={$_('chrome.settings.volume')}
 				onclick={() => (showVolumeControl = !showVolumeControl)}
 			>
 				{#if $volume === 0}
@@ -53,6 +63,7 @@
 				>
 					<input
 						type="range"
+						aria-label={$_('chrome.settings.volume')}
 						min="0"
 						max="1"
 						step="0.01"

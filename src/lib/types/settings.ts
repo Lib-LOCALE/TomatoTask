@@ -3,7 +3,7 @@
 /**
  * Thème de l'application
  */
-export type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark' | 'system';
 
 /**
  * Langues supportées
@@ -17,7 +17,7 @@ export interface Settings {
 	workDuration: number;
 	shortBreakDuration: number;
 	longBreakDuration: number;
-	pomosorosUntilLongBreak: number;
+	pomodorosUntilLongBreak: number;
 	language: Language;
 	theme: Theme;
 	notificationSound: string;

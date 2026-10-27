@@ -22,12 +22,9 @@ let onSessionComplete: SessionCompleteCallback | null = null;
  * @param sessionType - Type de session (work, short_break, long_break)
  * @param taskId - ID de la tâche associée (optionnel, uniquement pour work)
  */
-export async function startSession(
-	sessionType: SessionType,
-	taskId?: number
-): Promise<void> {
+export async function startSession(sessionType: SessionType, taskId?: number): Promise<void> {
 	// Arrête toute session en cours
-	stopTimer();
+	await stopTimer();
 
 	// Détermine la durée selon le type et les paramètres
 	const settings = settingsStore.settings;
@@ -220,8 +217,7 @@ export async function startNextSession(taskId?: number): Promise<void> {
 	if (state.sessionType === 'work') {
 		// Après work: break court ou long?
 		const shouldBeLongBreak =
-			state.pomodoroCount % settings.pomosorosUntilLongBreak === 0 &&
-			state.pomodoroCount > 0;
+			state.pomodoroCount % settings.pomodorosUntilLongBreak === 0 && state.pomodoroCount > 0;
 
 		nextType = shouldBeLongBreak ? 'long_break' : 'short_break';
 	} else {
@@ -252,8 +248,7 @@ export function getNextSessionType(): SessionType {
 
 	if (state.sessionType === 'work') {
 		const shouldBeLongBreak =
-			state.pomodoroCount % settings.pomosorosUntilLongBreak === 0 &&
-			state.pomodoroCount > 0;
+			state.pomodoroCount % settings.pomodorosUntilLongBreak === 0 && state.pomodoroCount > 0;
 
 		return shouldBeLongBreak ? 'long_break' : 'short_break';
 	}

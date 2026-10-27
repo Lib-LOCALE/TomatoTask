@@ -51,6 +51,16 @@ function showLoadingScreen() {
  * 5. Initialise les raccourcis clavier globaux
  */
 async function bootstrap() {
+	if (!('__TAURI_INTERNALS__' in window)) {
+		const { installTauriMock } = await import('$lib/dev/tauri-mock');
+		installTauriMock();
+		if (new URLSearchParams(location.search).get('onboarding') === '1') {
+			localStorage.removeItem('tomatotask_onboarding_completed');
+		} else {
+			localStorage.setItem('tomatotask_onboarding_completed', 'true');
+		}
+	}
+
 	// Affiche l'écran de chargement immédiatement
 	showLoadingScreen();
 
@@ -62,7 +72,10 @@ async function bootstrap() {
 		await initializeI18n(settings.language);
 
 		// Applique le thème sauvegardé
-		if (settings.theme === 'dark') {
+		if (
+			settings.theme === 'dark' ||
+			(settings.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+		) {
 			document.documentElement.classList.add('dark');
 		}
 	} catch (error) {

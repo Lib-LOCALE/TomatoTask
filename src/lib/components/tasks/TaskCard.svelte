@@ -1,160 +1,134 @@
 <script lang="ts">
-	// Composant carte de tâche avec checkbox et actions
 	import type { Task } from '$lib/types';
 	import { toggleTaskCompletion } from '$lib/services/task-service';
+	import { planStore, localDate } from '$lib/stores/plan.svelte';
 	import { _ } from 'svelte-i18n';
-	import { calculateProgress } from '$lib/utils/time-formatter';
-	import { toastStore } from '$lib/stores/toast.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import Confetti from '$lib/components/effects/Confetti.svelte';
-
-	// Props
+	import { Pencil, CalendarPlus, Trash2 } from '@lucide/svelte';
+	import Tile from '$lib/components/majolica/Tile.svelte';
 	interface Props {
 		task: Task;
 		onEdit?: (task: Task) => void;
 		onDelete?: (task: Task) => void;
 		onSelect?: (task: Task) => void;
 	}
-
 	let { task, onEdit, onDelete, onSelect }: Props = $props();
-
-	// État local
-	let isToggling = $state(false);
-	let showConfetti = $state(false);
-	let justCompleted = $state(false);
-
-	/**
-	 * Gère le toggle de la checkbox
-	 */
-	async function handleToggle() {
-		if (isToggling) return;
-
-		const wasCompleted = task.isCompleted;
-		isToggling = true;
-
+	let error = $state(false);
+	async function toggle() {
 		try {
 			await toggleTaskCompletion(task.id);
-
-			// Si la tâche vient d'être complétée
-			if (!wasCompleted && task.isCompleted) {
-				justCompleted = true;
-				showConfetti = true;
-				toastStore.celebration($_('tasks.taskCompleted'));
-
-				// Reset confetti après 3s
-				setTimeout(() => {
-					showConfetti = false;
-				}, 3000);
-
-				// Reset animation après 1s
-				setTimeout(() => {
-					justCompleted = false;
-				}, 1000);
-			}
-		} catch (error) {
-			console.error('Failed to toggle task:', error);
-			toastStore.error($_('tasks.taskError'));
-		} finally {
-			isToggling = false;
+			error = false;
+		} catch {
+			error = true;
 		}
 	}
-
-	// Calcule la progression des Pomodoros
-	const progress = $derived(calculateProgress(task.completedPomodoros, task.estimatedPomodoros));
+	async function plan() {
+		try {
+			await planStore.change('plan_task', task.id);
+			error = false;
+		} catch {
+			error = true;
+		}
+	}
 </script>
 
-{#if showConfetti}
-	<Confetti duration={3000} particleCount={50} />
-{/if}
-
-<div
-	class="group bg-card relative rounded-lg border p-4 transition-all hover:shadow-md hover-lift scale-in"
-	class:opacity-60={task.isCompleted}
-	class:pop={justCompleted}
->
-	<!-- Header: Checkbox + Titre -->
-	<div class="flex items-start gap-3">
-		<!-- Checkbox -->
-		<button
-			type="button"
-			onclick={handleToggle}
-			disabled={isToggling}
-			class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors"
-			class:border-primary={task.isCompleted}
-			class:bg-primary={task.isCompleted}
-			class:border-muted-foreground={!task.isCompleted}
+<div class="task-row group">
+	<button
+		class="check"
+		aria-label={$_(task.isCompleted ? 'majolica.markActive' : 'majolica.markComplete', {
+			values: { title: task.title }
+		})}
+		onclick={toggle}>{task.isCompleted ? '✓' : ''}</button
+	>
+	<div class="body">
+		<button class="title" class:done={task.isCompleted} onclick={() => onSelect?.(task)}
+			>{task.title}</button
 		>
-			{#if task.isCompleted}
-				<svg
-					class="text-primary-foreground h-3 w-3"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="3"
-					viewBox="0 0 24 24"
-				>
-					<polyline points="20 6 9 17 4 12"></polyline>
-				</svg>
-			{/if}
-		</button>
-
-		<!-- Titre et Description -->
-		<button type="button" onclick={() => onSelect?.(task)} class="flex-1 text-left">
-			<h3 class="font-medium" class:line-through={task.isCompleted}>
-				{task.title}
-			</h3>
-
-			{#if task.description}
-				<p class="text-muted-foreground mt-1 text-sm">
-					{task.description}
-				</p>
-			{/if}
-		</button>
-
-		<!-- Actions (visible au hover) -->
-		<div class="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
-			<Button variant="ghost" size="sm" class="btn-press hover-bounce" onclick={() => onEdit?.(task)}>
-				{$_('common.edit')}
-			</Button>
-
-			<Button
-				variant="ghost"
-				size="sm"
-				class="btn-press hover-bounce"
-				onclick={() => onDelete?.(task)}
-			>
-				{$_('common.delete')}
-			</Button>
+		<div class="meta">
+			<span class="mini-tiles" aria-hidden="true"
+				>{#each Array(Math.min(10, Math.max(task.estimatedPomodoros, task.completedPomodoros))) as _, i}<span
+						><Tile state={i < task.completedPomodoros ? 'glazed' : 'empty'} position={i} /></span
+					>{/each}</span
+			><span>{task.completedPomodoros}/{task.estimatedPomodoros}</span
+			>{#if task.plannedFor === localDate()}<span class="badge">{$_('plan.today')}</span>{/if}
 		</div>
+		{#if error}<span role="alert">{$_('tasks.taskError')}</span>{/if}
 	</div>
-
-	<!-- Footer: Pomodoros Progress -->
-	{#if task.estimatedPomodoros > 0}
-		<div class="mt-3 space-y-2">
-			<!-- Barre de progression -->
-			<div class="bg-muted h-2 w-full overflow-hidden rounded-full">
-				<div
-					class="bg-primary progress-liquid h-full transition-all duration-500"
-					style:width="{progress}%"
-				></div>
-			</div>
-
-			<!-- Texte de progression -->
-			<div class="text-muted-foreground flex items-center justify-between text-xs">
-				<span>
-					{$_('tasks.completedPomodoros', {
-						values: {
-							completed: task.completedPomodoros,
-							estimated: task.estimatedPomodoros
-						}
-					})}
-				</span>
-
-				{#if task.completedPomodoros >= task.estimatedPomodoros}
-					<span class="font-medium text-green-600 dark:text-green-400">
-						✓ {$_('tasks.completed')}
-					</span>
-				{/if}
-			</div>
-		</div>
-	{/if}
+	<div class="actions">
+		<button aria-label={`${$_('common.edit')} : ${task.title}`} onclick={() => onEdit?.(task)}
+			><Pencil size={15} /></button
+		>{#if !task.isCompleted && task.plannedFor !== localDate()}<button
+				aria-label={`${$_('plan.add')} : ${task.title}`}
+				onclick={plan}><CalendarPlus size={15} /></button
+			>{/if}<button
+			aria-label={`${$_('common.delete')} : ${task.title}`}
+			onclick={() => onDelete?.(task)}><Trash2 size={15} /></button
+		>
+	</div>
 </div>
+
+<style>
+	.task-row {
+		display: flex;
+		gap: 8px;
+		align-items: flex-start;
+		padding: 9px 4px;
+		border-bottom: 1px solid #ffffff40;
+	}
+	.check {
+		flex: none;
+		width: 18px;
+		height: 18px;
+		border: 1px solid currentColor;
+		border-radius: 2px;
+		margin-top: 3px;
+		line-height: 1;
+	}
+	.body {
+		flex: 1;
+		min-width: 0;
+	}
+	.title {
+		display: block;
+		text-align: left;
+		overflow-wrap: anywhere;
+		font-weight: 600;
+	}
+	.done {
+		text-decoration: line-through;
+	}
+	.meta {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 0.75rem;
+		margin-top: 4px;
+	}
+	.mini-tiles {
+		display: flex;
+		gap: 1px;
+	}
+	.mini-tiles span {
+		width: 15px;
+		border: 1px solid #ffffff80;
+	}
+	.badge {
+		border: 1px solid #ffffff80;
+		padding: 0 3px;
+	}
+	.actions {
+		display: flex;
+		opacity: 0;
+	}
+	.group:hover .actions,
+	.group:focus-within .actions {
+		opacity: 1;
+	}
+	.actions button {
+		padding: 4px;
+	}
+	@media (hover: none) {
+		.actions {
+			opacity: 1;
+		}
+	}
+</style>

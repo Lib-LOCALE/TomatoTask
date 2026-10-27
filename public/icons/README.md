@@ -5,12 +5,14 @@ This directory contains SVG animated icons for TomatoTask application.
 ## Available Icons
 
 ### 🍅 Animated Tomato (`animated-tomato.svg`)
+
 - **Animation**: Floating + Pulsing + Stem waving
 - **Usage**: General purpose tomato animation
 - **Colors**: Red (#F44336), Green stem (#4CAF50)
 - **Duration**: 2-3 seconds per cycle
 
 ### 🎉 Celebration Tomato (`animated-tomato-celebration.svg`)
+
 - **Animation**: Bouncing + Wiggling + Confetti + Twinkling stars
 - **Usage**: Work session completion, achievements
 - **Colors**: Red (#F44336), Green stem (#4CAF50), Multi-colored confetti
@@ -18,6 +20,7 @@ This directory contains SVG animated icons for TomatoTask application.
 - **Special**: Confetti particles fall and rotate, stars twinkle around the tomato
 
 ### 🎯 Focused Tomato (`animated-tomato-focused.svg`)
+
 - **Animation**: Intense pulsing + Bobbing + Focus ring + Spark effects
 - **Usage**: Active work timer, concentration mode
 - **Colors**: Red (#F44336), Green stem (#4CAF50), Orange focus ring (#FF9800), Gold sparks (#FFD700)
@@ -25,6 +28,7 @@ This directory contains SVG animated icons for TomatoTask application.
 - **Special**: Determined expression, focus ring pulses, golden sparks appear randomly
 
 ### 😴 Relaxing Tomato (`animated-tomato-relaxing.svg`)
+
 - **Animation**: Gentle breathing + Slow sway + ZZZ particles
 - **Usage**: Break periods, rest mode
 - **Colors**: Red (#F44336), Green stem (#4CAF50), Gray ZZZ (#9E9E9E)
@@ -32,24 +36,28 @@ This directory contains SVG animated icons for TomatoTask application.
 - **Special**: Closed eyes with smile, ZZZ particles rise up indicating rest
 
 ### ⏱️ Animated Timer (`animated-timer.svg`)
+
 - **Animation**: Rotating hand + Pulsing ring
 - **Usage**: Timer display, focus mode indicator
 - **Colors**: Indigo (#6366f1), Red hand (#ef4444)
 - **Duration**: 4 seconds per rotation
 
 ### ✓ Animated Check (`animated-check.svg`)
+
 - **Animation**: Drawing effect (circle + checkmark)
 - **Usage**: Task completion, success states
 - **Colors**: Green (#22c55e), Light green bg (#dcfce7)
 - **Duration**: 1 second drawing + hover pulse
 
 ### 👁️ Animated Focus (`animated-focus.svg`)
+
 - **Animation**: Dual rotating rings + Ray pulse
 - **Usage**: Focus mode, concentration indicator
 - **Colors**: Amber (#f59e0b), Yellow (#fbbf24)
 - **Duration**: 6-8 seconds per rotation
 
 ### 📊 Animated Stats (`animated-stats.svg`)
+
 - **Animation**: Growing bars + Drawing trend line + Popping dots
 - **Usage**: Statistics view, productivity insights
 - **Colors**: Indigo bars (#6366f1), Green trend (#10b981)
@@ -59,7 +67,7 @@ This directory contains SVG animated icons for TomatoTask application.
 
 ```svelte
 <script>
-  import AnimatedIcon from '$lib/components/ui/AnimatedIcon.svelte';
+	import AnimatedIcon from '$lib/components/ui/AnimatedIcon.svelte';
 </script>
 
 <!-- Tomato variants -->
@@ -99,5 +107,3 @@ This directory contains SVG animated icons for TomatoTask application.
 3. **Purposeful**: Each animation communicates state or action
 4. **Performance**: Uses CSS transforms, no JavaScript required
 5. **Accessible**: Works with screen readers, respects prefers-reduced-motion
-
-

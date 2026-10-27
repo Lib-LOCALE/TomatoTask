@@ -1,6 +1,7 @@
 // Store réactif pour les projets (Svelte 5 Runes)
 import { invoke } from '@tauri-apps/api/core';
 import type { Project } from '$lib/types';
+import { taskStore } from './tasks.svelte';
 
 /**
  * Store des projets de l'application
@@ -57,7 +58,9 @@ class ProjectStore {
 		// Désélectionne si c'était le projet sélectionné
 		if (this.selectedProjectId === id) {
 			this.selectedProjectId = null;
+			taskStore.setProjectFilter(null);
 		}
+		await taskStore.load();
 	}
 
 	/**

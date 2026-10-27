@@ -3,11 +3,11 @@
 
 mod commands;
 mod db;
-mod tray;
 mod notifications;
+mod tray;
 pub mod utils;
 
-use db::{DbConnection, migrations};
+use db::{migrations, DbConnection};
 use std::path::PathBuf;
 use tauri::Manager;
 
@@ -37,31 +37,32 @@ pub fn run() {
             app.handle().plugin(tauri_plugin_fs::init())?;
 
             // Obtient le répertoire de données de l'application
-            let app_dir = app
-                .path()
-                .app_data_dir()
-                .map_err(|e| {
-                    eprintln!("FATAL: Failed to get app data directory: {}", e);
-                    e
-                })?;
+            let app_dir = app.path().app_data_dir().map_err(|e| {
+                eprintln!("FATAL: Failed to get app data directory: {}", e);
+                e
+            })?;
 
             // Crée le répertoire s'il n'existe pas
-            std::fs::create_dir_all(&app_dir)
-                .map_err(|e| {
-                    eprintln!("FATAL: Failed to create app data directory at {:?}: {}", app_dir, e);
-                    e
-                })?;
+            std::fs::create_dir_all(&app_dir).map_err(|e| {
+                eprintln!(
+                    "FATAL: Failed to create app data directory at {:?}: {}",
+                    app_dir, e
+                );
+                e
+            })?;
 
             // Chemin complet vers la base de données
             let db_path: PathBuf = app_dir.join("tomatotask.db");
             println!("Database path: {:?}", db_path);
 
             // Initialise la connexion à la base de données
-            let db = DbConnection::new(db_path.clone())
-                .map_err(|e| {
-                    eprintln!("FATAL: Failed to open database connection at {:?}: {}", db_path, e);
-                    e
-                })?;
+            let db = DbConnection::new(db_path.clone()).map_err(|e| {
+                eprintln!(
+                    "FATAL: Failed to open database connection at {:?}: {}",
+                    db_path, e
+                );
+                e
+            })?;
 
             // Exécute les migrations de schéma
             let conn = db.get_connection();
@@ -69,11 +70,10 @@ pub fn run() {
                 eprintln!("FATAL: Failed to lock database connection: {}", e);
                 format!("Failed to lock database connection: {}", e)
             })?;
-            migrations::run_migrations(&conn)
-                .map_err(|e| {
-                    eprintln!("FATAL: Failed to run database migrations: {}", e);
-                    e
-                })?;
+            migrations::run_migrations(&conn).map_err(|e| {
+                eprintln!("FATAL: Failed to run database migrations: {}", e);
+                e
+            })?;
             drop(conn); // Libère le lock
 
             println!("Database initialized successfully");
@@ -94,6 +94,11 @@ pub fn run() {
             commands::toggle_task_completion,
             commands::get_tasks_by_project,
             commands::reorder_tasks,
+            commands::plan_task,
+            commands::unplan_task,
+            commands::reorder_plan,
+            commands::get_day_plan,
+            commands::get_insights,
             // Commandes de gestion des projets
             commands::get_projects,
             commands::create_project,
@@ -114,6 +119,7 @@ pub fn run() {
             commands::get_daily_focus_time,
             commands::get_project_distribution,
             commands::get_focus_history,
+            commands::get_focus_streak,
             // Commandes de backup
             commands::export_data,
             commands::import_data,

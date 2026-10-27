@@ -223,5 +223,30 @@
 		"deleteProjectConfirm": "¿Estás seguro de que quieres eliminar \"{name}\"? Todas las tareas permanecerán pero ya no estarán asociadas a este proyecto.",
 		"languageTitle": "Idioma / Language",
 		"done": "Hecho"
+	},
+	"majolica": {
+		"fresco": "Fresco de hoy",
+		"frescoDescription": "Cada sesión de trabajo terminada pinta un azulejo.",
+		"count": "{done} de {total}",
+		"empty": "Aún no hay azulejos previstos. Estima una tarea.",
+		"week": "Fresco semanal",
+		"loadError": "No se pudo cargar el fresco.",
+		"streak": "{count} días seguidos",
+		"menu": "Menú",
+		"sounds": "Sonidos ambientales",
+		"skip": "Saltar",
+		"reset": "Reiniciar",
+		"pomodoro": "Pomodoro {current} de {total}",
+		"noTask": "Ninguna tarea seleccionada",
+		"mini": "Modo mini",
+		"markComplete": "Completar {title}",
+		"markActive": "Reactivar {title}"
+	},
+	"views": {
+		"label": "Vistas",
+		"today": "Hoy",
+		"plan": "Planificar",
+		"insights": "Balance",
+		"focus": "Modo enfoque"
 	}
 }

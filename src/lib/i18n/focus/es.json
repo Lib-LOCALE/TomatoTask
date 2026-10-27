@@ -1,0 +1,17 @@
+{
+	"focus": {
+		"title": "Modo enfoque",
+		"exit": "Salir",
+		"exitAria": "Salir del modo enfoque",
+		"start": "Iniciar",
+		"pause": "Pausa",
+		"resume": "Reanudar",
+		"skip": "Saltar",
+		"tileGlazed": "Azulejo esmaltado",
+		"noTask": "Sin tarea asignada",
+		"workSession": "Sesión de concentración",
+		"shortBreak": "Pausa corta",
+		"longBreak": "Pausa larga",
+		"shortcutsHint": "Espacio: pausa/reanudar · Esc: salir"
+	}
+}

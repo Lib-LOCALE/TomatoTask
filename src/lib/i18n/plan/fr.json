@@ -1,0 +1,25 @@
+{
+	"plan": {
+		"title": "Planifier la journée",
+		"stock": "Tâches disponibles",
+		"day": "Ma journée",
+		"all": "Tous les projets",
+		"emptyStock": "Aucune tâche disponible.",
+		"emptyDay": "Aucune tâche planifiée pour le moment.",
+		"add": "Planifier aujourd’hui",
+		"remove": "Retirer de la journée",
+		"carried": "Reportée",
+		"start": "Commencer la journée",
+		"planned": "Prévu",
+		"completed": "Réalisé",
+		"capacity": "Journée chargée : plus de 12 pomodoros représentent plus de cinq heures de concentration.",
+		"up": "Monter",
+		"down": "Descendre",
+		"decrease": "Diminuer l’estimation",
+		"increase": "Augmenter l’estimation",
+		"error": "Impossible de mettre à jour la journée.",
+		"planToday": "Planifier pour aujourd’hui",
+		"today": "Aujourd’hui",
+		"newProject": "Nouveau projet"
+	}
+}

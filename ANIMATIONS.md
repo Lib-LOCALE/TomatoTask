@@ -5,6 +5,7 @@ This document describes all the animations and visual effects added to make Toma
 ## 🎨 Core Animation Components
 
 ### 1. **Confetti Effect** (`Confetti.svelte`)
+
 - **Purpose**: Celebration animation for task completion
 - **Features**:
   - 50 colorful particles
@@ -14,6 +15,7 @@ This document describes all the animations and visual effects added to make Toma
 - **Usage**: Automatically triggered when completing a task
 
 ### 2. **Toast Notifications** (`Toast.svelte` + `ToastContainer.svelte`)
+
 - **Purpose**: Non-intrusive feedback messages
 - **Types**:
   - 🎉 **Celebration**: For major achievements (task completion)
@@ -28,6 +30,7 @@ This document describes all the animations and visual effects added to make Toma
 - **Usage**: `toastStore.celebration('Message')`, `toastStore.success()`, etc.
 
 ### 3. **Background Particles** (`BackgroundParticles.svelte`)
+
 - **Purpose**: Ambient atmosphere
 - **Features**:
   - 15-20 subtle floating particles
@@ -37,6 +40,7 @@ This document describes all the animations and visual effects added to make Toma
 - **Location**: Global, behind all content
 
 ### 4. **Tomato Loader** (`TomatoLoader.svelte`)
+
 - **Purpose**: Loading states
 - **Features**:
   - Spinning pixel-art tomato
@@ -46,6 +50,7 @@ This document describes all the animations and visual effects added to make Toma
 - **Usage**: `<TomatoLoader size={64} text="Loading..." />`
 
 ### 5. **Animated Counter** (`AnimatedCounter.svelte`)
+
 - **Purpose**: Smooth number transitions in statistics
 - **Features**:
   - Counts from old to new value
@@ -57,10 +62,12 @@ This document describes all the animations and visual effects added to make Toma
 ## 🍅 Animated Tomato Variants
 
 ### Original Tomato (`animated-tomato.svg`)
+
 - General purpose animation
 - Floating + Pulsing + Stem waving
 
 ### Celebration Tomato (`animated-tomato-celebration.svg`)
+
 - **When**: Work session completed
 - **Animations**:
   - Bouncing with wiggle
@@ -69,6 +76,7 @@ This document describes all the animations and visual effects added to make Toma
 - **Size**: Displayed larger (96px)
 
 ### Focused Tomato (`animated-tomato-focused.svg`)
+
 - **When**: Active work timer running
 - **Animations**:
   - Intense pulsing
@@ -78,6 +86,7 @@ This document describes all the animations and visual effects added to make Toma
 - **Expression**: Determined eyes, straight mouth
 
 ### Relaxing Tomato (`animated-tomato-relaxing.svg`)
+
 - **When**: Break periods active
 - **Animations**:
   - Gentle breathing
@@ -88,6 +97,7 @@ This document describes all the animations and visual effects added to make Toma
 ## 🎭 Micro-Interactions (CSS Classes)
 
 ### Button Effects
+
 - `.btn-press` - Press down effect on click
 - `.hover-bounce` - Bounce animation on hover
 - `.hover-lift` - Lift up on hover with shadow
@@ -95,6 +105,7 @@ This document describes all the animations and visual effects added to make Toma
 - `.hover-rotate` - Slight rotation on hover
 
 ### Animation Effects
+
 - `.fade-in-up` - Fade in from bottom
 - `.scale-in` - Scale from small to full size
 - `.slide-in-right` - Slide from right
@@ -106,15 +117,18 @@ This document describes all the animations and visual effects added to make Toma
 - `.heartbeat` - Heartbeat animation
 
 ### Progress Bar Effects
+
 - `.progress-liquid` - Shimmer effect on progress bars
 
 ## 🎯 Where Animations Appear
 
 ### Timer Display
+
 - **Active Timer**: Animated tomato (focused/relaxing) appears in center
 - **Completion**: Celebration tomato with confetti and toast
 
 ### Task Cards
+
 - **Hover**: Lift effect with shadow
 - **Completion**:
   - Confetti explosion
@@ -124,23 +138,30 @@ This document describes all the animations and visual effects added to make Toma
 - **Buttons**: Press and bounce effects
 
 ### Background
+
 - Subtle floating particles (always visible)
 
 ### Statistics
+
 - Numbers animate/count up when displayed
 - Can add more animations to stat cards
 
 ## ⚙️ Animation Settings
 
 ### Accessibility
+
 All animations respect `prefers-reduced-motion`:
+
 ```css
 @media (prefers-reduced-motion: reduce) {
-  * { animation-duration: 0.01ms !important; }
+	* {
+		animation-duration: 0.01ms !important;
+	}
 }
 ```
 
 ### Performance
+
 - Animations use CSS transforms (GPU-accelerated)
 - Particles have auto-cleanup
 - Smooth 60fps animations
@@ -148,6 +169,7 @@ All animations respect `prefers-reduced-motion`:
 ## 🚀 Usage Examples
 
 ### Toast Notifications
+
 ```typescript
 import { toastStore } from '$lib/stores/toast.svelte';
 
@@ -165,44 +187,40 @@ toastStore.info('New feature available');
 ```
 
 ### Animated Counter
+
 ```svelte
 <script>
-  import AnimatedCounter from '$lib/components/effects/AnimatedCounter.svelte';
+	import AnimatedCounter from '$lib/components/effects/AnimatedCounter.svelte';
 </script>
 
-<AnimatedCounter
-  value={totalPomodoros}
-  duration={1000}
-  format={(n) => Math.round(n).toString()}
-/>
+<AnimatedCounter value={totalPomodoros} duration={1000} format={(n) => Math.round(n).toString()} />
 ```
 
 ### Confetti
+
 ```svelte
 <script>
-  import Confetti from '$lib/components/effects/Confetti.svelte';
-  let showConfetti = $state(false);
+	import Confetti from '$lib/components/effects/Confetti.svelte';
+	let showConfetti = $state(false);
 </script>
 
 {#if showConfetti}
-  <Confetti duration={3000} particleCount={50} />
+	<Confetti duration={3000} particleCount={50} />
 {/if}
 ```
 
 ### CSS Animations
-```svelte
-<button class="btn-press hover-bounce">
-  Click me!
-</button>
 
-<div class="fade-in-up">
-  Content appears smoothly
-</div>
+```svelte
+<button class="btn-press hover-bounce"> Click me! </button>
+
+<div class="fade-in-up">Content appears smoothly</div>
 ```
 
 ## 🎨 Color Palette
 
 Animations use theme colors:
+
 - **Primary (Tomato Red)**: `#F44336`
 - **Success (Green)**: `#4CAF50`
 - **Warning (Orange)**: `#FF9800`

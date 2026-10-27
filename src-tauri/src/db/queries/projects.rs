@@ -1,6 +1,6 @@
 // Requêtes SQL pour la gestion des projets
 use crate::db::models::{CreateProjectInput, Project};
-use rusqlite::{Connection, Result, params};
+use rusqlite::{params, Connection, Result};
 
 /// Récupère tous les projets
 ///
@@ -109,6 +109,27 @@ mod tests {
         let conn = Connection::open_in_memory().unwrap();
         run_migrations(&conn).unwrap();
         conn
+    }
+
+    #[test]
+    fn met_a_jour_et_supprime_un_projet() {
+        let conn = setup_test_db();
+        let project = create_project(
+            &conn,
+            &CreateProjectInput {
+                name: "avant".into(),
+                color: None,
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            update_project(&conn, project.id, "après", "#ffffff")
+                .unwrap()
+                .name,
+            "après"
+        );
+        delete_project(&conn, project.id).unwrap();
+        assert!(get_project_by_id(&conn, project.id).is_err());
     }
 
     #[test]

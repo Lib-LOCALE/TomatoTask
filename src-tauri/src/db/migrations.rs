@@ -28,21 +28,41 @@ pub fn run_migrations(conn: &Connection) -> Result<()> {
         set_schema_version(conn, 2)?;
     }
 
+    if current_version < 3 {
+        conn.execute_batch("BEGIN; ALTER TABLE tasks ADD COLUMN planned_for TEXT; ALTER TABLE tasks ADD COLUMN plan_position INTEGER; INSERT INTO schema_version (version) VALUES (3); COMMIT;")?;
+    }
+
+    if current_version < 4 {
+        conn.execute_batch("BEGIN;
+            CREATE TABLE settings_v4 (
+                id INTEGER PRIMARY KEY CHECK (id = 1),
+                work_duration INTEGER DEFAULT 25 CHECK (work_duration BETWEEN 1 AND 180),
+                short_break_duration INTEGER DEFAULT 5 CHECK (short_break_duration BETWEEN 1 AND 60),
+                long_break_duration INTEGER DEFAULT 15 CHECK (long_break_duration BETWEEN 1 AND 60),
+                pomodoros_until_long_break INTEGER DEFAULT 4 CHECK (pomodoros_until_long_break BETWEEN 1 AND 10),
+                language TEXT DEFAULT 'en' CHECK (language IN ('en', 'fr', 'es', 'it', 'de')),
+                theme TEXT DEFAULT 'light' CHECK (theme IN ('light', 'dark', 'system')),
+                notification_sound TEXT DEFAULT 'default',
+                auto_start_breaks INTEGER DEFAULT 0,
+                auto_start_pomodoros INTEGER DEFAULT 0,
+                updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+            );
+            INSERT INTO settings_v4 SELECT * FROM settings;
+            DROP TABLE settings;
+            ALTER TABLE settings_v4 RENAME TO settings;
+            INSERT INTO schema_version (version) VALUES (4);
+            COMMIT;")?;
+    }
+
     Ok(())
 }
 
 /// Obtient la version actuelle du schéma
 fn get_schema_version(conn: &Connection) -> Result<i32> {
-    let version: Result<i32> = conn.query_row(
-        "SELECT MAX(version) FROM schema_version",
-        [],
-        |row| row.get(0),
-    );
-
-    match version {
-        Ok(v) => Ok(v),
-        Err(_) => Ok(0), // Pas de version = schéma vide
-    }
+    conn.query_row("SELECT MAX(version) FROM schema_version", [], |row| {
+        row.get::<_, Option<i32>>(0)
+            .map(|version| version.unwrap_or(0))
+    })
 }
 
 /// Enregistre une nouvelle version de schéma
@@ -133,10 +153,7 @@ fn apply_migration_001(conn: &Connection) -> Result<()> {
     )?;
 
     // Index pour optimiser les requêtes fréquentes
-    conn.execute(
-        "CREATE INDEX idx_tasks_project ON tasks(project_id)",
-        [],
-    )?;
+    conn.execute("CREATE INDEX idx_tasks_project ON tasks(project_id)", [])?;
 
     conn.execute(
         "CREATE INDEX idx_tasks_completed ON tasks(is_completed)",
@@ -154,10 +171,7 @@ fn apply_migration_001(conn: &Connection) -> Result<()> {
     )?;
 
     // Insère les paramètres par défaut
-    conn.execute(
-        "INSERT INTO settings (id) VALUES (1)",
-        [],
-    )?;
+    conn.execute("INSERT INTO settings (id) VALUES (1)", [])?;
 
     Ok(())
 }
@@ -174,10 +188,7 @@ fn apply_migration_002(conn: &Connection) -> Result<()> {
     )?;
 
     // Initialise la position avec l'ID pour les projets existants
-    conn.execute(
-        "UPDATE projects SET position = id",
-        [],
-    )?;
+    conn.execute("UPDATE projects SET position = id", [])?;
 
     // Ajout de la colonne position à la table tasks
     conn.execute(
@@ -186,10 +197,7 @@ fn apply_migration_002(conn: &Connection) -> Result<()> {
     )?;
 
     // Initialise la position avec l'ID pour les tâches existantes
-    conn.execute(
-        "UPDATE tasks SET position = id",
-        [],
-    )?;
+    conn.execute("UPDATE tasks SET position = id", [])?;
 
     Ok(())
 }
@@ -202,6 +210,7 @@ mod tests {
     #[test]
     fn test_migrations_run_successfully() {
         let conn = Connection::open_in_memory().unwrap();
+        run_migrations(&conn).unwrap();
         run_migrations(&conn).unwrap();
 
         // Vérifie que toutes les tables existent
@@ -220,14 +229,60 @@ mod tests {
     }
 
     #[test]
+    fn migration_plan_sur_base_deja_en_version_deux() {
+        let conn = Connection::open_in_memory().unwrap();
+        conn.execute_batch("CREATE TABLE schema_version (version INTEGER PRIMARY KEY, applied_at TEXT DEFAULT (datetime('now'))); INSERT INTO schema_version(version) VALUES (1), (2);").unwrap();
+        apply_migration_001(&conn).unwrap();
+        apply_migration_002(&conn).unwrap();
+        conn.execute("INSERT INTO tasks(title) VALUES ('ancien')", [])
+            .unwrap();
+        run_migrations(&conn).unwrap();
+        run_migrations(&conn).unwrap();
+        let values: (Option<String>, Option<i64>) = conn
+            .query_row(
+                "SELECT planned_for, plan_position FROM tasks WHERE id = 1",
+                [],
+                |r| Ok((r.get(0)?, r.get(1)?)),
+            )
+            .unwrap();
+        assert_eq!(values, (None, None));
+    }
+
+    #[test]
+    fn migration_theme_systeme_preserve_les_parametres() {
+        let conn = Connection::open_in_memory().unwrap();
+        conn.execute_batch("CREATE TABLE schema_version (version INTEGER PRIMARY KEY, applied_at TEXT DEFAULT (datetime('now'))); INSERT INTO schema_version(version) VALUES (1), (2), (3);").unwrap();
+        apply_migration_001(&conn).unwrap();
+        apply_migration_002(&conn).unwrap();
+        conn.execute(
+            "UPDATE settings SET work_duration = 42, theme = 'dark' WHERE id = 1",
+            [],
+        )
+        .unwrap();
+        run_migrations(&conn).unwrap();
+        conn.execute("UPDATE settings SET theme = 'system' WHERE id = 1", [])
+            .unwrap();
+        let values: (i32, String) = conn
+            .query_row(
+                "SELECT work_duration, theme FROM settings WHERE id = 1",
+                [],
+                |row| Ok((row.get(0)?, row.get(1)?)),
+            )
+            .unwrap();
+        assert_eq!(values, (42, "system".to_string()));
+    }
+
+    #[test]
     fn test_default_settings_created() {
         let conn = Connection::open_in_memory().unwrap();
         run_migrations(&conn).unwrap();
 
         let work_duration: i32 = conn
-            .query_row("SELECT work_duration FROM settings WHERE id = 1", [], |row| {
-                row.get(0)
-            })
+            .query_row(
+                "SELECT work_duration FROM settings WHERE id = 1",
+                [],
+                |row| row.get(0),
+            )
             .unwrap();
 
         assert_eq!(work_duration, 25);

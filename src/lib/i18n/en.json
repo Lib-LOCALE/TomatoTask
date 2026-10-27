@@ -225,5 +225,30 @@
 		"deleteProjectConfirm": "Are you sure you want to delete \"{name}\"? All tasks will remain but will no longer be associated with this project.",
 		"languageTitle": "Language / Langue",
 		"done": "Done"
+	},
+	"majolica": {
+		"fresco": "Today’s fresco",
+		"frescoDescription": "Every finished focus session paints a tile.",
+		"count": "{done} of {total}",
+		"empty": "No tiles planned yet. Add an estimate to a task.",
+		"week": "Weekly fresco",
+		"loadError": "Could not load the fresco.",
+		"streak": "{count} days in a row",
+		"menu": "Menu",
+		"sounds": "Ambient sounds",
+		"skip": "Skip",
+		"reset": "Reset",
+		"pomodoro": "Pomodoro {current} of {total}",
+		"noTask": "No task selected",
+		"mini": "Mini mode",
+		"markComplete": "Mark {title} complete",
+		"markActive": "Mark {title} active"
+	},
+	"views": {
+		"label": "Views",
+		"today": "Today",
+		"plan": "Plan",
+		"insights": "Review",
+		"focus": "Focus mode"
 	}
 }

@@ -1,0 +1,17 @@
+{
+	"focus": {
+		"title": "Mode focus",
+		"exit": "Quitter",
+		"exitAria": "Quitter le mode focus",
+		"start": "Démarrer",
+		"pause": "Pause",
+		"resume": "Reprendre",
+		"skip": "Passer",
+		"tileGlazed": "Carreau émaillé",
+		"noTask": "Sans tâche assignée",
+		"workSession": "Session de concentration",
+		"shortBreak": "Pause courte",
+		"longBreak": "Pause longue",
+		"shortcutsHint": "Espace : pause/reprise · Échap : quitter"
+	}
+}
