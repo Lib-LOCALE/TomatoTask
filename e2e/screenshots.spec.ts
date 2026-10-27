@@ -98,3 +98,19 @@ test('captures chrome Majolique', async ({ page }) => {
 	await page.setViewportSize({ width: 900, height: 800 });
 	await page.screenshot({ path: 'screenshots/chrome-parametres-900.png' });
 });
+
+test('captures des fresques et du focus — correctifs A', async ({ page }) => {
+	mkdirSync('screenshots', { recursive: true });
+	await page.goto('/');
+	await page.getByRole('button', { name: 'Focus mode' }).click();
+	await page.getByRole('dialog', { name: 'Focus mode' }).waitFor();
+	await page.screenshot({ path: 'screenshots/focus-zero.png' });
+	await page.getByRole('button', { name: 'Start', exact: true }).click();
+	await page.evaluate(async () => {
+		const path = '/src/lib/stores/timer.svelte.ts';
+		const { timerStore } = await import(/* @vite-ignore */ path);
+		timerStore.remainingSeconds = Math.floor(timerStore.totalSeconds / 2);
+	});
+	await page.waitForTimeout(1100);
+	await page.screenshot({ path: 'screenshots/focus-progression.png' });
+});

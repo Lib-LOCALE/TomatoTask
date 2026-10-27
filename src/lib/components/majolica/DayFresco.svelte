@@ -102,7 +102,11 @@
 
 	onMount(() => {
 		void refresh();
-		const interval = window.setInterval(refresh, 60_000);
+		void loadWeek();
+		const interval = window.setInterval(() => {
+			void refresh();
+			void loadWeek();
+		}, 60_000);
 		return () => window.clearInterval(interval);
 	});
 	let lastCount = 0;
@@ -111,6 +115,7 @@
 		if (count !== lastCount) {
 			lastCount = count;
 			void refresh();
+			void loadWeek();
 		}
 	});
 </script>
@@ -128,8 +133,11 @@
 		>
 	</div>
 	{#if error}<p role="status">{$_('majolica.loadError')}</p>
-	{:else if tiles.length === 0}<p class="empty">{$_('majolica.empty')}</p>
-	{:else}<div
+	{:else}
+		{#if planned === 0 && completed === 0 && !painting}<p class="empty">
+				{$_('majolica.empty')}
+			</p>{/if}
+		<div
 			class="grid"
 			aria-label={$_('majolica.count', {
 				values: { done: completed, total: Math.max(planned, completed) }
@@ -142,22 +150,32 @@
 					animate={index === animatedIndex}
 				/>{/each}
 		</div>{/if}
-	<details
-		ontoggle={(event) => {
-			if (event.currentTarget.open) void loadWeek();
-		}}
-	>
-		<summary>{$_('majolica.week')}</summary>
-		{#each week as day}<div class="week-row">
-				<span>{day.label}</span>
-				<div>
-					{#each Array(day.count) as _, index}<span class="week-tile"
-							><Tile state="glazed" position={index} /></span
-						>{/each}
-				</div>
-				<strong>{day.count}</strong>
-			</div>{/each}
-	</details>
+	<section class="week" aria-labelledby="week-title">
+		<div class="week-heading">
+			<h3 id="week-title">{$_('majolica.week')}</h3>
+			<strong>{week.reduce((sum, day) => sum + day.count, 0)}</strong>
+		</div>
+		{#if week.length}
+			<div class="week-labels">
+				{#each week as day}<span title={day.label}>{day.label}</span>{/each}
+			</div>
+			<div
+				class="week-wall"
+				role="img"
+				aria-label={week.map((day) => `${day.label}: ${day.count}`).join(', ')}
+			>
+				{#each Array(Math.max(3, ...week.map((day) => day.count))) as _, row}
+					{#each week as day, column}
+						<Tile
+							state={row < day.count ? 'glazed' : 'empty'}
+							position={row * 7 + column}
+							framed={false}
+						/>
+					{/each}
+				{/each}
+			</div>
+		{/if}
+	</section>
 </section>
 
 <style>
@@ -192,41 +210,42 @@
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 3px;
 		padding: 3px;
-		background: var(--grout);
-		box-shadow: inset 0 2px 4px rgba(24, 20, 18, 0.25);
+		background: var(--manganese);
 	}
 	.empty {
 		padding: 24px 0;
 	}
-	details {
-		margin-top: 24px;
-		padding-top: 16px;
-		border-top: 1px solid var(--grout);
+	.week {
+		margin-top: 28px;
 	}
-	summary {
-		cursor: pointer;
-		font-weight: 700;
-	}
-	.week-row {
+	.week-heading {
 		display: flex;
-		align-items: center;
-		gap: 8px;
-		margin-top: 10px;
-		font-size: 0.85rem;
+		justify-content: space-between;
+		align-items: baseline;
+		margin-bottom: 12px;
 	}
-	.week-row > span:first-child {
-		width: 55px;
+	.week-heading h3 {
+		font-family: var(--font-heading);
+		font-size: 1.3rem;
 	}
-	.week-row > div {
-		display: flex;
-		flex: 1;
-		flex-wrap: wrap;
-		gap: 1px;
+	.week-labels {
+		display: grid;
+		grid-template-columns: repeat(7, minmax(0, 1fr));
+		gap: 3px;
+		margin-bottom: 6px;
 	}
-	.week-tile {
-		display: block;
-		width: 22px;
-		border: 1px solid var(--grout);
+	.week-labels span {
+		font-size: 0.7rem;
+		text-align: center;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+	.week-wall {
+		display: grid;
+		grid-template-columns: repeat(7, minmax(0, 1fr));
+		gap: 3px;
+		padding: 3px;
+		background: var(--manganese);
 	}
 
 	@media (max-width: 1099px) {

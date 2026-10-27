@@ -42,6 +42,7 @@
 		new Intl.DateTimeFormat($locale || 'en', { day: 'numeric', month: 'short' }).format(
 			new Date(`${date}T12:00:00`)
 		);
+	const columns = $derived(Math.max(7, ...(data?.daily.map((day) => day.pomodoros) ?? [])));
 	const bestDay = $derived(data ? data.by_weekday.indexOf(Math.max(...data.by_weekday)) : 0);
 	const serials = $derived(
 		data && streak
@@ -120,7 +121,11 @@
 				<Chart
 					title={$_('insights.daily')}
 					unit={$_('insights.minutes')}
-					points={data.daily.map((d) => ({ label: dateLabel(d.date), value: d.focus_minutes }))}
+					points={data.daily.map((d) => ({
+						label: dateLabel(d.date),
+						value: d.focus_minutes,
+						tiles: d.pomodoros
+					}))}
 				/>
 				<Chart
 					title={$_('insights.hours')}
@@ -136,21 +141,28 @@
 			<section class="fresco">
 				<h2>{$_('insights.fresco')}</h2>
 				<p>{$_('insights.frescoDescription')}</p>
-				{#each data.daily as day, index}
-					<div class="fresco-row">
-						<span>{dateLabel(day.date)}</span>
-						<div class="tiles">
-							{#each serials[index] ?? [] as serial, position}<span
-									class="tile-wrap"
-									tabindex="0"
-									title={$_('insights.serial', { values: { serial } })}
-									aria-label={$_('insights.serial', { values: { serial } })}
-									><Tile state="glazed" {position} {serial} /></span
-								>{/each}
-						</div>
-						<span>{day.pomodoros}</span>
-					</div>
-				{/each}
+				<div class="fresco-wall" style:--columns={columns}>
+					{#each data.daily as day, index}
+						<span class="day-label">{dateLabel(day.date)} · {day.pomodoros}</span>
+						{#each Array(columns) as cell, position}
+							{@const serial = serials[index]?.[position]}
+							<span
+								class="tile-wrap"
+								title={serial ? $_('insights.serial', { values: { serial } }) : dateLabel(day.date)}
+								tabindex={serial ? 0 : undefined}
+								aria-label={serial
+									? $_('insights.serial', { values: { serial } })
+									: dateLabel(day.date)}
+								><Tile
+									state={serial ? 'glazed' : 'empty'}
+									framed={false}
+									position={index * columns + position}
+									{serial}
+								/></span
+							>
+						{/each}
+					{/each}
+				</div>
 			</section>
 			<div class="rankings">
 				<section>
@@ -253,23 +265,25 @@
 	.fresco > p {
 		margin-bottom: 20px;
 	}
-	.fresco-row {
+	.fresco-wall {
 		display: grid;
-		grid-template-columns: 64px minmax(0, 1fr) 28px;
-		align-items: center;
-		gap: 12px;
-		min-height: 44px;
-		font-size: 0.85rem;
+		grid-template-columns: 80px repeat(var(--columns), minmax(0, 1fr));
+		gap: 3px;
+		padding: 3px;
+		background: var(--manganese);
 	}
-	.tiles {
+	.day-label {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 2px;
+		align-items: center;
+		padding: 4px;
+		background: var(--glaze);
+		color: var(--foreground);
+		font-size: 0.8rem;
 	}
 	.tile-wrap {
 		position: relative;
-		width: 42px;
 		display: block;
+		min-width: 0;
 	}
 	.tile-wrap:hover::after,
 	.tile-wrap:focus-visible::after {
