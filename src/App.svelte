@@ -239,12 +239,19 @@
 	// Applique le thème quand il change
 	$effect(() => {
 		const theme = settingsStore.settings.theme;
-		if (theme === 'dark') {
-			document.documentElement.classList.add('dark');
-		} else {
-			document.documentElement.classList.remove('dark');
-		}
+		const preference = window.matchMedia('(prefers-color-scheme: dark)');
+		const apply = () =>
+			document.documentElement.classList.toggle(
+				'dark',
+				theme === 'dark' || (theme === 'system' && preference.matches)
+			);
+		apply();
+		preference.addEventListener('change', apply);
+		return () => preference.removeEventListener('change', apply);
 	});
+	function nativeModal(node: HTMLDialogElement) {
+		node.showModal();
+	}
 </script>
 
 {#if isMiniMode}
@@ -345,7 +352,11 @@
 <!-- Confirmation de suppression (simple dialog natif) -->
 {#if showDeleteConfirm && taskToDelete}
 	<dialog
-		open
+		aria-labelledby="delete-task-title"
+		oncancel={() => {
+			showDeleteConfirm = false;
+			taskToDelete = null;
+		}}
 		onclick={(e) => {
 			if ((e.target as HTMLElement).tagName === 'DIALOG') {
 				showDeleteConfirm = false;
@@ -353,11 +364,13 @@
 			}
 		}}
 		class="border-border bg-background fixed top-1/2 left-1/2 z-50 m-0 max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border p-6 shadow-2xl"
-		style="backdrop-filter: blur(4px);"
 		transition:fade={{ duration: 200 }}
+		use:nativeModal
 	>
 		<div in:fly={{ y: 20, duration: 300 }}>
-			<h2 class="mb-4 text-lg font-semibold">{$_('dialogs.deleteTaskTitle')}</h2>
+			<h2 id="delete-task-title" class="mb-4 text-lg font-semibold">
+				{$_('dialogs.deleteTaskTitle')}
+			</h2>
 			<p class="text-muted-foreground mb-6">
 				{$_('dialogs.deleteTaskConfirm', { values: { name: taskToDelete.title } })}
 			</p>
@@ -389,20 +402,23 @@
 <!-- Sélecteur de langue (accessible avec Ctrl+L) -->
 {#if showLanguageSelector}
 	<dialog
-		open
+		aria-labelledby="language-dialog-title"
+		oncancel={() => (showLanguageSelector = false)}
 		onclick={(e) => {
 			if ((e.target as HTMLElement).tagName === 'DIALOG') {
 				showLanguageSelector = false;
 			}
 		}}
 		class="border-border bg-background fixed top-1/2 left-1/2 z-50 m-0 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border p-6 shadow-2xl"
-		style="backdrop-filter: blur(4px);"
 		transition:fade={{ duration: 200 }}
+		use:nativeModal
 	>
 		<div class="w-full max-w-md" in:fly={{ y: 20, duration: 300 }}>
 			<!-- Header -->
 			<div class="mb-4 flex items-center justify-between border-b pb-4">
-				<h2 class="text-lg font-semibold">{$_('dialogs.languageTitle')}</h2>
+				<h2 id="language-dialog-title" class="text-lg font-semibold">
+					{$_('dialogs.languageTitle')}
+				</h2>
 
 				<button
 					type="button"
@@ -458,7 +474,11 @@
 <!-- Confirmation de suppression de projet -->
 {#if showProjectDeleteConfirm && projectToDelete}
 	<dialog
-		open
+		aria-labelledby="delete-project-title"
+		oncancel={() => {
+			showProjectDeleteConfirm = false;
+			projectToDelete = null;
+		}}
 		onclick={(e) => {
 			if ((e.target as HTMLElement).tagName === 'DIALOG') {
 				showProjectDeleteConfirm = false;
@@ -466,11 +486,13 @@
 			}
 		}}
 		class="border-border bg-background fixed top-1/2 left-1/2 z-50 m-0 max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border p-6 shadow-2xl"
-		style="backdrop-filter: blur(4px);"
 		transition:fade={{ duration: 200 }}
+		use:nativeModal
 	>
 		<div in:fly={{ y: 20, duration: 300 }}>
-			<h2 class="mb-4 text-lg font-semibold">{$_('dialogs.deleteProjectTitle')}</h2>
+			<h2 id="delete-project-title" class="mb-4 text-lg font-semibold">
+				{$_('dialogs.deleteProjectTitle')}
+			</h2>
 			<p class="text-muted-foreground mb-6">
 				{$_('dialogs.deleteProjectConfirm', { values: { name: projectToDelete.name } })}
 			</p>

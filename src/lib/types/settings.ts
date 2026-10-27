@@ -3,7 +3,7 @@
 /**
  * Thème de l'application
  */
-export type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark' | 'system';
 
 /**
  * Langues supportées

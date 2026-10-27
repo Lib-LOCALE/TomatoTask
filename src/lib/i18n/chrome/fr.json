@@ -1,0 +1,38 @@
+{
+	"chrome": {
+		"mini": {
+			"expand": "Revenir à la fenêtre complète"
+		},
+		"settings": {
+			"presets": "Préréglages",
+			"saveError": "Impossible d’enregistrer les paramètres. Réessayez.",
+			"exportError": "Impossible d’exporter la sauvegarde. Vérifiez la destination et réessayez.",
+			"importError": "Impossible d’importer la sauvegarde. Vérifiez le fichier et réessayez.",
+			"volume": "Volume",
+			"system": "Système",
+			"endSound": "Son de fin",
+			"soundDefault": "Tomate",
+			"soundNone": "Aucun",
+			"preview": "Écouter",
+			"language": "Langue",
+			"languageError": "Impossible de changer de langue. Réessayez."
+		},
+		"onboarding": {
+			"skip": "Passer",
+			"tileTitle": "Une session devient un carreau",
+			"tileText": "Terminez une session de concentration : son carreau s’émaille et se peint.",
+			"dayTitle": "Planifiez votre journée",
+			"dayText": "Prévoyez vos tâches en carreaux. Revenez chaque jour pour construire votre série.",
+			"taskTitle": "Commencez par une tâche",
+			"taskText": "Sur quoi souhaitez-vous vous concentrer en premier ?",
+			"taskLabel": "Nom de la tâche",
+			"create": "Créer la tâche",
+			"error": "Impossible de créer la tâche. Réessayez."
+		},
+		"notification": {
+			"tile": "Carreau n° {serial} émaillé — pause de {minutes} min",
+			"work": "Session terminée — pause de {minutes} min",
+			"break": "Pause terminée — prêt à vous concentrer ?"
+		}
+	}
+}

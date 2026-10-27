@@ -1,0 +1,38 @@
+{
+	"chrome": {
+		"mini": {
+			"expand": "Torna alla finestra completa"
+		},
+		"settings": {
+			"presets": "Preimpostazioni",
+			"saveError": "Impossibile salvare le impostazioni. Riprova.",
+			"exportError": "Impossibile esportare il backup. Controlla la destinazione e riprova.",
+			"importError": "Impossibile importare il backup. Controlla il file e riprova.",
+			"volume": "Volume",
+			"system": "Sistema",
+			"endSound": "Suono finale",
+			"soundDefault": "Pomodoro",
+			"soundNone": "Nessuno",
+			"preview": "Ascolta",
+			"language": "Lingua",
+			"languageError": "Impossibile cambiare lingua. Riprova."
+		},
+		"onboarding": {
+			"skip": "Salta",
+			"tileTitle": "Una sessione diventa una piastrella",
+			"tileText": "Completa una sessione di concentrazione: la sua piastrella viene smaltata e dipinta.",
+			"dayTitle": "Pianifica la giornata",
+			"dayText": "Pianifica le attività in piastrelle. Torna ogni giorno per costruire la tua serie.",
+			"taskTitle": "Inizia con un’attività",
+			"taskText": "Su cosa vuoi concentrarti per prima cosa?",
+			"taskLabel": "Nome attività",
+			"create": "Crea attività",
+			"error": "Impossibile creare l’attività. Riprova."
+		},
+		"notification": {
+			"tile": "Piastrella n. {serial} smaltata — pausa di {minutes} min",
+			"work": "Sessione completata — pausa di {minutes} min",
+			"break": "Pausa terminata: pronti a concentrarsi?"
+		}
+	}
+}

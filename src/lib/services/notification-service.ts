@@ -5,6 +5,11 @@ import {
 	sendNotification
 } from '@tauri-apps/plugin-notification';
 import type { SessionType } from '$lib/types';
+import { invoke } from '@tauri-apps/api/core';
+import { get } from 'svelte/store';
+import { _, locale } from 'svelte-i18n';
+import { settingsStore } from '$lib/stores/settings.svelte';
+import { getNextSessionType } from '$lib/services/timer-service';
 
 /**
  * Vérifie et demande la permission pour les notifications
@@ -41,7 +46,7 @@ export async function showNotification(title: string, body: string): Promise<voi
 			sendNotification({
 				title,
 				body,
-				sound: 'default'
+				sound: undefined
 			});
 		} else {
 			console.warn('Notification permission denied');
@@ -57,25 +62,29 @@ export async function showNotification(title: string, body: string): Promise<voi
  * @param sessionType - Type de session terminée
  */
 export async function notifySessionComplete(sessionType: SessionType): Promise<void> {
-	let title: string;
+	const translate = get(_);
 	let body: string;
-
-	switch (sessionType) {
-		case 'work':
-			title = '🍅 Work Session Complete!';
-			body = 'Great job! Time for a well-deserved break.';
-			break;
-		case 'short_break':
-			title = '☕ Short Break Over';
-			body = 'Break time is over. Ready to focus again?';
-			break;
-		case 'long_break':
-			title = '🎉 Long Break Over';
-			body = "Refreshed and ready? Let's get back to work!";
-			break;
+	if (sessionType === 'work') {
+		const next = getNextSessionType();
+		const minutes =
+			next === 'long_break'
+				? settingsStore.settings.longBreakDuration
+				: settingsStore.settings.shortBreakDuration;
+		try {
+			const streak = await invoke<{ total_pomodoros: number }>('get_focus_streak');
+			body = translate('chrome.notification.tile', {
+				values: {
+					serial: new Intl.NumberFormat(get(locale) || 'en').format(streak.total_pomodoros),
+					minutes
+				}
+			});
+		} catch {
+			body = translate('chrome.notification.work', { values: { minutes } });
+		}
+	} else {
+		body = translate('chrome.notification.break');
 	}
-
-	await showNotification(title, body);
+	await showNotification('TomatoTask', body);
 }
 
 /**
@@ -104,8 +113,8 @@ export function playNotificationSound(soundName: string = 'notification'): void 
  */
 export async function notifyComplete(sessionType: SessionType): Promise<void> {
 	// Joue le son approprié
-	const soundName = sessionType === 'work' ? 'squashed_tomato' : 'notification';
-	playNotificationSound(soundName);
+	const soundName = settingsStore.settings.notificationSound;
+	if (soundName !== 'none') playNotificationSound('squashed_tomato');
 
 	// Envoie la notification desktop
 	await notifySessionComplete(sessionType);
