@@ -3,4 +3,5 @@ pnpm-lock.yaml
 yarn.lock
 bun.lock
 bun.lockb
-/src-tauri/**/*.impeccable/
+/src-tauri/**/*
+.impeccable/
