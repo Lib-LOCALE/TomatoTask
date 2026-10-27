@@ -81,7 +81,7 @@
 <form onsubmit={handleSubmit} class="space-y-4">
 	<!-- Titre -->
 	<div>
-		<label for="task-title" class="mb-1 block text-sm font-medium text-foreground">
+		<label for="task-title" class="text-foreground mb-1 block text-sm font-medium">
 			{$_('tasks.taskTitle')} *
 		</label>
 		<Input
@@ -94,26 +94,26 @@
 			autofocus
 		/>
 		{#if errors.title}
-			<p class="mt-1 text-sm text-destructive">{errors.title}</p>
+			<p class="text-destructive mt-1 text-sm">{errors.title}</p>
 		{/if}
 	</div>
 
 	<!-- Description -->
 	<div>
-		<label for="task-description" class="mb-1 block text-sm font-medium text-foreground">
+		<label for="task-description" class="text-foreground mb-1 block text-sm font-medium">
 			{$_('tasks.description')}
 		</label>
 		<textarea
 			id="task-description"
 			bind:value={formData.description}
 			placeholder="Optional description..."
-			class="flex min-h-[80px] w-full rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+			class="border-input bg-background text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[80px] w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 		></textarea>
 	</div>
 
 	<!-- Pomodoros estimés -->
 	<div>
-		<label for="task-pomodoros" class="mb-1 block text-sm font-medium text-foreground">
+		<label for="task-pomodoros" class="text-foreground mb-1 block text-sm font-medium">
 			{$_('tasks.estimatedPomodoros')}
 		</label>
 		<div class="flex items-center gap-2">
@@ -139,11 +139,11 @@
 				bind:value={formData.estimatedPomodoros}
 				min="0"
 				max="20"
-				class={errors.estimatedPomodoros ? 'w-20 border-destructive' : 'w-20'}
+				class={errors.estimatedPomodoros ? 'border-destructive w-20' : 'w-20'}
 			/>
 		</div>
 		{#if errors.estimatedPomodoros}
-			<p class="mt-1 text-sm text-destructive">{errors.estimatedPomodoros}</p>
+			<p class="text-destructive mt-1 text-sm">{errors.estimatedPomodoros}</p>
 		{/if}
 	</div>
 

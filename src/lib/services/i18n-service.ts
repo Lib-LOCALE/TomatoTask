@@ -110,7 +110,7 @@ export function getLanguageFlag(lang: Language): string {
 		fr: '🇫🇷', // Drapeau France
 		es: '🇪🇸', // Drapeau Espagne
 		it: '🇮🇹', // Drapeau Italie
-		de: '🇩🇪'  // Drapeau Allemagne
+		de: '🇩🇪' // Drapeau Allemagne
 	};
 
 	return flags[lang];

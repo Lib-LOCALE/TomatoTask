@@ -1,6 +1,14 @@
 <script lang="ts">
 	interface Props {
-		name: 'tomato' | 'tomato-celebration' | 'tomato-focused' | 'tomato-relaxing' | 'timer' | 'check' | 'focus' | 'stats';
+		name:
+			| 'tomato'
+			| 'tomato-celebration'
+			| 'tomato-focused'
+			| 'tomato-relaxing'
+			| 'timer'
+			| 'check'
+			| 'focus'
+			| 'stats';
 		size?: number;
 		class?: string;
 	}

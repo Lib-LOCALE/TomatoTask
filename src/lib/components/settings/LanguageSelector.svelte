@@ -49,7 +49,7 @@
 {#if variant === 'dropdown'}
 	<!-- Dropdown standard -->
 	<div class="w-full">
-		<label for="language-select" class="mb-2 block text-sm font-medium text-foreground">
+		<label for="language-select" class="text-foreground mb-2 block text-sm font-medium">
 			Language / Langue
 		</label>
 
@@ -57,11 +57,12 @@
 			id="language-select"
 			onchange={handleSelectChange}
 			value={currentLanguage}
-			class="flex h-10 w-full rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+			class="border-input bg-background text-foreground ring-offset-background focus:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none"
 		>
 			{#each SUPPORTED_LANGUAGES as lang}
 				<option value={lang} class="text-foreground">
-					{getLanguageFlag(lang)} {getLanguageName(lang)} ({getLanguageCode(lang)})
+					{getLanguageFlag(lang)}
+					{getLanguageName(lang)} ({getLanguageCode(lang)})
 				</option>
 			{/each}
 		</select>
@@ -69,7 +70,7 @@
 {:else}
 	<!-- Groupe de boutons avec drapeaux -->
 	<div class="w-full">
-		<div class="mb-3 text-sm font-medium text-foreground">Language / Langue</div>
+		<div class="text-foreground mb-3 text-sm font-medium">Language / Langue</div>
 
 		<div class="flex flex-wrap gap-3">
 			{#each SUPPORTED_LANGUAGES as lang}
@@ -82,22 +83,26 @@
 					class:shadow-md={isSelected}
 					class:border-border={!isSelected}
 					class:hover:bg-muted={!isSelected}
-					class="group relative rounded-lg border-2 px-4 py-3 text-sm font-medium text-foreground transition-all duration-200 flex items-center gap-3 min-w-[160px]"
+					class="group text-foreground relative flex min-w-[160px] items-center gap-3 rounded-lg border-2 px-4 py-3 text-sm font-medium transition-all duration-200"
 				>
 					<!-- Drapeau image -->
 					<img
 						src={getLanguageFlagPath(lang)}
 						alt={getLanguageName(lang)}
-						class="w-8 h-8 object-contain rounded"
+						class="h-8 w-8 rounded object-contain"
 					/>
 
 					<!-- Nom de la langue -->
-					<span class="flex-1 text-left text-foreground">{getLanguageName(lang)}</span>
+					<span class="text-foreground flex-1 text-left">{getLanguageName(lang)}</span>
 
 					<!-- Icône de sélection -->
 					{#if isSelected}
-						<svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
-							<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+						<svg class="text-primary h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+							<path
+								fill-rule="evenodd"
+								d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+								clip-rule="evenodd"
+							/>
 						</svg>
 					{/if}
 				</button>

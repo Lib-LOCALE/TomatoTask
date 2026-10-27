@@ -1,5 +1,9 @@
 // Service de gestion des notifications desktop
-import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/plugin-notification';
+import {
+	isPermissionGranted,
+	requestPermission,
+	sendNotification
+} from '@tauri-apps/plugin-notification';
 import type { SessionType } from '$lib/types';
 
 /**
@@ -67,7 +71,7 @@ export async function notifySessionComplete(sessionType: SessionType): Promise<v
 			break;
 		case 'long_break':
 			title = '🎉 Long Break Over';
-			body = 'Refreshed and ready? Let\'s get back to work!';
+			body = "Refreshed and ready? Let's get back to work!";
 			break;
 	}
 

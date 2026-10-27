@@ -68,7 +68,7 @@
 {/if}
 
 <div
-	class="group bg-card relative rounded-lg border p-4 transition-all hover:shadow-md hover-lift scale-in"
+	class="group bg-card hover-lift scale-in relative rounded-lg border p-4 transition-all hover:shadow-md"
 	class:opacity-60={task.isCompleted}
 	class:pop={justCompleted}
 >
@@ -112,7 +112,12 @@
 
 		<!-- Actions (visible au hover) -->
 		<div class="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
-			<Button variant="ghost" size="sm" class="btn-press hover-bounce" onclick={() => onEdit?.(task)}>
+			<Button
+				variant="ghost"
+				size="sm"
+				class="btn-press hover-bounce"
+				onclick={() => onEdit?.(task)}
+			>
 				{$_('common.edit')}
 			</Button>
 

@@ -15,15 +15,15 @@
 
 	/* Primary - Tomato Red (#E84444) */
 	--background: oklch(0.98 0.01 65); /* Warm white background */
-	--foreground: oklch(0.25 0.10 280); /* Dark Navy text */
+	--foreground: oklch(0.25 0.1 280); /* Dark Navy text */
 
 	/* Cards - Tan/Beige (#D4A574) for warm retro feel */
 	--card: oklch(0.95 0.02 65);
-	--card-foreground: oklch(0.25 0.10 280);
+	--card-foreground: oklch(0.25 0.1 280);
 
 	/* Popovers */
 	--popover: oklch(0.98 0.01 65);
-	--popover-foreground: oklch(0.25 0.10 280);
+	--popover-foreground: oklch(0.25 0.1 280);
 
 	/* Primary - Vibrant Tomato Red */
 	--primary: oklch(0.62 0.21 20); /* #E84444 */
@@ -32,15 +32,15 @@
 
 	/* Secondary - Tan/Beige accents */
 	--secondary: oklch(0.72 0.08 65); /* #D4A574 */
-	--secondary-foreground: oklch(0.25 0.10 280);
+	--secondary-foreground: oklch(0.25 0.1 280);
 
 	/* Muted - Light Gray */
 	--muted: oklch(0.77 0 0); /* #BDBDBD */
-	--muted-foreground: oklch(0.50 0.05 280);
+	--muted-foreground: oklch(0.5 0.05 280);
 
 	/* Accent - Celebration Orange */
 	--accent: oklch(0.76 0.14 50); /* #FFA726 */
-	--accent-foreground: oklch(0.25 0.10 280);
+	--accent-foreground: oklch(0.25 0.1 280);
 
 	/* Success - Leaf Green */
 	--success: oklch(0.65 0.18 145); /* #4CAF50 */
@@ -49,7 +49,7 @@
 
 	/* Warning - Celebration Yellow */
 	--warning: oklch(0.79 0.12 70); /* #FFB74D */
-	--warning-foreground: oklch(0.25 0.10 280);
+	--warning-foreground: oklch(0.25 0.1 280);
 
 	/* Destructive - Keep for delete actions */
 	--destructive: oklch(0.52 0.22 20); /* Dark Red */
@@ -69,11 +69,11 @@
 
 	/* Sidebar */
 	--sidebar: oklch(0.95 0.02 65);
-	--sidebar-foreground: oklch(0.25 0.10 280);
+	--sidebar-foreground: oklch(0.25 0.1 280);
 	--sidebar-primary: oklch(0.62 0.21 20);
 	--sidebar-primary-foreground: oklch(1 0 0);
 	--sidebar-accent: oklch(0.72 0.08 65);
-	--sidebar-accent-foreground: oklch(0.25 0.10 280);
+	--sidebar-accent-foreground: oklch(0.25 0.1 280);
 	--sidebar-border: oklch(0.66 0 0);
 	--sidebar-ring: oklch(0.62 0.21 20);
 }
@@ -82,7 +82,7 @@
 	/* Dark mode with pixel art aesthetic */
 
 	/* Background - Dark Navy base */
-	--background: oklch(0.20 0.08 280); /* Darker navy */
+	--background: oklch(0.2 0.08 280); /* Darker navy */
 	--foreground: oklch(0.95 0.01 65); /* Warm white text */
 
 	/* Cards - Slightly lighter navy */
@@ -104,27 +104,27 @@
 
 	/* Muted */
 	--muted: oklch(0.35 0.05 280);
-	--muted-foreground: oklch(0.70 0.02 280);
+	--muted-foreground: oklch(0.7 0.02 280);
 
 	/* Accent - Bright orange */
 	--accent: oklch(0.76 0.14 50);
-	--accent-foreground: oklch(0.20 0.08 280);
+	--accent-foreground: oklch(0.2 0.08 280);
 
 	/* Success - Vibrant green */
-	--success: oklch(0.70 0.20 145);
+	--success: oklch(0.7 0.2 145);
 	--success-light: oklch(0.75 0.18 145);
-	--success-foreground: oklch(0.20 0.08 280);
+	--success-foreground: oklch(0.2 0.08 280);
 
 	/* Warning */
 	--warning: oklch(0.79 0.12 70);
-	--warning-foreground: oklch(0.20 0.08 280);
+	--warning-foreground: oklch(0.2 0.08 280);
 
 	/* Destructive */
 	--destructive: oklch(0.62 0.24 20);
 	--destructive-foreground: oklch(1 0 0);
 
 	/* Borders - Lighter in dark mode */
-	--border: oklch(0.40 0.05 280);
+	--border: oklch(0.4 0.05 280);
 	--input: oklch(0.35 0.05 280);
 
 	/* Ring */
@@ -133,7 +133,7 @@
 	/* Session colors remain vibrant */
 	--session-work: oklch(0.68 0.23 20);
 	--session-short-break: oklch(0.76 0.14 50);
-	--session-long-break: oklch(0.70 0.20 145);
+	--session-long-break: oklch(0.7 0.2 145);
 
 	/* Sidebar */
 	--sidebar: oklch(0.23 0.08 280);
@@ -141,8 +141,8 @@
 	--sidebar-primary: oklch(0.68 0.23 20);
 	--sidebar-primary-foreground: oklch(1 0 0);
 	--sidebar-accent: oklch(0.35 0.05 280);
-	--sidebar-accent-foreground: oklch(0.90 0.02 65);
-	--sidebar-border: oklch(0.40 0.05 280);
+	--sidebar-accent-foreground: oklch(0.9 0.02 65);
+	--sidebar-border: oklch(0.4 0.05 280);
 	--sidebar-ring: oklch(0.68 0.23 20);
 }
 
@@ -196,7 +196,8 @@
 
 	/* Font Families - System fonts for reliable cross-platform support */
 	--font-heading: ui-monospace, 'Courier New', 'Courier', monospace;
-	--font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	--font-body:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	--font-mono: ui-monospace, 'Courier New', 'Courier', monospace;
 }
 
@@ -216,18 +217,35 @@
 	}
 
 	/* Headings use pixel art font */
-	h1, h2, h3, h4, h5, h6 {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
 		font-family: var(--font-heading);
 		line-height: 1.4;
 		letter-spacing: 0.05em;
 	}
 
-	h1 { font-size: 2rem; } /* 32px */
-	h2 { font-size: 1.5rem; } /* 24px */
-	h3 { font-size: 1.25rem; } /* 20px */
-	h4 { font-size: 1rem; } /* 16px */
-	h5 { font-size: 0.875rem; } /* 14px */
-	h6 { font-size: 0.75rem; } /* 12px */
+	h1 {
+		font-size: 2rem;
+	} /* 32px */
+	h2 {
+		font-size: 1.5rem;
+	} /* 24px */
+	h3 {
+		font-size: 1.25rem;
+	} /* 20px */
+	h4 {
+		font-size: 1rem;
+	} /* 16px */
+	h5 {
+		font-size: 0.875rem;
+	} /* 14px */
+	h6 {
+		font-size: 0.75rem;
+	} /* 12px */
 
 	/* Monospace for timer displays */
 	.font-mono {
@@ -554,7 +572,9 @@
 @layer utilities {
 	/* Button press effect */
 	.btn-press {
-		transition: transform 0.1s ease, box-shadow 0.1s ease;
+		transition:
+			transform 0.1s ease,
+			box-shadow 0.1s ease;
 	}
 
 	.btn-press:active {
@@ -563,7 +583,9 @@
 
 	/* Smooth hover lift */
 	.hover-lift {
-		transition: transform 0.2s ease, box-shadow 0.2s ease;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease;
 	}
 
 	.hover-lift:hover {
@@ -577,7 +599,8 @@
 	}
 
 	@keyframes pulse-slow {
-		0%, 100% {
+		0%,
+		100% {
 			opacity: 1;
 			transform: scale(1);
 		}
@@ -593,7 +616,8 @@
 	}
 
 	@keyframes bounce-small {
-		0%, 100% {
+		0%,
+		100% {
 			transform: translateY(0);
 		}
 		25% {
@@ -613,13 +637,21 @@
 	}
 
 	@keyframes shake {
-		0%, 100% {
+		0%,
+		100% {
 			transform: translateX(0);
 		}
-		10%, 30%, 50%, 70%, 90% {
+		10%,
+		30%,
+		50%,
+		70%,
+		90% {
 			transform: translateX(-4px);
 		}
-		20%, 40%, 60%, 80% {
+		20%,
+		40%,
+		60%,
+		80% {
 			transform: translateX(4px);
 		}
 	}
@@ -667,7 +699,9 @@
 
 	/* Glow on hover */
 	.hover-glow {
-		transition: box-shadow 0.3s ease, filter 0.3s ease;
+		transition:
+			box-shadow 0.3s ease,
+			filter 0.3s ease;
 	}
 
 	.hover-glow:hover {
@@ -739,12 +773,7 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		background: linear-gradient(
-			90deg,
-			transparent,
-			rgba(255, 255, 255, 0.3),
-			transparent
-		);
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
 		animation: shimmer 2s infinite;
 	}
 
@@ -763,7 +792,8 @@
 	}
 
 	@keyframes wiggle {
-		0%, 100% {
+		0%,
+		100% {
 			transform: rotate(0deg);
 		}
 		25% {
@@ -780,13 +810,16 @@
 	}
 
 	@keyframes heartbeat {
-		0%, 100% {
+		0%,
+		100% {
 			transform: scale(1);
 		}
-		10%, 30% {
+		10%,
+		30% {
 			transform: scale(1.1);
 		}
-		20%, 40% {
+		20%,
+		40% {
 			transform: scale(1);
 		}
 	}
