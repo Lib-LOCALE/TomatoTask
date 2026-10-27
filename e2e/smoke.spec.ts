@@ -12,4 +12,27 @@ test('créer une tâche, piloter le minuteur et changer le thème', async ({ pag
 	await expect(page.getByRole('button', { name: 'Resume', exact: true })).toBeVisible();
 	await page.getByRole('button', { name: 'Switch to dark mode' }).click();
 	await expect(page.locator('html')).toHaveClass(/dark/);
+	await page.getByRole('button', { name: 'Reset', exact: true }).click();
+	await page.getByRole('button', { name: 'Short Break', exact: true }).click();
+	await page.getByRole('button', { name: 'Start', exact: true }).click();
+	await page.getByRole('button', { name: 'Skip', exact: true }).click();
+	await expect(page.getByRole('button', { name: 'Work', exact: true })).toHaveClass(/active/);
+});
+
+test('la fresque et les tâches restent accessibles dans le tiroir', async ({ page }) => {
+	await page.setViewportSize({ width: 700, height: 800 });
+	await page.goto('/');
+	await expect(page.getByRole('heading', { name: 'Préparer la réunion', level: 1 })).toBeVisible();
+	await expect(page.locator('.rail')).toBeHidden();
+	await page.getByRole('button', { name: 'Menu', exact: true }).click();
+	await expect(
+		page.getByRole('button', { name: 'Mark Préparer la réunion complete' })
+	).toBeVisible();
+	const task = page.getByRole('button', { name: 'Préparer la réunion', exact: true });
+	await expect(task).toBeVisible();
+	await task.focus();
+	await expect(task.locator('..').locator('div').last()).toHaveCSS('opacity', '1');
+	await page.getByRole('button', { name: 'Close', exact: true }).first().click();
+	await page.getByText('Weekly fresco').click();
+	await expect(page.locator('.week-row')).toHaveCount(7);
 });
