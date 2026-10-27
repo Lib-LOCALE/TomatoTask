@@ -20,9 +20,7 @@
 	};
 </script>
 
-<div
-	class="rounded-lg border-2 p-4 {colorClasses[color]} transition-all hover:shadow-md"
->
+<div class="rounded-lg border-2 p-4 {colorClasses[color]} transition-all hover:shadow-md">
 	<!-- Icône et titre -->
 	<div class="mb-2 flex items-center gap-2">
 		<span class="text-2xl">{icon}</span>

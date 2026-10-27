@@ -47,19 +47,13 @@
 	<button
 		type="button"
 		onclick={toggleTheme}
-		class="rounded-md p-2 hover:bg-muted transition-colors"
+		class="hover:bg-muted rounded-md p-2 transition-colors"
 		aria-label={currentTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
 		title={currentTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
 	>
 		{#if currentTheme === 'light'}
 			<!-- Icône lune (mode sombre) -->
-			<svg
-				class="h-5 w-5"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="2"
-				viewBox="0 0 24 24"
-			>
+			<svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 				<path
 					stroke-linecap="round"
 					stroke-linejoin="round"
@@ -68,15 +62,11 @@
 			</svg>
 		{:else}
 			<!-- Icône soleil (mode clair) -->
-			<svg
-				class="h-5 w-5"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="2"
-				viewBox="0 0 24 24"
-			>
+			<svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 				<circle cx="12" cy="12" r="4" />
-				<path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+				<path
+					d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+				/>
 			</svg>
 		{/if}
 	</button>
@@ -98,7 +88,7 @@
 			class:translate-x-1={currentTheme === 'light'}
 		>
 			{#if currentTheme === 'dark'}
-				<svg class="h-4 w-4 text-primary" fill="currentColor" viewBox="0 0 20 20">
+				<svg class="text-primary h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
 					<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
 				</svg>
 			{:else}

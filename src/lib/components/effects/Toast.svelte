@@ -47,7 +47,9 @@
 </script>
 
 <div
-	class="toast fixed right-4 top-4 z-50 min-w-80 max-w-md transform rounded-lg border-2 p-4 shadow-2xl transition-all duration-300 {typeStyles[type]}"
+	class="toast fixed top-4 right-4 z-50 max-w-md min-w-80 transform rounded-lg border-2 p-4 shadow-2xl transition-all duration-300 {typeStyles[
+		type
+	]}"
 	class:translate-x-0={visible}
 	class:translate-x-[120%]={!visible}
 	class:opacity-100={visible}

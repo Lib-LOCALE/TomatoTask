@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 **🎵 Ambient Sounds for Better Focus**
+
 - **New ambient soundscapes** - Four beautiful ambient sounds to enhance your focus sessions
   - 🐦 **Birds** - Peaceful chirping for a calming atmosphere
   - 🌲 **Forest** - Natural forest ambiance for deep concentration
@@ -23,10 +24,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Full internationalization** - Sound controls and labels translated in all 5 supported languages
 
 ### Changed
+
 - **Enhanced focus experience** - Audio feedback now includes ambient soundscapes
 - **Improved Settings Panel** - New dedicated section for ambient sounds
 
 ### Technical
+
 - Added high-quality MP3 audio files for all ambient sounds
 - Implemented sound service with mixing capabilities
 - Sound state persistence in application settings
@@ -35,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.18] - 2025-11-30
 
 ### Added
+
 - **Advanced Statistics Dashboard** - Comprehensive productivity analytics
   - Interactive heatmap showing activity patterns
   - Donut charts for session type distribution
@@ -52,15 +56,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Better project-based task organization
 
 ### Changed
+
 - **Improved Statistics UI** - More visual and informative charts
 - **Enhanced Project Management** - Better visual feedback and organization
 - **Updated Icons** - Optimized application icons for all platforms
 
 ### Fixed
+
 - **WebKit Dependencies** - Updated to version 4.1 for Ubuntu 24.04 compatibility
 - **Build Process** - Cleaned up output files and improved .gitignore
 
 ### Technical
+
 - Added new backend commands for statistics queries
 - Implemented data backup service with import/export functionality
 - Enhanced database migrations for statistics tracking
@@ -72,6 +79,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 **Accessibility (a11y) Improvements - Complete WCAG Compliance**
+
 - **Fixed accessibility issues across all modal components** - All components now meet WCAG 2.1 Level AA standards
   - Added proper `aria-label` attributes to all interactive elements (close buttons, action buttons)
   - Fixed heading and label text colors with `text-foreground` for proper contrast in both themes
@@ -82,6 +90,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - All interactive elements now have descriptive labels for assistive technologies
 
 **Components corrected:**
+
 - SettingsPanel - Proper aria-labels, semantic roles, and accessible form controls
 - App.svelte - All floating action buttons now have clear aria-labels
 - TaskModal - Accessible close button and proper heading structure
@@ -90,11 +99,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ProjectForm - Color picker group with proper labeling and ARIA attributes
 
 ### Changed
+
 - **Improved user experience for screen reader users** - All modals and interactive elements are now fully navigable
 - **Enhanced keyboard navigation** - Better focus management throughout the application
 - **Better color contrast** - All text elements now meet WCAG contrast requirements
 
 ### Technical
+
 - Comprehensive accessibility audit and fixes across all UI components
 - Consistent ARIA attribute usage throughout the application
 - Improved semantic HTML structure for better accessibility tree
@@ -102,6 +113,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.16] - 2025-11-26
 
 ### Fixed
+
 - **CRITICAL: White Screen Issue - DEFINITIVE FIX** - Completely resolved white screen on application startup
   - Added beautiful loading screen with animated tomato icon during bootstrap
   - Shows "Loading your productivity companion..." message to user
@@ -111,6 +123,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Improved user experience with smooth loading transition
 
 ### Changed
+
 - **Version Synchronization** - All version files properly synchronized to 1.0.16
   - package.json: 1.0.16
   - Cargo.toml: 1.0.16
@@ -118,6 +131,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - All builds now generate artifacts with correct version number
 
 ### Technical
+
 - Improved bootstrap sequence in main.ts with loading states
 - Enhanced error reporting for debugging startup issues
 - Better separation of concerns between loading and application mounting
@@ -125,6 +139,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.15] - 2025-11-24
 
 ### Fixed
+
 - **CRITICAL: White Screen Issue - COMPLETE FIX** - Finally resolved all causes of white screen on app launch
   - Added missing `settingsStore.load()` call in onMount lifecycle
   - Settings were never being loaded from database, causing default values to be used
@@ -133,6 +148,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - All platforms (Windows, Linux, macOS) now launch correctly with proper settings
 
 ### Changed
+
 - **Version Synchronization** - All version files now properly synchronized
   - package.json: 1.0.15
   - Cargo.toml: 1.0.15
@@ -142,6 +158,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.14] - 2025-11-24
 
 ### Fixed
+
 - **CRITICAL: White Screen Issue - REAL FIX** - Fixed missing settingsStore import in App.svelte
   - Added missing `settingsStore` import that was causing JavaScript error
   - Application was crashing on line 218 when checking `settingsStore.settings.enableProjects`
@@ -150,6 +167,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.13] - 2025-11-24
 
 ### Fixed
+
 - **White Screen Issue (Partial Fix)** - Fixed application crash causing blank screen
   - Removed quoted attribute in ProjectHeader component usage
   - Fixed Svelte 5 attribute stringification issue that prevented app from loading
@@ -158,6 +176,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.12] - 2025-11-24
 
 ### Added
+
 - **Project Drag-and-Drop** - Complete drag-and-drop support for task organization
   - Drag tasks between projects for easy reorganization
   - Visual feedback during drag operations with hover states
@@ -168,6 +187,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Clean, modern design with better visual hierarchy
 
 ### Changed
+
 - **Project List Overhaul** - Major redesign of the project sidebar
   - Improved UI with better visual feedback
   - Enhanced expand/collapse functionality
@@ -179,6 +199,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Smoother interactions
 
 ### Fixed
+
 - **HTML Validation Error** - Resolved nested button issue in ProjectList component
   - Replaced parent button with semantic div role="button"
   - Maintained full accessibility with keyboard support
@@ -186,12 +207,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Build Pipeline** - All builds now pass successfully on all platforms
 
 ### Technical
+
 - Cleaned up git history to consolidate all commits under single author
 - Improved code maintainability and organization
 
 ## [1.0.11] - 2025-11-24
 
 ### Fixed
+
 - Updated GitHub Actions security workflow to use CodeQL Action v4 (from deprecated v3)
   - Prevents future deprecation warnings and ensures continued security scanning
   - Updated all CodeQL action references: init@v4, autobuild@v4, analyze@v4
@@ -199,9 +222,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.10] - 2025-11-24
 
 ### Added
+
 - **Sound Effects** - Added completion sound (squashed_tomato.mp3) for better feedback when tasks are completed
 
 ### Changed
+
 - **UX Improvements** - Enhanced user experience across the application
   - Improved App.svelte main interface
   - Enhanced ProjectList component with better interactions
@@ -215,6 +240,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 **Dark Mode UI Improvements - Complete Modal Text Visibility Fix**
+
 - **Fixed text visibility in ALL modales** - All labels, headings, and text now have proper contrast in dark mode
   - Added `text-foreground` classes to all headings (h1, h2, h3) for automatic theme adaptation
   - Added `text-foreground` classes to all labels throughout the application
@@ -222,6 +248,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - All modales now have perfect text visibility in both light and dark themes
 
 **Modales corrected:**
+
 - SettingsPanel - Timer settings, appearance settings, all labels and descriptions
 - TaskModal & TaskForm - Task creation/editing, all form labels
 - ProjectModal & ProjectForm - Project creation/editing, color selector labels
@@ -232,6 +259,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Consistent text contrast in dark mode throughout all UI components
 
 ### Added
+
 - Flatpak build configuration files for future Linux distribution
   - Complete Flatpak manifest (flatpak/com.tomatotask.app.yml)
   - AppStream metadata for Flathub submission
@@ -242,6 +270,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 **CRITICAL: Linux AppImage Black Screen Issue**
+
 - **Removed external Google Fonts dependency** that was causing black screen on Linux AppImage
   - WebKit2GTK on Linux was blocking external font resources from fonts.googleapis.com
   - Replaced with reliable system fonts that work across all platforms
@@ -271,12 +300,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.7] - 2025-11-15
 
 ### Changed
+
 - Version bump to 1.0.7
 - Updated Windows icon to tomatoIcon.ico
 
 ## [1.0.6] - 2025-11-14
 
 ### Changed
+
 - Improved pixel art design system
 - Fixed icon paths for better consistency
 - Version synchronization improvements
@@ -284,6 +315,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.5] - 2025-11-14
 
 ### Changed
+
 - Major UX improvements
 - Enhanced UI consistency
 - Bug fixes and performance improvements
@@ -293,6 +325,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 **Onboarding Flow**
+
 - Complete 3-step onboarding experience for first-time users
   - Step 1: Language selection with flag emojis 🇬🇧 🇫🇷 🇪🇸 🇮🇹 🇩🇪
   - Step 2: Pomodoro technique explained in simple, accessible terms
@@ -302,12 +335,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "back" and "next" translations to common section
 
 **New Icon**
+
 - Added tomatoTask30x30.png for better system tray display
 - Updated tray icon configuration
 
 ### Changed
 
 **UI/UX Improvements**
+
 - Redesigned language selector with flag emojis
   - 🇬🇧 English, 🇫🇷 Français, 🇪🇸 Español, 🇮🇹 Italiano, 🇩🇪 Deutsch
   - Real flag emojis for better visual recognition
@@ -317,6 +352,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Flags appear in both dropdown and button variants
 
 **Dark Mode Enhancement**
+
 - Complete redesign of dark mode color palette for better visual harmony
   - Softer background with subtle blue tint to reduce eye strain
   - Modern purple-violet primary color (more vibrant and appealing)
@@ -327,6 +363,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Inspired by modern design systems (GitHub Dark, VS Code Dark)
 
 ### Fixed
+
 - **CRITICAL**: Fixed Svelte build error that caused GitHub Actions to fail
   - Changed `class:bg-primary/10` to `class:bg-accent` (Svelte doesn't support `/` in dynamic class bindings)
   - All builds now pass successfully ✅
@@ -344,6 +381,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Core Features (Phase 3 MVP)
 
 **US1 - Pomodoro Timer (P1)**
+
 - Customizable timer with work/short break/long break durations
 - Circular progress indicator with SVG animation
 - Timer controls (Start, Pause, Resume, Reset)
@@ -353,6 +391,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Real-time display of current task being worked on
 
 **US2 - Task Management (P1)**
+
 - Complete CRUD operations for tasks
 - Task list with filters (All, Active, Completed)
 - Task cards with progress indicators
@@ -363,6 +402,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Modal-based task creation/editing
 
 **US3 - Task-Pomodoro Integration (P2)**
+
 - Link tasks to timer sessions
 - Display current task in timer
 - Automatic Pomodoro increment on work session completion
@@ -370,6 +410,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Task selection from timer interface
 
 **US4 - Daily Summary (P2)**
+
 - Daily and weekly statistics views
 - Metrics tracked:
   - Completed tasks count
@@ -380,6 +421,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Summary cards with icons and formatting
 
 **US5 - Settings Panel (P3)**
+
 - Comprehensive settings modal
 - Timer configuration:
   - Work duration (1-60 minutes)
@@ -395,6 +437,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reset to defaults with confirmation
 
 **US6 - Language Selector (P2)**
+
 - Support for 5 languages:
   - 🇬🇧 English (default)
   - 🇫🇷 Français
@@ -408,6 +451,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Accessible via Ctrl+L shortcut
 
 **US7 - Theme Toggle (P3)**
+
 - Light and dark mode support
 - Toggle button with sun/moon icons
 - Floating button in header
@@ -417,6 +461,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Complete Tailwind dark: class support
 
 **US8 - System Tray & Notifications (P3)**
+
 - System tray icon for all platforms (Windows, macOS, Linux)
 - Tray tooltip showing timer state
 - Window management commands:
@@ -432,6 +477,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Minimize to tray on close (doesn't quit)
 
 **US9 - Project Organization (P3)**
+
 - Create, read, update, delete projects
 - Color-coded projects (8 presets + custom)
 - Project list with task count badges
@@ -443,6 +489,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Confirmation dialogs for destructive actions
 
 **US10 - Keyboard Shortcuts Help (P2)**
+
 - Shortcuts help modal (Ctrl+/)
 - Categorized shortcuts:
   - Timer controls
@@ -456,6 +503,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Foundation Layer (Phase 2)
 
 **Database Layer**
+
 - SQLite database with migrations system
 - 4 tables: projects, tasks, pomodoro_sessions, settings
 - Foreign key constraints
@@ -464,6 +512,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Schema versioning
 
 **Backend (Rust/Tauri)**
+
 - 23 Tauri commands for frontend-backend communication
 - Modular command structure
 - Database connection pooling
@@ -473,6 +522,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit tests for database queries
 
 **Frontend (TypeScript/Svelte 5)**
+
 - Svelte 5 Runes API ($state, $derived, $effect)
 - 24 reactive components
 - 6 service layers for business logic
@@ -483,6 +533,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - i18n service with locale detection
 
 **UI/UX**
+
 - Tailwind CSS styling
 - Shadcn-svelte components
 - Responsive layout (1200x800 default)
@@ -496,6 +547,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Technical
 
 **Architecture**
+
 - Clean separation: UI → Services → Stores → Backend
 - DRY principle throughout
 - Modular component design
@@ -503,6 +555,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Centralized state management
 
 **Performance**
+
 - Database queries <50ms target
 - Prepared statements
 - Efficient reactivity with Svelte Runes
@@ -510,6 +563,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lazy loading where applicable
 
 **Code Quality**
+
 - All Rust comments in French (project requirement)
 - TypeScript strict mode
 - Rust Clippy compliance
@@ -517,6 +571,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive error handling
 
 **Development Tools**
+
 - Vite for fast builds
 - Hot Module Replacement (HMR)
 - TypeScript checking
@@ -526,6 +581,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Configuration
 
 **Tauri Configuration**
+
 - Application: TomatoTask v1.0.0
 - Identifier: com.tomatotask.app
 - Window: 1200x800, resizable
@@ -533,6 +589,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Native notifications enabled
 
 **Build Targets**
+
 - Windows (MSI, NSIS)
 - macOS (DMG, App Bundle)
 - Linux (AppImage, Deb, RPM)
