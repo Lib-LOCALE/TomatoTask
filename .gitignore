@@ -42,3 +42,7 @@ check_output*.txt
 # Audio optimization
 public/sounds/originals/
 public/sounds/temp/
+
+/screenshots/
+/test-results/
+/playwright-report/

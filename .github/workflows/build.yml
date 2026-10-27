@@ -24,14 +24,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
       - name: TypeScript type check
-        run: npm run check || echo "Type check completed"
+        run: npm run check
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
@@ -40,7 +40,7 @@ jobs:
 
       - name: Rust Clippy
         working-directory: src-tauri
-        run: cargo clippy -- -D warnings || echo "Clippy check completed"
+        run: cargo clippy -- -D warnings
 
   # Job de build multi-plateforme
   build:
@@ -65,7 +65,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Setup Rust
