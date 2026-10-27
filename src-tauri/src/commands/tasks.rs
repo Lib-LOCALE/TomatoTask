@@ -107,16 +107,37 @@ pub fn reorder_tasks(task_ids: Vec<i64>, db: State<DbConnection>) -> Result<(), 
     let conn = db.get_connection();
     let mut conn = conn.lock().map_err(|e| e.to_string())?;
 
-    let tx = conn.transaction().map_err(|e| e.to_string())?;
+    reorder(&mut conn, &task_ids).map_err(|e| e.to_string())
+}
 
-    for (index, id) in task_ids.iter().enumerate() {
+fn reorder(conn: &mut rusqlite::Connection, ids: &[i64]) -> rusqlite::Result<()> {
+    let tx = conn.transaction()?;
+    for (index, id) in ids.iter().enumerate() {
         tx.execute(
             "UPDATE tasks SET position = ?1 WHERE id = ?2",
-            (index as i32, id),
-        ).map_err(|e| e.to_string())?;
+            (index as i64, id),
+        )?;
     }
+    tx.commit()
+}
 
-    tx.commit().map_err(|e| e.to_string())?;
-
-    Ok(())
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn reordonne() {
+        let mut conn = rusqlite::Connection::open_in_memory().unwrap();
+        crate::db::migrations::run_migrations(&conn).unwrap();
+        conn.execute_batch("INSERT INTO tasks (title) VALUES ('a'), ('b')")
+            .unwrap();
+        reorder(&mut conn, &[2, 1]).unwrap();
+        let first: i64 = conn
+            .query_row(
+                "SELECT id FROM tasks ORDER BY position LIMIT 1",
+                [],
+                |row| row.get(0),
+            )
+            .unwrap();
+        assert_eq!(first, 2);
+    }
 }
