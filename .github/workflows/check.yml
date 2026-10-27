@@ -33,6 +33,9 @@ jobs:
       - name: Check frontend
         run: npm run check
 
+      - name: Lint
+        run: npm run lint
+
       - name: Test frontend
         run: npm test
 
@@ -40,5 +43,12 @@ jobs:
         run: |
           cd src-tauri
           cargo check
-          cargo clippy -- -D warnings
+          cargo fmt --check
+          cargo clippy --all-targets -- -D warnings
           cargo test
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: End-to-end tests (browser mock backend)
+        run: npx playwright test
