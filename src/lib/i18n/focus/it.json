@@ -1,0 +1,17 @@
+{
+	"focus": {
+		"title": "Modalità focus",
+		"exit": "Esci",
+		"exitAria": "Esci dalla modalità focus",
+		"start": "Avvia",
+		"pause": "Pausa",
+		"resume": "Riprendi",
+		"skip": "Salta",
+		"tileGlazed": "Piastrella smaltata",
+		"noTask": "Nessuna attività assegnata",
+		"workSession": "Sessione di concentrazione",
+		"shortBreak": "Pausa breve",
+		"longBreak": "Pausa lunga",
+		"shortcutsHint": "Spazio: pausa/riprendi · Esc: esci"
+	}
+}

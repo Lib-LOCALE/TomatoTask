@@ -1,0 +1,17 @@
+{
+	"focus": {
+		"title": "Focus mode",
+		"exit": "Exit",
+		"exitAria": "Exit focus mode",
+		"start": "Start",
+		"pause": "Pause",
+		"resume": "Resume",
+		"skip": "Skip",
+		"tileGlazed": "Tile glazed",
+		"noTask": "No active task",
+		"workSession": "Focus session",
+		"shortBreak": "Short break",
+		"longBreak": "Long break",
+		"shortcutsHint": "Space: pause/resume · Esc: exit"
+	}
+}

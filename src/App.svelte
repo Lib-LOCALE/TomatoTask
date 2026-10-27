@@ -305,6 +305,10 @@
 				>
 				<div class="header-actions">
 					<button
+						onclick={() => (focusOpen = true)}
+						title={$_('views.focus')}
+						aria-label={$_('views.focus')}><Maximize2 size={20} /></button
+					><button
 						onclick={toggleMiniMode}
 						title={$_('majolica.mini')}
 						aria-label={$_('majolica.mini')}><Minimize2 size={20} /></button

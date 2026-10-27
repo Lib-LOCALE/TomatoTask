@@ -1,7 +1,7 @@
 import { defineConfig } from '@playwright/test';
 export default defineConfig({
 	testDir: './e2e',
-	testMatch: 'smoke.spec.ts',
+	testIgnore: 'screenshots.spec.ts',
 	use: { baseURL: 'http://127.0.0.1:1420', viewport: { width: 1280, height: 800 } },
 	webServer: {
 		command: 'npm run dev -- --host 127.0.0.1',
