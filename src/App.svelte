@@ -303,6 +303,15 @@
 					onclick={() => (drawerOpen = true)}
 					aria-label={$_('majolica.menu')}><Menu size={20} /></button
 				>
+				<nav class="view-tabs" aria-label={$_('insights.navigation')}>
+					{#each views as tab}
+						<button
+							type="button"
+							aria-current={view === tab ? 'page' : undefined}
+							onclick={() => (view = tab)}>{$_(`views.${tab}`)}</button
+						>
+					{/each}
+				</nav>
 				<div class="header-actions">
 					<button
 						onclick={toggleMiniMode}
