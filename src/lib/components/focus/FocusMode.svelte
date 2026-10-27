@@ -430,9 +430,8 @@
 		aspect-ratio: 1;
 		border-radius: var(--radius-xl, 6px);
 		box-shadow:
-			0 20px 48px rgba(0, 0, 0, 0.5),
-			0 0 0 1px rgba(255, 255, 255, 0.1),
-			inset 0 1px 2px rgba(255, 255, 255, 0.6);
+			0 0 0 1px var(--grout),
+			inset 0 1px rgba(255, 255, 255, 0.6);
 		overflow: hidden;
 		background: var(--glaze, #f6f8f7);
 	}
@@ -515,7 +514,7 @@
 		color: #ffffff;
 		font-size: 1rem;
 		padding: 10px 24px;
-		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+		box-shadow: inset 0 1px rgba(255, 255, 255, 0.2);
 		transition:
 			filter 150ms ease,
 			transform 150ms ease;

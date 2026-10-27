@@ -2,25 +2,29 @@
 	interface Point {
 		label: string;
 		value: number;
+		tiles?: number;
 	}
 	let { title, points, unit }: { title: string; points: Point[]; unit: string } = $props();
 	let selected = $state<Point | null>(null);
-	const max = $derived(Math.max(1, ...points.map((p) => p.value)));
-	const width = $derived(Math.max(420, points.length * 18));
+	const max = $derived(
+		Math.max(points.some((p) => p.tiles !== undefined) ? 1 : 5, ...points.map((p) => p.value))
+	);
+	let containerWidth = $state(0);
+	const width = $derived(Math.max(containerWidth - 64, points.length * 18, 1));
 	const step = $derived(width / Math.max(1, points.length));
 </script>
 
 <section class="chart">
 	<h3>{title}</h3>
-	<div class="scroll">
+	<div class="scroll" bind:clientWidth={containerWidth}>
 		<svg
-			viewBox={`0 0 ${width + 32} 150`}
+			viewBox={`0 0 ${width + 64} 150`}
 			role="group"
 			aria-label={title}
-			style={`min-width:${width + 32}px`}
+			style={`min-width:${width + 64}px`}
 		>
-			<line x1="30" y1="120" x2={width + 30} y2="120" stroke="var(--grout)" />
-			<text x="2" y="20">{max}</text><text x="12" y="123">0</text>
+			<line x1="62" y1="120" x2={width + 62} y2="120" stroke="var(--grout)" />
+			<text x="2" y="20">{max} {unit}</text><text x="2" y="123">0</text>
 			{#each points as point, i}
 				<g
 					role="img"
@@ -32,15 +36,46 @@
 					aria-label={`${point.label}: ${point.value} ${unit}`}
 				>
 					<title>{point.label}: {point.value} {unit}</title>
-					<rect
-						x={32 + i * step}
-						y={120 - (point.value / max) * 100}
-						width={Math.max(3, step - 3)}
-						height={Math.max(1, (point.value / max) * 100)}
-						rx="1"
-					/>
+					{#each Array(point.tiles ?? point.value) as _, tile}
+						<rect
+							x={64 +
+								i * step +
+								Math.max(
+									0,
+									(step -
+										Math.min(
+											step - 3,
+											(point.value / Math.max(1, point.tiles ?? point.value) / max) * 100
+										)) /
+										2
+								)}
+							y={120 -
+								(((tile + 1) * point.value) / Math.max(1, point.tiles ?? point.value) / max) * 100}
+							width={Math.max(
+								3,
+								Math.min(
+									step - 3,
+									(point.value / Math.max(1, point.tiles ?? point.value) / max) * 100
+								)
+							)}
+							height={Math.max(
+								1,
+								(point.value / Math.max(1, point.tiles ?? point.value) / max) * 100 - 2
+							)}
+						/>
+					{/each}
 					{#if points.length <= 7 || i % Math.ceil(points.length / 8) === 0}<text
-							x={32 + i * step}
+							x={64 +
+								i * step +
+								Math.max(
+									0,
+									(step -
+										Math.min(
+											step - 3,
+											(point.value / Math.max(1, point.tiles ?? point.value) / max) * 100
+										)) /
+										2
+								)}
 							y="140">{point.label}</text
 						>{/if}
 				</g>
