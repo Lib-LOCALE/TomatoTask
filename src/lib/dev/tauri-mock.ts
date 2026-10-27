@@ -56,7 +56,9 @@ export function installTauriMock(
 			createdAt: now(),
 			updatedAt: now(),
 			completedAt: i > 5 ? now() : null,
-			position: i
+			position: i,
+			plannedFor: null,
+			planPosition: null
 		}));
 		sessions = Array.from({ length: 33 }, (_, i) => {
 			const date = new Date();
@@ -159,7 +161,9 @@ export function installTauriMock(
 						createdAt: now(),
 						updatedAt: now(),
 						completedAt: null,
-						position: tasks.length
+						position: tasks.length,
+						plannedFor: null,
+						planPosition: null
 					};
 					tasks.push(t);
 					return { ...t };
@@ -187,6 +191,73 @@ export function installTauriMock(
 						find(tasks, id).position = i;
 					});
 					return;
+				case 'plan_task': {
+					const t = find(tasks, a.id);
+					t.plannedFor = a.date;
+					t.planPosition =
+						Math.max(
+							-1,
+							...tasks
+								.filter((x) => x.id !== t.id && x.plannedFor === a.date)
+								.map((x) => x.planPosition ?? -1)
+						) + 1;
+					return { ...t };
+				}
+				case 'unplan_task': {
+					const t = find(tasks, a.id);
+					t.plannedFor = null;
+					t.planPosition = null;
+					return { ...t };
+				}
+				case 'get_day_plan': {
+					const today = new Date().toLocaleDateString('en-CA');
+					const planned = tasks
+						.filter(
+							(t) =>
+								t.plannedFor === a.date ||
+								(a.date === today && t.plannedFor && t.plannedFor < a.date && !t.isCompleted)
+						)
+						.sort(
+							(x, y) =>
+								(x.planPosition ?? Infinity) - (y.planPosition ?? Infinity) ||
+								x.plannedFor.localeCompare(y.plannedFor) ||
+								x.id - y.id
+						);
+					return {
+						date: a.date,
+						tasks: structuredClone(
+							planned.map((t) => ({ ...t, carriedOver: t.plannedFor !== a.date }))
+						),
+						planned_pomodoros: planned.reduce((sum, t) => sum + t.estimatedPomodoros, 0),
+						completed_pomodoros: sessions.filter(
+							(s) =>
+								s.completedAt &&
+								new Date(s.completedAt).toLocaleDateString('en-CA') === a.date &&
+								!s.interrupted &&
+								s.sessionType === 'work'
+						).length
+					};
+				}
+				case 'reorder_plan': {
+					const today = new Date().toLocaleDateString('en-CA');
+					const expected = tasks
+						.filter(
+							(t) =>
+								t.plannedFor === a.date ||
+								(a.date === today && t.plannedFor && t.plannedFor < a.date && !t.isCompleted)
+						)
+						.map((t) => t.id)
+						.sort((x, y) => x - y);
+					if (
+						JSON.stringify([...a.taskIds].sort((x: number, y: number) => x - y)) !==
+						JSON.stringify(expected)
+					)
+						throw new Error('Ordre invalide');
+					a.taskIds.forEach((id: number, i: number) => {
+						find(tasks, id).planPosition = i;
+					});
+					return;
+				}
 				case 'create_session': {
 					const s = {
 						id: nextId(sessions),

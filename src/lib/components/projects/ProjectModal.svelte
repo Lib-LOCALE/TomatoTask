@@ -41,65 +41,51 @@
 		onClose();
 	}
 
-	/**
-	 * Gère le clic sur le backdrop
-	 */
-	function handleBackdropClick(event: MouseEvent) {
-		// Vérifie si on clique directement sur le dialog (et non sur son contenu)
-		const target = event.target as HTMLElement;
-		if (target.tagName === 'DIALOG') {
-			handleClose();
-		}
-	}
+	let dialogElement: HTMLDialogElement;
+	$effect(() => {
+		if (!dialogElement) return;
+		if (isOpen && !dialogElement.open) dialogElement.showModal();
+		else if (!isOpen && dialogElement.open) dialogElement.close();
+	});
 </script>
 
-{#if isOpen}
-	<!-- Backdrop -->
-	<div
-		class="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm"
-		onclick={handleClose}
-		role="presentation"
-	></div>
+<dialog
+	bind:this={dialogElement}
+	oncancel={(event) => {
+		event.preventDefault();
+		handleClose();
+	}}
+	onclick={(event) => {
+		if (event.target === dialogElement) handleClose();
+	}}
+	class="border-border bg-background fixed top-1/2 left-1/2 z-50 m-0 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border p-0 shadow-2xl"
+>
+	<div class="w-full" role="none">
+		<!-- Header -->
+		<div class="flex items-center justify-between border-b px-6 py-4">
+			<h2 class="text-foreground text-lg font-semibold">
+				{project ? $_('projects.form.editTitle') : $_('projects.form.createTitle')}
+			</h2>
 
-	<!-- Modal -->
-	<dialog
-		open
-		class="border-border bg-background fixed top-1/2 left-1/2 z-50 m-0 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg border p-0 shadow-2xl"
-	>
-		>
-		<div class="w-full" role="none">
-			<!-- Header -->
-			<div class="flex items-center justify-between border-b px-6 py-4">
-				<h2 class="text-foreground text-lg font-semibold">
-					{project ? $_('projects.form.editTitle') : $_('projects.form.createTitle')}
-				</h2>
-
-				<button
-					type="button"
-					onclick={handleClose}
-					class="hover:bg-muted rounded-md p-1"
-					title={$_('common.close')}
-					aria-label={$_('common.close')}
-				>
-					<svg
-						class="h-5 w-5"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						viewBox="0 0 24 24"
-					>
-						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-					</svg>
-				</button>
-			</div>
-
-			<!-- Contenu: Formulaire -->
-			<div class="px-6 py-4">
-				<ProjectForm {project} onSave={handleSave} onCancel={handleClose} />
-			</div>
+			<button
+				type="button"
+				onclick={handleClose}
+				class="hover:bg-muted rounded-md p-1"
+				title={$_('common.close')}
+				aria-label={$_('common.close')}
+			>
+				<svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+				</svg>
+			</button>
 		</div>
-	</dialog>
-{/if}
+
+		<!-- Contenu: Formulaire -->
+		<div class="px-6 py-4">
+			{#if isOpen}<ProjectForm {project} onSave={handleSave} onCancel={handleClose} />{/if}
+		</div>
+	</div>
+</dialog>
 
 <style>
 	dialog {
@@ -109,6 +95,5 @@
 
 	dialog::backdrop {
 		background-color: rgba(0, 0, 0, 0.7);
-		backdrop-filter: blur(4px);
 	}
 </style>
