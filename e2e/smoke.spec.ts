@@ -53,6 +53,9 @@ test('planifier deux tâches, ajuster et commencer la journée', async ({ page }
 		.click();
 	await page.getByRole('button', { name: 'Increase estimate : Préparer la réunion' }).click();
 	await expect(page.locator('.summary')).toContainText('6 Planned');
+	await page.getByRole('button', { name: 'Decrease estimate : Préparer la réunion' }).focus();
+	await page.keyboard.press('Space');
+	await expect(page.locator('.summary')).toContainText('5 Planned');
 	await page.getByRole('button', { name: 'Start the day' }).click();
 	await expect(page.getByRole('heading', { name: 'Préparer la réunion', level: 1 })).toBeVisible();
 });

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
-	import { ArrowDown, ArrowUp, Plus, Minus, X } from '@lucide/svelte';
+	import { ArrowDown, ArrowUp, Plus, X } from '@lucide/svelte';
 	import { planStore } from '$lib/stores/plan.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { projectStore } from '$lib/stores/projects.svelte';
@@ -68,7 +68,7 @@
 			<div class="tiles" aria-hidden="true">
 				{#each Array(Math.max(plan?.planned_pomodoros ?? 0, plan?.completed_pomodoros ?? 0)) as _, i}<span
 						><Tile
-							state={i < (plan?.completed_pomodoros ?? 0) ? 'glazed' : 'empty'}
+							state={i < (plan?.completed_pomodoros ?? 0) ? 'glazed' : 'planned'}
 							position={i}
 						/></span
 					>{/each}
@@ -113,36 +113,58 @@
 									<span class:done={task.isCompleted}>{task.title}</span
 									>{#if task.carriedOver}<small>{$_('plan.carried')}</small>{/if}
 								</div>
+								<div
+									class="task-tiles"
+									role="group"
+									aria-label={`${$_('tasks.estimatedPomodoros')} : ${task.title}`}
+								>
+									{#each Array(task.estimatedPomodoros) as ignored, tile}
+										{#if tile === task.estimatedPomodoros - 1}
+											<button
+												class="tile-button"
+												aria-label={`${$_('plan.decrease')} : ${task.title}`}
+												title={$_('plan.decrease')}
+												onclick={() => estimate(task, -1)}
+												><Tile
+													state={tile < task.completedPomodoros ? 'glazed' : 'planned'}
+													position={tile}
+												/></button
+											>
+										{:else}
+											<span class="tile-static"
+												><Tile
+													state={tile < task.completedPomodoros ? 'glazed' : 'planned'}
+													position={tile}
+												/></span
+											>
+										{/if}
+									{/each}
+									{#if task.estimatedPomodoros < 20}
+										<button
+											class="tile-button add-tile"
+											aria-label={`${$_('plan.increase')} : ${task.title}`}
+											title={$_('plan.increase')}
+											onclick={() => estimate(task, 1)}
+											><Tile state="empty" position={task.estimatedPomodoros} /><Plus
+												size={16}
+											/></button
+										>
+									{/if}
+								</div>
 								<div class="controls">
 									<button
 										class="icon"
 										disabled={i === 0}
 										aria-label={`${$_('plan.up')} : ${task.title}`}
 										onclick={() => move(task.id, i - 1)}><ArrowUp size={16} /></button
-									><button
+									>
+									<button
 										class="icon"
 										disabled={i === plan.tasks.length - 1}
 										aria-label={`${$_('plan.down')} : ${task.title}`}
 										onclick={() => move(task.id, i + 1)}><ArrowDown size={16} /></button
-									><button
-										class="icon"
-										disabled={task.estimatedPomodoros <= 0}
-										aria-label={`${$_('plan.decrease')} : ${task.title}`}
-										onclick={() => estimate(task, -1)}><Minus size={16} /></button
-									><span class="estimate">{task.estimatedPomodoros}</span>
-									<span class="task-tiles" aria-hidden="true"
-										>{#each Array(Math.min(task.estimatedPomodoros, 10)) as _, tile}<span
-												><Tile
-													state={tile < task.completedPomodoros ? 'glazed' : 'empty'}
-													position={tile}
-												/></span
-											>{/each}</span
-									><button
-										class="icon"
-										disabled={task.estimatedPomodoros >= 20}
-										aria-label={`${$_('plan.increase')} : ${task.title}`}
-										onclick={() => estimate(task, 1)}><Plus size={16} /></button
-									><button
+									>
+									<button
 										class="icon"
 										aria-label={`${$_('plan.remove')} : ${task.title}`}
 										onclick={() => change('unplan_task', task.id)}><X size={16} /></button
@@ -188,7 +210,7 @@
 		margin-top: 12px;
 	}
 	.tiles span {
-		width: 30px;
+		width: min(100px, 15vw);
 		border: 1px solid var(--grout);
 	}
 	.capacity,
@@ -228,7 +250,11 @@
 		min-height: 50px;
 		padding: 6px 0;
 	}
+	.columns section:nth-child(2) li {
+		flex-wrap: wrap;
+	}
 	.task-name {
+		flex: 1 1 100%;
 		min-width: 0;
 		overflow-wrap: anywhere;
 	}
@@ -259,17 +285,29 @@
 	}
 	.task-tiles {
 		display: flex;
+		flex-wrap: wrap;
 		gap: 1px;
+		flex: 1 1 200px;
 	}
-	.task-tiles span {
-		width: 12px;
+	.tile-button,
+	.tile-static {
+		position: relative;
+		width: 38px;
+		flex: none;
 		border: 1px solid var(--grout);
 	}
-	.estimate {
-		min-width: 24px;
-		text-align: center;
-		font-variant-numeric: tabular-nums;
+	.tile-button:focus-visible {
+		outline: 2px solid var(--primary);
+		outline-offset: 2px;
+		z-index: 1;
 	}
+	.add-tile > :global(svg) {
+		position: absolute;
+		inset: 0;
+		margin: auto;
+		color: var(--foreground);
+	}
+
 	.empty {
 		color: var(--muted-foreground);
 		padding: 20px 0;
