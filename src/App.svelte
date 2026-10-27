@@ -7,7 +7,6 @@
 	import TaskModal from '$lib/components/tasks/TaskModal.svelte';
 	import ProjectList from '$lib/components/projects/ProjectList.svelte';
 	import ProjectModal from '$lib/components/projects/ProjectModal.svelte';
-	import SummaryView from '$lib/components/summary/SummaryView.svelte';
 	import LanguageSelector from '$lib/components/settings/LanguageSelector.svelte';
 	import ShortcutsHelp from '$lib/components/keyboard/ShortcutsHelp.svelte';
 	import ThemeToggle from '$lib/components/settings/ThemeToggle.svelte';
@@ -15,6 +14,9 @@
 	import OnboardingFlow from '$lib/components/onboarding/OnboardingFlow.svelte';
 	import ToastContainer from '$lib/components/effects/ToastContainer.svelte';
 	import DayFresco from '$lib/components/majolica/DayFresco.svelte';
+	import PlanView from '$lib/components/plan/PlanView.svelte';
+	import InsightsView from '$lib/components/insights/InsightsView.svelte';
+	import FocusMode from '$lib/components/focus/FocusMode.svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { projectStore } from '$lib/stores/projects.svelte';
@@ -26,7 +28,7 @@
 
 	import { WindowService } from '$lib/services/window-service';
 	import MiniTimer from '$lib/components/timer/MiniTimer.svelte';
-	import { Minimize2, Settings, Menu, X } from '@lucide/svelte';
+	import { Minimize2, Maximize2, Settings, Menu, X } from '@lucide/svelte';
 	import { fade, fly } from 'svelte/transition';
 
 	// État des modals
@@ -38,6 +40,11 @@
 	let showShortcutsHelp = $state(false);
 	let showSettings = $state(false);
 	let isMiniMode = $state(false);
+
+	// Vues principales et mode focus immersif
+	const views = ['today', 'plan', 'insights'] as const;
+	let view = $state<(typeof views)[number]>('today');
+	let focusOpen = $state(false);
 	let drawerOpen = $state(false);
 	let streak = $state(0);
 
@@ -242,6 +249,8 @@
 
 {#if isMiniMode}
 	<MiniTimer onExpand={toggleMiniMode} />
+{:else if focusOpen}
+	<FocusMode onClose={() => (focusOpen = false)} />
 {:else}
 	<main class="app-shell" class:focused={timerStore.isRunning && timerStore.sessionType === 'work'}>
 		<aside class="rail" class:open={drawerOpen}>
@@ -307,11 +316,16 @@
 				</div>
 			</header>
 			<div class="workspace-scroll">
-				<div class="main-grid">
-					<PomodoroTimer autoAdvance={true} />
-					<div class="fresco-panel"><DayFresco onStreak={(days) => (streak = days)} /></div>
-				</div>
-				<div id="statistics" class="statistics"><SummaryView /></div>
+				{#if view === 'today'}
+					<div class="main-grid">
+						<PomodoroTimer autoAdvance={true} />
+						<div class="fresco-panel"><DayFresco onStreak={(days) => (streak = days)} /></div>
+					</div>
+				{:else if view === 'plan'}
+					<PlanView />
+				{:else}
+					<InsightsView />
+				{/if}
 			</div>
 		</section>
 	</main>
@@ -605,6 +619,23 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 12px 20px 0;
+	}
+	.view-tabs {
+		display: flex;
+		gap: 4px;
+	}
+	.view-tabs button {
+		padding: 8px 14px;
+		border-radius: var(--radius);
+		font-weight: 600;
+		color: var(--muted-foreground);
+	}
+	.view-tabs button:hover {
+		color: var(--foreground);
+	}
+	.view-tabs button[aria-current='page'] {
+		background: var(--primary);
+		color: var(--primary-foreground);
 	}
 	.header-actions {
 		display: flex;

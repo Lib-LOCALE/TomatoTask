@@ -243,5 +243,12 @@
 		"mini": "Mini mode",
 		"markComplete": "Mark {title} complete",
 		"markActive": "Mark {title} active"
+	},
+	"views": {
+		"label": "Views",
+		"today": "Today",
+		"plan": "Plan",
+		"insights": "Review",
+		"focus": "Focus mode"
 	}
 }

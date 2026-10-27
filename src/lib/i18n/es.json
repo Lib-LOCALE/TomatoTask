@@ -241,5 +241,12 @@
 		"mini": "Modo mini",
 		"markComplete": "Completar {title}",
 		"markActive": "Reactivar {title}"
+	},
+	"views": {
+		"label": "Vistas",
+		"today": "Hoy",
+		"plan": "Planificar",
+		"insights": "Balance",
+		"focus": "Modo enfoque"
 	}
 }

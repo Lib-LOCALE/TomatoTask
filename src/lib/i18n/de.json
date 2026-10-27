@@ -241,5 +241,12 @@
 		"mini": "Mini-Modus",
 		"markComplete": "{title} abschließen",
 		"markActive": "{title} wieder öffnen"
+	},
+	"views": {
+		"label": "Ansichten",
+		"today": "Heute",
+		"plan": "Planen",
+		"insights": "Rückblick",
+		"focus": "Fokusmodus"
 	}
 }

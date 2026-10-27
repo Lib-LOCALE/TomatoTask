@@ -241,5 +241,12 @@
 		"mini": "Modalità mini",
 		"markComplete": "Completa {title}",
 		"markActive": "Riattiva {title}"
+	},
+	"views": {
+		"label": "Viste",
+		"today": "Oggi",
+		"plan": "Pianifica",
+		"insights": "Bilancio",
+		"focus": "Modalità focus"
 	}
 }
