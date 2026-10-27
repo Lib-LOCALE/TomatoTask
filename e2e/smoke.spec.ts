@@ -8,6 +8,7 @@ test('créer une tâche, piloter le minuteur et changer le thème', async ({ pag
 	await page.locator('form button[type=submit]').click();
 	await expect(page.getByText('Préparer le test').first()).toBeVisible();
 	await page.getByRole('button', { name: 'Start', exact: true }).click();
+	await expect(page.locator('.tile.painting .sketch').first()).toBeVisible();
 	await page.getByRole('button', { name: 'Pause', exact: true }).click();
 	await expect(page.getByRole('button', { name: 'Resume', exact: true })).toBeVisible();
 	await page.getByRole('button', { name: 'Switch to dark mode' }).click();
@@ -70,4 +71,16 @@ test('créer un projet dans le rail et fermer son édition au clavier', async ({
 	await expect(page.getByRole('dialog')).toBeVisible();
 	await page.keyboard.press('Escape');
 	await expect(page.getByRole('dialog')).toBeHidden();
+});
+
+test('le bilan change de période et présente un état vide', async ({ page }) => {
+	await page.goto('/');
+	await page.getByRole('button', { name: 'Review', exact: true }).click();
+	await page.getByRole('button', { name: '30 days' }).click();
+	await expect(page.getByText(/pomodoros in 30 days/)).toBeVisible();
+	await page.getByRole('button', { name: '90 days' }).click();
+	await expect(page.getByText(/pomodoros in 90 days/)).toBeVisible();
+	await page.goto('/?seed=empty');
+	await page.getByRole('button', { name: 'Review', exact: true }).click();
+	await expect(page.getByRole('heading', { name: 'Your first tile is waiting' })).toBeVisible();
 });

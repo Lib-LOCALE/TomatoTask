@@ -14,7 +14,45 @@
 	);
 </script>
 
-<div class="tile" class:glazed={state === 'glazed'} class:animate aria-hidden="true">
+<div
+	class="tile"
+	class:glazed={state === 'glazed'}
+	class:painting={state === 'painting'}
+	class:animate
+	aria-hidden="true"
+>
+	{#if state !== 'empty' && state !== 'planned'}<svg
+			class="ornament"
+			viewBox="0 0 100 100"
+			preserveAspectRatio="none"
+			aria-hidden="true"
+		>
+			<rect
+				x="3"
+				y="3"
+				width="94"
+				height="94"
+				rx="1"
+				fill="none"
+				stroke="var(--cobalt)"
+				stroke-width="2"
+			/>
+			<path
+				d="M0 15 Q8 14 15 0 M0 9 Q5 8 9 0 M100 15 Q92 14 85 0 M100 9 Q95 8 91 0 M0 85 Q8 86 15 100 M0 91 Q5 92 9 100 M100 85 Q92 86 85 100 M100 91 Q95 92 91 100"
+				fill="none"
+				stroke="var(--cobalt)"
+				stroke-width="2"
+			/>
+		</svg>{/if}
+	{#if state === 'painting'}
+		<svg class="sketch" viewBox="0 0 100 100" preserveAspectRatio="none">
+			<path d={pattern.stem} />
+			<path d={pattern.leaf} />
+			<circle cx={pattern.fruitX} cy={pattern.fruitY} r="13" />
+			<path d={`M${pattern.fruitX - 7} ${pattern.fruitY - 10} l7 3 7 -3 -7 6z`} />
+			{#if pattern.flower}<path d="M75 18 l3 6 7 1 -5 5 1 7 -6 -4 -6 4 1 -7 -5 -5 7 -1z" />{/if}
+		</svg>
+	{/if}
 	<div class="paint" style:clip-path={`inset(${100 - reveal}% 0 0 0)`}>
 		<svg viewBox="0 0 100 100" preserveAspectRatio="none">
 			<path d={pattern.stem} fill="none" stroke="var(--copper)" stroke-width="3" />
@@ -48,8 +86,15 @@
 		aspect-ratio: 1;
 		min-width: 0;
 		overflow: hidden;
-		background: var(--glaze);
-		box-shadow: inset 0 1px rgba(255, 255, 255, 0.6);
+		background: color-mix(in srgb, var(--manganese) 12%, var(--glaze));
+		box-shadow: inset 0 1px 3px rgba(36, 28, 22, 0.18);
+	}
+	.tile.glazed,
+	.tile.painting {
+		background: color-mix(in srgb, var(--card) 65%, var(--glaze));
+		box-shadow:
+			inset 0 1px 2px rgba(255, 255, 255, 0.48),
+			inset 0 -2px 3px rgba(30, 45, 64, 0.12);
 	}
 	.paint,
 	svg {
@@ -57,6 +102,16 @@
 		inset: 0;
 		width: 100%;
 		height: 100%;
+	}
+	.painting .ornament {
+		opacity: 0.35;
+	}
+	.sketch {
+		fill: none;
+		stroke: var(--manganese);
+		stroke-width: 0.8;
+		stroke-dasharray: 1 1.5;
+		opacity: 0.7;
 	}
 	.paint {
 		transition: clip-path 1s linear;
@@ -87,6 +142,15 @@
 		);
 		transform: translateX(-120%);
 		animation: shine 300ms 600ms ease-out;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.paint {
+			transition: none;
+		}
+		.animate .paint,
+		.animate::after {
+			animation: none;
+		}
 	}
 	@keyframes paint {
 		from {
