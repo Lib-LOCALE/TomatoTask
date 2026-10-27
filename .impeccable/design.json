@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-27T10:39:16.051192+00:00",
+  "title": "Design System: TomatoTask",
+  "extensions": {
+    "colorMeta": {
+      "glaze": {
+        "role": "neutral",
+        "displayName": "Émail blanc froid",
+        "canonical": "#f6f8f7",
+        "tonalRamp": [
+          "oklch(15% 0.028 230)",
+          "oklch(25% 0.052 230)",
+          "oklch(35% 0.068 230)",
+          "oklch(45% 0.080 230)",
+          "oklch(55% 0.080 230)",
+          "oklch(65% 0.072 230)",
+          "oklch(80% 0.040 230)",
+          "oklch(95% 0.010 230)"
+        ]
+      },
+      "cobalt": {
+        "role": "primary",
+        "displayName": "Cobalt profond",
+        "canonical": "#1d3f83",
+        "tonalRamp": [
+          "oklch(15% 0.045 260)",
+          "oklch(25% 0.085 260)",
+          "oklch(35% 0.111 260)",
+          "oklch(45% 0.130 260)",
+          "oklch(55% 0.130 260)",
+          "oklch(65% 0.117 260)",
+          "oklch(80% 0.065 260)",
+          "oklch(95% 0.016 260)"
+        ]
+      },
+      "tomato": {
+        "role": "secondary",
+        "displayName": "Tomate",
+        "canonical": "#b93424",
+        "tonalRamp": [
+          "oklch(15% 0.045 30)",
+          "oklch(25% 0.085 30)",
+          "oklch(35% 0.111 30)",
+          "oklch(45% 0.130 30)",
+          "oklch(55% 0.130 30)",
+          "oklch(65% 0.117 30)",
+          "oklch(80% 0.065 30)",
+          "oklch(95% 0.016 30)"
+        ]
+      },
+      "yolk": {
+        "role": "secondary",
+        "displayName": "Jaune d’œuf",
+        "canonical": "#e3b435",
+        "tonalRamp": [
+          "oklch(15% 0.045 90)",
+          "oklch(25% 0.085 90)",
+          "oklch(35% 0.111 90)",
+          "oklch(45% 0.130 90)",
+          "oklch(55% 0.130 90)",
+          "oklch(65% 0.117 90)",
+          "oklch(80% 0.065 90)",
+          "oklch(95% 0.016 90)"
+        ]
+      },
+      "copper": {
+        "role": "secondary",
+        "displayName": "Vert cuivre",
+        "canonical": "#317450",
+        "tonalRamp": [
+          "oklch(15% 0.045 155)",
+          "oklch(25% 0.085 155)",
+          "oklch(35% 0.111 155)",
+          "oklch(45% 0.130 155)",
+          "oklch(55% 0.130 155)",
+          "oklch(65% 0.117 155)",
+          "oklch(80% 0.065 155)",
+          "oklch(95% 0.016 155)"
+        ]
+      },
+      "manganese": {
+        "role": "neutral",
+        "displayName": "Manganèse",
+        "canonical": "#655249",
+        "tonalRamp": [
+          "oklch(15% 0.028 55)",
+          "oklch(25% 0.052 55)",
+          "oklch(35% 0.068 55)",
+          "oklch(45% 0.080 55)",
+          "oklch(55% 0.080 55)",
+          "oklch(65% 0.072 55)",
+          "oklch(80% 0.040 55)",
+          "oklch(95% 0.010 55)"
+        ]
+      },
+      "grout": {
+        "role": "neutral",
+        "displayName": "Joint",
+        "canonical": "#b5a9a0",
+        "tonalRamp": [
+          "oklch(15% 0.028 55)",
+          "oklch(25% 0.052 55)",
+          "oklch(35% 0.068 55)",
+          "oklch(45% 0.080 55)",
+          "oklch(55% 0.080 55)",
+          "oklch(65% 0.072 55)",
+          "oklch(80% 0.040 55)",
+          "oklch(95% 0.010 55)"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Encre cobalt",
+        "canonical": "#172e59",
+        "tonalRamp": [
+          "oklch(15% 0.028 260)",
+          "oklch(25% 0.052 260)",
+          "oklch(35% 0.068 260)",
+          "oklch(45% 0.080 260)",
+          "oklch(55% 0.080 260)",
+          "oklch(65% 0.072 260)",
+          "oklch(80% 0.040 260)",
+          "oklch(95% 0.010 260)"
+        ]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Surface blanche",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0.028 230)",
+          "oklch(25% 0.052 230)",
+          "oklch(35% 0.068 230)",
+          "oklch(45% 0.080 230)",
+          "oklch(55% 0.080 230)",
+          "oklch(65% 0.072 230)",
+          "oklch(80% 0.040 230)",
+          "oklch(95% 0.010 230)"
+        ]
+      },
+      "dark-background": {
+        "role": "neutral",
+        "displayName": "Nuit cobalt",
+        "canonical": "#101c33",
+        "tonalRamp": [
+          "oklch(15% 0.028 260)",
+          "oklch(25% 0.052 260)",
+          "oklch(35% 0.068 260)",
+          "oklch(45% 0.080 260)",
+          "oklch(55% 0.080 260)",
+          "oklch(65% 0.072 260)",
+          "oklch(80% 0.040 260)",
+          "oklch(95% 0.010 260)"
+        ]
+      },
+      "dark-glaze": {
+        "role": "neutral",
+        "displayName": "Émail nocturne",
+        "canonical": "#172846",
+        "tonalRamp": [
+          "oklch(15% 0.028 260)",
+          "oklch(25% 0.052 260)",
+          "oklch(35% 0.068 260)",
+          "oklch(45% 0.080 260)",
+          "oklch(55% 0.080 260)",
+          "oklch(65% 0.072 260)",
+          "oklch(80% 0.040 260)",
+          "oklch(95% 0.010 260)"
+        ]
+      },
+      "dark-foreground": {
+        "role": "neutral",
+        "displayName": "Encre claire",
+        "canonical": "#edf3ff",
+        "tonalRamp": [
+          "oklch(15% 0.028 260)",
+          "oklch(25% 0.052 260)",
+          "oklch(35% 0.068 260)",
+          "oklch(45% 0.080 260)",
+          "oklch(55% 0.080 260)",
+          "oklch(65% 0.072 260)",
+          "oklch(80% 0.040 260)",
+          "oklch(95% 0.010 260)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Minuteur",
+        "purpose": "Chiffres du minuteur en cellules fixes."
+      },
+      "headline": {
+        "displayName": "Titre",
+        "purpose": "Titre de la tâche et sections."
+      },
+      "body": {
+        "displayName": "Interface",
+        "purpose": "Texte et commandes."
+      }
+    },
+    "shadows": [
+      {
+        "name": "Émail",
+        "value": "inset 0 1px rgba(255,255,255,.7), 0 2px 5px rgba(22,42,70,.12)",
+        "purpose": "Reflet et ombre légère des surfaces."
+      }
+    ],
+    "motion": [
+      {
+        "name": "Émaillage",
+        "value": "600ms ease-out, puis 300ms ease-out",
+        "purpose": "Peinture puis reflet de cuisson."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "Fresque sous le minuteur",
+        "value": "1100px"
+      },
+      {
+        "name": "Tiroir",
+        "value": "760px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Bouton principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Commande ordinaire en cobalt.",
+      "html": "<button class=\"ds-button\">Ajouter</button>",
+      "css": ".ds-button { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:4px; padding:8px 16px; height:36px; background:var(--primary, #1d3f83); color:var(--primary-foreground, #fff); font:500 14px \"Source Sans 3 Variable\",sans-serif; cursor:pointer; } .ds-button:hover { opacity:.9; } .ds-button:focus-visible { outline:3px solid var(--ring, #2859ad); outline-offset:3px; }"
+    },
+    {
+      "name": "Action de session",
+      "kind": "button",
+      "refersTo": "button-session",
+      "description": "Action principale du minuteur, colorée selon la session.",
+      "html": "<button class=\"ds-session\">Démarrer</button>",
+      "css": ".ds-session { border:0; border-radius:4px; padding:15px; width:240px; background:var(--session-work, #b93424); color:#fff; font:700 16px \"Source Sans 3 Variable\",sans-serif; box-shadow:var(--enamel-shadow, inset 0 1px rgba(255,255,255,.7), 0 2px 5px rgba(22,42,70,.12)); cursor:pointer; } .ds-session:focus-visible { outline:3px solid var(--ring, #2859ad); outline-offset:3px; } .ds-session:hover { filter:brightness(.94); }"
+    },
+    {
+      "name": "Champ",
+      "kind": "input",
+      "description": "Champ bordé avec focus visible.",
+      "html": "<input class=\"ds-input\" placeholder=\"Titre de la tâche\">",
+      "css": ".ds-input { height:36px; padding:4px 12px; border:1px solid var(--input, #b5a9a0); border-radius:4px; background:var(--background, #f6f8f7); color:var(--foreground, #172e59); font:16px \"Source Sans 3 Variable\",sans-serif; } .ds-input:focus-visible { outline:3px solid var(--ring, #2859ad); outline-offset:3px; }"
+    },
+    {
+      "name": "Onglets de session",
+      "kind": "nav",
+      "description": "Sélection du type de session.",
+      "html": "<nav class=\"ds-tabs\"><button class=\"ds-tab ds-active\">Travail</button><button class=\"ds-tab\">Pause courte</button></nav>",
+      "css": ".ds-tabs { display:flex; gap:4px; } .ds-tab { border:0; padding:8px 10px; border-radius:3px; color:var(--muted-foreground, #59504b); background:transparent; font:700 14px \"Source Sans 3 Variable\",sans-serif; cursor:pointer; } .ds-active { background:var(--primary, #1d3f83); color:var(--primary-foreground, #fff); } .ds-tab:focus-visible { outline:3px solid var(--ring, #2859ad); outline-offset:3px; }"
+    },
+    {
+      "name": "Carreau émaillé",
+      "kind": "custom",
+      "description": "Motif peint sur un carreau carré bordé de joint.",
+      "html": "<div class=\"ds-tile\"><svg viewBox=\"0 0 100 100\" aria-hidden=\"true\"><path d=\"M0 50 C25 32 30 68 50 50 S75 32 100 50 M50 0 C32 25 68 30 50 50 S32 75 50 100\" fill=\"none\" stroke=\"var(--copper, #317450)\" stroke-width=\"3\"/><path d=\"M50 50 Q18 18 15 37 Q24 52 50 50\" fill=\"var(--copper, #317450)\"/><circle cx=\"30\" cy=\"70\" r=\"13\" fill=\"var(--tomato, #b93424)\"/></svg></div>",
+      "css": ".ds-tile { width:100px; aspect-ratio:1; background:var(--glaze, #f6f8f7); border:1px solid var(--grout, #b5a9a0); box-shadow:inset 0 1px rgba(255,255,255,.6); } .ds-tile svg { width:100%; height:100%; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Majolique vivante",
+    "overview": "Un émail blanc froid accueille une interface de travail calme, structurée par des joints fins et des pigments de céramique. Le rail cobalt et la composition en carreaux donnent une présence matérielle à une application locale et quotidienne.",
+    "keyCharacteristics": [
+      "Carreaux nus ou peints assemblés par des joints visibles.",
+      "Cobalt pour la navigation, pigments distincts pour les sessions.",
+      "Contraste entre une typographie d’affichage expressive et une interface lisible.",
+      "Nuit cobalt et mouvements réduits pris en charge."
+    ],
+    "rules": [],
+    "dos": [
+      "Do garder les chiffres du minuteur tabulaires et dans des cellules fixes.",
+      "Do respecter les préférences de réduction des mouvements et les couleurs sémantiques des sessions.",
+      "Do conserver le raccord des motifs aux bords des carreaux."
+    ],
+    "donts": [
+      "Don’t charger les polices à distance : l’application fonctionne hors ligne.",
+      "Don’t remplacer la progression peinte par un anneau de progression.",
+      "Don’t utiliser de verre décoratif ou d’ombre portée dure."
+    ]
+  }
+}
