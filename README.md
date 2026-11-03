@@ -1,133 +1,132 @@
-# TomatoTask
+# 🍅 TomatoTask
 
-**Cross-platform Pomodoro timer and task manager**
-Built with Svelte, TypeScript, Tauri, Rust, and SQLite.
+> **Local-first Pomodoro timer and task manager to stay focused and productive**
 
-[Download](https://github.com/Lib-LOCALE/TomatoTask/releases/latest) · [Usage](#usage) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
+[![Version](https://img.shields.io/github/v/release/Lib-LOCALE/TomatoTask?label=version&color=red)](https://github.com/Lib-LOCALE/TomatoTask/releases/latest)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-blue.svg)](https://github.com/Lib-LOCALE/TomatoTask/releases/latest)
 
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)
+[📥 Download](https://github.com/Lib-LOCALE/TomatoTask/releases/latest) · [🐛 Report Bug](https://github.com/Lib-LOCALE/TomatoTask/issues)
 
-## Overview
+---
 
-TomatoTask is a local-first desktop productivity app that combines Pomodoro sessions, task management, project organization, statistics, themes, keyboard shortcuts, and native notifications.
+## ✨ Why TomatoTask?
 
-This repository is maintained as a quality-focused desktop application project: clear documentation, structured contribution guidelines, security policy, automated checks, and release packaging.
+**Simple. Local. Effective.**
 
-## Screenshots
+- 🔒 **100% local** - Your data stays on your computer
+- ⚡ **Fast & lightweight** - Native app, no browser needed
+- 🎨 **Modern interface** - Clean "Majolique" design
+- 🌍 **Multilingual** - English, French, Spanish, Italian, German
+- 🌓 **Dark/Light themes** - Visual comfort day and night
+
+## 📸 Screenshots
 
 <table>
   <tr>
     <td width="50%">
-      <img src=".github/images/Capture%20d'écran%202025-12-01%20095142.png" alt="Main timer interface" />
-      <p align="center"><strong>Main timer interface</strong></p>
+      <img src=".github/images/Capture%20d'écran%202025-12-01%20095142.png" alt="Main interface" />
+      <p align="center"><em>Pomodoro Timer</em></p>
     </td>
     <td width="50%">
       <img src=".github/images/Capture%20d'écran%202025-12-01%20095150.png" alt="Task management" />
-      <p align="center"><strong>Task management and projects</strong></p>
+      <p align="center"><em>Task Management</em></p>
     </td>
   </tr>
   <tr>
     <td width="50%">
       <img src=".github/images/Capture%20d'écran%202025-12-01%20095157.png" alt="Statistics" />
-      <p align="center"><strong>Statistics and productivity</strong></p>
+      <p align="center"><em>Detailed Statistics</em></p>
     </td>
     <td width="50%">
       <img src=".github/images/Capture%20d'écran%202025-12-01%20095207.png" alt="Settings" />
-      <p align="center"><strong>Settings and customization</strong></p>
+      <p align="center"><em>Customization</em></p>
     </td>
   </tr>
 </table>
 
-## Features
+## 🚀 Features
 
-- Custom work, short break, and long break durations
-- Visual timer progress and dynamic window title
-- Task creation, filtering, completion tracking, and project organization
-- Daily and weekly productivity statistics
-- Data export for backup and recovery
-- Light and dark themes
-- Multilingual interface: English, French, Spanish, Italian, and German
-- Keyboard shortcuts for common actions
-- Native desktop notifications
-- Windows and Linux packaging through Tauri
+### ⏱️ Pomodoro Timer
+- Customizable work sessions, short & long breaks
+- Visual progress bar
+- Native notifications
 
-## Technology Stack
+### ✅ Task Management
+- Quick task and project creation
+- Daily planning with drag & drop
+- Filters and search
+- Completion tracking
 
-- Svelte 5 and TypeScript for the user interface
-- Tauri and Rust for the desktop shell
-- SQLite for local persistence
-- Tailwind CSS for styling
-- Vite for the build pipeline
-- Vitest and Playwright for testing
-- ESLint and Prettier for code quality
+### 📊 Insights & Statistics
+- Daily and weekly productivity
+- Progress charts
+- Focus Mode for deep work
+- Data export for backup
 
-## Quality Signals
+### 🎨 Personalization
+- Configurable session durations
+- Light/Dark theme
+- 5 languages available
+- Keyboard shortcuts
 
-This project includes:
-
-- `npm run check` for Svelte and TypeScript validation
-- `npm run lint` for formatting and lint checks
-- `npm run test:unit` for unit tests
-- `npm run test:e2e` for end-to-end tests
-- GitHub Actions workflows for checks, builds, releases, and security
-- `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, and `CODE_OF_CONDUCT.md`
-
-## Installation
-
-Download the latest release:
-
-[TomatoTask releases](https://github.com/Lib-LOCALE/TomatoTask/releases/latest)
+## 📥 Installation
 
 ### Windows
-
-Download and run the x64 installer from the latest release.
+1. [Download the latest release](https://github.com/Lib-LOCALE/TomatoTask/releases/latest)
+2. Run the `.exe` installer
+3. You're ready! 🎉
 
 ### Linux
-
-Download the AppImage, make it executable, and run it:
-
 ```bash
+# Download the .AppImage file
 chmod +x TomatoTask_*_amd64.AppImage
 ./TomatoTask_*_amd64.AppImage
 ```
 
-## Development
+## 💡 Quick Start
 
-Install dependencies:
+1. **Launch TomatoTask**
+2. **Create a task** - Click "+" to add what you need to do
+3. **Start a session** - 25 minutes of pure focus
+4. **Take a break** - 5 minutes to recharge
+5. **Check your stats** - Track your productivity
+
+## 🛠️ Development
+
+**Tech stack:** Svelte 5 + TypeScript + Tauri + Rust + SQLite
 
 ```bash
+# Install dependencies
 npm install
-```
 
-Run the development server:
-
-```bash
-npm run dev
-```
-
-Run quality checks:
-
-```bash
-npm run check
-npm run lint
-npm run test:unit
-```
-
-Run the Tauri app:
-
-```bash
+# Run in development mode
 npm run tauri dev
+
+# Build for production
+npm run tauri build
 ```
 
-## Usage
+## 📝 What's New in v1.1.0
 
-1. Launch TomatoTask.
-2. Configure timer durations and preferences.
-3. Create a task or project.
-4. Start a focus session.
-5. Track completed sessions and productivity statistics.
+- 🎨 "Majolique" UI Refresh - Modernized interface
+- 🎯 Focus Mode - Distraction-free work
+- 📅 Daily Planning - Organize your day
+- 📊 Enhanced Insights - Better charts
+- ✅ E2E Tests - More reliability
 
-## License
+[See full CHANGELOG](CHANGELOG.md)
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+## 🤝 Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+---
+
+<p align="center">
+  Made with ❤️ for productivity
+</p>
