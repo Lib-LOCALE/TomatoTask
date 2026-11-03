@@ -5,6 +5,41 @@ All notable changes to TomatoTask will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-11-03
+
+### Added
+
+**🎨 Major UI/UX Modernization - "Majolique" Design System**
+
+- **Focus Mode** - Distraction-free mode for deep work sessions
+- **Day Planning** - Plan your tasks for the day with drag-and-drop
+- **Enhanced Insights** - Improved analytics dashboard with better visualizations
+- **E2E Testing Suite** - Comprehensive end-to-end tests for reliability
+  - Focus mode tests
+  - Screenshot testing for UI consistency
+  - Smoke tests for critical paths
+- **Documentation Overhaul**
+  - Added DESIGN.md - Design system and UI guidelines
+  - Added OPTIMIZATION.md - Performance optimization guide
+  - Added PRODUCT.md - Product vision and roadmap
+  - Updated README with better structure and information
+
+### Changed
+
+- **Improved Build System** - Enhanced CI/CD workflows with better dependency management
+- **Better Code Quality** - Updated ESLint configuration
+- **Prettier Configuration** - Streamlined formatting setup
+
+### Removed
+
+- **Flatpak Distribution** - Removed in favor of simpler distribution methods
+
+### Technical
+
+- Added `.impeccable` design configuration
+- Enhanced GitHub Actions workflows for better reliability
+- Improved gitignore and prettierignore configurations
+
 ## [1.0.19] - 2025-12-01
 
 ### Added
