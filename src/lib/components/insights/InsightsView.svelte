@@ -148,8 +148,10 @@
 							{@const serial = serials[index]?.[position]}
 							<span
 								class="tile-wrap"
-								title={serial ? $_('insights.serial', { values: { serial } }) : dateLabel(day.date)}
-								tabindex={serial ? 0 : undefined}
+								role="img"
+								data-tip={serial
+									? $_('insights.serial', { values: { serial } })
+									: dateLabel(day.date)}
 								aria-label={serial
 									? $_('insights.serial', { values: { serial } })
 									: dateLabel(day.date)}
@@ -285,9 +287,9 @@
 		display: block;
 		min-width: 0;
 	}
-	.tile-wrap:hover::after,
-	.tile-wrap:focus-visible::after {
-		content: attr(title);
+	/* Infobulle unique (un attribut title doublerait celle du système) */
+	.tile-wrap:hover::after {
+		content: attr(data-tip);
 		position: absolute;
 		z-index: 2;
 		bottom: 100%;
@@ -299,10 +301,6 @@
 		color: var(--popover-foreground);
 		border: 1px solid var(--border);
 		font-size: 0.8rem;
-	}
-	.tile-wrap:focus-visible {
-		outline: 2px solid var(--ring);
-		outline-offset: 2px;
 	}
 	.rankings {
 		display: grid;

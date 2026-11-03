@@ -12,6 +12,12 @@
 	let containerWidth = $state(0);
 	const width = $derived(Math.max(containerWidth - 64, points.length * 18, 1));
 	const step = $derived(width / Math.max(1, points.length));
+	// Chaque point est un empilement de carreaux de même hauteur
+	const tileCount = (point: Point) => Math.max(1, point.tiles ?? point.value);
+	const tileHeight = (point: Point) => (point.value / tileCount(point) / max) * 100;
+	const barWidth = (point: Point) => Math.max(3, Math.min(step - 3, tileHeight(point)));
+	const barX = (point: Point, i: number) =>
+		64 + i * step + Math.max(0, (step - barWidth(point)) / 2);
 </script>
 
 <section class="chart">
@@ -28,9 +34,6 @@
 			{#each points as point, i}
 				<g
 					role="img"
-					tabindex="0"
-					onfocus={() => (selected = point)}
-					onblur={() => (selected = null)}
 					onmouseenter={() => (selected = point)}
 					onmouseleave={() => (selected = null)}
 					aria-label={`${point.label}: ${point.value} ${unit}`}
@@ -38,45 +41,16 @@
 					<title>{point.label}: {point.value} {unit}</title>
 					{#each Array(point.tiles ?? point.value) as _, tile}
 						<rect
-							x={64 +
-								i * step +
-								Math.max(
-									0,
-									(step -
-										Math.min(
-											step - 3,
-											(point.value / Math.max(1, point.tiles ?? point.value) / max) * 100
-										)) /
-										2
-								)}
-							y={120 -
-								(((tile + 1) * point.value) / Math.max(1, point.tiles ?? point.value) / max) * 100}
-							width={Math.max(
-								3,
-								Math.min(
-									step - 3,
-									(point.value / Math.max(1, point.tiles ?? point.value) / max) * 100
-								)
-							)}
-							height={Math.max(
-								1,
-								(point.value / Math.max(1, point.tiles ?? point.value) / max) * 100 - 2
-							)}
+							x={barX(point, i)}
+							y={120 - (tile + 1) * tileHeight(point)}
+							width={barWidth(point)}
+							height={Math.max(1, tileHeight(point) - 2)}
 						/>
 					{/each}
 					{#if points.length <= 7 || i % Math.ceil(points.length / 8) === 0}<text
-							x={64 +
-								i * step +
-								Math.max(
-									0,
-									(step -
-										Math.min(
-											step - 3,
-											(point.value / Math.max(1, point.tiles ?? point.value) / max) * 100
-										)) /
-										2
-								)}
-							y="140">{point.label}</text
+							x={64 + i * step + step / 2}
+							y="140"
+							text-anchor="middle">{point.label}</text
 						>{/if}
 				</g>
 			{/each}
@@ -117,12 +91,7 @@
 	rect {
 		fill: var(--cobalt);
 	}
-	g:hover rect,
-	g:focus rect {
+	g:hover rect {
 		fill: var(--tomato);
-	}
-	g:focus {
-		outline: 2px solid var(--ring);
-		outline-offset: 2px;
 	}
 </style>

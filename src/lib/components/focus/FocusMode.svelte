@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy, untrack } from 'svelte';
 	import { _ } from 'svelte-i18n';
 	import { Play, Pause, SkipForward, X } from '@lucide/svelte';
 	import Tile from '$lib/components/majolica/Tile.svelte';
@@ -8,19 +8,14 @@
 	import { settingsStore } from '$lib/stores/settings.svelte';
 	import {
 		onSessionCompleteCallback,
-		startNextSession,
-		startSession,
-		pauseTimer,
-		resumeTimer,
-		stopTimer
+		skipSession,
+		toggleTimer as toggleSession
 	} from '$lib/services/timer-service';
-	import { notifyComplete } from '$lib/services/notification-service';
 	import type { SessionType } from '$lib/types';
 
 	let { onClose }: { onClose: () => void } = $props();
 
 	let busy = $state(false);
-	let selectedType = $state<SessionType>('work');
 	let controlsVisible = $state(true);
 	let hideTimeout: number | null = null;
 	let showGlazedToast = $state(false);
@@ -39,7 +34,7 @@
 
 	// Type de session courant (issu du minuteur en cours ou de la sélection locale)
 	const currentType = $derived(
-		timerStore.remainingSeconds > 0 ? timerStore.sessionType : selectedType
+		timerStore.remainingSeconds > 0 ? timerStore.sessionType : timerStore.nextType
 	);
 
 	const isBreak = $derived(currentType === 'short_break' || currentType === 'long_break');
@@ -85,22 +80,9 @@
 	async function toggleTimer(): Promise<void> {
 		if (busy) return;
 		resetActivityTimer();
-
-		if (timerStore.isRunning) {
-			pauseTimer();
-			return;
-		}
-
-		if (timerStore.remainingSeconds > 0) {
-			resumeTimer();
-			return;
-		}
-
 		busy = true;
-		isGlazed = false;
-		animateTile = false;
 		try {
-			await startSession(selectedType, task?.id);
+			await toggleSession(task?.id);
 		} finally {
 			busy = false;
 		}
@@ -112,11 +94,9 @@
 	async function handleSkip(): Promise<void> {
 		if (busy) return;
 		resetActivityTimer();
-		const prev = currentType;
-		await stopTimer();
+		await skipSession();
 		isGlazed = false;
 		animateTile = false;
-		selectedType = prev === 'work' ? 'short_break' : 'work';
 	}
 
 	/**
@@ -177,49 +157,44 @@
 	}
 
 	/**
-	 * Traite la complétion d'une session
+	 * Effets visuels propres au mode focus quand une session se termine
+	 * (notification, rechargement des tâches et enchaînement sont gérés par le service)
 	 */
-	async function handleSessionComplete(sessionType: SessionType): Promise<void> {
-		if (sessionType === 'work') {
-			isGlazed = true;
-			animateTile = true;
-			showGlazedToast = true;
+	function handleSessionComplete(sessionType: SessionType): void {
+		if (sessionType !== 'work') return;
+		isGlazed = true;
+		animateTile = true;
+		showGlazedToast = true;
 
-			if (toastTimeout !== null) {
-				window.clearTimeout(toastTimeout);
-			}
-			toastTimeout = window.setTimeout(() => {
-				showGlazedToast = false;
-			}, 3500);
-
-			await taskStore.load();
+		if (toastTimeout !== null) {
+			window.clearTimeout(toastTimeout);
 		}
+		toastTimeout = window.setTimeout(() => {
+			showGlazedToast = false;
+		}, 3500);
+	}
 
-		await notifyComplete(sessionType);
-
-		const autoStart =
-			(sessionType === 'work' && settingsStore.settings.autoStartBreaks) ||
-			(sessionType !== 'work' && settingsStore.settings.autoStartPomodoros);
-
-		if (autoStart) {
-			window.setTimeout(() => {
+	// Une nouvelle session efface le carreau émaillé de la précédente
+	$effect(() => {
+		if (timerStore.sessionId !== undefined) {
+			untrack(() => {
 				isGlazed = false;
 				animateTile = false;
-				void startNextSession(task?.id);
-			}, 3000);
-		} else {
-			selectedType = sessionType === 'work' ? 'short_break' : 'work';
+			});
 		}
-	}
+	});
+
+	let unsubscribeComplete: (() => void) | null = null;
 
 	onMount(() => {
 		enterFullscreen();
 		resetActivityTimer();
 		mainButtonEl?.focus();
-		onSessionCompleteCallback(handleSessionComplete);
+		unsubscribeComplete = onSessionCompleteCallback(handleSessionComplete);
 	});
 
 	onDestroy(() => {
+		unsubscribeComplete?.();
 		exitFullscreen();
 		if (hideTimeout !== null) window.clearTimeout(hideTimeout);
 		if (toastTimeout !== null) window.clearTimeout(toastTimeout);

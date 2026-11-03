@@ -133,3 +133,29 @@ test('le mini-mode affiche les commandes dans une fenêtre de 300 par 150', asyn
 	await expect(page.getByRole('button', { name: 'Start', exact: true })).toBeVisible();
 	await expect(page.getByRole('button', { name: 'Return to full window' })).toBeVisible();
 });
+
+test("sur téléphone, l'en-tête garde toutes ses commandes à l'écran", async ({ page }) => {
+	await page.setViewportSize({ width: 320, height: 700 });
+	await page.goto('/');
+	for (const name of ['Menu', 'Today', 'Plan', 'Review', 'Focus mode', 'Settings']) {
+		const button = page.getByRole('button', { name, exact: true });
+		await expect(button).toBeInViewport({ ratio: 1 });
+	}
+	const overflow = await page.locator('.app-header').evaluate((h) => h.scrollWidth - h.clientWidth);
+	expect(overflow).toBeLessThanOrEqual(0);
+});
+
+test('Ctrl+S démarre la session avec la tâche affichée', async ({ page }) => {
+	await page.goto('/');
+	const title = await page.locator('.spotlight h1').textContent();
+	await page.locator('body').click();
+	await page.keyboard.press('Control+s');
+	await expect(page.getByRole('button', { name: 'Pause', exact: true })).toBeVisible();
+	await expect(page.locator('.spotlight h1')).toHaveText(title ?? '');
+	const taskId = await page.evaluate(async () => {
+		const path = '/src/lib/stores/timer.svelte.ts';
+		const { timerStore } = await import(/* @vite-ignore */ path);
+		return timerStore.taskId;
+	});
+	expect(taskId).toBeDefined();
+});

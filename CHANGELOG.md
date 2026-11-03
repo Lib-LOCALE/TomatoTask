@@ -610,6 +610,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- New animated logo: a majolica tomato drawn in the app's palette, painted in on first display, gently animated only while a work session runs, and static when reduced motion is requested (`BrandLogo.svelte`, `public/logo.svg`, `public/favicon.svg`).
+
+### Fixed
+
+- The previous animated SVG icons were cropped (stem, focus ring, "Z" and celebration tomato left their frame), detached the stem from the fruit while animating and ignored `prefers-reduced-motion`; they were also no longer displayed anywhere and have been removed.
+- The timer now follows the real clock: it no longer drifts when the window is hidden or the computer wakes from sleep.
+- `Ctrl+S` starts the session shown on screen with the selected task (it used to start an unlinked work session).
+- The next session type (work, short or long break) is shared by the main view, focus mode and mini mode; session completion (task counters, notification, auto-start) works whichever view is open, and auto-start no longer interrupts a session started manually in the meantime.
+- Mini mode shows the duration of the proposed session and a "Resume" label when paused.
+- On phones (≤ 480 px) every header command stays on screen.
+- Review charts: axis labels are centred under their bars, the fresco no longer shows two tooltips and no longer adds dozens of tab stops.
+- A failing notification no longer interrupts the end of a session.
+
+### Removed
+
+- Unused components left over from the previous interface (summary view, statistics charts, legacy timer controls, loader, confetti, particles, counters, card primitives) and the unused template `commands.svelte.ts`.
+
 ### Planned Features
 
 - Cloud sync for multi-device support

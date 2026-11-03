@@ -2,18 +2,21 @@
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { settingsStore } from '$lib/stores/settings.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
-	import { startSession, pauseTimer, resumeTimer } from '$lib/services/timer-service';
+	import { toggleTimer } from '$lib/services/timer-service';
 	import { _ } from 'svelte-i18n';
 	import { Maximize2 } from '@lucide/svelte';
 	import Tile from '$lib/components/majolica/Tile.svelte';
 
 	let { onExpand }: { onExpand: () => void } = $props();
 
-	function toggleTimer() {
-		if (timerStore.isRunning) pauseTimer();
-		else if (timerStore.remainingSeconds > 0) resumeTimer();
-		else void startSession('work', taskStore.selectedTask?.id);
-	}
+	// Durée de la session proposée quand le minuteur est à l'arrêt
+	const idleMinutes = $derived(
+		timerStore.nextType === 'work'
+			? settingsStore.settings.workDuration
+			: timerStore.nextType === 'short_break'
+				? settingsStore.settings.shortBreakDuration
+				: settingsStore.settings.longBreakDuration
+	);
 </script>
 
 <div class="mini" data-tauri-drag-region>
@@ -22,11 +25,15 @@
 		<div class="time" data-tauri-drag-region>
 			{timerStore.totalSeconds
 				? timerStore.displayTime()
-				: `${String(settingsStore.settings.workDuration).padStart(2, '0')}:00`}
+				: `${String(idleMinutes).padStart(2, '0')}:00`}
 		</div>
 		<div class="controls">
-			<button class="start" type="button" onclick={toggleTimer}>
-				{timerStore.isRunning ? $_('timer.pause') : $_('timer.start')}
+			<button class="start" type="button" onclick={() => toggleTimer(taskStore.selectedTask?.id)}>
+				{timerStore.isRunning
+					? $_('timer.pause')
+					: timerStore.remainingSeconds > 0
+						? $_('timer.resume')
+						: $_('timer.start')}
 			</button>
 			<button
 				class="expand"

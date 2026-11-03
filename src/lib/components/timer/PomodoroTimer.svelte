@@ -1,31 +1,22 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { _ } from 'svelte-i18n';
 	import { Volume2, Play, Pause } from '@lucide/svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { settingsStore } from '$lib/stores/settings.svelte';
-	import {
-		onSessionCompleteCallback,
-		startNextSession,
-		startSession,
-		pauseTimer,
-		resumeTimer,
-		stopTimer
-	} from '$lib/services/timer-service';
-	import { notifyComplete } from '$lib/services/notification-service';
+	import { skipSession, stopTimer, toggleTimer } from '$lib/services/timer-service';
 	import SoundControl from '$lib/components/sounds/SoundControl.svelte';
 	import Tile from '$lib/components/majolica/Tile.svelte';
 	import type { SessionType } from '$lib/types';
-	let { autoAdvance = false }: { autoAdvance?: boolean } = $props();
-	let selectedType = $state<SessionType>('work');
 	let busy = $state(false);
 	const task = $derived(
 		timerStore.taskId
 			? taskStore.tasks.find((t) => t.id === timerStore.taskId)
 			: taskStore.selectedTask
 	);
-	const type = $derived(timerStore.remainingSeconds > 0 ? timerStore.sessionType : selectedType);
+	const type = $derived(
+		timerStore.remainingSeconds > 0 ? timerStore.sessionType : timerStore.nextType
+	);
 	const duration = $derived(
 		type === 'work'
 			? settingsStore.settings.workDuration
@@ -40,38 +31,13 @@
 	);
 	async function toggle() {
 		if (busy) return;
-		if (timerStore.isRunning) {
-			pauseTimer();
-			return;
-		}
-		if (timerStore.remainingSeconds > 0) {
-			resumeTimer();
-			return;
-		}
 		busy = true;
 		try {
-			await startSession(selectedType, taskStore.selectedTask?.id);
+			await toggleTimer(taskStore.selectedTask?.id);
 		} finally {
 			busy = false;
 		}
 	}
-	async function skip() {
-		const currentType = type;
-		await stopTimer();
-		selectedType = currentType === 'work' ? 'short_break' : 'work';
-	}
-	async function complete(sessionType: SessionType) {
-		if (sessionType === 'work') await taskStore.load();
-		await notifyComplete(sessionType);
-		if (
-			autoAdvance &&
-			((sessionType === 'work' && settingsStore.settings.autoStartBreaks) ||
-				(sessionType !== 'work' && settingsStore.settings.autoStartPomodoros))
-		) {
-			setTimeout(() => void startNextSession(taskStore.selectedTask?.id), 3000);
-		} else selectedType = sessionType === 'work' ? 'short_break' : 'work';
-	}
-	onMount(() => onSessionCompleteCallback(complete));
 </script>
 
 <div class="timer" class:short={type === 'short_break'} class:long={type === 'long_break'}>
@@ -82,7 +48,7 @@
 					type="button"
 					class:active={type === item}
 					disabled={timerStore.remainingSeconds > 0}
-					onclick={() => (selectedType = item as SessionType)}
+					onclick={() => (timerStore.nextType = item as SessionType)}
 					>{$_(
 						item === 'work'
 							? 'timer.work'
@@ -130,7 +96,7 @@
 				/>{timerStore.remainingSeconds > 0 ? $_('timer.resume') : $_('timer.start')}{/if}</button
 		>
 		<div class="secondary-actions">
-			<button type="button" onclick={skip}>{$_('majolica.skip')}</button><button
+			<button type="button" onclick={() => skipSession()}>{$_('majolica.skip')}</button><button
 				type="button"
 				onclick={() => stopTimer()}>{$_('majolica.reset')}</button
 			>

@@ -15,6 +15,13 @@ class TimerStore {
 	taskId = $state<number | undefined>(undefined);
 	sessionId = $state<number | undefined>(undefined);
 	pomodoroCount = $state(0);
+	// Type de la prochaine session proposée, partagé par toutes les vues
+	nextType = $state<SessionType>('work');
+
+	// Échéance en millisecondes : le décompte suit l'horloge réelle et ne dérive pas
+	// quand la fenêtre est masquée ou que la machine sort de veille.
+	#endsAt: number | null = null;
+	#lastRemaining = 0;
 
 	// Dérivé: progression en pourcentage
 	progress = $derived(() => {
@@ -49,6 +56,16 @@ class TimerStore {
 		this.taskId = linkedTaskId;
 		this.sessionId = dbSessionId;
 		this.isRunning = true;
+		this.#arm();
+	}
+
+	/**
+	 * Recale l'échéance sur le temps restant affiché
+	 */
+	#arm(): number {
+		this.#endsAt = Date.now() + this.remainingSeconds * 1000;
+		this.#lastRemaining = this.remainingSeconds;
+		return this.#endsAt;
 	}
 
 	/**
@@ -56,13 +73,16 @@ class TimerStore {
 	 */
 	pause(): void {
 		this.isRunning = false;
+		this.#endsAt = null;
 	}
 
 	/**
 	 * Reprend le timer
 	 */
 	resume(): void {
+		if (this.remainingSeconds <= 0) return;
 		this.isRunning = true;
+		this.#arm();
 	}
 
 	/**
@@ -73,10 +93,11 @@ class TimerStore {
 		this.remainingSeconds = 0;
 		this.totalSeconds = 0;
 		this.sessionId = undefined;
+		this.#endsAt = null;
 	}
 
 	/**
-	 * Décrémente le timer d'une seconde
+	 * Met à jour le temps restant à partir de l'échéance
 	 *
 	 * @returns true si le timer a atteint zéro
 	 */
@@ -85,10 +106,18 @@ class TimerStore {
 			return false;
 		}
 
-		this.remainingSeconds -= 1;
+		// Le temps restant a été modifié de l'extérieur : on repart de cette valeur
+		const endsAt =
+			this.#endsAt === null || this.remainingSeconds !== this.#lastRemaining
+				? this.#arm()
+				: this.#endsAt;
+
+		const remaining = Math.max(0, Math.ceil((endsAt - Date.now()) / 1000));
+		if (remaining !== this.remainingSeconds) this.remainingSeconds = remaining;
+		this.#lastRemaining = remaining;
 
 		// Retourne true si terminé
-		return this.remainingSeconds === 0;
+		return remaining === 0;
 	}
 
 	/**

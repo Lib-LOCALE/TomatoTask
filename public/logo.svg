@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 32 32" role="img" aria-labelledby="t">
+  <title id="t">TomatoTask</title>
+  <style>
+    .body { fill: #ea6652; stroke: #4a2f27; stroke-width: 1.1; }
+    .glint { fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; opacity: .75; }
+    .stem { fill: none; stroke: #6cb98a; stroke-width: 1.8; stroke-linecap: round; }
+    .calyx, .leaf { fill: #6cb98a; stroke: #4a2f27; stroke-width: .8; stroke-linejoin: round; }
+    /* Les pivots sont dans le repère du viewBox : rien ne sort du cadre */
+    .leaf { transform-origin: 18px 5.4px; animation: sway 4s ease-in-out infinite; }
+    .fruit { transform-origin: 16px 29px; animation: breathe 4s ease-in-out infinite; }
+    @keyframes sway { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-12deg); } }
+    @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.035, 1.02); } }
+    @media (prefers-reduced-motion: reduce) { .leaf, .fruit { animation: none; } }
+  </style>
+  <g class="fruit">
+    <path class="body" d="M16 9.6C9.4 8.6 4.6 12.9 4.6 19.1 4.6 25.4 9.6 29 16 29s11.4-3.6 11.4-9.9c0-6.2-4.8-10.5-11.4-9.5Z"/>
+    <path class="glint" d="M8.6 16.6c.5-2.3 2-3.7 4-4.1"/>
+  </g>
+  <path class="stem" d="M16 10.5c0-3 .8-5.2 2.4-7"/>
+  <path class="calyx" d="M16 9.2 19.8 7.6 18.2 10.6 22 11.7 17.7 12.2 16 14.6 14.3 12.2 10 11.7 13.8 10.6 12.2 7.6Z"/>
+  <path class="leaf" d="M18 5.4c2.4-2.6 5.6-3 8.2-1.4-1.6 3-4.8 4-8.2 1.4Z"/>
+</svg>

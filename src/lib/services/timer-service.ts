@@ -1,20 +1,55 @@
 // Service de gestion du timer Pomodoro
 import { invoke } from '@tauri-apps/api/core';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 import { timerStore } from '$lib/stores/timer.svelte';
 import { settingsStore } from '$lib/stores/settings.svelte';
+import { taskStore } from '$lib/stores/tasks.svelte';
+import { notifyComplete } from '$lib/services/notification-service';
 import type { SessionType, PomodoroSession } from '$lib/types';
-import { getCurrentWindow } from '@tauri-apps/api/window';
 
 /**
- * Intervalle du timer (mis à jour chaque seconde)
+ * Fréquence de rafraîchissement : le temps restant est calculé depuis l'échéance,
+ * un rafraîchissement fréquent évite simplement les secondes sautées à l'affichage.
  */
-let timerInterval: number | null = null;
+const TICK_MS = 250;
 
 /**
- * Callback appelé quand une session se termine
+ * Délai avant l'enchaînement automatique de la session suivante
+ */
+const AUTO_ADVANCE_MS = 3000;
+
+let timerInterval: number | null = null;
+let autoAdvanceTimeout: number | null = null;
+let lastTitleSecond = -1;
+
+/**
+ * Callbacks appelés quand une session se termine (effets propres à une vue)
  */
 type SessionCompleteCallback = (sessionType: SessionType) => void;
-let onSessionComplete: SessionCompleteCallback | null = null;
+const completeListeners = new Set<SessionCompleteCallback>();
+
+function clearTimers(): void {
+	if (timerInterval !== null) {
+		clearInterval(timerInterval);
+		timerInterval = null;
+	}
+	if (autoAdvanceTimeout !== null) {
+		clearTimeout(autoAdvanceTimeout);
+		autoAdvanceTimeout = null;
+	}
+}
+
+function durationFor(sessionType: SessionType): number {
+	const settings = settingsStore.settings;
+	switch (sessionType) {
+		case 'work':
+			return settings.workDuration;
+		case 'short_break':
+			return settings.shortBreakDuration;
+		case 'long_break':
+			return settings.longBreakDuration;
+	}
+}
 
 /**
  * Démarre une nouvelle session Pomodoro
@@ -26,38 +61,70 @@ export async function startSession(sessionType: SessionType, taskId?: number): P
 	// Arrête toute session en cours
 	await stopTimer();
 
-	// Détermine la durée selon le type et les paramètres
-	const settings = settingsStore.settings;
-	let duration: number;
-
-	switch (sessionType) {
-		case 'work':
-			duration = settings.workDuration;
-			break;
-		case 'short_break':
-			duration = settings.shortBreakDuration;
-			break;
-		case 'long_break':
-			duration = settings.longBreakDuration;
-			break;
-	}
+	const duration = durationFor(sessionType);
+	const linkedTaskId = sessionType === 'work' ? taskId : undefined;
 
 	try {
 		// Crée la session dans la base de données
 		const session = await invoke<PomodoroSession>('create_session', {
-			taskId: sessionType === 'work' ? taskId : undefined,
+			taskId: linkedTaskId,
 			durationMinutes: duration,
 			sessionType
 		});
 
-		// Démarre le timer dans le store
-		timerStore.startSession(duration, sessionType, taskId, session.id);
-
-		// Lance l'intervalle qui décrémente chaque seconde
+		timerStore.nextType = sessionType;
+		timerStore.startSession(duration, sessionType, linkedTaskId, session.id);
 		startInterval();
 	} catch (error) {
 		console.error('Failed to start session:', error);
 		throw error;
+	}
+}
+
+/**
+ * Bascule le minuteur : démarre la session proposée, met en pause ou reprend.
+ * Utilisé par la vue principale, le mode focus, le mini-mode et Ctrl+S.
+ *
+ * @param taskId - Tâche à associer si une session de travail démarre
+ */
+export async function toggleTimer(taskId?: number): Promise<void> {
+	if (timerStore.isRunning) {
+		pauseTimer();
+	} else if (timerStore.remainingSeconds > 0) {
+		resumeTimer();
+	} else {
+		await startSession(timerStore.nextType, taskId);
+	}
+}
+
+/**
+ * Met à jour le titre et la barre de progression de la fenêtre (une fois par seconde)
+ */
+async function updateWindowProgress(): Promise<void> {
+	const { remainingSeconds, totalSeconds } = timerStore;
+	if (totalSeconds <= 0 || remainingSeconds === lastTitleSecond) return;
+	lastTitleSecond = remainingSeconds;
+
+	const progress = Math.round((1 - remainingSeconds / totalSeconds) * 100);
+	try {
+		const appWindow = getCurrentWindow();
+		await appWindow.setTitle(`${timerStore.displayTime()} - TomatoTask`);
+		// @ts-expect-error -- l'API accepte un statut sous forme de chaîne
+		await appWindow.setProgressBar({ status: 'normal', progress });
+	} catch {
+		// Hors Tauri (navigateur, tests) : rien à faire
+	}
+}
+
+async function resetWindowProgress(): Promise<void> {
+	lastTitleSecond = -1;
+	try {
+		const appWindow = getCurrentWindow();
+		await appWindow.setTitle('TomatoTask');
+		// @ts-expect-error -- l'API accepte un statut sous forme de chaîne
+		await appWindow.setProgressBar({ status: 'none' });
+	} catch {
+		// Hors Tauri (navigateur, tests) : rien à faire
 	}
 }
 
@@ -69,34 +136,13 @@ function startInterval(): void {
 		clearInterval(timerInterval);
 	}
 
-	timerInterval = window.setInterval(async () => {
+	timerInterval = window.setInterval(() => {
 		const isComplete = timerStore.tick();
-
-		// Update taskbar progress and title
-		const state = timerStore.getState();
-		if (state.totalSeconds > 0) {
-			const progress = Math.round((1 - state.remainingSeconds / state.totalSeconds) * 100);
-			const minutes = Math.floor(state.remainingSeconds / 60);
-			const seconds = state.remainingSeconds % 60;
-			const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-			try {
-				const window = getCurrentWindow();
-				await window.setTitle(`${timeString} - TomatoTask`);
-				// @ts-ignore
-				await window.setProgressBar({
-					status: 'normal' as any,
-					progress: progress
-				});
-			} catch (e) {
-				// Ignore errors
-			}
-		}
-
+		void updateWindowProgress();
 		if (isComplete) {
-			handleSessionComplete();
+			void handleSessionComplete();
 		}
-	}, 1000);
+	}, TICK_MS);
 }
 
 /**
@@ -115,7 +161,7 @@ export function pauseTimer(): void {
  * Reprend le timer
  */
 export function resumeTimer(): void {
-	if (!timerStore.isRunning) {
+	if (!timerStore.isRunning && timerStore.remainingSeconds > 0) {
 		timerStore.resume();
 		startInterval();
 	}
@@ -127,10 +173,7 @@ export function resumeTimer(): void {
  * @param interrupted - La session a-t-elle été interrompue? (défaut: true)
  */
 export async function stopTimer(interrupted: boolean = true): Promise<void> {
-	if (timerInterval !== null) {
-		clearInterval(timerInterval);
-		timerInterval = null;
-	}
+	clearTimers();
 
 	// Si une session est en cours, la marquer comme interrompue
 	const sessionId = timerStore.sessionId;
@@ -144,97 +187,78 @@ export async function stopTimer(interrupted: boolean = true): Promise<void> {
 	}
 
 	timerStore.stop();
-
-	// Reset taskbar progress and title
-	try {
-		const window = getCurrentWindow();
-		await window.setTitle('TomatoTask');
-		// @ts-ignore
-		await window.setProgressBar({ status: 'none' });
-	} catch (e) {
-		// Ignore
-	}
+	await resetWindowProgress();
 }
 
 /**
- * Gère la complétion d'une session
+ * Passe la session courante et propose la suivante
+ */
+export async function skipSession(): Promise<void> {
+	const current = timerStore.remainingSeconds > 0 ? timerStore.sessionType : timerStore.nextType;
+	await stopTimer();
+	timerStore.nextType = current === 'work' ? 'short_break' : 'work';
+}
+
+/**
+ * Gère la complétion d'une session, quelle que soit la vue affichée
  */
 async function handleSessionComplete(): Promise<void> {
-	// Arrête l'intervalle
-	if (timerInterval !== null) {
-		clearInterval(timerInterval);
-		timerInterval = null;
-	}
+	clearTimers();
 
-	const state = timerStore.getState();
-	const sessionId = state.sessionId;
+	const { sessionId, sessionType } = timerStore.getState();
 
 	if (sessionId) {
 		try {
 			// Marque la session comme complétée dans la DB
 			await invoke('complete_session', { id: sessionId });
-
-			// Si c'était une session de travail, incrémente le compteur
-			if (state.sessionType === 'work') {
-				timerStore.completeSession();
-			}
-
-			// Appelle le callback si défini
-			if (onSessionComplete) {
-				onSessionComplete(state.sessionType);
-			}
 		} catch (error) {
 			console.error('Failed to complete session:', error);
 		}
 	}
 
-	timerStore.stop();
-
-	// Reset taskbar progress and title
-	try {
-		const window = getCurrentWindow();
-		await window.setTitle('TomatoTask');
-		// @ts-ignore
-		await window.setProgressBar({ status: 'none' });
-	} catch (e) {
-		// Ignore
-	}
-}
-
-/**
- * Démarre automatiquement la prochaine session
- *
- * Logique:
- * - Après work → short_break (ou long_break tous les N Pomodoros)
- * - Après break → work (si auto-start activé)
- */
-export async function startNextSession(taskId?: number): Promise<void> {
-	const state = timerStore.getState();
-	const settings = settingsStore.settings;
-
-	let nextType: SessionType;
-
-	if (state.sessionType === 'work') {
-		// Après work: break court ou long?
-		const shouldBeLongBreak =
-			state.pomodoroCount % settings.pomodorosUntilLongBreak === 0 && state.pomodoroCount > 0;
-
-		nextType = shouldBeLongBreak ? 'long_break' : 'short_break';
+	if (sessionType === 'work') {
+		timerStore.completeSession();
 	} else {
-		// Après break: retour au work
-		nextType = 'work';
+		timerStore.stop();
 	}
+	timerStore.nextType = getNextSessionType();
+	await resetWindowProgress();
 
-	await startSession(nextType, taskId);
+	for (const listener of completeListeners) listener(sessionType);
+
+	// Les compteurs de la tâche ont changé côté base
+	if (sessionType === 'work') {
+		await taskStore.load().catch((error) => console.error('Failed to reload tasks:', error));
+	}
+	// Une notification impossible (permission, son bloqué…) ne doit pas bloquer l'enchaînement
+	await notifyComplete(sessionType).catch((error) =>
+		console.error('Failed to notify session completion:', error)
+	);
+
+	const settings = settingsStore.settings;
+	const autoStart =
+		(sessionType === 'work' && settings.autoStartBreaks) ||
+		(sessionType !== 'work' && settings.autoStartPomodoros);
+
+	if (autoStart) {
+		autoAdvanceTimeout = window.setTimeout(() => {
+			autoAdvanceTimeout = null;
+			// L'utilisateur a pu démarrer une session entre-temps
+			if (timerStore.remainingSeconds > 0) return;
+			void startSession(timerStore.nextType, taskStore.selectedTask?.id);
+		}, AUTO_ADVANCE_MS);
+	}
 }
 
 /**
  * Enregistre un callback pour la complétion de session
  *
  * @param callback - Fonction appelée quand une session se termine
+ * @returns Fonction de désinscription
  */
-export function onSessionCompleteCallback(callback: SessionCompleteCallback): void {
-	onSessionComplete = callback;
+export function onSessionCompleteCallback(callback: SessionCompleteCallback): () => void {
+	completeListeners.add(callback);
+	return () => completeListeners.delete(callback);
 }
 
 /**

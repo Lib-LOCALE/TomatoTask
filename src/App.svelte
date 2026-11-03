@@ -17,11 +17,12 @@
 	import PlanView from '$lib/components/plan/PlanView.svelte';
 	import InsightsView from '$lib/components/insights/InsightsView.svelte';
 	import FocusMode from '$lib/components/focus/FocusMode.svelte';
+	import BrandLogo from '$lib/components/brand/BrandLogo.svelte';
 	import { timerStore } from '$lib/stores/timer.svelte';
 	import { taskStore } from '$lib/stores/tasks.svelte';
 	import { projectStore } from '$lib/stores/projects.svelte';
 	import { settingsStore } from '$lib/stores/settings.svelte';
-	import { startSession, pauseTimer, resumeTimer } from '$lib/services/timer-service';
+	import { toggleTimer } from '$lib/services/timer-service';
 	import { initializeTasks, deleteTask, selectTask } from '$lib/services/task-service';
 	import { registerShortcut } from '$lib/utils/keyboard';
 	import type { Task, Project } from '$lib/types';
@@ -68,18 +69,8 @@
 	 * Gère le raccourci Ctrl+S (Start/Stop timer)
 	 */
 	function handleStartStopShortcut() {
-		const state = timerStore.getState();
-
-		if (state.remainingSeconds === 0) {
-			// Timer non démarré: démarre une session de travail
-			startSession('work');
-		} else if (state.isRunning) {
-			// Timer en cours: met en pause
-			pauseTimer();
-		} else {
-			// Timer en pause: reprend
-			resumeTimer();
-		}
+		// Même comportement que le bouton principal : session proposée + tâche sélectionnée
+		void toggleTimer(taskStore.selectedTask?.id);
 	}
 
 	/**
@@ -255,17 +246,10 @@
 		<aside class="rail" class:open={drawerOpen}>
 			<div class="brand">
 				<span class="logo"
-					><svg aria-hidden="true" viewBox="0 0 32 32"
-						><path
-							d="M16 9 C6 5 3 13 4 20 C5 29 27 29 28 20 C29 13 26 5 16 9Z"
-							fill="#f06b55"
-						/><path
-							d="M16 9 L16 3 M16 9 L9 5 M16 9 L23 5 M16 9 L12 13 M16 9 L20 13"
-							fill="none"
-							stroke="#a6d8ae"
-							stroke-width="2"
-						/></svg
-					>TomatoTask</span
+					><BrandLogo
+						size={30}
+						active={timerStore.isRunning && timerStore.sessionType === 'work'}
+					/>TomatoTask</span
 				><button
 					class="close-drawer"
 					onclick={() => (drawerOpen = false)}
@@ -316,20 +300,22 @@
 						title={$_('views.focus')}
 						aria-label={$_('views.focus')}><Focus size={20} /></button
 					><button
+						class="mini-toggle"
 						onclick={toggleMiniMode}
 						title={$_('majolica.mini')}
 						aria-label={$_('majolica.mini')}><PictureInPicture2 size={20} /></button
 					><button
+						class="settings-toggle"
 						onclick={() => (showSettings = true)}
 						title={$_('settings.title')}
 						aria-label={$_('settings.title')}><Settings size={20} /></button
-					><ThemeToggle variant="button" />
+					><span class="theme-slot"><ThemeToggle variant="button" /></span>
 				</div>
 			</header>
 			<div class="workspace-scroll">
 				{#if view === 'today'}
 					<div class="main-grid">
-						<PomodoroTimer autoAdvance={true} />
+						<PomodoroTimer />
 						<div class="fresco-panel"><DayFresco onStreak={(days) => (streak = days)} /></div>
 					</div>
 				{:else if view === 'plan'}
@@ -573,10 +559,6 @@
 		font-size: 1.3rem;
 		font-weight: 700;
 	}
-	.logo svg {
-		width: 30px;
-		height: 30px;
-	}
 	.streak {
 		padding: 4px 20px 18px;
 		color: #ffe5a4;
@@ -671,8 +653,11 @@
 		gap: 4px;
 		margin-left: auto;
 	}
-	.header-actions > button:nth-child(3) {
+	.header-actions .settings-toggle {
 		margin-left: 12px;
+	}
+	.theme-slot {
+		display: contents;
 	}
 	.header-actions button,
 	.open-drawer,
@@ -699,21 +684,15 @@
 		grid-template-columns: minmax(0, 1fr) 320px;
 		min-height: calc(100vh - 52px);
 	}
-	.statistics {
-		padding: 32px;
-		border-top: 1px solid var(--grout);
-	}
 	.focused .rail,
 	.focused .fresco-panel,
-	.focused .app-header,
-	.focused .statistics {
+	.focused .app-header {
 		opacity: 0.85;
 		filter: saturate(0.65);
 	}
 	.focused .rail:hover,
 	.focused .fresco-panel:hover,
 	.focused .app-header:hover,
-	.focused .statistics:hover,
 	.focused .rail:focus-within,
 	.focused .app-header:focus-within {
 		opacity: 1;
@@ -752,6 +731,27 @@
 			z-index: 20;
 			inset: 0;
 			background: rgba(0, 0, 0, 0.45);
+		}
+		.app-header {
+			gap: 4px;
+			padding: 10px 12px 0;
+		}
+		.view-tabs button {
+			padding: 8px 10px;
+		}
+	}
+	/* Téléphone : le mini-mode (fenêtre de bureau) et le thème (présent dans les paramètres)
+	   laissent la place aux onglets pour que toutes les commandes restent visibles */
+	@media (max-width: 480px) {
+		.mini-toggle,
+		.theme-slot {
+			display: none;
+		}
+		.header-actions .settings-toggle {
+			margin-left: 0;
+		}
+		.view-tabs {
+			gap: 0;
 		}
 	}
 </style>
