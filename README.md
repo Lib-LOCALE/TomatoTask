@@ -1,132 +1,72 @@
+<div align="center">
+
 # 🍅 TomatoTask
 
-> **Local-first Pomodoro timer and task manager to stay focused and productive**
+**A calm, local-first Pomodoro timer where every focus session paints a tile.**
 
-[![Version](https://img.shields.io/github/v/release/Lib-LOCALE/TomatoTask?label=version&color=red)](https://github.com/Lib-LOCALE/TomatoTask/releases/latest)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-blue.svg)](https://github.com/Lib-LOCALE/TomatoTask/releases/latest)
+[![Version](https://img.shields.io/github/v/release/Lib-LOCALE/TomatoTask?label=version&color=c0392b)](https://github.com/Lib-LOCALE/TomatoTask/releases/latest)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-1e3a8a.svg)](https://github.com/Lib-LOCALE/TomatoTask/releases/latest)
+[![License](https://img.shields.io/badge/license-MIT-2e7d4f.svg)](LICENSE)
 
-[📥 Download](https://github.com/Lib-LOCALE/TomatoTask/releases/latest) · [🐛 Report Bug](https://github.com/Lib-LOCALE/TomatoTask/issues)
+[**Download**](https://github.com/Lib-LOCALE/TomatoTask/releases/latest) · [Report a bug](https://github.com/Lib-LOCALE/TomatoTask/issues)
 
----
+<img src=".github/images/timer.png" alt="TomatoTask main timer view" width="100%" />
 
-## ✨ Why TomatoTask?
+</div>
 
-**Simple. Local. Effective.**
+## Why TomatoTask?
 
-- 🔒 **100% local** - Your data stays on your computer
-- ⚡ **Fast & lightweight** - Native app, no browser needed
-- 🎨 **Modern interface** - Clean "Majolique" design
-- 🌍 **Multilingual** - English, French, Spanish, Italian, German
-- 🌓 **Dark/Light themes** - Visual comfort day and night
+- **Your data stays yours.** Everything is stored locally in SQLite. No account, no cloud.
+- **Native and light.** Built with Tauri and Rust, not a bundled browser.
+- **Progress you can see.** Each completed pomodoro adds a hand-drawn majolica tile to your daily and weekly fresco.
+- **Five languages.** English, French, Spanish, Italian and German, plus light and dark themes.
 
-## 📸 Screenshots
+## A quick tour
 
 <table>
   <tr>
-    <td width="50%">
-      <img src=".github/images/main-timer.png" alt="Main interface" />
-      <p align="center"><em>Pomodoro Timer</em></p>
-    </td>
-    <td width="50%">
-      <img src=".github/images/task-management.png" alt="Task management" />
-      <p align="center"><em>Task Management</em></p>
-    </td>
+    <td width="50%"><img src=".github/images/plan.png" alt="Plan your day" /><p align="center"><b>Plan</b>: pick today's tasks and see the tiles to fill.</p></td>
+    <td width="50%"><img src=".github/images/review-dark.png" alt="Review statistics in dark mode" /><p align="center"><b>Review</b>: your focus over 7, 30 or 90 days.</p></td>
   </tr>
   <tr>
-    <td width="50%">
-      <img src=".github/images/statistics.png" alt="Statistics" />
-      <p align="center"><em>Detailed Statistics</em></p>
-    </td>
-    <td width="50%">
-      <img src=".github/images/settings.png" alt="Settings" />
-      <p align="center"><em>Customization</em></p>
-    </td>
+    <td width="50%"><img src=".github/images/focus.png" alt="Focus mode" /><p align="center"><b>Focus mode</b>: just the task and the clock.</p></td>
+    <td width="50%"><img src=".github/images/settings.png" alt="Settings" /><p align="center"><b>Settings</b>: durations, ambient sounds, themes.</p></td>
   </tr>
 </table>
 
-## 🚀 Features
+## Features
 
-### ⏱️ Pomodoro Timer
-- Customizable work sessions, short & long breaks
-- Visual progress bar
-- Native notifications
+- Work, short-break and long-break timers with 25/5/15 and 50/10/30 presets
+- Tasks and color-coded projects with pomodoro estimates
+- Daily planning and a full-screen focus mode
+- Streaks, best hours and best weekdays
+- Ambient sounds (birds, forest, sea, storm) and native notifications
+- Keyboard shortcuts (`Ctrl+N` for a new task, `Space` to pause)
+- Data export for backups
 
-### ✅ Task Management
-- Quick task and project creation
-- Daily planning with drag & drop
-- Filters and search
-- Completion tracking
+## Install
 
-### 📊 Insights & Statistics
-- Daily and weekly productivity
-- Progress charts
-- Focus Mode for deep work
-- Data export for backup
+**Windows:** download the `.exe` installer from the [latest release](https://github.com/Lib-LOCALE/TomatoTask/releases/latest) and run it.
 
-### 🎨 Personalization
-- Configurable session durations
-- Light/Dark theme
-- 5 languages available
-- Keyboard shortcuts
+**Linux:** use the `.deb` package or the AppImage:
 
-## 📥 Installation
-
-### Windows
-1. [Download the latest release](https://github.com/Lib-LOCALE/TomatoTask/releases/latest)
-2. Run the `.exe` installer
-3. You're ready! 🎉
-
-### Linux
 ```bash
-# Download the .AppImage file
 chmod +x TomatoTask_*_amd64.AppImage
 ./TomatoTask_*_amd64.AppImage
 ```
 
-## 💡 Quick Start
+## Build from source
 
-1. **Launch TomatoTask**
-2. **Create a task** - Click "+" to add what you need to do
-3. **Start a session** - 25 minutes of pure focus
-4. **Take a break** - 5 minutes to recharge
-5. **Check your stats** - Track your productivity
-
-## 🛠️ Development
-
-**Tech stack:** Svelte 5 + TypeScript + Tauri + Rust + SQLite
+Requires Node.js 22+ and Rust (stable).
 
 ```bash
-# Install dependencies
 npm install
-
-# Run in development mode
-npm run tauri dev
-
-# Build for production
-npm run tauri build
+npm run tauri dev     # run in development
+npm run tauri build   # build installers
 ```
 
-## 📝 What's New in v1.1.0
+Stack: Svelte 5, TypeScript, Tauri 2, Rust, SQLite.
 
-- 🎨 "Majolique" UI Refresh - Modernized interface
-- 🎯 Focus Mode - Distraction-free work
-- 📅 Daily Planning - Organize your day
-- 📊 Enhanced Insights - Better charts
-- ✅ E2E Tests - More reliability
+## License
 
-[See full CHANGELOG](CHANGELOG.md)
-
-## 🤝 Contributing
-
-Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details.
-
----
-
-<p align="center">
-  Made with ❤️ for productivity
-</p>
+MIT. See [LICENSE](LICENSE). Contributions are welcome, see [CONTRIBUTING.md](CONTRIBUTING.md).
