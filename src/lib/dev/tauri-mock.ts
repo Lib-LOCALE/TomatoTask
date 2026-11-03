@@ -28,7 +28,7 @@ export function installTauriMock(
 		return row;
 	};
 	if (!empty) {
-		projects = ['Travail', 'Personnel', 'Apprentissage'].map((name, i) => ({
+		projects = ['Work', 'Personal', 'Learning'].map((name, i) => ({
 			id: i + 1,
 			name,
 			color: ['#ef4444', '#3b82f6', '#a855f7'][i],
@@ -37,14 +37,14 @@ export function installTauriMock(
 			position: i
 		}));
 		tasks = [
-			'Préparer la réunion',
-			'Répondre aux messages',
-			'Avancer sur le projet',
-			'Planifier la semaine',
-			'Lire un chapitre',
-			'Faire une promenade',
-			'Organiser les notes',
-			'Réviser les objectifs'
+			'Prepare the team meeting',
+			'Reply to emails',
+			'Ship the landing page',
+			'Plan the week',
+			'Read a chapter',
+			'Go for a walk',
+			'Organize notes',
+			'Review quarterly goals'
 		].map((title, i) => ({
 			id: i + 1,
 			title,

@@ -5,6 +5,17 @@ All notable changes to TomatoTask will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2026-11-03
+
+### Fixed
+
+- Release pipeline now publishes Windows (`.exe`, `.msi`) and Linux (`.AppImage`, `.deb`) builds automatically
+- Version numbers aligned across the app, Tauri config and Rust crate
+
+### Changed
+
+- README rewritten in English with up-to-date screenshots
+
 ## [1.1.0] - 2026-11-03
 
 ### Added
@@ -14,10 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Focus Mode** - Distraction-free mode for deep work sessions
 - **Day Planning** - Plan your tasks for the day with drag-and-drop
 - **Enhanced Insights** - Improved analytics dashboard with better visualizations
-- **E2E Testing Suite** - Comprehensive end-to-end tests for reliability
-  - Focus mode tests
-  - Screenshot testing for UI consistency
-  - Smoke tests for critical paths
 - **Documentation Overhaul**
   - Added DESIGN.md - Design system and UI guidelines
   - Added OPTIMIZATION.md - Performance optimization guide

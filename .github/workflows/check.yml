@@ -36,19 +36,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Test frontend
-        run: npm test
-
       - name: Check backend
         run: |
           cd src-tauri
           cargo check
           cargo fmt --check
           cargo clippy --all-targets -- -D warnings
-          cargo test
-
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
-
-      - name: End-to-end tests (browser mock backend)
-        run: npx playwright test

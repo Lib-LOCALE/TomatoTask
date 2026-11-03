@@ -1,4 +1,4 @@
-name: Auto Tag on Version Change
+name: Auto Release on Version Change
 
 on:
   push:
@@ -11,46 +11,33 @@ permissions:
   contents: write
 
 jobs:
-  auto-tag:
-    name: Create Tag Automatically
+  detect:
+    name: Detect new version
     runs-on: ubuntu-latest
+    outputs:
+      release: ${{ steps.check.outputs.release }}
+      version: ${{ steps.check.outputs.version }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
-      - name: Get version from package.json
-        id: package_version
+      - name: Check for an unreleased version
+        id: check
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Check if tag exists
-        id: check_tag
-        run: |
-          if git rev-parse "v${{ steps.package_version.outputs.version }}" >/dev/null 2>&1; then
-            echo "exists=true" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            echo "Tag v$VERSION already exists, nothing to release."
+            echo "release=false" >> "$GITHUB_OUTPUT"
           else
-            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "release=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Check if version changed
-        id: version_changed
-        run: |
-          git diff HEAD~1 HEAD -- package.json | grep -q '"version"' && echo "changed=true" >> $GITHUB_OUTPUT || echo "changed=false" >> $GITHUB_OUTPUT
-
-      - name: Create and push tag
-        if: steps.check_tag.outputs.exists == 'false' && steps.version_changed.outputs.changed == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a v${{ steps.package_version.outputs.version }} -m "Release v${{ steps.package_version.outputs.version }}"
-          git push origin v${{ steps.package_version.outputs.version }}
-
-      - name: Summary
-        if: steps.check_tag.outputs.exists == 'false' && steps.version_changed.outputs.changed == 'true'
-        run: |
-          echo "✅ Tag v${{ steps.package_version.outputs.version }} created and pushed!" >> $GITHUB_STEP_SUMMARY
-          echo "🚀 Release workflow will start automatically" >> $GITHUB_STEP_SUMMARY
+  release:
+    name: Build and publish
+    needs: detect
+    if: needs.detect.outputs.release == 'true'
+    uses: ./.github/workflows/release.yml
+    permissions:
+      contents: write
