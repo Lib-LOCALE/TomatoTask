@@ -25,21 +25,21 @@
 <table>
   <tr>
     <td width="50%">
-      <img src=".github/images/Capture%20d'écran%202025-12-01%20095142.png" alt="Main interface" />
+      <img src=".github/images/main-timer.png" alt="Main interface" />
       <p align="center"><em>Pomodoro Timer</em></p>
     </td>
     <td width="50%">
-      <img src=".github/images/Capture%20d'écran%202025-12-01%20095150.png" alt="Task management" />
+      <img src=".github/images/task-management.png" alt="Task management" />
       <p align="center"><em>Task Management</em></p>
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <img src=".github/images/Capture%20d'écran%202025-12-01%20095157.png" alt="Statistics" />
+      <img src=".github/images/statistics.png" alt="Statistics" />
       <p align="center"><em>Detailed Statistics</em></p>
     </td>
     <td width="50%">
-      <img src=".github/images/Capture%20d'écran%202025-12-01%20095207.png" alt="Settings" />
+      <img src=".github/images/settings.png" alt="Settings" />
       <p align="center"><em>Customization</em></p>
     </td>
   </tr>
