@@ -47,4 +47,9 @@ public/sounds/temp/
 /test-results/
 /playwright-report/
 tools/env.local
-.impeccable/mocks/
+# Tests and development files (not needed in production)
+tests/
+e2e/
+.impeccable/
+playwright-report/
+test-results/
