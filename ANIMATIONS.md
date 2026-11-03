@@ -18,9 +18,8 @@ Every pivot is expressed in viewBox coordinates, so no part of the logo ever lea
 Standalone files:
 
 - `public/logo.svg` – self-contained animated logo (README, website, presentations). It embeds its own `prefers-reduced-motion` rule.
-- `public/favicon.svg` – static version used as the browser/webview favicon (`favicon.png` remains as a fallback). It is static on purpose: browsers render only the first frame of an icon.
-
-The desktop application icons (`src-tauri/icons/*.png`, generated from `pixel_tomato.svg`) are unchanged.
+- `public/favicon.svg` – static version used as the browser/webview favicon (`favicon.png` is its 64 px fallback). It is static on purpose: browsers render only the first frame of an icon.
+- `src-tauri/icons/app-icon.svg` – desktop application icon: the logo on a majolica tile. Regenerate every platform icon with `npx tauri icon src-tauri/icons/app-icon.svg -o src-tauri/icons` (then delete the generated `android/` and `ios/` folders, the app targets desktop only).
 
 ## Majolica tiles (`src/lib/components/majolica/Tile.svelte`)
 

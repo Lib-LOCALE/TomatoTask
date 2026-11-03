@@ -613,6 +613,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - New animated logo: a majolica tomato drawn in the app's palette, painted in on first display, gently animated only while a work session runs, and static when reduced motion is requested (`BrandLogo.svelte`, `public/logo.svg`, `public/favicon.svg`).
+- New desktop application icon: the logo on a majolica tile, generated from `src-tauri/icons/app-icon.svg` (replaces the pixel-art tomato).
 
 ### Fixed
 
