@@ -24,6 +24,7 @@
 	import { startSession, pauseTimer, resumeTimer } from '$lib/services/timer-service';
 	import { initializeTasks, deleteTask, selectTask } from '$lib/services/task-service';
 	import { registerShortcut } from '$lib/utils/keyboard';
+	import { applyTheme } from '$lib/utils/theme';
 	import type { Task, Project } from '$lib/types';
 
 	import { WindowService } from '$lib/services/window-service';
@@ -232,11 +233,7 @@
 	$effect(() => {
 		const theme = settingsStore.settings.theme;
 		const preference = window.matchMedia('(prefers-color-scheme: dark)');
-		const apply = () =>
-			document.documentElement.classList.toggle(
-				'dark',
-				theme === 'dark' || (theme === 'system' && preference.matches)
-			);
+		const apply = () => applyTheme(theme);
 		apply();
 		preference.addEventListener('change', apply);
 		return () => preference.removeEventListener('change', apply);
@@ -531,7 +528,7 @@
 {/if}
 
 <!-- Onboarding Flow (affiché uniquement à la première ouverture) -->
-{#if showOnboarding}
+{#if showOnboarding && !isMiniMode}
 	<OnboardingFlow onComplete={handleOnboardingComplete} />
 {/if}
 

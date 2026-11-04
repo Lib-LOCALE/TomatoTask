@@ -5,6 +5,8 @@ import App from './App.svelte';
 import { initializeI18n } from '$lib/services/i18n-service';
 import { initKeyboardShortcuts } from '$lib/utils/keyboard';
 import { invoke } from '@tauri-apps/api/core';
+import { applyTheme, getStoredTheme } from '$lib/utils/theme';
+import type { Theme } from '$lib/types';
 
 /**
  * Affiche un écran de chargement pendant l'initialisation
@@ -61,23 +63,22 @@ async function bootstrap() {
 		}
 	}
 
+	// Applique tout de suite le dernier thème connu (évite un flash clair)
+	const storedTheme = getStoredTheme();
+	if (storedTheme) applyTheme(storedTheme);
+
 	// Affiche l'écran de chargement immédiatement
 	showLoadingScreen();
 
 	try {
 		// Charge les paramètres depuis Tauri pour obtenir la langue et le thème sauvegardés
-		const settings = await invoke<{ language: string; theme: string }>('get_settings');
+		const settings = await invoke<{ language: string; theme: Theme }>('get_settings');
 
 		// Initialise i18n avec la langue sauvegardée
 		await initializeI18n(settings.language);
 
 		// Applique le thème sauvegardé
-		if (
-			settings.theme === 'dark' ||
-			(settings.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-		) {
-			document.documentElement.classList.add('dark');
-		}
+		applyTheme(settings.theme);
 	} catch (error) {
 		// Si erreur (mode dev sans Tauri), initialise avec détection auto
 		console.warn('Failed to load settings from Tauri, using auto-detection:', error);

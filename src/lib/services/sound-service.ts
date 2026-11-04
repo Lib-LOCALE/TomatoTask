@@ -1,4 +1,5 @@
 import { writable, get } from 'svelte/store';
+import { createAudio } from './audio-source';
 
 export interface Sound {
 	id: string;
@@ -31,6 +32,8 @@ export const sounds: Sound[] = [
 
 class SoundService {
 	private audio: HTMLAudioElement | null = null;
+	// Incrémenté à chaque action : permet d'ignorer un chargement devenu obsolète
+	private request = 0;
 
 	// Stores
 	isPlaying = writable(false);
@@ -47,9 +50,9 @@ class SoundService {
 	}
 
 	/**
-	 * Joue un son
+	 * Joue un son (en boucle)
 	 */
-	play(sound: Sound) {
+	async play(sound: Sound): Promise<void> {
 		// Si c'est le même son qui joue déjà, ne rien faire
 		const current = get(this.currentSound);
 		if (current?.id === sound.id && get(this.isPlaying)) {
@@ -57,30 +60,34 @@ class SoundService {
 		}
 
 		// Arrête le son précédent
-		if (this.audio) {
-			this.audio.pause();
-		}
+		this.audio?.pause();
+		this.audio = null;
 
-		// Crée et joue le nouveau son
-		this.audio = new Audio(sound.url);
-		this.audio.loop = true;
-		this.audio.volume = get(this.volume);
-
-		this.audio.play().catch((err) => {
-			console.error('Failed to play sound:', err);
-		});
-
+		const request = ++this.request;
 		this.currentSound.set(sound);
 		this.isPlaying.set(true);
+
+		try {
+			const audio = await createAudio(sound.url);
+			// Un autre son a été choisi (ou pause) pendant le chargement
+			if (request !== this.request) return;
+			audio.loop = true;
+			audio.volume = get(this.volume);
+			this.audio = audio;
+			await audio.play();
+		} catch (err) {
+			if (request !== this.request) return;
+			console.error('Failed to play sound:', err);
+			this.isPlaying.set(false);
+		}
 	}
 
 	/**
 	 * Met en pause le son actuel
 	 */
 	pause() {
-		if (this.audio) {
-			this.audio.pause();
-		}
+		this.request++;
+		this.audio?.pause();
 		this.isPlaying.set(false);
 	}
 
@@ -88,12 +95,18 @@ class SoundService {
 	 * Reprend la lecture
 	 */
 	resume() {
-		if (this.audio && get(this.currentSound)) {
-			this.audio.play();
+		const current = get(this.currentSound);
+		if (this.audio && current) {
+			const request = ++this.request;
 			this.isPlaying.set(true);
+			this.audio.play().catch((err) => {
+				if (request !== this.request) return;
+				console.error('Failed to resume sound:', err);
+				this.isPlaying.set(false);
+			});
 		} else {
-			// Si pas de son chargé, joue le premier par défaut
-			this.play(sounds[0]);
+			// Si pas de son chargé, rejoue le dernier choisi (ou le premier par défaut)
+			void this.play(current ?? sounds[0]);
 		}
 	}
 

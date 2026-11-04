@@ -270,6 +270,15 @@
 								class="border-input bg-background rounded border p-2"
 								aria-label={$_('settings.theme')}
 								bind:value={localSettings.theme}
+								onchange={async () => {
+									// Le thème s'applique tout de suite, comme la langue
+									try {
+										await settingsStore.setTheme(localSettings.theme);
+										errorMessage = '';
+									} catch {
+										errorMessage = $_('chrome.settings.saveError');
+									}
+								}}
 							>
 								<option value="light">{$_('settings.light')}</option>
 								<option value="dark">{$_('settings.dark')}</option>

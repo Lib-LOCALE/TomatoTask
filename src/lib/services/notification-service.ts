@@ -10,6 +10,7 @@ import { get } from 'svelte/store';
 import { _, locale } from 'svelte-i18n';
 import { settingsStore } from '$lib/stores/settings.svelte';
 import { getNextSessionType } from '$lib/services/timer-service';
+import { createAudio } from '$lib/services/audio-source';
 
 /**
  * Vérifie et demande la permission pour les notifications
@@ -92,18 +93,17 @@ export async function notifySessionComplete(sessionType: SessionType): Promise<v
  *
  * Utilise l'API Audio HTML5 pour jouer un son local
  *
- * @param soundName - Nom du fichier son (défaut: 'notification')
+ * @param soundName - Nom du fichier son (défaut: 'squashed_tomato')
  */
-export function playNotificationSound(soundName: string = 'notification'): void {
-	try {
-		const audio = new Audio(`/sounds/${soundName}.mp3`);
-		audio.volume = 0.5; // 50% volume
-		audio.play().catch((error) => {
+export function playNotificationSound(soundName: string = 'squashed_tomato'): void {
+	createAudio(`/sounds/${soundName}.mp3`)
+		.then((audio) => {
+			audio.volume = 0.5; // 50% volume
+			return audio.play();
+		})
+		.catch((error) => {
 			console.error('Failed to play notification sound:', error);
 		});
-	} catch (error) {
-		console.error('Failed to create audio element:', error);
-	}
 }
 
 /**

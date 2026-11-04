@@ -3,6 +3,9 @@
 	import { settingsStore } from '$lib/stores/settings.svelte';
 	import type { Theme } from '$lib/types';
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
+	import { _ } from 'svelte-i18n';
+	import { toastStore } from '$lib/stores/toast.svelte';
 	let systemDark = $state(false);
 	onMount(() => {
 		const preference = matchMedia('(prefers-color-scheme: dark)');
@@ -30,29 +33,17 @@
 
 	/**
 	 * Bascule entre les thèmes clair et sombre
+	 *
+	 * Le changement est visible immédiatement (App.svelte applique le thème du
+	 * store), même si l'enregistrement en base échoue.
 	 */
 	async function toggleTheme() {
 		const newTheme: Theme = currentTheme === 'light' ? 'dark' : 'light';
-
 		try {
-			// Sauvegarde dans les paramètres
-			await settingsStore.updateSetting('theme', newTheme);
-
-			// Applique le thème au document
-			applyTheme(newTheme);
+			await settingsStore.setTheme(newTheme);
 		} catch (error) {
-			console.error('Failed to toggle theme:', error);
-		}
-	}
-
-	/**
-	 * Applique le thème au document HTML
-	 */
-	function applyTheme(theme: Theme) {
-		if (theme === 'dark') {
-			document.documentElement.classList.add('dark');
-		} else {
-			document.documentElement.classList.remove('dark');
+			console.error('Failed to save theme:', error);
+			toastStore.error(get(_)('chrome.settings.saveError'));
 		}
 	}
 </script>

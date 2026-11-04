@@ -5,6 +5,17 @@ All notable changes to TomatoTask will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- Ambient sounds and the end-of-session sound play again on Linux (WebKitGTK could not play audio served from `tauri://`; sounds are now loaded as `blob:` URLs)
+- The AppImage now bundles the GStreamer plugins needed for audio playback
+- The theme toggle switches to dark mode instantly, even if saving the setting fails; the theme menu in Settings also applies right away
+- The window title shows the remaining time again (missing window permissions)
+- The timer stays accurate when the window is hidden or minimised
+- The onboarding no longer covers the mini timer
+
 ## [1.1.3] - 2026-11-03
 
 ### Fixed

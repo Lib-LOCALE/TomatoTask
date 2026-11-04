@@ -16,6 +16,11 @@ class TimerStore {
 	sessionId = $state<number | undefined>(undefined);
 	pomodoroCount = $state(0);
 
+	// Horodatage (ms) de fin de la session en cours. Le temps restant est
+	// recalculé à partir de l'horloge : il reste juste même si le webview
+	// ralentit les minuteurs quand la fenêtre est cachée ou minimisée.
+	private endsAt = 0;
+
 	// Dérivé: progression en pourcentage
 	progress = $derived(() => {
 		if (this.totalSeconds === 0) return 0;
@@ -48,6 +53,7 @@ class TimerStore {
 		this.sessionType = type;
 		this.taskId = linkedTaskId;
 		this.sessionId = dbSessionId;
+		this.endsAt = Date.now() + this.totalSeconds * 1000;
 		this.isRunning = true;
 	}
 
@@ -62,6 +68,7 @@ class TimerStore {
 	 * Reprend le timer
 	 */
 	resume(): void {
+		this.endsAt = Date.now() + this.remainingSeconds * 1000;
 		this.isRunning = true;
 	}
 
@@ -76,7 +83,7 @@ class TimerStore {
 	}
 
 	/**
-	 * Décrémente le timer d'une seconde
+	 * Met à jour le temps restant d'après l'horloge
 	 *
 	 * @returns true si le timer a atteint zéro
 	 */
@@ -85,7 +92,7 @@ class TimerStore {
 			return false;
 		}
 
-		this.remainingSeconds -= 1;
+		this.remainingSeconds = Math.max(0, Math.round((this.endsAt - Date.now()) / 1000));
 
 		// Retourne true si terminé
 		return this.remainingSeconds === 0;

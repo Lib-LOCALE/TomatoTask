@@ -1,6 +1,7 @@
 // Store réactif pour les paramètres de l'application (Svelte 5 Runes)
 import { invoke } from '@tauri-apps/api/core';
-import type { Settings } from '$lib/types';
+import type { Settings, Theme } from '$lib/types';
+import { getStoredTheme } from '$lib/utils/theme';
 
 /**
  * Paramètres par défaut (fallback si Tauri échoue)
@@ -25,7 +26,10 @@ const DEFAULT_SETTINGS: Settings = {
  */
 class SettingsStore {
 	// État mutable
-	settings = $state<Settings>({ ...DEFAULT_SETTINGS });
+	settings = $state<Settings>({
+		...DEFAULT_SETTINGS,
+		theme: getStoredTheme() ?? DEFAULT_SETTINGS.theme
+	});
 	isLoading = $state(true);
 	error = $state<string | null>(null);
 
@@ -69,6 +73,17 @@ class SettingsStore {
 	async updateSetting<K extends keyof Settings>(key: K, value: Settings[K]): Promise<void> {
 		const newSettings = { ...this.settings, [key]: value };
 		await this.save(newSettings);
+	}
+
+	/**
+	 * Change le thème
+	 *
+	 * Le thème est appliqué immédiatement, puis enregistré. Si l'enregistrement
+	 * échoue, l'affichage reste dans le thème choisi et l'erreur est remontée.
+	 */
+	async setTheme(theme: Theme): Promise<void> {
+		this.settings = { ...this.settings, theme };
+		await this.save({ ...this.settings, theme });
 	}
 
 	/**
