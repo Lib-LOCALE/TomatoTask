@@ -1,0 +1,130 @@
+// Opérations pour la gestion des tâches
+use crate::db::{CreateTaskInput, DbConnection, Task, UpdateTaskInput, queries};
+
+/// Récupère toutes les tâches
+///
+/// # Arguments
+/// * `db` - État partagé contenant la connexion à la base de données
+pub fn get_tasks(db: &DbConnection) -> Result<Vec<Task>, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+
+    queries::get_all_tasks(&conn).map_err(|e| e.to_string())
+}
+
+/// Récupère une tâche spécifique par son ID
+///
+/// # Arguments
+/// * `id` - ID de la tâche
+/// * `db` - État partagé contenant la connexion à la base de données
+pub fn get_task(id: i64, db: &DbConnection) -> Result<Task, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+
+    queries::get_task_by_id(&conn, id).map_err(|e| e.to_string())
+}
+
+/// Crée une nouvelle tâche
+///
+/// # Arguments
+/// * `input` - Données de la tâche à créer
+/// * `db` - État partagé contenant la connexion à la base de données
+pub fn create_task(input: CreateTaskInput, db: &DbConnection) -> Result<Task, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+
+    queries::create_task(&conn, &input).map_err(|e| e.to_string())
+}
+
+/// Met à jour une tâche existante
+///
+/// # Arguments
+/// * `id` - ID de la tâche à mettre à jour
+/// * `input` - Nouvelles données de la tâche
+/// * `db` - État partagé contenant la connexion à la base de données
+pub fn update_task(id: i64, input: UpdateTaskInput, db: &DbConnection) -> Result<Task, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+
+    queries::update_task(&conn, id, &input).map_err(|e| e.to_string())
+}
+
+/// Supprime une tâche
+///
+/// # Arguments
+/// * `id` - ID de la tâche à supprimer
+/// * `db` - État partagé contenant la connexion à la base de données
+pub fn delete_task(id: i64, db: &DbConnection) -> Result<(), String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+
+    queries::delete_task(&conn, id).map_err(|e| e.to_string())
+}
+
+/// Bascule le statut de complétion d'une tâche
+///
+/// # Arguments
+/// * `id` - ID de la tâche
+/// * `db` - État partagé contenant la connexion à la base de données
+pub fn toggle_task_completion(id: i64, db: &DbConnection) -> Result<Task, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+
+    queries::toggle_task_completion(&conn, id).map_err(|e| e.to_string())
+}
+
+/// Récupère les tâches d'un projet spécifique
+///
+/// # Arguments
+/// * `project_id` - ID du projet
+/// * `db` - État partagé contenant la connexion à la base de données
+pub fn get_tasks_by_project(project_id: i64, db: &DbConnection) -> Result<Vec<Task>, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+
+    queries::get_tasks_by_project(&conn, project_id).map_err(|e| e.to_string())
+}
+
+/// Réordonne les tâches
+///
+/// # Arguments
+/// * `task_ids` - Liste des IDs de tâches dans le nouvel ordre
+/// * `db` - État partagé contenant la connexion à la base de données
+pub fn reorder_tasks(task_ids: Vec<i64>, db: &DbConnection) -> Result<(), String> {
+    let conn = db.get_connection();
+    let mut conn = conn.lock().map_err(|e| e.to_string())?;
+
+    reorder(&mut conn, &task_ids).map_err(|e| e.to_string())
+}
+
+fn reorder(conn: &mut rusqlite::Connection, ids: &[i64]) -> rusqlite::Result<()> {
+    let tx = conn.transaction()?;
+    for (index, id) in ids.iter().enumerate() {
+        tx.execute(
+            "UPDATE tasks SET position = ?1 WHERE id = ?2",
+            (index as i64, id),
+        )?;
+    }
+    tx.commit()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn reordonne() {
+        let mut conn = rusqlite::Connection::open_in_memory().unwrap();
+        crate::db::migrations::run_migrations(&conn).unwrap();
+        conn.execute_batch("INSERT INTO tasks (title) VALUES ('a'), ('b')")
+            .unwrap();
+        reorder(&mut conn, &[2, 1]).unwrap();
+        let first: i64 = conn
+            .query_row(
+                "SELECT id FROM tasks ORDER BY position LIMIT 1",
+                [],
+                |row| row.get(0),
+            )
+            .unwrap();
+        assert_eq!(first, 2);
+    }
+}

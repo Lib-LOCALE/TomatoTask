@@ -4,7 +4,7 @@
 
 ## Platform
 
-web
+Desktop Linux et Windows
 
 ## Users
 
@@ -20,13 +20,13 @@ Un Pomodoro où le temps passé devient visible et vivant : chaque session compl
 
 ## Operating Context
 
-Fenêtre desktop Tauri (1200×800 par défaut, redimensionnable, mini-mode compact), icône de barre système, notifications natives, raccourcis clavier (Ctrl+S, Ctrl+N, Ctrl+L, Ctrl+/). Usage en arrière-plan pendant de longues journées ; thèmes clair et sombre.
+Fenêtre desktop Slint redimensionnable, mode compact, notifications natives et raccourcis clavier. Usage en arrière-plan pendant de longues journées avec thèmes clair, sombre et système.
 
 ## Capabilities and Constraints
 
-- Existant : sessions travail / pause courte / pause longue configurables, auto-enchaînement, tâches (CRUD, filtres, réordonnancement par glisser-déposer, complétion), projets, statistiques (focus quotidien, distribution par projet, heatmap), sons d'ambiance, export/import de sauvegarde, onboarding, i18n (en, fr, de, es, it), mini-mode.
-- À ajouter (confirmé) : gamification visuelle (croissance liée aux pomodoros complétés, séries de jours), mode focus immersif plein écran, statistiques parlantes (bilans, tendances, meilleures heures), planification de journée (estimation en pomodoros par tâche, prévu vs réalisé).
-- Stack : Tauri 2 + Rust + SQLite ; Svelte 5 (runes) + Tailwind 4 + svelte-i18n. Pas de polices distantes (CSP stricte, apps hors ligne) : toute police est embarquée dans le bundle.
+- Existant : sessions travail / pause courte / pause longue configurables, auto-enchaînement, tâches (CRUD, filtres, réordonnancement, complétion), projets, statistiques (focus quotidien, classement par projet, tendances), sons d'ambiance, export/import de sauvegarde, i18n (en, fr, de, es, it), mini-mode.
+- Autres fonctionnalités : gamification visuelle (croissance liée aux pomodoros complétés, séries de jours), mode focus immersif plein écran, statistiques parlantes (bilans, tendances, meilleures heures), planification de journée (estimation en pomodoros par tâche, prévu vs réalisé).
+- Stack : Rust, Slint, Winit et SQLite. Pas de polices distantes (CSP stricte, apps hors ligne) : toute police est embarquée dans le bundle.
 
 ## Brand Commitments
 
@@ -34,7 +34,7 @@ Nom « TomatoTask » et la tomate comme mascotte/symbole. Le reste de l'identit�
 
 ## Evidence on Hand
 
-Aucun témoignage, chiffre d'utilisateurs ni classement : n'en inventer aucun. Captures de l'ancienne version dans `.github/images/`.
+Aucun témoignage, chiffre d'utilisateurs ni classement : n'en inventer aucun. La capture de la version Slint est dans `.github/images/`.
 
 ## Product Principles
 
@@ -46,4 +46,4 @@ Aucun témoignage, chiffre d'utilisateurs ni classement : n'en inventer aucun. C
 
 ## Accessibility & Inclusion
 
-Navigation complète au clavier, contraste WCAG AA dans les deux thèmes, respect de `prefers-reduced-motion` pour toutes les animations (croissance, confettis, mode immersif).
+Navigation complète au clavier, contraste WCAG AA dans les deux thèmes, révélation des motifs liée au minuteur.

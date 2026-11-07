@@ -1,0 +1,497 @@
+import "../assets/fonts/BodoniModa.ttf";
+import "../assets/fonts/SourceSans3.ttf";
+import { AboutSlint, Palette as WidgetPalette, Button, CheckBox, ComboBox, LineEdit, ListView, SpinBox, TabWidget } from "std-widgets.slint";
+import { Labels } from "labels.slint";
+
+export struct TaskRow {
+    title: string,
+    details: string,
+    done: bool,
+    planned: bool,
+    pigment: color,
+}
+export struct DayRow { date: string, minutes: int, count: int }
+export struct Preferences {
+    work: int, short-break: int, long-break: int, cycle: int,
+    language: int, theme: int, auto-break: bool, auto-work: bool, sound: int,
+}
+export { Labels }
+
+component Caption inherits Text {
+    color: Theme.ink;
+    vertical-alignment: center;
+    wrap: word-wrap;
+}
+
+component Tile inherits Rectangle {
+    in property <int> position;
+    in property <bool> painted;
+    in property <bool> painting;
+    in property <bool> planned;
+    in property <float> progress;
+    in property <int> serial;
+    height: 40px;
+    border-width: 1px;
+    border-color: Theme.grout;
+    background: Theme.paper;
+    property <[image]> patterns: [
+        @image-url("../assets/tiles/0.svg"),
+        @image-url("../assets/tiles/1.svg"),
+        @image-url("../assets/tiles/2.svg"),
+        @image-url("../assets/tiles/3.svg"),
+        @image-url("../assets/tiles/4.svg"),
+        @image-url("../assets/tiles/5.svg"),
+        @image-url("../assets/tiles/6.svg"),
+        @image-url("../assets/tiles/7.svg"),
+        @image-url("../assets/tiles/8.svg"),
+        @image-url("../assets/tiles/9.svg"),
+        @image-url("../assets/tiles/10.svg"),
+        @image-url("../assets/tiles/11.svg"),
+    ];
+    if root.planned || root.painting: Image {
+        source: root.patterns[mod(root.position, 12)];
+        opacity: 0.25;
+    }
+    if root.painted || root.painting: Rectangle {
+        clip: true;
+        height: parent.height * (root.painted ? 1 : root.progress);
+        y: parent.height - self.height;
+        Image {
+            source: root.patterns[mod(root.position, 12)];
+            width: root.width;
+            height: root.height;
+            y: parent.height - self.height;
+        }
+    }
+    if root.painted: Text {
+        text: root.serial;
+        font-size: 9px;
+        color: Theme.ink;
+        x: 3px;
+        y: parent.height - self.height - 2px;
+    }
+}
+
+export global Theme {
+    in property <int> mode;
+    in property <bool> system-dark;
+    out property <bool> dark: mode == 1 || (mode == 2 && system-dark);
+    out property <color> paper: dark ? #101c33 : #f6f8f7;
+    out property <color> glaze: dark ? #172846 : #ffffff;
+    out property <color> ink: dark ? #edf3ff : #172e59;
+    out property <color> cobalt: dark ? #aabfff : #1d3f83;
+    out property <color> grout: dark ? #536586 : #b5a9a0;
+    out property <color> tomato: dark ? #ff9d8d : #b93424;
+}
+
+export component App inherits Window {
+    title: root.active ? root.clock + " · TomatoTask" : "TomatoTask";
+    icon: @image-url("../assets/icon.png");
+    preferred-width: 1060px;
+    preferred-height: 720px;
+    min-width: root.mini ? 300px : 680px;
+    min-height: root.mini ? 180px : 570px;
+    background: Theme.paper;
+    default-font-family: "Source Sans 3";
+    changed theme-dark => { WidgetPalette.color-scheme = root.theme-dark ? ColorScheme.dark : ColorScheme.light; }
+    in property <bool> theme-dark: Theme.dark;
+
+    in property <Labels> labels;
+    in property <string> clock: "25:00";
+    in property <bool> active;
+    in property <bool> running;
+    in property <float> progress;
+    in-out property <int> session-kind;
+    in property <string> current-task;
+    in property <[string]> focus-tasks;
+    in-out property <int> focus-task-index;
+    in-out property <int> ambience;
+    in property <int> today-count;
+    in property <int> plan-count;
+    in property <int> total-count;
+    in property <[string]> project-filters;
+    in-out property <int> project-filter;
+    in-out property <int> page;
+    in-out property <bool> about;
+    in property <[TaskRow]> tasks;
+    in property <[string]> projects;
+    in property <[DayRow]> days;
+    in property <int> peak-minutes: 1;
+    in property <[string]> review-lines;
+    in property <string> error;
+    in property <string> message;
+    in-out property <bool> focus-mode;
+    in-out property <bool> mini;
+    in-out property <int> selected-task: -1;
+    in-out property <int> selected-project: -1;
+    in-out property <int> filter: 0;
+    in-out property <bool> confirm-task;
+    in-out property <bool> confirm-project;
+    in-out property <bool> confirm-import;
+    in property <bool> backup-busy;
+    in-out property <Preferences> prefs;
+    in-out property <bool> editing-task;
+    in-out property <bool> editing-project;
+    in-out property <string> task-title;
+    in-out property <string> task-description;
+    in-out property <int> task-estimate: 1;
+    in-out property <int> task-project;
+    in-out property <string> project-name;
+    in-out property <string> project-color: "#1d3f83";
+
+    callback toggle();
+    callback stop();
+    callback kind(int);
+    callback choose-task(int);
+    callback set-focus-mode(bool);
+    callback compact(bool);
+    callback filter-tasks(int);
+    callback filter-project(int);
+    callback task-action(string, int);
+    callback project-action(string, int);
+    callback save-settings(Preferences);
+    callback review(int);
+    callback backup(bool);
+    callback ambient(int);
+
+    pure function session-label() -> string {
+        return root.session-kind == 0 ? root.labels.work :
+            root.session-kind == 1 ? root.labels.short-break : root.labels.long-break;
+    }
+
+    pure function action-label() -> string {
+        return root.running ? labels.pause : root.active ? labels.resume : labels.start;
+    }
+
+    keys := FocusScope {
+        key-pressed(event) => {
+            if event.text == Key.Escape && root.focus-mode {
+                root.set-focus-mode(false);
+                return accept;
+            }
+            if event.modifiers.control && event.text == "n" && !root.mini && !root.focus-mode {
+                root.page = 1;
+                root.task-action("new", -1);
+                return accept;
+            }
+            if event.modifiers.control && event.text == "l" && !root.mini && !root.focus-mode {
+                root.page = 4;
+                return accept;
+            }
+            if (event.modifiers.control && event.text == "s") ||
+                (event.text == " " && (root.mini || root.focus-mode || root.page == 0)) {
+                root.toggle();
+                return accept;
+            }
+            return reject;
+        }
+        VerticalLayout {
+            padding: root.mini ? 12px : 24px;
+            spacing: 12px;
+            if !root.mini && !root.focus-mode: HorizontalLayout {
+                spacing: 8px;
+                Image { source: @image-url("../assets/icon.png"); width: 34px; height: 34px; }
+                Caption { text: "TomatoTask"; font-size: 24px; font-weight: 700; color: Theme.cobalt; horizontal-stretch: 1; }
+                Button { text: root.labels.mini; clicked => { root.compact(true); keys.focus(); } }
+            }
+            if root.error != "": Caption { text: root.error; color: Theme.tomato; }
+            if root.message != "" && !root.mini: Caption { text: root.message; }
+            if root.mini || root.focus-mode: VerticalLayout {
+                alignment: center;
+                spacing: 8px;
+                if root.current-task != "": Caption { text: root.current-task; horizontal-alignment: center; }
+                Caption { text: root.clock; font-family: "Bodoni Moda"; font-size: root.mini ? 44px : 104px; font-weight: 700; horizontal-alignment: center; }
+                HorizontalLayout {
+                    alignment: center;
+                    spacing: 8px;
+                    height: 34px;
+                    Button { text: root.action-label(); clicked => { root.toggle(); keys.focus(); } }
+                    Button { text: root.labels.stop; enabled: root.active; clicked => { root.stop(); keys.focus(); } }
+                    Button { text: root.labels.exit; clicked => { if root.mini { root.compact(false); } else { root.set-focus-mode(false); } keys.focus(); } }
+                }
+            }
+            if !root.mini && !root.focus-mode: TabWidget {
+                current-index <=> root.page;
+                Tab {
+                    title: root.labels.timer;
+                    HorizontalLayout {
+                        padding: 16px;
+                        spacing: 20px;
+                        VerticalLayout {
+                            alignment: center;
+                            spacing: 18px;
+                            if !root.active: ComboBox {
+                                model: [root.labels.work, root.labels.short-break, root.labels.long-break];
+                                current-index <=> root.session-kind;
+                                selected(value) => { root.kind(self.current-index); keys.focus(); }
+                            }
+                            if !root.active: ComboBox {
+                                model: root.focus-tasks;
+                                current-index <=> root.focus-task-index;
+                                selected(value) => { root.choose-task(self.current-index); keys.focus(); }
+                            }
+                            if root.active: Caption {
+                                text: root.session-label() + " · " + root.current-task;
+                                horizontal-alignment: center;
+                                font-size: 19px;
+                            }
+                            Caption {
+                                text: root.clock;
+                                font-family: "Bodoni Moda";
+                                font-size: clamp(root.width / 9px, 58, 110) * 1px;
+                                font-weight: 700;
+                                horizontal-alignment: center;
+                                color: Theme.cobalt;
+                            }
+                            Rectangle {
+                                height: 5px;
+                                background: Theme.grout;
+                                Rectangle {
+                                    x: 0;
+                                    width: parent.width * root.progress;
+                                    background: root.session-kind == 0 ? Theme.tomato : root.session-kind == 1 ? #b68a18 : #317450;
+                                }
+                            }
+                            HorizontalLayout {
+                                spacing: 8px;
+                                alignment: center;
+                                Button { text: root.action-label(); primary: true; clicked => { root.toggle(); keys.focus(); } }
+                                Button { text: root.labels.stop; enabled: root.active; clicked => { root.stop(); keys.focus(); } }
+                                Button { text: root.labels.focus; clicked => { root.set-focus-mode(true); keys.focus(); } }
+                            }
+                            ComboBox {
+                                model: [root.labels.no-sound, root.labels.birds, root.labels.forest, root.labels.sea, root.labels.storm];
+                                current-index <=> root.ambience;
+                                selected(value) => { root.ambient(self.current-index); }
+                                accessible-label: root.labels.sounds;
+                            }
+                        }
+                        Rectangle {
+                            width: 220px;
+                            background: Theme.glaze;
+                            border-width: 1px;
+                            border-color: Theme.grout;
+                            VerticalLayout {
+                                alignment: center;
+                                padding: 16px;
+                                spacing: 12px;
+                                Caption { text: root.labels.fresco; font-family: "Bodoni Moda"; font-size: 27px; color: Theme.cobalt; }
+                                Caption { text: root.labels.today + " · " + root.today-count + " / " + root.plan-count; }
+                                ListView {
+                                    min-height: 190px;
+                                    for row in max(4, ceil(max(root.plan-count, root.today-count + (root.active && root.session-kind == 0 ? 1 : 0)) / 4.0)): HorizontalLayout {
+                                        height: 43px;
+                                        spacing: 3px;
+                                        for col in 4: Tile {
+                                            position: row * 4 + col;
+                                            painted: self.position < root.today-count;
+                                            planned: self.position < root.plan-count;
+                                            painting: self.position == root.today-count && root.active && root.session-kind == 0;
+                                            progress: root.progress;
+                                            serial: root.total-count - root.today-count + self.position + 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                Tab {
+                    title: root.labels.plan;
+                    VerticalLayout {
+                        padding: 12px;
+                        spacing: 8px;
+                        HorizontalLayout {
+                            spacing: 8px;
+                            ComboBox {
+                                model: [root.labels.filter-all, root.labels.filter-active, root.labels.filter-completed, root.labels.today];
+                                current-index <=> root.filter;
+                                selected(value) => { root.filter-tasks(self.current-index); }
+                            }
+                            ComboBox {
+                                model: root.project-filters;
+                                current-index <=> root.project-filter;
+                                selected(value) => { root.filter-project(self.current-index); }
+                            }
+                            Button { text: root.labels.new-task; clicked => { root.task-action("new", -1); } }
+                            Button { text: root.labels.edit; enabled: root.selected-task >= 0; clicked => { root.task-action("edit", root.selected-task); } }
+                            Button { text: root.labels.delete; enabled: root.selected-task >= 0; clicked => { root.confirm-task = true; } }
+                        }
+                        if root.selected-task >= 0 && root.project-filter == 0 && (root.filter == 0 || root.filter == 3) && !root.editing-task: HorizontalLayout {
+                            spacing: 8px;
+                            Button { text: root.labels.up; enabled: root.selected-task > 0; clicked => { root.task-action("up", root.selected-task); } }
+                            Button { text: root.labels.down; enabled: root.selected-task + 1 < root.tasks.length; clicked => { root.task-action("down", root.selected-task); } }
+                        }
+                        if root.confirm-task: HorizontalLayout {
+                            spacing: 8px;
+                            Caption { text: root.labels.delete-task-confirm; horizontal-stretch: 1; }
+                            Button { text: root.labels.delete; clicked => { root.confirm-task = false; root.task-action("delete", root.selected-task); } }
+                            Button { text: root.labels.cancel; clicked => { root.confirm-task = false; } }
+                        }
+                        if root.editing-task: VerticalLayout {
+                            spacing: 6px;
+                            LineEdit { text <=> root.task-title; placeholder-text: root.labels.task-title; init => { self.focus(); } }
+                            LineEdit { text <=> root.task-description; placeholder-text: root.labels.description; }
+                            HorizontalLayout {
+                                spacing: 8px;
+                                Caption { text: root.labels.estimate; }
+                                SpinBox { value <=> root.task-estimate; minimum: 0; maximum: 20; }
+                                ComboBox { model: root.projects; current-index <=> root.task-project; accessible-label: root.labels.project; }
+                                Button { text: root.labels.save; enabled: root.task-title != ""; clicked => { root.task-action("save", root.selected-task); } }
+                                Button { text: root.labels.cancel; clicked => { root.editing-task = false; } }
+                            }
+                        }
+                        if root.tasks.length == 0: Caption { text: root.labels.no-tasks; }
+                        ListView {
+                            for task[index] in root.tasks: Rectangle {
+                                height: 53px;
+                                background: root.selected-task == index ? Theme.glaze : Theme.paper;
+                                border-width: 1px;
+                                border-color: Theme.grout;
+                                HorizontalLayout {
+                                    padding: 6px;
+                                    spacing: 8px;
+                                    CheckBox { checked: task.done; accessible-label: task.title; toggled => { root.task-action("toggle", index); } }
+                                    Button { text: task.title; horizontal-stretch: 1; clicked => { root.selected-task = index; root.editing-task = false; root.confirm-task = false; } }
+                                    Rectangle { width: 6px; height: 16px; border-radius: 2px; background: task.pigment; }
+                                    Caption { text: task.details; }
+                                    Button {
+                                        text: task.planned ? root.labels.unplan : root.labels.plan-today;
+                                        enabled: task.planned || !task.done;
+                                        clicked => { root.task-action(task.planned ? "unplan" : "plan", index); }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                Tab {
+                    title: root.labels.project-list;
+                    VerticalLayout {
+                        padding: 12px;
+                        spacing: 8px;
+                        HorizontalLayout {
+                            spacing: 8px;
+                            Button { text: root.labels.new-project; clicked => { root.project-action("new", -1); } }
+                            Button { text: root.labels.edit; enabled: root.selected-project > 0; clicked => { root.project-action("edit", root.selected-project); } }
+                            Button { text: root.labels.delete; enabled: root.selected-project > 0; clicked => { root.confirm-project = true; } }
+                        }
+                        if root.selected-project > 0 && !root.editing-project: HorizontalLayout {
+                            spacing: 8px;
+                            Button { text: root.labels.up; enabled: root.selected-project > 1; clicked => { root.project-action("up", root.selected-project); } }
+                            Button { text: root.labels.down; enabled: root.selected-project + 1 < root.projects.length; clicked => { root.project-action("down", root.selected-project); } }
+                        }
+                        if root.confirm-project: HorizontalLayout {
+                            spacing: 8px;
+                            Caption { text: root.labels.delete-project-confirm; horizontal-stretch: 1; }
+                            Button { text: root.labels.delete; clicked => { root.confirm-project = false; root.project-action("delete", root.selected-project); } }
+                            Button { text: root.labels.cancel; clicked => { root.confirm-project = false; } }
+                        }
+                        if root.editing-project: HorizontalLayout {
+                            spacing: 8px;
+                            LineEdit { text <=> root.project-name; placeholder-text: root.labels.project-name; init => { self.focus(); } }
+                            LineEdit { text <=> root.project-color; placeholder-text: root.labels.color; }
+                            Button { text: root.labels.save; enabled: root.project-name != ""; clicked => { root.project-action("save", root.selected-project); } }
+                            Button { text: root.labels.cancel; clicked => { root.editing-project = false; } }
+                        }
+                        if root.projects.length <= 1: Caption { text: root.labels.no-projects; }
+                        ListView {
+                            for project[index] in root.projects: VerticalLayout {
+                                if index > 0: Button {
+                                    text: project;
+                                    primary: root.selected-project == index;
+                                    clicked => { root.selected-project = index; root.editing-project = false; root.confirm-project = false; }
+                                }
+                            }
+                        }
+                    }
+                }
+                Tab {
+                    title: root.labels.review;
+                    VerticalLayout {
+                        padding: 12px;
+                        spacing: 8px;
+                        HorizontalLayout {
+                            spacing: 8px;
+                            Caption { text: root.labels.period; horizontal-stretch: 1; }
+                            ComboBox { model: ["7", "30", "90"]; selected(value) => { root.review(self.current-index); } }
+                        }
+                        for line in root.review-lines: Caption { text: line; min-height: 24px; }
+                        ListView {
+
+                            for day in root.days: HorizontalLayout {
+                                spacing: 12px;
+                                height: 26px;
+                                Caption { text: day.date; width: 95px; }
+                                Rectangle {
+                                    horizontal-stretch: 1;
+                                    Rectangle { x: 0; y: 7px; height: 12px; width: day.minutes / root.peak-minutes * parent.width; background: Theme.cobalt; }
+                                }
+                                Caption { text: day.minutes + " min · " + day.count; width: 110px; }
+                            }
+                        }
+                    }
+                }
+                Tab {
+                    title: root.labels.settings;
+                    VerticalLayout {
+                        padding: 12px;
+                        spacing: 10px;
+                        HorizontalLayout {
+                            spacing: 8px;
+                            Button { height: 34px; text: "25 / 5 / 15"; clicked => { root.prefs.work = 25; root.prefs.short-break = 5; root.prefs.long-break = 15; } }
+                            Button { height: 34px; text: "50 / 10 / 30"; clicked => { root.prefs.work = 50; root.prefs.short-break = 10; root.prefs.long-break = 30; } }
+                        }
+                        HorizontalLayout {
+                            spacing: 10px;
+                            VerticalLayout {
+                                spacing: 4px;
+                                Caption { text: root.labels.work; }
+                                SpinBox { value <=> root.prefs.work; minimum: 1; maximum: 180; }
+                                Caption { text: root.labels.short-break; }
+                                SpinBox { value <=> root.prefs.short-break; minimum: 1; maximum: 60; }
+                                Caption { text: root.labels.long-break; }
+                                SpinBox { value <=> root.prefs.long-break; minimum: 1; maximum: 60; }
+                                Caption { text: root.labels.cycle; }
+                                SpinBox { value <=> root.prefs.cycle; minimum: 1; maximum: 10; }
+                            }
+                            VerticalLayout {
+                                spacing: 4px;
+                                Caption { text: root.labels.language; }
+                                ComboBox { model: ["English", "Français", "Deutsch", "Español", "Italiano"]; current-index <=> root.prefs.language; }
+                                Caption { text: root.labels.theme; }
+                                ComboBox { model: [root.labels.light, root.labels.dark, root.labels.system]; current-index <=> root.prefs.theme; }
+                                Caption { text: root.labels.end-sound; }
+                                ComboBox { model: ["Tomato", root.labels.no-sound]; current-index <=> root.prefs.sound; }
+                                CheckBox { text: root.labels.auto-break; checked <=> root.prefs.auto-break; }
+                                CheckBox { text: root.labels.auto-work; checked <=> root.prefs.auto-work; }
+                            }
+                        }
+                        HorizontalLayout {
+                            spacing: 8px;
+                            Button { height: 34px; text: root.labels.save; primary: true; clicked => { root.save-settings(root.prefs); } }
+                            Button { height: 34px; text: root.labels.export; enabled: !root.backup-busy; clicked => { root.backup(false); } }
+                            Button { height: 34px; text: root.labels.import; enabled: !root.active && !root.backup-busy; clicked => { root.confirm-import = true; } }
+                        }
+                        if root.confirm-import: HorizontalLayout {
+                            spacing: 8px;
+                            Caption { text: root.labels.overwrite; horizontal-stretch: 1; }
+                            Button { height: 34px; text: root.labels.import; enabled: !root.active && !root.backup-busy; clicked => { root.confirm-import = false; root.backup(true); } }
+                            Button { height: 34px; text: root.labels.cancel; clicked => { root.confirm-import = false; } }
+                        }
+                        HorizontalLayout {
+                        alignment: start;
+                        Button { height: 34px; text: root.labels.about; clicked => { root.about = !root.about; } }
+                    }
+                    if root.about: AboutSlint { max-height: 110px; }
+                    Rectangle { vertical-stretch: 1; }
+                    }
+                }
+            }
+        }
+    }
+    init => {
+        WidgetPalette.color-scheme = root.theme-dark ? ColorScheme.dark : ColorScheme.light;
+        keys.focus();
+    }
+}
