@@ -1,4 +1,4 @@
-<p align="center"><img src="assets/icon.png" alt="TomatoTask" width="104"></p>
+<p align="center"><img src="assets/logo.svg" alt="TomatoTask" width="104"></p>
 <h1 align="center">TomatoTask</h1>
 
 <p align="center">A local-first Pomodoro timer and task planner for Linux and Windows.<br>Written in Rust, built with Slint, with data stored in SQLite.</p>
