@@ -48,6 +48,7 @@ For an optimised executable, use `cargo build --release --locked`. On Linux, you
 | Open the new task form | Ctrl+N |
 | Open language and appearance settings | Ctrl+L |
 | Leave fullscreen focus mode | Esc |
+| Show keyboard shortcuts | Ctrl+/ |
 
 ## Local data
 
@@ -62,7 +63,7 @@ Export or restore a JSON backup from Settings. Restoring a backup replaces the c
 
 ## Project status
 
-The preview uses move buttons for reordering. The 1.1.x system tray, onboarding and standalone shortcut help are outside the current port.
+The first-run guide introduces the majolica tiles and daily plan. You can create a first task or skip the guide. The app uses move buttons to reorder tasks and projects. The notification-area menu can open the window and control the timer on Windows and Linux desktops with StatusNotifierItem support.
 
 ## Development
 
@@ -80,4 +81,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the project layout and [Issues](https
 - **Slint** under the [Royalty-free Desktop, Mobile, and Web Applications License 2.0](https://github.com/slint-ui/slint/blob/v1.18.1/LICENSES/LicenseRef-Slint-Royalty-free-2.0.md). Settings includes `AboutSlint`.
 - **Fonts** under the SIL Open Font License. See [Bodoni Moda](assets/fonts/BodoniModa-OFL.txt) and [Source Sans 3](assets/fonts/SourceSans3-OFL.txt).
 
-<p align="center"><a href="https://slint.dev"><img src="https://raw.githubusercontent.com/slint-ui/slint/v1.18.1/logo/MadeWithSlint-logo-whitebg.png" alt="Made with Slint" width="160"></a></p>
+<p align="center">
+  <a href="https://slint.dev">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/slint-ui/slint/v1.18.1/internal/compiler/widgets/common/MadeWithSlint-logo-dark.svg">
+      <img src="https://raw.githubusercontent.com/slint-ui/slint/v1.18.1/internal/compiler/widgets/common/MadeWithSlint-logo-light.svg" alt="Made with Slint" width="160">
+    </picture>
+  </a>
+</p>

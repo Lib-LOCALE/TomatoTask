@@ -2,7 +2,9 @@
 
 mod audio;
 mod locale;
+mod onboarding;
 mod timer;
+mod tray;
 
 use std::cell::RefCell;
 use std::error::Error;
@@ -36,6 +38,7 @@ struct Desktop {
     period: u32,
     window_size: Option<slint::PhysicalSize>,
     window_maximized: bool,
+    tray: Option<tray::Tray>,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -49,6 +52,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         let conn = conn.lock().map_err(|e| e.to_string())?;
         migrations::run_migrations(&conn)?;
     }
+    let show_welcome = onboarding::pending(&db)?;
     let settings = get_settings(&db)?;
     let state = Rc::new(RefCell::new(Desktop {
         db,
@@ -63,9 +67,11 @@ fn main() -> Result<(), Box<dyn Error>> {
         period: 7,
         window_size: None,
         window_maximized: false,
+        tray: None,
     }));
 
     let ui = App::new()?;
+    ui.set_welcoming(show_welcome);
     state.borrow_mut().load_settings(&ui);
     state.borrow_mut().refresh(&ui)?;
     state.borrow().paint_timer(&ui, Instant::now());
@@ -88,6 +94,9 @@ fn main() -> Result<(), Box<dyn Error>> {
             });
         }};
     }
+
+    bind!(on_finish_welcome, |app, ui, make_task| app
+        .finish_welcome(&ui, make_task));
 
     bind!(on_toggle, |app, ui| app.toggle(&ui));
     bind!(on_stop, |app, ui| app.stop(&ui));
@@ -218,12 +227,17 @@ fn main() -> Result<(), Box<dyn Error>> {
     let ticking_state = state.clone();
     ticker.start(TimerMode::Repeated, Duration::from_millis(200), move || {
         if let Some(ui) = weak.upgrade() {
-            ticking_state.borrow_mut().tick(&ui);
+            let mut app = ticking_state.borrow_mut();
+            if let Err(error) = app.handle_tray(&ui) {
+                ui.set_error(error.into());
+            }
+            app.tick(&ui);
         }
     });
     let weak = ui.as_weak();
+    let closing_state = state.clone();
     ui.window().on_close_requested(move || {
-        let mut app = state.borrow_mut();
+        let mut app = closing_state.borrow_mut();
         if let Some(ui) = weak.upgrade()
             && let Err(error) = app.stop(&ui)
         {
@@ -233,6 +247,16 @@ fn main() -> Result<(), Box<dyn Error>> {
         slint::CloseRequestResponse::HideWindow
     });
     ui.show()?;
+    let weak = ui.as_weak();
+    Timer::single_shot(Duration::ZERO, move || {
+        if let Some(ui) = weak.upgrade() {
+            let mut app = state.borrow_mut();
+            match tray::Tray::new(&app.locale, ui.get_welcoming()) {
+                Ok(tray) => app.tray = Some(tray),
+                Err(error) => eprintln!("Could not start the TomatoTask tray: {error}"),
+            }
+        }
+    });
     ui.window().with_winit_window(|window| {
         ui.global::<Theme>()
             .set_system_dark(window.theme() == Some(winit::window::Theme::Dark));
@@ -291,9 +315,50 @@ impl Desktop {
         text.into()
     }
 
+    fn finish_welcome(&mut self, ui: &App, make_task: bool) -> Result<(), String> {
+        let title = ui.get_welcome_task();
+        if make_task && !onboarding::valid_title(title.as_str()) {
+            return Err(self.text("welcome-invalid").to_string());
+        }
+        let task = onboarding::finish(&self.db, make_task.then_some(title.as_str()))?;
+        ui.set_welcoming(false);
+        if let Some(tray) = &self.tray {
+            tray.enable_timer();
+        }
+        if let Some(task) = task {
+            self.task_id = Some(task.id);
+            self.refresh_tasks(ui)?;
+            self.paint_timer(ui, Instant::now());
+        }
+        Ok(())
+    }
+
+    fn handle_tray(&mut self, ui: &App) -> Result<(), String> {
+        for action in tray::actions() {
+            match action {
+                tray::Action::Open => {
+                    ui.show().map_err(|err| err.to_string())?;
+                    ui.window().set_minimized(false);
+                    ui.window()
+                        .with_winit_window(|window| window.focus_window());
+                }
+                tray::Action::Toggle if !ui.get_welcoming() => self.toggle(ui)?,
+                tray::Action::Toggle => {}
+                tray::Action::Quit => {
+                    self.stop(ui)?;
+                    return slint::quit_event_loop().map_err(|err| err.to_string());
+                }
+            }
+        }
+        Ok(())
+    }
+
     fn load_settings(&mut self, ui: &App) {
         let language = index_of(&self.settings.language, &locale::LANGUAGES);
         self.locale = locale::load(language as usize);
+        if let Some(tray) = &self.tray {
+            tray.localize(&self.locale);
+        }
         ui.set_labels(locale::labels(&self.locale));
         ui.set_prefs(Preferences {
             work: self.settings.work_duration,

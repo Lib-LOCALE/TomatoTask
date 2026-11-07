@@ -77,5 +77,21 @@
   "up": "Move up",
   "down": "Move down",
   "all-projects": "All projects",
-  "about": "About Slint"
+  "about": "About Slint",
+  "welcome-skip": "Skip",
+  "welcome-tile-title": "A session becomes a tile",
+  "welcome-tile-text": "Finish a focus session and its tile is glazed and painted.",
+  "welcome-day-title": "Plan your day",
+  "welcome-day-text": "Plan tasks in tiles. Return on consecutive days to build your streak.",
+  "welcome-first-title": "Start with a task",
+  "welcome-first-text": "What would you like to focus on first?",
+  "welcome-first-task": "Task name",
+  "welcome-create-first": "Create task",
+  "welcome-back": "Back",
+  "welcome-next": "Next",
+  "tray-open": "Open TomatoTask",
+  "tray-toggle": "Start, pause or resume",
+  "tray-quit": "Quit TomatoTask",
+  "welcome-invalid": "Enter a task name of 1–200 characters.",
+  "shortcuts": "Keyboard Shortcuts"
 }

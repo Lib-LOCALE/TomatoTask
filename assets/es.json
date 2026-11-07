@@ -77,5 +77,21 @@
   "up": "Subir",
   "down": "Bajar",
   "all-projects": "Todos los proyectos",
-  "about": "Acerca de Slint"
+  "about": "Acerca de Slint",
+  "welcome-skip": "Omitir",
+  "welcome-tile-title": "Una sesión se convierte en una baldosa",
+  "welcome-tile-text": "Al terminar una sesión de concentración, su baldosa se esmalta y se pinta.",
+  "welcome-day-title": "Planifica tu día",
+  "welcome-day-text": "Planifica las tareas en baldosas. Vuelve cada día para mantener tu racha.",
+  "welcome-first-title": "Empieza con una tarea",
+  "welcome-first-text": "¿En qué quieres concentrarte primero?",
+  "welcome-first-task": "Nombre de la tarea",
+  "welcome-create-first": "Crear tarea",
+  "welcome-back": "Atrás",
+  "welcome-next": "Siguiente",
+  "tray-open": "Abrir TomatoTask",
+  "tray-toggle": "Iniciar, pausar o reanudar",
+  "tray-quit": "Salir de TomatoTask",
+  "welcome-invalid": "Introduce un nombre de tarea de 1 a 200 caracteres.",
+  "shortcuts": "Atajos de Teclado"
 }

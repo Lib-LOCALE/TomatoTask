@@ -1,6 +1,6 @@
 import "../assets/fonts/BodoniModa.ttf";
 import "../assets/fonts/SourceSans3.ttf";
-import { AboutSlint, Palette as WidgetPalette, Button, CheckBox, ComboBox, LineEdit, ListView, SpinBox, TabWidget } from "std-widgets.slint";
+import { AboutSlint, Palette as WidgetPalette, Button, CheckBox, ComboBox, LineEdit, ListView, ScrollView, SpinBox, TabWidget } from "std-widgets.slint";
 import { Labels } from "labels.slint";
 
 export struct TaskRow {
@@ -31,6 +31,7 @@ component Tile inherits Rectangle {
     in property <float> progress;
     in property <int> serial;
     height: 40px;
+    clip: true;
     border-width: 1px;
     border-color: Theme.grout;
     background: Theme.paper;
@@ -49,6 +50,8 @@ component Tile inherits Rectangle {
         @image-url("../assets/tiles/11.svg"),
     ];
     if root.planned || root.painting: Image {
+        width: parent.width;
+        height: parent.height;
         source: root.patterns[mod(root.position, 12)];
         opacity: 0.25;
     }
@@ -113,6 +116,10 @@ export component App inherits Window {
     in-out property <int> project-filter;
     in-out property <int> page;
     in-out property <bool> about;
+    in-out property <bool> shortcut-help;
+    in property <bool> welcoming;
+    in-out property <int> welcome-step;
+    in-out property <string> welcome-task;
     in property <[TaskRow]> tasks;
     in property <[string]> projects;
     in property <[DayRow]> days;
@@ -139,6 +146,7 @@ export component App inherits Window {
     in-out property <string> project-name;
     in-out property <string> project-color: "#1d3f83";
 
+    callback finish-welcome(bool);
     callback toggle();
     callback stop();
     callback kind(int);
@@ -165,6 +173,24 @@ export component App inherits Window {
 
     keys := FocusScope {
         key-pressed(event) => {
+            if root.welcoming {
+                if event.text == Key.Escape {
+                    root.finish-welcome(false);
+                    keys.focus();
+                    return accept;
+                }
+                return reject;
+            }
+            if event.text == Key.Escape && root.shortcut-help && root.page == 4 {
+                root.shortcut-help = false;
+                return accept;
+            }
+            if event.modifiers.control && event.text == "/" && !root.mini && !root.focus-mode {
+                root.shortcut-help = root.page != 4 || !root.shortcut-help;
+                root.about = false;
+                root.page = 4;
+                return accept;
+            }
             if event.text == Key.Escape && root.focus-mode {
                 root.set-focus-mode(false);
                 return accept;
@@ -188,7 +214,7 @@ export component App inherits Window {
         VerticalLayout {
             padding: root.mini ? 12px : 24px;
             spacing: 12px;
-            if !root.mini && !root.focus-mode: HorizontalLayout {
+            if !root.welcoming && !root.mini && !root.focus-mode: HorizontalLayout {
                 spacing: 8px;
                 Image { source: @image-url("../assets/icon.png"); width: 34px; height: 34px; }
                 Caption { text: "TomatoTask"; font-size: 24px; font-weight: 700; color: Theme.cobalt; horizontal-stretch: 1; }
@@ -196,6 +222,73 @@ export component App inherits Window {
             }
             if root.error != "": Caption { text: root.error; color: Theme.tomato; }
             if root.message != "" && !root.mini: Caption { text: root.message; }
+            if root.welcoming: VerticalLayout {
+                alignment: center;
+                HorizontalLayout {
+                    alignment: center;
+                    Rectangle {
+                        width: 520px;
+                        height: 390px;
+                        background: Theme.glaze;
+                        border-width: 1px;
+                        border-color: Theme.grout;
+                        VerticalLayout {
+                            padding: 28px;
+                            spacing: 18px;
+                            alignment: center;
+                            HorizontalLayout {
+                                spacing: 10px;
+                                Image { source: @image-url("../assets/icon.png"); width: 28px; height: 28px; }
+                                Caption { text: "TomatoTask"; font-weight: 700; horizontal-stretch: 1; }
+                                Button { text: root.labels.welcome-skip; clicked => { root.finish-welcome(false); keys.focus(); } }
+                            }
+                            if root.welcome-step < 2: HorizontalLayout {
+                                alignment: start;
+                                spacing: 4px;
+                                for tile in 3: Tile {
+                                    width: 40px;
+                                    position: tile;
+                                    painting: root.welcome-step == 0 && tile == 1;
+                                    progress: 0.5;
+                                    painted: root.welcome-step == 0 ? tile == 2 : tile < 2;
+                                    serial: tile + 1;
+                                }
+                            }
+                            Caption {
+                                text: root.welcome-step == 0 ? root.labels.welcome-tile-title :
+                                    root.welcome-step == 1 ? root.labels.welcome-day-title : root.labels.welcome-first-title;
+                                font-family: "Bodoni Moda";
+                                font-size: 32px;
+                                color: Theme.cobalt;
+                            }
+                            Caption {
+                                text: root.welcome-step == 0 ? root.labels.welcome-tile-text :
+                                    root.welcome-step == 1 ? root.labels.welcome-day-text : root.labels.welcome-first-text;
+                                font-size: 16px;
+                            }
+                            if root.welcome-step == 2: LineEdit {
+                                text <=> root.welcome-task;
+                                placeholder-text: root.labels.welcome-first-task;
+                                accessible-label: root.labels.welcome-first-task;
+                                init => { self.focus(); }
+                                accepted => { if root.welcome-task != "" { root.finish-welcome(true); } }
+                            }
+                            HorizontalLayout {
+                                spacing: 8px;
+                                Caption { text: (root.welcome-step + 1) + " / 3"; horizontal-stretch: 1; }
+                                if root.welcome-step > 0: Button { text: root.labels.welcome-back; clicked => { root.welcome-step -= 1; } }
+                                if root.welcome-step < 2: Button { text: root.labels.welcome-next; primary: true; clicked => { root.welcome-step += 1; } }
+                                if root.welcome-step == 2: Button {
+                                    text: root.labels.welcome-create-first;
+                                    primary: true;
+                                    enabled: root.welcome-task != "";
+                                    clicked => { root.finish-welcome(true); if !root.welcoming { keys.focus(); } }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             if root.mini || root.focus-mode: VerticalLayout {
                 alignment: center;
                 spacing: 8px;
@@ -210,7 +303,7 @@ export component App inherits Window {
                     Button { text: root.labels.exit; clicked => { if root.mini { root.compact(false); } else { root.set-focus-mode(false); } keys.focus(); } }
                 }
             }
-            if !root.mini && !root.focus-mode: TabWidget {
+            if !root.welcoming && !root.mini && !root.focus-mode: TabWidget {
                 current-index <=> root.page;
                 Tab {
                     title: root.labels.timer;
@@ -434,57 +527,82 @@ export component App inherits Window {
                 }
                 Tab {
                     title: root.labels.settings;
-                    VerticalLayout {
-                        padding: 12px;
-                        spacing: 10px;
-                        HorizontalLayout {
-                            spacing: 8px;
-                            Button { height: 34px; text: "25 / 5 / 15"; clicked => { root.prefs.work = 25; root.prefs.short-break = 5; root.prefs.long-break = 15; } }
-                            Button { height: 34px; text: "50 / 10 / 30"; clicked => { root.prefs.work = 50; root.prefs.short-break = 10; root.prefs.long-break = 30; } }
-                        }
-                        HorizontalLayout {
+                    ScrollView {
+                        horizontal-scrollbar-policy: always-off;
+                        VerticalLayout {
+                            padding: 12px;
                             spacing: 10px;
-                            VerticalLayout {
-                                spacing: 4px;
-                                Caption { text: root.labels.work; }
-                                SpinBox { value <=> root.prefs.work; minimum: 1; maximum: 180; }
-                                Caption { text: root.labels.short-break; }
-                                SpinBox { value <=> root.prefs.short-break; minimum: 1; maximum: 60; }
-                                Caption { text: root.labels.long-break; }
-                                SpinBox { value <=> root.prefs.long-break; minimum: 1; maximum: 60; }
-                                Caption { text: root.labels.cycle; }
-                                SpinBox { value <=> root.prefs.cycle; minimum: 1; maximum: 10; }
+                            HorizontalLayout {
+                                spacing: 8px;
+                                Button { height: 34px; text: "25 / 5 / 15"; clicked => { root.prefs.work = 25; root.prefs.short-break = 5; root.prefs.long-break = 15; } }
+                                Button { height: 34px; text: "50 / 10 / 30"; clicked => { root.prefs.work = 50; root.prefs.short-break = 10; root.prefs.long-break = 30; } }
                             }
-                            VerticalLayout {
-                                spacing: 4px;
-                                Caption { text: root.labels.language; }
-                                ComboBox { model: ["English", "Français", "Deutsch", "Español", "Italiano"]; current-index <=> root.prefs.language; }
-                                Caption { text: root.labels.theme; }
-                                ComboBox { model: [root.labels.light, root.labels.dark, root.labels.system]; current-index <=> root.prefs.theme; }
-                                Caption { text: root.labels.end-sound; }
-                                ComboBox { model: ["Tomato", root.labels.no-sound]; current-index <=> root.prefs.sound; }
-                                CheckBox { text: root.labels.auto-break; checked <=> root.prefs.auto-break; }
-                                CheckBox { text: root.labels.auto-work; checked <=> root.prefs.auto-work; }
+                            HorizontalLayout {
+                                spacing: 10px;
+                                VerticalLayout {
+                                    spacing: 4px;
+                                    Caption { text: root.labels.work; }
+                                    SpinBox { value <=> root.prefs.work; minimum: 1; maximum: 180; }
+                                    Caption { text: root.labels.short-break; }
+                                    SpinBox { value <=> root.prefs.short-break; minimum: 1; maximum: 60; }
+                                    Caption { text: root.labels.long-break; }
+                                    SpinBox { value <=> root.prefs.long-break; minimum: 1; maximum: 60; }
+                                    Caption { text: root.labels.cycle; }
+                                    SpinBox { value <=> root.prefs.cycle; minimum: 1; maximum: 10; }
+                                }
+                                VerticalLayout {
+                                    spacing: 4px;
+                                    Caption { text: root.labels.language; }
+                                    ComboBox { model: ["English", "Français", "Deutsch", "Español", "Italiano"]; current-index <=> root.prefs.language; }
+                                    Caption { text: root.labels.theme; }
+                                    ComboBox { model: [root.labels.light, root.labels.dark, root.labels.system]; current-index <=> root.prefs.theme; }
+                                    Caption { text: root.labels.end-sound; }
+                                    ComboBox { model: ["Tomato", root.labels.no-sound]; current-index <=> root.prefs.sound; }
+                                    CheckBox { text: root.labels.auto-break; checked <=> root.prefs.auto-break; }
+                                    CheckBox { text: root.labels.auto-work; checked <=> root.prefs.auto-work; }
+                                }
                             }
+                            HorizontalLayout {
+                                spacing: 8px;
+                                Button { height: 34px; text: root.labels.save; primary: true; clicked => { root.save-settings(root.prefs); } }
+                                Button { height: 34px; text: root.labels.export; enabled: !root.backup-busy; clicked => { root.backup(false); } }
+                                Button { height: 34px; text: root.labels.import; enabled: !root.active && !root.backup-busy; clicked => { root.confirm-import = true; } }
+                            }
+                            if root.confirm-import: HorizontalLayout {
+                                spacing: 8px;
+                                Caption { text: root.labels.overwrite; horizontal-stretch: 1; }
+                                Button { height: 34px; text: root.labels.import; enabled: !root.active && !root.backup-busy; clicked => { root.confirm-import = false; root.backup(true); } }
+                                Button { height: 34px; text: root.labels.cancel; clicked => { root.confirm-import = false; } }
+                            }
+                            HorizontalLayout {
+                                alignment: start;
+                                spacing: 8px;
+                                Button {
+                                    height: 34px;
+                                    text: root.labels.shortcuts;
+                                    clicked => { root.shortcut-help = !root.shortcut-help; root.about = false; }
+                                }
+                                Button {
+                                    height: 34px;
+                                    text: root.labels.about;
+                                    clicked => { root.about = !root.about; root.shortcut-help = false; }
+                                }
+                            }
+                            if root.shortcut-help: VerticalLayout {
+                                spacing: 4px;
+                                for entry in [
+                                    { key: "Ctrl+S", title: root.labels.shortcut-timer },
+                                    { key: "Ctrl+N", title: root.labels.new-task },
+                                    { key: "Ctrl+L", title: root.labels.language },
+                                    { key: "Esc", title: root.labels.focus + " · " + root.labels.exit },
+                                ]: HorizontalLayout {
+                                    spacing: 12px;
+                                    Caption { width: 68px; text: entry.key; font-weight: 700; }
+                                    Caption { text: entry.title; horizontal-stretch: 1; }
+                                }
+                            }
+                            if root.about: AboutSlint { max-height: 110px; }
                         }
-                        HorizontalLayout {
-                            spacing: 8px;
-                            Button { height: 34px; text: root.labels.save; primary: true; clicked => { root.save-settings(root.prefs); } }
-                            Button { height: 34px; text: root.labels.export; enabled: !root.backup-busy; clicked => { root.backup(false); } }
-                            Button { height: 34px; text: root.labels.import; enabled: !root.active && !root.backup-busy; clicked => { root.confirm-import = true; } }
-                        }
-                        if root.confirm-import: HorizontalLayout {
-                            spacing: 8px;
-                            Caption { text: root.labels.overwrite; horizontal-stretch: 1; }
-                            Button { height: 34px; text: root.labels.import; enabled: !root.active && !root.backup-busy; clicked => { root.confirm-import = false; root.backup(true); } }
-                            Button { height: 34px; text: root.labels.cancel; clicked => { root.confirm-import = false; } }
-                        }
-                        HorizontalLayout {
-                        alignment: start;
-                        Button { height: 34px; text: root.labels.about; clicked => { root.about = !root.about; } }
-                    }
-                    if root.about: AboutSlint { max-height: 110px; }
-                    Rectangle { vertical-stretch: 1; }
                     }
                 }
             }

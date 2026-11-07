@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Port the desktop interface to Slint and Winit. Existing SQLite data and JSON backups use the same format.
 - Build, test and package the app with Cargo. Tagged builds produce portable Linux and Windows archives.
+- Restore the first-run guide, keyboard shortcut help and desktop tray controls.
 
 ## [1.1.3] - 2026-11-03
 

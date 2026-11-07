@@ -77,5 +77,21 @@
   "up": "Nach oben",
   "down": "Nach unten",
   "all-projects": "Alle Projekte",
-  "about": "Über Slint"
+  "about": "Über Slint",
+  "welcome-skip": "Überspringen",
+  "welcome-tile-title": "Eine Sitzung wird zur Kachel",
+  "welcome-tile-text": "Nach einer Fokus-Sitzung wird ihre Kachel glasiert und bemalt.",
+  "welcome-day-title": "Planen Sie Ihren Tag",
+  "welcome-day-text": "Planen Sie Aufgaben in Kacheln. Kommen Sie täglich zurück, um Ihre Serie aufzubauen.",
+  "welcome-first-title": "Beginnen Sie mit einer Aufgabe",
+  "welcome-first-text": "Worauf möchten Sie sich zuerst konzentrieren?",
+  "welcome-first-task": "Aufgabenname",
+  "welcome-create-first": "Aufgabe erstellen",
+  "welcome-back": "Zurück",
+  "welcome-next": "Weiter",
+  "tray-open": "TomatoTask öffnen",
+  "tray-toggle": "Starten, pausieren oder fortsetzen",
+  "tray-quit": "TomatoTask beenden",
+  "welcome-invalid": "Gib einen Aufgabennamen mit 1 bis 200 Zeichen ein.",
+  "shortcuts": "Tastenkombinationen"
 }

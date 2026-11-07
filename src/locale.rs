@@ -82,5 +82,18 @@ pub fn labels(locale: &Value) -> Labels {
         all_projects: SharedString::from(text(locale, "all-projects")),
         about: SharedString::from(text(locale, "about")),
         overwrite: SharedString::from(text(locale, "overwrite")),
+        welcome_skip: SharedString::from(text(locale, "welcome-skip")),
+        welcome_tile_title: SharedString::from(text(locale, "welcome-tile-title")),
+        welcome_tile_text: SharedString::from(text(locale, "welcome-tile-text")),
+        welcome_day_title: SharedString::from(text(locale, "welcome-day-title")),
+        welcome_day_text: SharedString::from(text(locale, "welcome-day-text")),
+        welcome_first_title: SharedString::from(text(locale, "welcome-first-title")),
+        welcome_first_text: SharedString::from(text(locale, "welcome-first-text")),
+        welcome_first_task: SharedString::from(text(locale, "welcome-first-task")),
+        welcome_create_first: SharedString::from(text(locale, "welcome-create-first")),
+        welcome_back: SharedString::from(text(locale, "welcome-back")),
+        welcome_next: SharedString::from(text(locale, "welcome-next")),
+        shortcuts: text(locale, "shortcuts").into(),
+        shortcut_timer: text(locale, "tray-toggle").into(),
     }
 }
