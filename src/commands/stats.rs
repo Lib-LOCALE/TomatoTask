@@ -1,0 +1,39 @@
+use crate::db::DbConnection;
+use crate::db::models::{DailyFocusTime, ProjectDistribution};
+use crate::db::queries::stats;
+
+/// Commande pour obtenir le temps de focus quotidien
+pub fn get_daily_focus_time(db: &DbConnection) -> Result<Vec<DailyFocusTime>, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+
+    stats::get_daily_focus_time(&conn).map_err(|e| e.to_string())
+}
+
+/// Commande pour obtenir la distribution des projets
+pub fn get_project_distribution(db: &DbConnection) -> Result<Vec<ProjectDistribution>, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+
+    stats::get_project_distribution(&conn).map_err(|e| e.to_string())
+}
+
+/// Commande pour obtenir l'historique de focus sur une période
+pub fn get_focus_history(days: i32, db: &DbConnection) -> Result<Vec<DailyFocusTime>, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+
+    stats::get_focus_history(&conn, days).map_err(|e| e.to_string())
+}
+
+pub fn get_focus_streak(db: &DbConnection) -> Result<stats::FocusStreak, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+    stats::get_focus_streak(&conn, chrono::Local::now().date_naive()).map_err(|e| e.to_string())
+}
+
+pub fn get_insights(days: u32, db: &DbConnection) -> Result<stats::Insights, String> {
+    let conn = db.get_connection();
+    let conn = conn.lock().map_err(|e| e.to_string())?;
+    stats::get_insights(&conn, days, chrono::Local::now().date_naive()).map_err(|e| e.to_string())
+}

@@ -17,13 +17,13 @@ colors:
 typography:
   display:
     fontFamily: 'Bodoni Moda Variable, serif'
-    fontSize: 'clamp(5rem, 10vw, 12rem)'
+    fontSize: '58–110px'
     fontWeight: 700
     lineHeight: 1
     letterSpacing: '-0.04em'
   headline:
     fontFamily: 'Bodoni Moda Variable, serif'
-    fontSize: 'clamp(1.5rem, 2.5vw, 2.3rem)'
+    fontSize: '27px'
     lineHeight: 1.15
   body:
     fontFamily: 'Source Sans 3 Variable, sans-serif'
@@ -67,15 +67,15 @@ Un émail blanc froid accueille une interface de travail calme, structurée par 
 
 ## Colors
 
-Le cobalt porte la navigation et les commandes ordinaires ; tomate, jaune d'œuf et cuivre identifient respectivement travail, pause courte et pause longue. Le manganèse et les joints accompagnent le texte secondaire et l'armature. Le thème sombre utilise une nuit cobalt et des pigments éclaircis. Les variables sémantiques de `src/app.css` constituent l'API partagée des composants.
+Le cobalt porte la navigation et les commandes ordinaires ; tomate, jaune d'œuf et cuivre identifient respectivement travail, pause courte et pause longue. Le manganèse et les joints accompagnent le texte secondaire et l'armature. Le thème sombre utilise une nuit cobalt et des pigments éclaircis. Le global `Theme` dans `ui/app.slint` centralise les couleurs.
 
 ## Typography
 
-Bodoni Moda Variable donne aux titres et au minuteur leur voix éditoriale ; Source Sans 3 Variable assure la lecture des commandes et des listes. Les deux familles sont embarquées. Le minuteur utilise des chiffres tabulaires placés dans des cellules fixes ; sa taille diminue aux petites largeurs.
+Bodoni Moda Variable donne aux titres et au minuteur leur voix éditoriale ; Source Sans 3 Variable assure la lecture des commandes et des listes. Les deux familles sont embarquées. La taille du minuteur diminue aux petites largeurs.
 
 ## Layout
 
-Le rail de 280 px précède le minuteur et la fresque de 320 px. Sous 1100 px, la fresque passe sous le minuteur ; sous 760 px, le rail devient un tiroir. Les espacements fréquemment employés sont de 8, 16 et 24 px.
+Les onglets séparent minuteur, plan, projets, bilan et réglages. La fresque de 220 px accompagne le minuteur. Les modes focus et compact isolent le minuteur et ses commandes. Les espacements fréquemment employés sont de 8, 16 et 24 px.
 
 ## Elevation & Depth
 
@@ -89,14 +89,14 @@ Les surfaces et commandes sont rectangulaires, avec de petits rayons de 2 à 6 p
 
 Les boutons ordinaires utilisent le cobalt, tandis que l'action principale du minuteur adopte le pigment de la session. Les onglets actifs inversent le texte et la surface. Les champs et commandes reçoivent un anneau de focus visible ; sélection, curseur et défilement utilisent la palette.
 
-Le carreau est nu, prévu, en cours de peinture ou émaillé. Une complétion révèle la peinture pendant 600 ms puis laisse passer un reflet pendant 300 ms ; les animations et transitions sont réduites si le système le demande. Le numéro de série apparaît sur les carreaux émaillés. Pendant une session de travail, les zones secondaires s'estompent et reprennent leur présence au survol ou au focus.
+Le carreau est nu, prévu, en cours de peinture ou émaillé. Le motif se révèle avec la progression de la session. Le numéro de série apparaît sur les carreaux émaillés.
 
 ## Do's and Don'ts
 
 ### Do:
 
-- **Do** garder les chiffres du minuteur tabulaires et dans des cellules fixes.
-- **Do** respecter les préférences de réduction des mouvements et les couleurs sémantiques des sessions.
+- **Do** garder le minuteur stable et lisible à chaque taille de fenêtre.
+- **Do** respecter les couleurs sémantiques des sessions.
 - **Do** conserver le raccord des motifs aux bords des carreaux.
 
 ### Don't:

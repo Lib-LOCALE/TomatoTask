@@ -1,72 +1,83 @@
-<div align="center">
+<p align="center"><img src="assets/icon.png" alt="TomatoTask" width="104"></p>
+<h1 align="center">TomatoTask</h1>
 
-# 🍅 TomatoTask
+<p align="center">A local-first Pomodoro timer and task planner for Linux and Windows.<br>Written in Rust, built with Slint, with data stored in SQLite.</p>
 
-**A calm, local-first Pomodoro timer where every focus session paints a tile.**
+<p align="center">
+  <a href="https://github.com/Lib-LOCALE/TomatoTask/actions/workflows/ci.yml"><img src="https://github.com/Lib-LOCALE/TomatoTask/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/code-MIT-78e3cb" alt="Code: MIT"></a>
+  <a href="https://github.com/Lib-LOCALE/TomatoTask/releases"><img src="https://img.shields.io/github/v/release/Lib-LOCALE/TomatoTask" alt="Latest published release"></a>
+</p>
 
-[![Version](https://img.shields.io/github/v/release/Lib-LOCALE/TomatoTask?label=version&color=c0392b)](https://github.com/Lib-LOCALE/TomatoTask/releases/latest)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-1e3a8a.svg)](https://github.com/Lib-LOCALE/TomatoTask/releases/latest)
-[![License](https://img.shields.io/badge/license-MIT-2e7d4f.svg)](LICENSE)
+![TomatoTask timer and daily majolica tiles](.github/images/slint-timer.png)
 
-[**Download**](https://github.com/Lib-LOCALE/TomatoTask/releases/latest) · [Report a bug](https://github.com/Lib-LOCALE/TomatoTask/issues)
+## What you can do
 
-<img src=".github/images/timer.png" alt="TomatoTask main timer view" width="100%" />
-
-</div>
-
-## Why TomatoTask?
-
-- **Your data stays yours.** Everything is stored locally in SQLite. No account, no cloud.
-- **Native and light.** Built with Tauri and Rust, not a bundled browser.
-- **Progress you can see.** Each completed pomodoro adds a hand-drawn majolica tile to your daily and weekly fresco.
-- **Five languages.** English, French, Spanish, Italian and German, plus light and dark themes.
-
-## A quick tour
-
-<table>
-  <tr>
-    <td width="50%"><img src=".github/images/plan.png" alt="Plan your day" /><p align="center"><b>Plan</b>: pick today's tasks and see the tiles to fill.</p></td>
-    <td width="50%"><img src=".github/images/review-dark.png" alt="Review statistics in dark mode" /><p align="center"><b>Review</b>: your focus over 7, 30 or 90 days.</p></td>
-  </tr>
-  <tr>
-    <td width="50%"><img src=".github/images/focus.png" alt="Focus mode" /><p align="center"><b>Focus mode</b>: just the task and the clock.</p></td>
-    <td width="50%"><img src=".github/images/settings.png" alt="Settings" /><p align="center"><b>Settings</b>: durations, ambient sounds, themes.</p></td>
-  </tr>
-</table>
-
-## Features
-
-- Work, short-break and long-break timers with 25/5/15 and 50/10/30 presets
-- Tasks and color-coded projects with pomodoro estimates
-- Daily planning and a full-screen focus mode
-- Streaks, best hours and best weekdays
-- Ambient sounds (birds, forest, sea, storm) and native notifications
-- Keyboard shortcuts (`Ctrl+N` for a new task, `Space` to pause)
-- Data export for backups
+- Run configurable **work, short break and long break** sessions, with automatic transitions and 25/5/15 or 50/10/30 presets.
+- Organise tasks into colour-coded projects, estimate work in pomodoros and plan the day. Unfinished tasks carry over into today's plan.
+- Paint a **majolica tile** for each completed focus session. Review daily focus, streaks, productive hours and top tasks across 7, 30 or 90 days.
+- Use fullscreen focus mode or a compact timer, with optional ambient sounds and session-end alerts.
+- Choose light, dark or system appearance. Use the app in English, French, German, Spanish or Italian.
 
 ## Install
 
-**Windows:** download the `.exe` installer from the [latest release](https://github.com/Lib-LOCALE/TomatoTask/releases/latest) and run it.
+The Slint port is **1.2.0 in development**. Build it from source below. The [Releases page](https://github.com/Lib-LOCALE/TomatoTask/releases) lists the published builds, including 1.1.3 for Windows and Linux.
 
-**Linux:** use the `.deb` package or the AppImage:
-
-```bash
-chmod +x TomatoTask_*_amd64.AppImage
-./TomatoTask_*_amd64.AppImage
-```
+Tagged native builds are configured to produce a Linux x86-64 tar archive and a Windows x86-64 ZIP. Extract the archive and run `tomatotask` on Linux or `tomatotask.exe` on Windows.
 
 ## Build from source
 
-Requires Node.js 22+ and Rust (stable).
+Use Rust **1.92 or newer** and a C/C++ build toolchain. On Windows, use the MSVC toolchain with the Visual Studio C++ build tools. On Debian or Ubuntu, install the Linux audio and windowing development libraries.
 
-```bash
-npm install
-npm run tauri dev     # run in development
-npm run tauri build   # build installers
+```sh
+git clone https://github.com/Lib-LOCALE/TomatoTask.git
+cd TomatoTask
+# Debian / Ubuntu
+sudo apt install build-essential pkg-config libasound2-dev libfontconfig1-dev \
+  libxkbcommon-dev libwayland-dev libegl-dev
+cargo run --locked
 ```
 
-Stack: Svelte 5, TypeScript, Tauri 2, Rust, SQLite.
+For an optimised executable, use `cargo build --release --locked`. On Linux, you can select software rendering with `SLINT_BACKEND=winit-software cargo run --locked`. The Linux file picker uses the desktop's XDG portal. On Wayland, the compositor controls compact-window sizing and stacking.
 
-## License
+## Everyday shortcuts
 
-MIT. See [LICENSE](LICENSE). Contributions are welcome, see [CONTRIBUTING.md](CONTRIBUTING.md).
+| Action | Shortcut |
+| --- | --- |
+| Start, pause or resume | Ctrl+S or Space in the timer view |
+| Open the new task form | Ctrl+N |
+| Open language and appearance settings | Ctrl+L |
+| Leave fullscreen focus mode | Esc |
+
+## Local data
+
+The app opens the same SQLite database as 1.1.x, including tasks, projects, session history and settings.
+
+| Platform | Database |
+| --- | --- |
+| Linux | `$XDG_DATA_HOME/com.tomatotask.app/tomatotask.db` (defaults to `~/.local/share/…`) |
+| Windows | `%APPDATA%\com.tomatotask.app\tomatotask.db` |
+
+Export or restore a JSON backup from Settings. Restoring a backup replaces the current data after confirmation.
+
+## Project status
+
+The preview uses move buttons for reordering. The 1.1.x system tray, onboarding and standalone shortcut help are outside the current port.
+
+## Development
+
+```sh
+cargo test --locked
+cargo fmt --all -- --check
+cargo clippy --locked --all-targets -- -D warnings
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the project layout and [Issues](https://github.com/Lib-LOCALE/TomatoTask/issues) for bug reports.
+
+## Credits and licences
+
+- **Application code and majolica artwork** under the [MIT licence](LICENSE).
+- **Slint** under the [Royalty-free Desktop, Mobile, and Web Applications License 2.0](https://github.com/slint-ui/slint/blob/v1.18.1/LICENSES/LicenseRef-Slint-Royalty-free-2.0.md). Settings includes `AboutSlint`.
+- **Fonts** under the SIL Open Font License. See [Bodoni Moda](assets/fonts/BodoniModa-OFL.txt) and [Source Sans 3](assets/fonts/SourceSans3-OFL.txt).
+
+<p align="center"><a href="https://slint.dev"><img src="https://raw.githubusercontent.com/slint-ui/slint/v1.18.1/logo/MadeWithSlint-logo-whitebg.png" alt="Made with Slint" width="160"></a></p>

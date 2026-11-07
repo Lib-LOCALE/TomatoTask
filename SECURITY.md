@@ -6,7 +6,7 @@ We release patches for security vulnerabilities. Currently supported versions:
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.0.x   | :white_check_mark: |
+| 1.1.x   | :white_check_mark: |
 | < 1.0   | :x:                |
 
 ## Reporting a Vulnerability
@@ -59,8 +59,8 @@ When using TomatoTask:
 
 The following are **in scope** for vulnerability reports:
 
-- TomatoTask desktop application (Tauri)
-- Frontend code (Svelte)
+- TomatoTask desktop application
+- Desktop interface (Slint)
 - Backend Rust code
 - Build and release processes
 

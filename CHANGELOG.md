@@ -5,6 +5,11 @@ All notable changes to TomatoTask will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+- Port the desktop interface to Slint and Winit. Existing SQLite data and JSON backups use the same format.
+- Build, test and package the app with Cargo. Tagged builds produce portable Linux and Windows archives.
+
 ## [1.1.3] - 2026-11-03
 
 ### Fixed
