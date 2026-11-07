@@ -77,5 +77,21 @@
   "up": "Sposta su",
   "down": "Sposta giù",
   "all-projects": "Tutti i progetti",
-  "about": "Informazioni su Slint"
+  "about": "Informazioni su Slint",
+  "welcome-skip": "Salta",
+  "welcome-tile-title": "Una sessione diventa una piastrella",
+  "welcome-tile-text": "Completa una sessione di concentrazione: la sua piastrella viene smaltata e dipinta.",
+  "welcome-day-title": "Pianifica la giornata",
+  "welcome-day-text": "Pianifica le attività in piastrelle. Torna ogni giorno per costruire la tua serie.",
+  "welcome-first-title": "Inizia con un’attività",
+  "welcome-first-text": "Su cosa vuoi concentrarti per prima cosa?",
+  "welcome-first-task": "Nome attività",
+  "welcome-create-first": "Crea attività",
+  "welcome-back": "Indietro",
+  "welcome-next": "Avanti",
+  "tray-open": "Apri TomatoTask",
+  "tray-toggle": "Avvia, metti in pausa o riprendi",
+  "tray-quit": "Esci da TomatoTask",
+  "welcome-invalid": "Inserisci un nome da 1 a 200 caratteri.",
+  "shortcuts": "Scorciatoie da Tastiera"
 }

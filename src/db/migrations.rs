@@ -54,6 +54,22 @@ pub fn run_migrations(conn: &Connection) -> Result<()> {
             COMMIT;")?;
     }
 
+    if current_version < 5 {
+        conn.execute_batch(
+            "BEGIN;
+            CREATE TABLE onboarding (
+                id INTEGER PRIMARY KEY CHECK (id = 1),
+                completed INTEGER NOT NULL CHECK (completed IN (0, 1))
+            );
+            INSERT INTO onboarding SELECT 1,
+                EXISTS (SELECT 1 FROM tasks)
+                OR EXISTS (SELECT 1 FROM projects)
+                OR EXISTS (SELECT 1 FROM pomodoro_sessions);
+            INSERT INTO schema_version (version) VALUES (5);
+            COMMIT;",
+        )?;
+    }
+
     Ok(())
 }
 
